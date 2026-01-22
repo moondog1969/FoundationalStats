@@ -1,0 +1,7 @@
+# Export all names
+exportPattern(.)
+importFrom("utils", "stack")
+import(ggplot2)
+
+S3method(print, a_div)
+S3method(plot, a_div)
