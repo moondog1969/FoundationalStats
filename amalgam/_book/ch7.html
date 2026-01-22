@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Grid Graphics, Including ggplot2 | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content='“If you think you can learn all of R, you are wrong. For the foreseeable future you will not even be able to keep up with the new additions."  - Patrick Burns, CambR User Group Meeting, Cambridge...'>
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Grid Graphics, Including ggplot2 | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content='“If you think you can learn all of R, you are wrong. For the foreseeable future you will not even be able to keep up with the new additions."  - Patrick Burns, CambR User Group Meeting, Cambridge...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Grid Graphics, Including ggplot2 | An Amalgam of R">
+<meta name="twitter:description" content='“If you think you can learn all of R, you are wrong. For the foreseeable future you will not even be able to keep up with the new additions."  - Patrick Burns, CambR User Group Meeting, Cambridge...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="active" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch7" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Grid Graphics, Including ggplot2<a class="anchor" aria-label="anchor" href="#ch7"><i class="fas fa-link"></i></a>
+</h1>
+<!-- bookdown::render_book('index.Rmd', 'bookdown::pdf_book') -->
+<blockquote>
+<p><em>“If you think you can learn all of <strong>R</strong>, you are wrong. For the foreseeable future you will not even be able to keep up with the new additions."</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Patrick Burns</strong>, <em>CambR User Group Meeting, Cambridge (May 2012)</em></p>
+</div>
+<div id="grid-graphics" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> Grid Graphics<a class="anchor" aria-label="anchor" href="#grid-graphics"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are a large number of auxiliary <strong>R</strong> packages specifically for graphics. Many of these utilize or extend the base <strong>R</strong> graphics approaches described in Chapter <a href="ch6.html#ch6">6</a>. Several successful newer packages, however, rely on the <strong>R</strong> grid graphics system (see <span class="citation">Murrell (<a href="references.html#ref-murrell2019">2019</a>)</span>), codified in the package <em>grid</em> <span class="citation">(<a href="references.html#ref-R">R Core Team 2023</a>)</span>. The grid graphics system itself provides only low-level facilities with no high-level functions to generate complete plots. Nonetheless, several successful packages have built high-level functions on grid foundations including <em>lattice</em>, <em>gridGraphics</em> –which converts plots drawn with the base <strong>R</strong> graphics, e.g., <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, to identical grid output– and the highly popular <em>ggplot2</em> package. Functions from the latter package are the major focus of this chapter.
+</p>
+</div>
+<div id="lattice" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> <em>lattice</em><a class="anchor" aria-label="anchor" href="#lattice"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+Among other applications, the <em>lattice</em> package <span class="citation">(<a href="references.html#ref-lattice">Sarkar 2008</a>)</span> contains functions for implementing the trellis graphical system<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The &lt;strong&gt;R&lt;/strong&gt; trellis graphics system was originally developed for &lt;strong&gt;S&lt;/strong&gt; and &lt;strong&gt;S&lt;/strong&gt;-Plus at Bell Labs (see &lt;span class="citation"&gt;R. A. Becker, Cleveland, and Shyu (&lt;a href="references.html#ref-becker1996"&gt;1996&lt;/a&gt;)&lt;/span&gt;). The &lt;em&gt;lattice&lt;/em&gt; package can be considered a re-implementation of this original system.&lt;/p&gt;'><sup>64</sup></a>, so-called because it often utilizes a rectangular array of plots resembling a garden trellis <span class="citation">(<a href="references.html#ref-ryan1993">Ryan and Nudd 1993</a>)</span>. Trellis plots, generated from <em>lattice</em>, are an important component of several widely-used <strong>R</strong> packages, including <em>nlme</em>, which allows the generation of linear and nonlinear mixed effects models (see <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span>, Ch 10).</p>
+<div class="example">
+<p><span id="exm:exm-lat1" class="example"><strong>Example 7.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+A simple example of a call to trellis plotting is shown in Fig <a href="ch7.html#fig:trellI">7.1</a>. The <code><a href="https://rdrr.io/r/datasets/Indometh.html">datasets::Indometh</a></code> dataframe, previously used in Examples in Ch <a href="ch6.html#ch6">6</a>, records pharmacokinetics of the drug indomethacin, following intravenous injections given to human subjects. The dataframe belongs to several grouped object classes, defined in <em>nlme</em>, which have their own plotting methods (Ch <a href="ch8.html#ch8">8</a>), and are implemented through a generic call to <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>. We are, of course, more familiar with the use of <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> in base <strong>R</strong> graphics approaches, implemented via the <em>graphics</em> package.
+<!-- Graphics functions in *nlme* all call trellis rendering functions in *lattice*. --></p>
+<style type="text/css">
+pre.numberSource code > span > a:first-child::before {
+  left: -.05em;
+}
+</style>
+<div class="sourceCode" id="cb779"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme/">nlme</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Indometh</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:trellI"></span>
+<img src="figure/minimal-trellI-1.png" alt="Example of a trellis plot. Indomethacin levels are tracked in six human subjects over eight hours following intravenous injections." width="576"><p class="caption">
+Figure 7.1: Example of a trellis plot. Indomethacin levels are tracked in six human subjects over eight hours following intravenous injections.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>The <em>lattice</em> package contains several high level plotting functions that can be considered analogues of base <strong>R</strong> <em>graphics</em> functions. These include:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/lattice/man/xyplot.html">lattice::xyplot()</a></code>, which is similar to <code><a href="https://rdrr.io/r/graphics/plot.default.html">graphics::plot()</a></code> in its default <code>type = "p"</code> mode,</li>
+<li>
+<code><a href="https://rdrr.io/pkg/lattice/man/histogram.html">lattice::histogram()</a></code>, which is analogous to <code><a href="https://rdrr.io/r/graphics/hist.html">graphics::hist()</a></code>,</li>
+<li>
+<code><a href="https://rdrr.io/pkg/lattice/man/xyplot.html">lattice::barchart()</a></code>, which is similar to <code><a href="https://rdrr.io/r/graphics/barplot.html">graphics::barplot()</a></code>,</li>
+<li>
+<code><a href="https://rdrr.io/pkg/lattice/man/levelplot.html">lattice::levelplot()</a></code>, which is analogous to <code><a href="https://rdrr.io/r/graphics/image.html">graphics::image()</a></code>, and</li>
+<li>
+<code><a href="https://rdrr.io/pkg/lattice/man/cloud.html">lattice::wireframe()</a></code>, which is similar to <code><a href="https://rdrr.io/r/graphics/persp.html">graphics::persp()</a></code>.</li>
+</ul>
+<p>In general, trellis plots in <em>lattice</em> can be created using a conditional formula as the first argument of its functions. This will have the form <code>y ~ x|z</code>, which signifies <code>y</code> is a function of <code>x</code>, given levels in <code>z</code>.</p>
+<div class="example">
+<p><span id="exm:exm-latp1" class="example"><strong>Example 7.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider a summarization of the association of age and tobacco use (<code>LOW</code> and <code>HIGH</code>) and esophageal cancer cases using the <code>e.cancer</code> dataset <span class="citation">(<a href="references.html#ref-breslow1980">Breslow and Day 1980</a>)</span> from <em>asbio</em> (Fig <a href="ch7.html#fig:ecancer">7.2</a>).</p>
+<div class="sourceCode" id="cb780"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb780-1"><a href="ch7.html#cb780-1"></a><span class="fu">data</span>(e.cancer)</span>
+<span id="cb780-2"><a href="ch7.html#cb780-2"></a></span>
+<span id="cb780-3"><a href="ch7.html#cb780-3"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb780-4"><a href="ch7.html#cb780-4"></a>means <span class="ot">&lt;-</span> e.cancer <span class="sc">|&gt;</span>  <span class="co"># obtain means</span></span>
+<span id="cb780-5"><a href="ch7.html#cb780-5"></a>  <span class="fu">group_by</span>(age.grp, tobacco) <span class="sc">|&gt;</span></span>
+<span id="cb780-6"><a href="ch7.html#cb780-6"></a>  <span class="fu">summarize</span>(<span class="at">cases =</span> <span class="fu">mean</span>(cases))</span>
+<span id="cb780-7"><a href="ch7.html#cb780-7"></a></span>
+<span id="cb780-8"><a href="ch7.html#cb780-8"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb780-9"><a href="ch7.html#cb780-9"></a><span class="fu">barchart</span>(cases <span class="sc">~</span> age.grp<span class="sc">|</span>tobacco, <span class="at">data =</span> means, <span class="at">xlab =</span> <span class="st">"Age"</span>, </span>
+<span id="cb780-10"><a href="ch7.html#cb780-10"></a>         <span class="at">ylab =</span> <span class="st">"No. of cases"</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:ecancer"></span>
+<img src="figure/minimal-ecancer-1.png" alt="Use of `lattice::barchart()` to illustrate changes in esophogeal cancer cases with subject tobacco use and age. Bar heights are means." width="480"><p class="caption">
+Figure 7.2: Use of <code><a href="https://rdrr.io/pkg/lattice/man/xyplot.html">lattice::barchart()</a></code> to illustrate changes in esophogeal cancer cases with subject tobacco use and age. Bar heights are means.
+</p>
+</div>
+<p>Note the use of pipes and <em>tidyverse</em> functions (Ch <a href="ch5.html#ch5">5</a>) to obtain mean numbers of <code>cases</code> for combinations of levels in <code>age.grp</code> and <code>tobacco</code> (Lines 3-6). The formula<code>cases ~ age.grp|tobacco</code> (Line 8) indicates that the mean <code>cases</code> should considered as a function of levels in <code>age.grp</code>, given levels in <code>tobacco</code>.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>Approaches in <em>lattice</em> can be used in may non-trellis applications.</p>
+<div class="example">
+<p><span id="exm:exm-lat2" class="example"><strong>Example 7.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Figure <a href="ch7.html#fig:lattice">7.3</a> provides examples of three dimensional graphics generation using the <em>lattice</em> functions <code><a href="https://rdrr.io/pkg/lattice/man/levelplot.html">levelplot()</a></code>, <code><a href="https://rdrr.io/pkg/lattice/man/levelplot.html">contourplot()</a></code>, and <code><a href="https://rdrr.io/pkg/lattice/man/cloud.html">wireframe()</a></code>. The functions are easiest to use when data are in a spatial grid format with row and column numbers defining evenly spaced intervals from some reference point, and cell responses themselves constitute “heights” for the <em>z</em> (vertical) axis. The popular <code>volcano</code> dataset, used in the figure, describes the topography of Maungawhau / Mount Eden, a scoria cone in the Mount Eden suburb of Auckland, New Zealand. In this case, rows and columns represent 10m Cartesian intervals. The first row contains elevations (in meters above sea level) for northernmost points, whereas the first column contains elevations of westernmost points. The argument <code>split</code> in <code>plot.trellis()</code> is used with both graphs in Fig <a href="ch7.html#fig:lattice">7.3</a> (Lines 5 and 7). It is a vector of 4 integers <code>c(x, y, nx, ny)</code> that indicate where to position the current plot at the <code>x</code>, <code>y</code> position in a regular array of <code>nx</code> by <code>ny</code> plots.</p>
+<div class="sourceCode" id="cb781"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lattice.r-forge.r-project.org/">lattice</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lattice/man/levelplot.html">levelplot</a></span><span class="op">(</span><span class="va">volcano</span>, col.regions <span class="op">=</span> <span class="va">heat.colors</span>, xlab <span class="op">=</span> <span class="st">"x"</span>, ylab <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span>,</span>
+<span>     split <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, more <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>     panel.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5.4</span>, units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lattice/man/cloud.html">wireframe</a></span><span class="op">(</span><span class="va">volcano</span>, panel.aspect <span class="op">=</span> <span class="fl">0.7</span>, zoom <span class="op">=</span> <span class="fl">1</span>, lwd <span class="op">=</span> <span class="fl">0.01</span>, </span>
+<span>               xlab <span class="op">=</span> <span class="st">"x"</span>, ylab <span class="op">=</span> <span class="st">"y"</span>, zlab <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span>, </span>
+<span>     split <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, more <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>     panel.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5.4</span>, units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:lattice"></span>
+<img src="figure/minimal-lattice-1.png" alt="Representations of Maungawhau (Mt Eden) using *lattice* functions." width="480"><p class="caption">
+Figure 7.3: Representations of Maungawhau (Mt Eden) using <em>lattice</em> functions.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>While <em>lattice</em> can be used to generate nice graphs, many users have found its coding requirements to be burdensome and non-intuitive. This issue, coupled with the desirable characteristics of the grid graphics system, prompted the development of the package <em>ggplot2</em>, one of the <em>tidyverse</em> collection of packages (Ch <a href="ch5.html#ch5">5</a>).</p>
+</div>
+<div id="ggplot2" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> <em>ggplot2</em><a class="anchor" aria-label="anchor" href="#ggplot2"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <em>ggplot2</em> package (formerly <em>ggplot</em>) emulates the “grammar of graphics”, that underlies all statistical graphics <span class="citation">(<a href="references.html#ref-wilkinson2012">Wilkinson 2012</a>)</span>. According to its developer, “<em>ggplot2</em> <span class="math inline">\(\ldots\)</span> tries to take the good parts of <em>base</em> and <em>lattice</em>
+graphics and none of the bad.” The success of the <em>ggplot2</em> package is evident from its rich ecosystem of contributed <a href="https://exts.ggplot2.tidyverse.org/gallery/">extension packages</a>. Detailed descriptions of the <em>ggplot2</em> package can be found in <span class="citation">Wickham (<a href="references.html#ref-wickham2010">2010</a>)</span>, and <span class="citation">Wickham (<a href="references.html#ref-wickham2016">2016</a>)</span>. Helpful <span class="math inline">\(ggplot2\)</span> “cheatsheets” can be found <a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">here</a>. Like most grid packages, <em>ggplot2</em> does not play well with base <strong>R</strong> graphics. In fact, <em>ggplot2</em> is based on its own unique object oriented system, the <em>ggproto</em> system <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;For more information type: &lt;code&gt;?ggplot2::ggproto&lt;/code&gt;.&lt;/p&gt;"><sup>65</sup></a>.
+</p>
+<div id="ggplot" class="section level3" number="7.3.1">
+<h3>
+<span class="header-section-number">7.3.1</span> <code>ggplot()</code><a class="anchor" aria-label="anchor" href="#ggplot"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> is used to initialize essentially all plotting procedures in <em>ggplot2</em>. There are three common approaches:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>ggplot(df, aes(x, y, other aesthetics))</code>
+<ul>
+<li>Here <code>df</code> is a tibble or dataframe. and <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> represents aesthetic mappings. This approach is recommended if all layers use the same data and aesthetics.</li>
+</ul>
+</li>
+<li>
+<code>ggplot(df)</code>
+<ul>
+<li>Here only the dataframe or tibble to be used is identified up-front. This approach is useful if graphical layers use different <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates, drawn from the same dataset, <code>df</code>.</li>
+</ul>
+</li>
+<li>
+<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>
+<ul>
+<li>Here a ggplot skeleton is initialized that is fleshed out as layers are added. This approach is recommended if more than more than one dataset is used in the creation of graphical layers.</li>
+</ul>
+</li>
+</ol>
+<p>
+One of these three approaches will be used as the first line of code when creating a <em>ggplot2</em> graphic. Layers will then be added representing geoms, themes, and aesthetics (see Section <a href="ch7.html#gat">7.3.2</a> immediately below). To clarify coding steps, this is typically done by separating layers into lines, connected with the continuation prompt <code>+</code>.
+</p>
+<div class="example">
+<p><span id="exm:exm-gg1" class="example"><strong>Example 7.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In the code below I have initiated a ggplot, under Approach 1 discussed above, using data from a dataframe called <code>df</code> that contains variables named <code>x</code> and <code>y</code>, that will define the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates for the plot. I have also added two geom layers and a theme, via the imaginary functions <code>geom1</code>, <code>geom2</code> and <code>theme1</code>.</p>
+<div class="sourceCode" id="cb782"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom1</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom2</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme1</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="gat" class="section level3" number="7.3.2">
+<h3>
+<span class="header-section-number">7.3.2</span> Geoms, Aesthetics, and Themes<a class="anchor" aria-label="anchor" href="#gat"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <em>ggplot2</em> package facilitates the generation of overlays with <em>geoms</em>, short for “geometric objects”, aesthetics, and themes. A number of <em>ggplot2</em> geom functions are shown in Table <a href="ch7.html#tab:geomfunctions">7.1</a>. Note that arguments in geom functions are fairly consistent. The argument <code>mapping</code> refers to aesthetic mappings, often specified with the <em>ggplot2</em> function <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code>. A few aesthetic mapping functions are shown in Table <a href="ch7.html#tab:aes">7.2</a>. An explicit definition for the <code>stat</code> argument is required by several geoms, e.g., <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code>, and can take the form <code>stat = "identity"</code>, indicating that raw unsummarized data are to be plotted. The <em>ggplot2</em> package also allows specification of general graphical themes including user-defined themes, via the function <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code>. An exhaustive list of <span class="math inline">\(&gt; 90\)</span> potential <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code> arguments can be found by typing <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">?theme</a></code>. Pre-defined <em>ggplot2</em> theme frameworks include <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_gray()</a></code>, the signature <em>ggplot2</em> theme (with a grey background and white gridlines), <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal()</a></code>, and many others.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:geomfunctions">Table 7.1: </span>A few geom alternatives.</caption>
+<colgroup>
+<col width="50%">
+<col width="23%">
+<col width="26%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Geom function</th>
+<th align="left">Usage</th>
+<th align="left">Impt. arguments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline()</a></code>
+</td>
+<td align="left">Add reference lines</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>slope</code> <code>intercept</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">geom_segment()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">geom_curve()</a></code>
+</td>
+<td align="left">Add lines and curves</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>position</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a></code>
+</td>
+<td align="left">Area and ribbon charts</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code>
+</td>
+<td align="left">Bar charts</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_bin_2d.html">geom_bin2d()</a></code></td>
+<td align="left">Heatmap of bin counts</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot()</a></code></td>
+<td align="left">Boxplots</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">geom_contour_filled()</a></code></td>
+<td align="left">Generate 2D contours of 3D surface</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count()</a></code> <code>geom_sum()</code>
+</td>
+<td align="left">Count overlapping points</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_crossbar()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_linerange()</a></code> <code>geom_pointsrange()</code>
+</td>
+<td align="left">Add lines, crossbars, error bars</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code></td>
+<td align="left">Smoothed densities</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d_filled()</a></code>
+</td>
+<td align="left">Contours of 2D densities</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html">geom_dotplot()</a></code></td>
+<td align="left">Dot plots</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>position</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_errorbarh.html">geom_errorbarh()</a></code></td>
+<td align="left">Horizontal error bars</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly()</a></code> <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code>
+</td>
+<td align="left">Histograms</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">geom_function()</a></code></td>
+<td align="left">Draw curve from function</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_hex.html">geom_hex()</a></code></td>
+<td align="left">Hexagonal heat map</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code></td>
+<td align="left">Jittered points</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text()</a></code></td>
+<td align="left">Add text</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code></td>
+<td align="left">Add points</td>
+<td align="left">
+<code>mapping</code> <code>data</code> <code>stat</code>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:aes">Table 7.2: </span>A few example of <em>ggplot2</em> aesthetic functions.</caption>
+<colgroup>
+<col width="36%">
+<col width="28%">
+<col width="35%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Function</th>
+<th align="left">Usage</th>
+<th align="left">Arguments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code></td>
+<td align="left">Aesthetics of geoms</td>
+<td align="left">
+<code>x</code>,<code>y</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code>colour()</code>,<code><a href="https://tidyr.tidyverse.org/reference/fill.html">fill()</a></code>,<code><a href="https://scales.r-lib.org/reference/alpha.html">alpha()</a></code>
+</td>
+<td align="left">Color related aesthetics</td>
+<td align="left">See <code><a href="https://ggplot2.tidyverse.org/reference/aes_colour_fill_alpha.html">?aes_colour_fill_alpha</a></code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code>linetype()</code>,<code>size()</code>,<code>shape()</code>
+</td>
+<td align="left">Line type, size, shape</td>
+<td align="left">See<code><a href="https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html">?aes_linetype_size_shape</a></code>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><code>group()</code></td>
+<td align="left">Grouping</td>
+<td align="left">See <code><a href="https://ggplot2.tidyverse.org/reference/aes_group_order.html">?aes_group_order</a></code>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+</div>
+<div id="boxplots-1" class="section level3" number="7.3.3">
+<h3>
+<span class="header-section-number">7.3.3</span> Boxplots<a class="anchor" aria-label="anchor" href="#boxplots-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Figure <a href="ch7.html#fig:potato">7.4</a> shows a boxplot of R.A. Fisher’s classic potato dataset from the Rothamsted Experimental Station <span class="citation">(<a href="references.html#ref-fisher1923studies">Fisher and Mackenzie 1923</a>)</span>. There are three important coding features that should be recognized in the chunk below. First, the plot was initialized using the first approach described in the previous section: <code>ggplot(df, aes(x, y, other aesthetics))</code> (Line 2). Specifically, the dataframe to be used, <code>potato</code>, was identified, and the coordinates for the plot were defined inside <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code>. Second, plot modifications are added with the functions <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code> (which includes a call to the function <code><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text()</a></code> to change the angle of text on the <em>x</em>-axis), <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab()</a></code>, and finally, <code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot()</a></code> (Lines 3-5). Third, the continuation prompt, <code>+</code>, is placed at the end of lines of code to indicate that another graphical layer is being added to the plot. In <em>ggplot2</em>, <code>+</code>, is somewhat analogous to the forward pipe operator, <code>|&gt;</code>, used in the <em>tiddyverse</em> (Ch <a href="ch5.html#ch5">5</a>). Specifically, it denotes the continuation of <em>ggplot2</em> plotting commands for a particular graphic. This continuation is broken with a line break (Line 6).</p>
+<div class="sourceCode" id="cb783"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb783-1"><a href="ch7.html#cb783-1"></a><span class="fu">data</span>(potato) <span class="co"># in asbio</span></span>
+<span id="cb783-2"><a href="ch7.html#cb783-2"></a><span class="fu">ggplot</span>(potato, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Variety), <span class="at">y =</span> Yield)) <span class="sc">+</span></span>
+<span id="cb783-3"><a href="ch7.html#cb783-3"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb783-4"><a href="ch7.html#cb783-4"></a>  <span class="fu">xlab</span>(<span class="st">"Variety"</span>) <span class="sc">+</span></span>
+<span id="cb783-5"><a href="ch7.html#cb783-5"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p>
+</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:potato"></span>
+<img src="figure/minimal-potato-1.png" alt="An example of a *ggplot2* boxplot.  The general theme of the plot is `theme_gray()`.  This is the signature appearance of ggplot2 graphs: a grey background and white grid lines." width="576"><p class="caption">
+Figure 7.4: An example of a <em>ggplot2</em> boxplot. The general theme of the plot is <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_gray()</a></code>. This is the signature appearance of ggplot2 graphs: a grey background and white grid lines.
+</p>
+</div>
+</div>
+<div id="saving-plots" class="section level3" number="7.3.4">
+<h3>
+<span class="header-section-number">7.3.4</span> Saving Plots<a class="anchor" aria-label="anchor" href="#saving-plots"><i class="fas fa-link"></i></a>
+</h3>
+<p>Plots can be saved using the function <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> or with a graphical device function, e.g., <code><a href="https://rdrr.io/r/grDevices/pdf.html">pdf()</a></code>, <code><a href="https://rdrr.io/r/grDevices/png.html">png()</a></code>, as described in Ch <a href="ch6.html#ch6">6</a>.</p>
+<div class="sourceCode" id="cb784"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb784-1"><a href="ch7.html#cb784-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(potato, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Variety), <span class="at">y =</span> Yield)) <span class="sc">+</span></span>
+<span id="cb784-2"><a href="ch7.html#cb784-2"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb784-3"><a href="ch7.html#cb784-3"></a>  <span class="fu">xlab</span>(<span class="st">"Variety"</span>) <span class="sc">+</span></span>
+<span id="cb784-4"><a href="ch7.html#cb784-4"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb784-5"><a href="ch7.html#cb784-5"></a></span>
+<span id="cb784-6"><a href="ch7.html#cb784-6"></a><span class="fu">pdf</span>(<span class="st">"potato.pdf"</span>)</span>
+<span id="cb784-7"><a href="ch7.html#cb784-7"></a><span class="fu">print</span>(g)</span>
+<span id="cb784-8"><a href="ch7.html#cb784-8"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<pre><code>png 
+  2 </code></pre>
+<p>Note that with the first line of code the ggplot is converted into an object called <code>g</code>. In Lines 5-7, the graph is rendered, using <code>print.ggplot(g)</code> or <code>plot.ggplot(g)</code>, and compiled.</p>
+<p>The object <code>g</code> has <em>ggplot2</em>-specific classes <code>"gg"</code> and <code>"ggplot"</code>,</p>
+<div class="sourceCode" id="cb786"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "gg"     "ggplot"</code></pre>
+<p>and base type `<code>list</code></p>
+<div class="sourceCode" id="cb788"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "list"</code></pre>
+<p>
+</p>
+</div>
+<div id="line-plots" class="section level3" number="7.3.5">
+<h3>
+<span class="header-section-number">7.3.5</span> Line Plots<a class="anchor" aria-label="anchor" href="#line-plots"><i class="fas fa-link"></i></a>
+</h3>
+<p>Line plots are generally rendered using the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code>.
+</p>
+<p>In Fig <a href="ch7.html#fig:glpotato">7.5</a> we consider the Fisher’s potato data under a line plot approach. This presentation allows us to consider both potato variety and fertilizer levels. Note that I distinguish categories in the variable <code>Fert</code> using <code>colour</code> and <code>lty</code> arguments in <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> function calls (Line 1).</p>
+<div class="sourceCode" id="cb790"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb790-1"><a href="ch7.html#cb790-1"></a><span class="fu">ggplot</span>(potato, <span class="fu">aes</span>(<span class="at">x =</span> Variety, <span class="at">y =</span> Yield, <span class="at">colour =</span> Fert)) <span class="sc">+</span></span>
+<span id="cb790-2"><a href="ch7.html#cb790-2"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> Fert, <span class="at">lty =</span> Fert),</span>
+<span id="cb790-3"><a href="ch7.html#cb790-3"></a>       <span class="at">alpha =</span> .<span class="dv">7</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb790-4"><a href="ch7.html#cb790-4"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb790-5"><a href="ch7.html#cb790-5"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.9</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:glpotato"></span>
+<img src="figure/minimal-glpotato-1.png" alt="Line plot representation of the `potato` dataset." width="576"><p class="caption">
+Figure 7.5: Line plot representation of the <code>potato</code> dataset.
+</p>
+</div>
+</div>
+<div id="scatterplots-1" class="section level3" number="7.3.6">
+<h3>
+<span class="header-section-number">7.3.6</span> Scatterplots<a class="anchor" aria-label="anchor" href="#scatterplots-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Here we summarize the <code><a href="https://rdrr.io/pkg/asbio/man/world.emissions.html">asbio::world.emissions</a></code> CO<span class="math inline">\(_2\)</span> and gross domestic product data, using a <em>tidyverse</em> approach.</p>
+<div class="sourceCode" id="cb791"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb791-1"><a href="ch7.html#cb791-1"></a><span class="fu">library</span>(asbio)</span>
+<span id="cb791-2"><a href="ch7.html#cb791-2"></a><span class="fu">data</span>(world.emissions)</span>
+<span id="cb791-3"><a href="ch7.html#cb791-3"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb791-4"><a href="ch7.html#cb791-4"></a>country.data <span class="ot">&lt;-</span> world.emissions <span class="sc">|&gt;</span></span>
+<span id="cb791-5"><a href="ch7.html#cb791-5"></a>  <span class="fu">filter</span>(continent <span class="sc">!=</span> <span class="st">"Redundant"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb791-6"><a href="ch7.html#cb791-6"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
+<span id="cb791-7"><a href="ch7.html#cb791-7"></a>  <span class="fu">summarize</span>(<span class="at">co2 =</span> <span class="fu">mean</span>(co2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb791-8"><a href="ch7.html#cb791-8"></a>            <span class="at">gdp =</span> <span class="fu">mean</span>(gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<p>I don’t like the default <code>ggplot2</code> margins. Specifically, I feel that the axis label font size is too small and placed too close to the axes. Thus, prior to making a scatterplot of these variables, I make my own margin theme, as a function, that calls <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code>.
+</p>
+<div class="sourceCode" id="cb792"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb792-1"><a href="ch7.html#cb792-1"></a>margin_theme <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb792-2"><a href="ch7.html#cb792-2"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">vjust=</span><span class="sc">-</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb792-3"><a href="ch7.html#cb792-3"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">vjust=</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb792-4"><a href="ch7.html#cb792-4"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb792-5"><a href="ch7.html#cb792-5"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="fl">7.5</span>, <span class="at">r =</span> <span class="fl">7.5</span>, <span class="at">b =</span> <span class="dv">22</span>, <span class="at">l =</span> <span class="dv">22</span>))</span>
+<span id="cb792-6"><a href="ch7.html#cb792-6"></a>}</span></code></pre></div>
+<p>We can call this custom theme within ggplot code (Fig <a href="ch7.html#fig:gscat1">7.6</a>).</p>
+<div class="sourceCode" id="cb793"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb793-1"><a href="ch7.html#cb793-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(country.data, <span class="fu">aes</span>(<span class="at">x =</span> gdp, <span class="at">y =</span> co2)) <span class="sc">+</span></span>
+<span id="cb793-2"><a href="ch7.html#cb793-2"></a>  <span class="fu">ylab</span>(expression</span>
+<span id="cb793-3"><a href="ch7.html#cb793-3"></a>       (<span class="fu">paste</span>(CO[<span class="dv">2</span>], <span class="st">" Emissions (metric tons x "</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">")"</span>))) <span class="sc">+</span></span>
+<span id="cb793-4"><a href="ch7.html#cb793-4"></a>  <span class="fu">xlab</span>(<span class="st">"GDP (international dollars)"</span>) <span class="sc">+</span></span>
+<span id="cb793-5"><a href="ch7.html#cb793-5"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb793-6"><a href="ch7.html#cb793-6"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans=</span> <span class="st">"log10"</span>) <span class="sc">+</span></span>
+<span id="cb793-7"><a href="ch7.html#cb793-7"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span> <span class="st">"log10"</span>) <span class="sc">+</span></span>
+<span id="cb793-8"><a href="ch7.html#cb793-8"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb793-9"><a href="ch7.html#cb793-9"></a>  <span class="fu">margin_theme</span>()</span>
+<span id="cb793-10"><a href="ch7.html#cb793-10"></a>g</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:gscat1"></span>
+<img src="figure/minimal-gscat1-1.png" alt="An example of a *ggplot2* scatterplot using the `world.emissions` dataset." width="576"><p class="caption">
+Figure 7.6: An example of a <em>ggplot2</em> scatterplot using the <code>world.emissions</code> dataset.
+</p>
+</div>
+<p>I also called the complete <em>ggplot2</em> theme <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic()</a></code> to generate an uncluttered graph with no grid lines.</p>
+<p>Several other code steps are worth mentioning in Fig <a href="ch7.html#fig:gscat1">7.6</a>. First, note the use of plotmath code using calls to <code><a href="https://rdrr.io/r/base/expression.html">expression()</a></code> in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab()</a></code>. As an alternative, I could have used <code>labs(x,y)</code> where the arguments <code>x</code> and <code>y</code> would contain code for <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab()</a></code>. Second, <span class="math inline">\(\log_{10}\)</span> transformations were applied to both axes using the <em>ggplot2</em> functions <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous()</a></code>. As an alternative, I could have used the functions <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10()</a></code>.</p>
+<p>We can also require specific tick locations using <code>scale_y_continuous</code> (Fig <a href="ch7.html#fig:weirdticks">7.7</a>).</p>
+<div class="sourceCode" id="cb794"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">50</span>, <span class="fl">150</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1600</span><span class="op">)</span>,</span>
+<span>                       trans<span class="op">=</span> <span class="st">"log10"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:weirdticks"></span>
+<img src="figure/minimal-weirdticks-1.png" alt="Custom tick mark locations overlaid on the $y$-axis of Fig \@ref(fig:gscat1)." width="576"><p class="caption">
+Figure 7.7: Custom tick mark locations overlaid on the <span class="math inline">\(y\)</span>-axis of Fig <a href="ch7.html#fig:gscat1">7.6</a>.
+</p>
+</div>
+<p>
+</p>
+</div>
+<div id="ggtrans" class="section level3" number="7.3.7">
+<h3>
+<span class="header-section-number">7.3.7</span> Transformations<a class="anchor" aria-label="anchor" href="#ggtrans"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Other than <span class="math inline">\(\log_{10}\)</span> transformations (Fig <a href="ch7.html#fig:gscat1">7.6</a>, several other graphical transformation can be readily applied in the <code>transform</code> function of <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous()</a></code> including <code>"asn"</code> (arcsine), <code>"atanh"</code> (the inverse hyperbolic tangent), <code>"boxcox"</code>, i.e., the optimal power transform for the response variable in a linear model (see <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span>), <code>"date"</code>, <code>"exp"</code>, <code>"hms"</code>, <code>"log"</code> (<span class="math inline">\(\log_e\)</span> transform), <code>"log1p"</code> (<span class="math inline">\(\log_e\)</span> transform, following the addition of 1 to prevent undefined logarithms of zeroes), <code>"log2"</code>, <code>"logit"</code> (i.e., the log odds for a probability), <code>"modulus"</code>, <code>"probit"</code>, <code>"pseudo_log"</code> (<span class="math inline">\(\log_e\)</span> transform, <code>NA</code>s resulting from undefined logarithms of zeroes, are given the value zero), <code>"reciprocal"</code>, <code>"reverse"</code>, <code>"sqrt"</code> and <code>"time"</code>.</p>
+</div>
+<div id="adding-model-fits" class="section level3" number="7.3.8">
+<h3>
+<span class="header-section-number">7.3.8</span> Adding Model Fits<a class="anchor" aria-label="anchor" href="#adding-model-fits"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is straightforward to add fits from statistical models to a ggplot object, for instance the object <code>g</code> created in Fig <a href="ch7.html#fig:gscat1">7.6</a>. These can include conventional general linear models and locally fitted models, like Generalized Additive Models (GAMs) and locally weighted scatterplot smoothers (LOWESS), that allow the association between <em>x</em> and <em>y</em> to “speak for itself” without the assumption of underlying global linear association <span class="citation">(<a href="references.html#ref-aho2014">Aho 2014</a>)</span>. By default, <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code> provides a LOWESS fit using the function <code><a href="https://rdrr.io/r/stats/loess.html">loess()</a></code> from the <strong>R</strong> distribution <em>stats</em> package. The code <code>geom_smooth(method = "lm")</code> fits a general linear model, in this case, a simple linear regression (Fig <a href="ch7.html#fig:gsmooth">7.8</a>). By default, error polygons are included with fits that represent 95% confidence intervals for the true fitted value. These can be turned off by specifying <code>geom_smooth(se = FALSE)</code>.
+</p>
+<div class="sourceCode" id="cb795"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="co"># call to lm fit</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:gsmooth"></span>
+<img src="figure/minimal-gsmooth-1.png" alt="A regression model overlaid on Fig \@ref{fig:gscat1}." width="576"><p class="caption">
+Figure 7.8: A regression model overlaid on Fig @ref{fig:gscat1}.
+</p>
+</div>
+</div>
+<div id="annotations-in-graphs" class="section level3" number="7.3.9">
+<h3>
+<span class="header-section-number">7.3.9</span> Annotations in Graphs<a class="anchor" aria-label="anchor" href="#annotations-in-graphs"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <em>ggplot2</em> package has nice functions for graph annotation. In Fig <a href="ch7.html#fig:ann1">7.9</a> we use the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label()</a></code> to label countries. The arguments <code>nudge_y</code> and <code>nudge_x</code> allow adjustments to label locations.
+</p>
+<div class="sourceCode" id="cb796"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb796-1"><a href="ch7.html#cb796-1"></a>sub <span class="ot">&lt;-</span> country.data <span class="sc">|&gt;</span></span>
+<span id="cb796-2"><a href="ch7.html#cb796-2"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Canada"</span>, <span class="st">"Finland"</span>,</span>
+<span id="cb796-3"><a href="ch7.html#cb796-3"></a><span class="st">"Japan"</span>, <span class="st">"Kenya"</span>, <span class="st">"United States"</span>))</span>
+<span id="cb796-4"><a href="ch7.html#cb796-4"></a></span>
+<span id="cb796-5"><a href="ch7.html#cb796-5"></a>g <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">data =</span> sub, <span class="at">col =</span> <span class="st">"orange"</span>) <span class="sc">+</span></span>
+<span id="cb796-6"><a href="ch7.html#cb796-6"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> country), <span class="at">data =</span> sub, <span class="at">nudge_y =</span> .<span class="dv">25</span>,</span>
+<span id="cb796-7"><a href="ch7.html#cb796-7"></a>             <span class="at">nudge_x =</span> <span class="sc">-</span>.<span class="dv">25</span>, <span class="at">alpha =</span> .<span class="dv">9</span>, <span class="at">colour  =</span> <span class="st">"orange"</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:ann1"></span>
+<img src="figure/minimal-ann1-1.png" alt="Country annotations added to Fig \@ref(fig:gscat1)." width="576"><p class="caption">
+Figure 7.9: Country annotations added to Fig <a href="ch7.html#fig:gscat1">7.6</a>.
+</p>
+</div>
+<p>The <em>ggpmisc</em> package allows annotation of statistical models in a ggplot. This is accomplished using the function <code><a href="https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html">ggpmisc::stat_poly_eq()</a></code> which fits a model using<code><a href="https://rdrr.io/r/stats/lm.html">stats::lm()</a></code>, computes model quantities and prepares tidy text summaries of the model including the model equation, test statistic values and <span class="math inline">\(p\)</span>-values. Computed terms are called using the <em>ggplot2</em> function <code><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat()</a></code>, which delays aesthetic mapping in <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> until after statistic calculation.
+</p>
+<p>In Fig <a href="ch7.html#fig:ggpmisc">7.10</a>, the equation for the <code>world.emissions</code> regression model is placed in the figure with <code>after_stat(eq.label)</code>, and the adjusted <span class="math inline">\(R^2\)</span> <span class="citation">(<a href="references.html#ref-aho2014">Aho 2014</a>)</span> is placed using <code>after_stat(adj.rr.label)</code>. A complete list of available computed terms, including <code>eq.label</code> and <code>adj.rr.label</code>, is given in the documentation for <code>stat_poly_eq()</code>.</p>
+<div class="sourceCode" id="cb797"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb797-1"><a href="ch7.html#cb797-1"></a><span class="fu">library</span>(ggpmisc)</span>
+<span id="cb797-2"><a href="ch7.html#cb797-2"></a></span>
+<span id="cb797-3"><a href="ch7.html#cb797-3"></a>g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb797-4"><a href="ch7.html#cb797-4"></a><span class="fu">stat_poly_eq</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="fu">after_stat</span>(eq.label),</span>
+<span id="cb797-5"><a href="ch7.html#cb797-5"></a>                                  <span class="fu">after_stat</span>(adj.rr.label),</span>
+<span id="cb797-6"><a href="ch7.html#cb797-6"></a>                                  <span class="at">sep =</span> <span class="st">"*</span><span class="sc">\"</span><span class="st">, </span><span class="sc">\"</span><span class="st">*"</span>)))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:ggpmisc"></span>
+<img src="figure/minimal-ggpmisc-1.png" alt="Regression model summaries overlaid on Fig \@ref(fig:gscat1)." width="576"><p class="caption">
+Figure 7.10: Regression model summaries overlaid on Fig <a href="ch7.html#fig:gscat1">7.6</a>.
+</p>
+</div>
+<p>A potential criticism of <em>ggplot2</em> is that its graphical rendering approaches are not readily accessible (as code or output), and statistical summaries are often not adequately or clearly described (in documentation or output). For instance, when using <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code> it is unclear which default smoothing parameters are actually being used, although these can be set within <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code> The function <code><a href="https://ggplot2.tidyverse.org/reference/ggplot_build.html">ggplot2::ggplot_build()</a></code> provides underlying plotting details. For example</p>
+<div class="sourceCode" id="cb798"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot_build.html">ggplot_build</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>         y      x PANEL group shape colour size fill alpha stroke
+1  0.40732 10.494     1    -1    19  black    2   NA    NA    0.5
+2  0.51149 10.085     1    -1    19  black    2   NA    NA    0.5
+3  1.63089 11.428     1    -1    19  black    2   NA    NA    0.5
+4 -0.31447     NA     1    -1    19  black    2   NA    NA    0.5
+5  1.00675 10.642     1    -1    19  black    2   NA    NA    0.5
+6 -0.95782     NA     1    -1    19  black    2   NA    NA    0.5</code></pre>
+<p></p>
+<p>The <em>gginnards</em> package can be used to generate accessible ggplot analytical information. This can be done by calling <code><a href="https://rdrr.io/pkg/gginnards/man/geom_debug_panel.html">gginnards::geom_debug()</a></code> within <code><a href="https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html">ggpmisc::stat_poly_eq()</a></code>.</p>
+<!-- % ^[he function `gginards::str()` is a wrapper for the **R** utility function `str()`] which will display the internal structure of an **R** object.  The `str()`} function will be considered in greater detail in Ch?} -->
+<!-- % % \index[R]`gginards::str()` -->
+<!-- % \index[R]`str()` -->
+<p>
+As an example, recall that a <span class="math inline">\(\log_{10}-\log_{10}\)</span> transformation was used to generate the scatterplot object, <code>g</code>, used to project Fig <a href="ch7.html#fig:gscat1">7.6</a>.
+I can summarize the linear model, overlaid in Fig <a href="ch7.html#fig:gsmooth">7.8</a>, with the code:</p>
+<div class="sourceCode" id="cb800"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb800-1"><a href="ch7.html#cb800-1"></a><span class="fu">library</span>(gginnards)</span>
+<span id="cb800-2"><a href="ch7.html#cb800-2"></a>g <span class="sc">+</span> <span class="fu">stat_poly_eq</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">geom =</span> <span class="st">"debug"</span>,</span>
+<span id="cb800-3"><a href="ch7.html#cb800-3"></a>                 <span class="at">output.type =</span> <span class="st">"numeric"</span>,</span>
+<span id="cb800-4"><a href="ch7.html#cb800-4"></a>                 <span class="at">summary.fun =</span> <span class="cf">function</span>(x) x[[<span class="st">"coef.ls"</span>]])</span></code></pre></div>
+<pre><code>[1] "PANEL 1; group(s) -1; 'draw_function()' input 'data' (head):"
+  npcx npcy label
+1   NA   NA      
+                                                                                           coef.ls
+1 -1.0801e+01, 1.1109e+00, 2.8430e-01, 2.6794e-02, -3.7990e+01, 4.1462e+01, 1.3821e-82, 3.6215e-88
+             coefs r.squared rr.confint.level rr.confint.low
+1 -10.8005, 1.1109   0.91388             0.95        0.89056
+  rr.confint.high adj.r.squared f.value f.df1 f.df2    p.value    AIC
+1         0.92912       0.91335  1719.1     1   162 3.6215e-88 30.353
+     BIC   n rr.label b_0.constant     b_0    b_1 fm.method fm.class
+1 39.652 164                 FALSE -10.801 1.1109     lm:qr       lm
+  fm.formula fm.formula.chr      x      y PANEL group orientation
+1      y ~ x          y ~ x 8.3836 3.2706     1    -1           x</code></pre>
+<p>This is in accordance with the linear model <span class="math inline">\(\log_{10}(\text{CO}_2) = -10.800518+ 1.110939\log_{10}(\text{GDP})\)</span> obtained using the base function <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>.</p>
+<div class="sourceCode" id="cb802"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">co2</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">gdp</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">country.data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code>        (Intercept) log(gdp, base = 10) 
+           -10.8005              1.1109 </code></pre>
+</div>
+<div id="secondary-axes-1" class="section level3" number="7.3.10">
+<h3>
+<span class="header-section-number">7.3.10</span> Secondary Axes<a class="anchor" aria-label="anchor" href="#secondary-axes-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Secondary axes can be difficult to implement in <em>ggplot2</em> because they require user specification of a one-to-one transformation for the primary axis.</p>
+<div class="example">
+<p><span id="exm:exm-2axis" class="example"><strong>Example 7.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+To demonstrate the generation of ggplot secondary axes, we will examine two datasets published by <span class="citation">Rubino et al. (<a href="references.html#ref-rubino2013">2013</a>)</span> concerning CO<span class="math inline">\(_2\)</span> and <span class="math inline">\(\delta ^{13}\text{C}\)</span> trapped in Antarctic ice layers. We wish to simultaneously plot CO<span class="math inline">\(_2\)</span> and <span class="math inline">\(\delta^{13}\text{C}\)</span> of as a function of the age of the depositional layer. We will use the primary (left-hand) vertical axis to plot CO<span class="math inline">\(_2\)</span> and the use the right hand axis for <span class="math inline">\(\delta ^{13}\text{C}\)</span>. We first create a composite dataset for years in which both CO<span class="math inline">\(_2\)</span> and <span class="math inline">\(\delta ^{13}\text{C}\)</span> were measured.</p>
+<div class="sourceCode" id="cb804"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb804-1"><a href="ch7.html#cb804-1"></a><span class="fu">data</span>(Rabino_CO2); <span class="fu">data</span>(Rabino_del13C)</span>
+<span id="cb804-2"><a href="ch7.html#cb804-2"></a><span class="co"># Match 1st dataset with 2nd</span></span>
+<span id="cb804-3"><a href="ch7.html#cb804-3"></a>w <span class="ot">&lt;-</span> <span class="fu">which</span>(Rabino_CO2<span class="sc">$</span>effective.age <span class="sc">%in%</span> Rabino_del13C<span class="sc">$</span>effective.age)</span>
+<span id="cb804-4"><a href="ch7.html#cb804-4"></a>R.C <span class="ot">&lt;-</span> Rabino_CO2[w,]</span>
+<span id="cb804-5"><a href="ch7.html#cb804-5"></a><span class="co"># match 2nd dataset with 1st</span></span>
+<span id="cb804-6"><a href="ch7.html#cb804-6"></a>w <span class="ot">&lt;-</span> <span class="fu">which</span>(Rabino_del13C<span class="sc">$</span>effective.age <span class="sc">%in%</span> R.C<span class="sc">$</span>effective.age)</span>
+<span id="cb804-7"><a href="ch7.html#cb804-7"></a>R.d <span class="ot">&lt;-</span> Rabino_del13C[w,]</span>
+<span id="cb804-8"><a href="ch7.html#cb804-8"></a>data.C <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">CO2 =</span> <span class="fu">tapply</span>(R.C<span class="sc">$</span>CO2, R.C<span class="sc">$</span>effective.age, mean),</span>
+<span id="cb804-9"><a href="ch7.html#cb804-9"></a>                     <span class="at">d13C =</span> <span class="fu">tapply</span>(R.d<span class="sc">$</span>d13C.CO2, R.d<span class="sc">$</span>effective.age, mean),</span>
+<span id="cb804-10"><a href="ch7.html#cb804-10"></a>                     <span class="at">year =</span> <span class="fu">as.numeric</span>(<span class="fu">levels</span>(<span class="fu">factor</span>(R.d<span class="sc">$</span>effective.age))))</span></code></pre></div>
+<p>For the years (ice depths) under consideration, CO<span class="math inline">\(_2\)</span> levels vary between approximately 271 and 368 ppm. A range of around 100 ppm.</p>
+<div class="sourceCode" id="cb805"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data.C</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a></span><span class="op">(</span>range_ppm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">CO2</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  range_ppm
+1    277.16
+2    368.02</code></pre>
+<p>Experimentation using simple linear transformations (additions and/or multiplications to a variable), reveals that a similar range can be generated for <span class="math inline">\(\delta ^{13}\text{C}\)</span> following the transformation: <span class="math inline">\(y' = 56 \cdot y + 729\)</span>.</p>
+<div class="sourceCode" id="cb807"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data.C</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a></span><span class="op">(</span>range_ppm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="op">(</span><span class="va">d13C</span> <span class="op">*</span> <span class="fl">56</span><span class="op">)</span> <span class="op">+</span> <span class="fl">729</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  range_ppm
+1    277.11
+2    373.34</code></pre>
+<p>Thus, we create:</p>
+<div class="sourceCode" id="cb809" startfrom="1"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb809-1"><a href="ch7.html#cb809-1"></a>data.C<span class="sc">$</span>td13C <span class="ot">&lt;-</span> data.C<span class="sc">$</span>d13C <span class="sc">*</span> <span class="dv">56</span> <span class="sc">+</span> <span class="dv">730</span></span></code></pre></div>
+<p>and use it in the ggplot code below. A scatterplot of the data is shown in Fig <a href="ch7.html#fig:rubino">7.11</a>.</p>
+<div class="sourceCode" id="cb810" startfrom="2"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r" style="counter-reset: source-line 1;"><span id="cb810-2"><a href="ch7.html#cb810-2"></a><span class="fu">ggplot</span>(data.C, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> CO2)) <span class="sc">+</span></span>
+<span id="cb810-3"><a href="ch7.html#cb810-3"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="fl">2.7</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb810-4"><a href="ch7.html#cb810-4"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb810-5"><a href="ch7.html#cb810-5"></a>  <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb810-6"><a href="ch7.html#cb810-6"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"C"</span>,O[<span class="dv">2</span>], <span class="st">" (ppm)"</span>))) <span class="sc">+</span></span>
+<span id="cb810-7"><a href="ch7.html#cb810-7"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> data.C, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> td13C), <span class="at">colour =</span> <span class="st">"red"</span>,</span>
+<span id="cb810-8"><a href="ch7.html#cb810-8"></a>             <span class="at">size =</span> <span class="fl">2.7</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb810-9"><a href="ch7.html#cb810-9"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">sec.axis =</span> </span>
+<span id="cb810-10"><a href="ch7.html#cb810-10"></a>                       <span class="fu">sec_axis</span>(<span class="sc">~</span> (. <span class="sc">-</span> <span class="dv">730</span>)<span class="sc">/</span><span class="dv">56</span>, </span>
+<span id="cb810-11"><a href="ch7.html#cb810-11"></a>                                <span class="at">name =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(delta<span class="sc">^</span><span class="dv">13</span>, </span>
+<span id="cb810-12"><a href="ch7.html#cb810-12"></a>                                                        <span class="st">"C (\u2030)"</span>)))) <span class="sc">+</span></span>
+<span id="cb810-13"><a href="ch7.html#cb810-13"></a><span class="fu">theme</span>(<span class="at">axis.text.y.right =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb810-14"><a href="ch7.html#cb810-14"></a><span class="fu">theme</span>(<span class="at">axis.text.y.left =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb810-15"><a href="ch7.html#cb810-15"></a><span class="fu">theme</span>(<span class="at">axis.title.y.right =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb810-16"><a href="ch7.html#cb810-16"></a><span class="fu">theme</span>(<span class="at">axis.title.y.left =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb810-17"><a href="ch7.html#cb810-17"></a><span class="fu">theme</span>(<span class="at">axis.line.y.right =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb810-18"><a href="ch7.html#cb810-18"></a><span class="fu">theme</span>(<span class="at">axis.line.y.left =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb810-19"><a href="ch7.html#cb810-19"></a><span class="fu">theme</span>(<span class="at">axis.ticks.y.right =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb810-20"><a href="ch7.html#cb810-20"></a><span class="fu">xlab</span>(<span class="st">"Year"</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:rubino"></span>
+<img src="figure/minimal-rubino-1.png" alt="A graphical representation of data published by @rubino2013, using two vertical axes." width="576"><p class="caption">
+Figure 7.11: A graphical representation of data published by <span class="citation">Rubino et al. (<a href="references.html#ref-rubino2013">2013</a>)</span>, using two vertical axes.
+</p>
+</div>
+<p>There were two vital steps for creating the secondary axis.</p>
+<ul>
+<li>First, as a preliminary step we transformed the raw <span class="math inline">\(\delta^{13}\)</span>C data to allow plotting <span class="math inline">\(\delta^{13}\)</span>C points in the range of CO<span class="math inline">\(_2\)</span> observations (Line 1). The result is the object <code>data.C$td13C</code>.</li>
+<li>Second, in the figure code above we scale the secondary axis based on a back-transformation of the transformed data. That is, we solved for <span class="math inline">\(y\)</span> in <span class="math inline">\(y' = 56 \cdot y + 730\)</span> and found <span class="math inline">\(y = (y' - 730)/56\)</span>. This is what underlies the code on Line 9:
+<code>sec.axis = sec_axis(~ (. - 730)/56,</code> in the first argument of <code><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html">sec_axis()</a></code>.
+Note that axis components were painstakingly colored using <code>ggplot::theme()</code> (Lines 12-19).</li>
+</ul>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="defining-graphical-features-using-vectors" class="section level3" number="7.3.11">
+<h3>
+<span class="header-section-number">7.3.11</span> Defining Graphical Features using Vectors<a class="anchor" aria-label="anchor" href="#defining-graphical-features-using-vectors"><i class="fas fa-link"></i></a>
+</h3>
+<p>As we have already seen, it is straightforward to define figure plotting characteristics (symbols, symbol sizes, colors, line types, etc.) using relevant data.</p>
+<div class="example">
+<p><span id="exm:exm-pp" class="example"><strong>Example 7.6  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In Fig <a href="ch7.html#fig:gfly">7.12</a> we change symbols and colors for a representation of the <code><a href="https://rdrr.io/pkg/asbio/man/fly.sex.html">asbio::fly.sex</a></code> dataset based on experimental treatments:</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:gfly"></span>
+<img src="figure/minimal-gfly-1.png" alt="A representation of the `fly.sex` dataset." width="576"><p class="caption">
+Figure 7.12: A representation of the <code>fly.sex</code> dataset.
+</p>
+</div>
+<p>Note that the linear fits in Fig <a href="ch7.html#fig:gfly">7.12</a> are actually for separate regression models, <code>longevity ~ thorax</code>, for each level in <code>fly.sex$Treatment</code>. They are <em>not</em> from the single ANCOVA model: <code>lm(longevity ~ thorax * Treatment)</code>, although this is not clear at all from the <code>ggplot</code> graph. It is, however, revealed from:</p>
+<div class="sourceCode" id="cb811"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g1</span> <span class="op">+</span> <span class="fu">stat_poly_eq</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, geom <span class="op">=</span> <span class="st">"debug"</span>,</span>
+<span>                 output.type <span class="op">=</span> <span class="st">"numeric"</span>,</span>
+<span>                 summary.fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="st">"coef.ls"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>[1] "PANEL 1; group(s) 1, 2, 3, 4, 5; 'draw_function()' input 'data' (head):"
+  npcx npcy label
+1   NA   NA      
+2   NA   NA      
+3   NA   NA      
+4   NA   NA      
+5   NA   NA      
+                                                                                           coef.ls
+1 -5.5699e+01, 1.4779e+02, 1.6834e+01, 2.0795e+01, -3.3087e+00, 7.1071e+00, 3.0654e-03, 3.0692e-07
+2 -5.0242e+01, 1.3613e+02, 2.4519e+01, 2.9186e+01, -2.0491e+00, 4.6640e+00, 5.2023e-02, 1.0753e-04
+3    -43.7248157, 131.4496314, 31.3250601, 37.8123482, -1.3958414, 3.4763678, 0.1760921, 0.0020423
+4 -5.7992e+01, 1.3700e+02, 2.8260e+01, 3.3625e+01, -2.0521e+00, 4.0744e+00, 5.1714e-02, 4.6763e-04
+5 -6.1280e+01, 1.2500e+02, 1.5225e+01, 1.8944e+01, -4.0250e+00, 6.5983e+00, 5.2871e-04, 9.8692e-07
+             coefs r.squared rr.confint.level rr.confint.low
+1 -55.699, 147.790   0.68712             0.95       0.418224
+2 -50.242, 136.127   0.48607             0.95       0.169020
+3 -43.725, 131.450   0.34445             0.95       0.058492
+4 -57.992, 137.001   0.41920             0.95       0.110089
+5   -61.28, 125.00   0.65433             0.95       0.370279
+  rr.confint.high adj.r.squared f.value f.df1 f.df2    p.value    AIC
+1         0.79674       0.67352  50.511     1    23 3.0692e-07 180.72
+2         0.66239       0.46373  21.753     1    23 1.0753e-04 199.31
+3         0.56048       0.31595  12.085     1    23 2.0423e-03 202.90
+4         0.61539       0.39395  16.600     1    23 4.6763e-04 197.51
+5         0.77529       0.63930  43.538     1    23 9.8692e-07 174.04
+     BIC  n rr.label b_0.constant     b_0    b_1 fm.method fm.class
+1 184.38 25                 FALSE -55.699 147.79     lm:qr       lm
+2 202.96 25                 FALSE -50.242 136.13     lm:qr       lm
+3 206.56 25                 FALSE -43.725 131.45     lm:qr       lm
+4 201.16 25                 FALSE -57.992 137.00     lm:qr       lm
+5 177.69 25                 FALSE -61.280 125.00     lm:qr       lm
+  fm.formula fm.formula.chr    x     y group PANEL orientation
+1      y ~ x          y ~ x 0.64 97.00     1     1           x
+2      y ~ x          y ~ x 0.64 92.95     2     1           x
+3      y ~ x          y ~ x 0.64 88.90     3     1           x
+4      y ~ x          y ~ x 0.64 84.85     4     1           x
+5      y ~ x          y ~ x 0.64 80.80     5     1           x</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="modifying-legends" class="section level3" number="7.3.12">
+<h3>
+<span class="header-section-number">7.3.12</span> Modifying Legends<a class="anchor" aria-label="anchor" href="#modifying-legends"><i class="fas fa-link"></i></a>
+</h3>
+<p>Note that a legend was created for Fig <a href="ch7.html#fig:gfly">7.12</a> because of designation of groups in the initial aesthetics. Legend characteristics generally need to be modified using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code>. For instance, to change the legend location from the right-hand side of the plot to the the left-hand side, I could use:</p>
+<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="multiple-plots-1" class="section level3" number="7.3.13">
+<h3>
+<span class="header-section-number">7.3.13</span> Multiple plots<a class="anchor" aria-label="anchor" href="#multiple-plots-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can place multiple ggplots into a single graphics device using several approaches. I consider two here: 1) facet functions from the <em>ggplot2</em> package, and 2) ggplot extension functions from the package <em>cowplot</em>.</p>
+<div id="faceting" class="section level4" number="7.3.13.1">
+<h4>
+<span class="header-section-number">7.3.13.1</span> Faceting<a class="anchor" aria-label="anchor" href="#faceting"><i class="fas fa-link"></i></a>
+</h4>
+<p>The functions <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid()</a></code> can be used to generate a sequence of plot panels.
+</p>
+<div class="example">
+<p><span id="exm:exm-fac" class="example"><strong>Example 7.7  </strong></span><span class="math inline">\(\text{}\)</span><br>
+I will modify Fig <a href="ch7.html#fig:gfly">7.12</a> to demonstrate the use of <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code>.</p>
+<div class="sourceCode" id="cb815"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb815-1"><a href="ch7.html#cb815-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(fly.sex, <span class="fu">aes</span>(<span class="at">y =</span> longevity, <span class="at">x =</span> thorax,</span>
+<span id="cb815-2"><a href="ch7.html#cb815-2"></a>                         <span class="at">group =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb815-3"><a href="ch7.html#cb815-3"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Treatment, <span class="at">shape =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb815-4"><a href="ch7.html#cb815-4"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(Treatment)) <span class="sc">+</span></span>
+<span id="cb815-5"><a href="ch7.html#cb815-5"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb815-6"><a href="ch7.html#cb815-6"></a>  <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb815-7"><a href="ch7.html#cb815-7"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> F, <span class="fu">aes</span>(<span class="at">colour =</span> Treatment)) <span class="sc">+</span></span>
+<span id="cb815-8"><a href="ch7.html#cb815-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Thorax length (mm)"</span>, <span class="at">y =</span> <span class="st">"Longevity (Days)"</span>)</span>
+<span id="cb815-9"><a href="ch7.html#cb815-9"></a>g1</span></code></pre></div>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:gfly2"></span>
+<img src="figure/minimal-gfly2-1.png" alt="Demonstration of `facet_wrap` using the `fly.sex` dataset." width="576"><p class="caption">
+Figure 7.13: Demonstration of <code>facet_wrap</code> using the <code>fly.sex</code> dataset.
+</p>
+</div>
+<p>On Line 4 I specify that different panels should be created for each treatment level using: <code>facet_wrap(vars(Treatment))</code>. This could also be accomplished using: <code>facet_wrap(~Treatment)</code>.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="cowplot-functions" class="section level4" number="7.3.13.2">
+<h4>
+<span class="header-section-number">7.3.13.2</span> <em>cowplot</em> functions<a class="anchor" aria-label="anchor" href="#cowplot-functions"><i class="fas fa-link"></i></a>
+</h4>
+<p>Multiple plots can also be assembled into a single graphical entity using functions from the <em>cowplot</em> package. This requires creating separate plot objects and concatenating them in <code><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">cowplot::plot_grid()</a></code>.</p>
+<div class="example">
+<p><span id="exm:exm-cowplot" class="example"><strong>Example 7.8  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Fig <a href="ch7.html#fig:cowplot">7.14</a> shows summaries of US per capita CO<span class="math inline">\(_2\)</span> emissions and GDP since the start of the industrial revolution with two plots.</p>
+<div class="sourceCode" id="cb817"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb817-1"><a href="ch7.html#cb817-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb817-2"><a href="ch7.html#cb817-2"></a>US <span class="ot">&lt;-</span> world.emissions <span class="sc">|&gt;</span></span>
+<span id="cb817-3"><a href="ch7.html#cb817-3"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"United States"</span>)</span>
+<span id="cb817-4"><a href="ch7.html#cb817-4"></a></span>
+<span id="cb817-5"><a href="ch7.html#cb817-5"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(US) <span class="sc">+</span></span>
+<span id="cb817-6"><a href="ch7.html#cb817-6"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(year, co2<span class="sc">/</span>population), <span class="at">col =</span> <span class="st">"dark red"</span>) <span class="sc">+</span></span>
+<span id="cb817-7"><a href="ch7.html#cb817-7"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb817-8"><a href="ch7.html#cb817-8"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb817-9"><a href="ch7.html#cb817-9"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb817-10"><a href="ch7.html#cb817-10"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Per capita "</span>, CO[<span class="dv">2</span>],</span>
+<span id="cb817-11"><a href="ch7.html#cb817-11"></a>                            <span class="st">" emissions (tonnes x "</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">")"</span>)))</span>
+<span id="cb817-12"><a href="ch7.html#cb817-12"></a></span>
+<span id="cb817-13"><a href="ch7.html#cb817-13"></a>g3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(US) <span class="sc">+</span></span>
+<span id="cb817-14"><a href="ch7.html#cb817-14"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(year, gdp<span class="sc">/</span>population), <span class="at">col =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb817-15"><a href="ch7.html#cb817-15"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb817-16"><a href="ch7.html#cb817-16"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb817-17"><a href="ch7.html#cb817-17"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Per capita GDP"</span>)))</span>
+<span id="cb817-18"><a href="ch7.html#cb817-18"></a></span>
+<span id="cb817-19"><a href="ch7.html#cb817-19"></a><span class="fu">plot_grid</span>(g2, g3)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:cowplot"></span>
+<img src="figure/minimal-cowplot-1.png" alt="Two plots depicting US per capita trends in CO$_2$ emissions and GDP." width="576"><p class="caption">
+Figure 7.14: Two plots depicting US per capita trends in CO<span class="math inline">\(_2\)</span> emissions and GDP.
+</p>
+</div>
+<p>The function <code>plot_grid</code> is used on Line 17 to conjoin the ggplot objects <code>g2</code> and <code>g3</code>.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+</div>
+<div id="univariate-distributional-summaries" class="section level3" number="7.3.14">
+<h3>
+<span class="header-section-number">7.3.14</span> Univariate Distributional Summaries<a class="anchor" aria-label="anchor" href="#univariate-distributional-summaries"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+A number of <em>ggplot2</em> functions can be used to graphically summarize distributions of variables. These include <code>geom_hist()</code> for histograms, <code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code> for area plots, <code>geom_freq()</code> for frequency plots, <code><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html">geom_dotplot()</a></code> for dot plots, and <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code> for density plots.</p>
+<div class="example">
+<p><span id="exm:exm-univ" class="example"><strong>Example 7.9  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Fig <a href="ch7.html#fig:gdists">7.15</a> provides a multi-plot distributional summary of the US CO<span class="math inline">\(_2\)</span> data using a histogram, an area plot, and a frequency plot. These are created as separate ggplot objects.</p>
+<div class="sourceCode" id="cb818"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb818-1"><a href="ch7.html#cb818-1"></a>xlab <span class="ot">&lt;-</span> <span class="fu">expression</span>(<span class="fu">paste</span>(CO[<span class="dv">2</span>], <span class="st">" Emissions (metric tons x "</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="st">")"</span>))</span>
+<span id="cb818-2"><a href="ch7.html#cb818-2"></a>Years <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"1800-1854"</span>, <span class="dv">55</span>), <span class="fu">rep</span>(<span class="st">"1854-1908"</span>, <span class="dv">55</span>),</span>
+<span id="cb818-3"><a href="ch7.html#cb818-3"></a>           <span class="fu">rep</span>(<span class="st">"1908-1962"</span>, <span class="dv">55</span>), <span class="fu">rep</span>(<span class="st">"1962-2019"</span>, <span class="dv">55</span>)))</span>
+<span id="cb818-4"><a href="ch7.html#cb818-4"></a></span>
+<span id="cb818-5"><a href="ch7.html#cb818-5"></a>margin_theme2 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb818-6"><a href="ch7.html#cb818-6"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="fl">0.6</span>, <span class="at">vjust =</span> <span class="fl">2.8</span>, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb818-7"><a href="ch7.html#cb818-7"></a>  <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="fl">7.5</span>, <span class="at">r =</span> <span class="fl">7.5</span>, <span class="at">b =</span> <span class="fl">7.5</span>, <span class="at">l =</span> <span class="dv">15</span>))</span>
+<span id="cb818-8"><a href="ch7.html#cb818-8"></a>}</span>
+<span id="cb818-9"><a href="ch7.html#cb818-9"></a></span>
+<span id="cb818-10"><a href="ch7.html#cb818-10"></a>histogram <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(US, <span class="fu">aes</span>(co2, <span class="at">fill =</span> Years)) <span class="sc">+</span></span>
+<span id="cb818-11"><a href="ch7.html#cb818-11"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>) <span class="sc">+</span></span>
+<span id="cb818-12"><a href="ch7.html#cb818-12"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb818-13"><a href="ch7.html#cb818-13"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Blues"</span>) <span class="sc">+</span></span>
+<span id="cb818-14"><a href="ch7.html#cb818-14"></a>  <span class="fu">xlab</span>(xlab) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb818-15"><a href="ch7.html#cb818-15"></a>  <span class="fu">margin_theme</span>()</span>
+<span id="cb818-16"><a href="ch7.html#cb818-16"></a></span>
+<span id="cb818-17"><a href="ch7.html#cb818-17"></a>areaplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(US, <span class="fu">aes</span>(co2, <span class="at">fill =</span> Years)) <span class="sc">+</span></span>
+<span id="cb818-18"><a href="ch7.html#cb818-18"></a>  <span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">"bin"</span>) <span class="sc">+</span></span>
+<span id="cb818-19"><a href="ch7.html#cb818-19"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb818-20"><a href="ch7.html#cb818-20"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Spectral"</span>) <span class="sc">+</span></span>
+<span id="cb818-21"><a href="ch7.html#cb818-21"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb818-22"><a href="ch7.html#cb818-22"></a>  <span class="fu">margin_theme2</span>()</span>
+<span id="cb818-23"><a href="ch7.html#cb818-23"></a></span>
+<span id="cb818-24"><a href="ch7.html#cb818-24"></a>freqplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(US, <span class="fu">aes</span>(co2, <span class="at">colour =</span> Years)) <span class="sc">+</span></span>
+<span id="cb818-25"><a href="ch7.html#cb818-25"></a>  <span class="fu">geom_freqpoly</span>() <span class="sc">+</span></span>
+<span id="cb818-26"><a href="ch7.html#cb818-26"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb818-27"><a href="ch7.html#cb818-27"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Spectral"</span>) <span class="sc">+</span></span>
+<span id="cb818-28"><a href="ch7.html#cb818-28"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb818-29"><a href="ch7.html#cb818-29"></a>  <span class="fu">margin_theme2</span>()</span></code></pre></div>
+<p>The histogram, area plot, and frequency plot are created on Lines 10-15, 17-22, 24-29, respectively. Note the use of a second margin theme (Lines 5-8) and the use of <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">ggplot2::scale_fill_brewer()</a></code> to define specific <em>RColorBrewer</em> color palettes.</p>
+<p>The plots are conjoined, with the area plot and frequency plot splitting the first row, and the histogram occupying the entire second row of the graphical device using <code><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">cowplot::plot_grid()</a></code>.</p>
+<div class="sourceCode" id="cb819"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">title</span> <span class="op">&lt;-</span> <span class="fu">ggdraw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">draw_label</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">CO</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> , <span class="st">" in the US"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                               fontface<span class="op">=</span><span class="st">'bold'</span><span class="op">)</span></span>
+<span><span class="va">top_row</span> <span class="op">&lt;-</span> <span class="fu">plot_grid</span><span class="op">(</span><span class="va">areaplot</span>, <span class="va">freqplot</span>, ncol <span class="op">=</span> <span class="fl">2</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot_grid</span><span class="op">(</span><span class="va">title</span>, <span class="va">top_row</span>, <span class="va">histogram</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">1.2</span><span class="op">)</span>,</span>
+<span>          hjust <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="op">-</span><span class="fl">0.6</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">""</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:gdists"></span>
+<img src="figure/minimal-gdists-1.png" alt="Distributional summaries of the US CO$_2$ data from `asbio::world.emissions`." width="576"><p class="caption">
+Figure 7.15: Distributional summaries of the US CO<span class="math inline">\(_2\)</span> data from <code><a href="https://rdrr.io/pkg/asbio/man/world.emissions.html">asbio::world.emissions</a></code>.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="barplots-1" class="section level3" number="7.3.15">
+<h3>
+<span class="header-section-number">7.3.15</span> Barplots<a class="anchor" aria-label="anchor" href="#barplots-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Barplots are straightforward to create in <em>ggplot2</em> using the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code>.
+</p>
+<div class="example">
+<p><span id="exm:exm-bpp" class="example"><strong>Example 7.10  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the <code>asthma</code> dataframe from <em>asbio</em>. We first convert the time series to a long table format using <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">reshape2::melt()</a></code>, and summarize it using <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr::summarise()</a></code>.</p>
+<div class="sourceCode" id="cb820"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb820-1"><a href="ch7.html#cb820-1"></a><span class="fu">library</span>(reshape2); <span class="fu">data</span>(asthma)</span>
+<span id="cb820-2"><a href="ch7.html#cb820-2"></a>asthma.long <span class="ot">&lt;-</span> asthma <span class="sc">|&gt;</span> <span class="fu">melt</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"DRUG"</span>, <span class="st">"PATIENT"</span>),</span>
+<span id="cb820-3"><a href="ch7.html#cb820-3"></a>                               <span class="at">value.name =</span> <span class="st">"FEV1"</span>,</span>
+<span id="cb820-4"><a href="ch7.html#cb820-4"></a>                               <span class="at">variable.name =</span> <span class="st">"TIME"</span>)</span>
+<span id="cb820-5"><a href="ch7.html#cb820-5"></a></span>
+<span id="cb820-6"><a href="ch7.html#cb820-6"></a>asthma.long<span class="sc">$</span>TIME <span class="ot">&lt;-</span> <span class="fu">factor</span>(asthma.long<span class="sc">$</span>TIME,</span>
+<span id="cb820-7"><a href="ch7.html#cb820-7"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"BASE"</span>,</span>
+<span id="cb820-8"><a href="ch7.html#cb820-8"></a>                                      <span class="fu">paste</span>(<span class="st">"H"</span>, <span class="dv">11</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">sep =</span> <span class="st">""</span>)))</span>
+<span id="cb820-9"><a href="ch7.html#cb820-9"></a></span>
+<span id="cb820-10"><a href="ch7.html#cb820-10"></a>summary.FEV <span class="ot">&lt;-</span> asthma.long <span class="sc">|&gt;</span></span>
+<span id="cb820-11"><a href="ch7.html#cb820-11"></a>  <span class="fu">group_by</span>(TIME, DRUG) <span class="sc">|&gt;</span></span>
+<span id="cb820-12"><a href="ch7.html#cb820-12"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(FEV1),</span>
+<span id="cb820-13"><a href="ch7.html#cb820-13"></a>            <span class="at">se =</span> <span class="fu">sd</span>(FEV1)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(FEV1)),</span>
+<span id="cb820-14"><a href="ch7.html#cb820-14"></a>            <span class="at">meanmse =</span> mean <span class="sc">-</span> se,</span>
+<span id="cb820-15"><a href="ch7.html#cb820-15"></a>            <span class="at">meanpse =</span> mean <span class="sc">+</span> se)</span></code></pre></div>
+<p>In the code for Fig <a href="ch7.html#fig:bpp">7.16</a> below, I group by drug treatments <code>group = DRUG</code> (line one) and plot bars using the mean values from <code>summary.FEV</code> using (Line 6). The argument <code>stat = "identity"</code> allows bar heights to be represented by individual numbers, in this case means. Use of <code>stat = "identity"</code> is required here. The argument <code>position = "dodge"</code> creates side by side bar plots (Line 6).</p>
+<div class="sourceCode" id="cb821"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb821-1"><a href="ch7.html#cb821-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(summary.FEV, <span class="fu">aes</span>(<span class="at">x =</span> TIME, <span class="at">y =</span> mean, <span class="at">group =</span> DRUG)) <span class="sc">+</span></span>
+<span id="cb821-2"><a href="ch7.html#cb821-2"></a>  <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb821-3"><a href="ch7.html#cb821-3"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Forced Expiratory Volume (1 min)"</span>,</span>
+<span id="cb821-4"><a href="ch7.html#cb821-4"></a>       <span class="at">x =</span> <span class="st">"Time Period"</span>)</span>
+<span id="cb821-5"><a href="ch7.html#cb821-5"></a></span>
+<span id="cb821-6"><a href="ch7.html#cb821-6"></a>g <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> DRUG))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:bpp"></span>
+<img src="figure/minimal-bpp-1.png" alt="Barplot of the asthma data created using `geom_bar()`." width="576"><p class="caption">
+Figure 7.16: Barplot of the asthma data created using <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code>.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="interval-plots-1" class="section level3" number="7.3.16">
+<h3>
+<span class="header-section-number">7.3.16</span> Interval Plots<a class="anchor" aria-label="anchor" href="#interval-plots-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The <em>ggplot2</em> package allows implementation of interval plots.</p>
+<div class="example">
+<p><span id="exm:exm-giv" class="example"><strong>Example 7.11  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an initial demonstration of interval plots, we continue use of barplots from Example <a href="ch7.html#exm:exm-bpp">7.10</a>. Overlaying errors on barplots requires the use of <code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code> (Line 1) in the code below. Outcomes from <code>meanmse</code> and <code>meanpse</code> in the <code>summary.FEV</code> dataset represent <span class="math inline">\(\bar{x}-SE\)</span> and <span class="math inline">\(\bar{x}+SE\)</span>, respectively. These will define the lower and upper values of the error bars in interval plot. They are called in the arguments <code>ymin</code> and <code>ymax</code> in the aesthetics of <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a></code> (Line 5). The background color of the plot is changed on Line 4. The final result is shown in Fig <a href="ch7.html#fig:ebbp">7.17</a>.</p>
+<div class="sourceCode" id="cb822"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb822-1"><a href="ch7.html#cb822-1"></a>g <span class="sc">+</span> <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"identity"</span>, <span class="at">geom =</span> <span class="st">"bar"</span>,</span>
+<span id="cb822-2"><a href="ch7.html#cb822-2"></a>                 <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">9</span>),</span>
+<span id="cb822-3"><a href="ch7.html#cb822-3"></a>                 <span class="fu">aes</span>(<span class="at">colour =</span> DRUG), <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb822-4"><a href="ch7.html#cb822-4"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="fu">gray</span>(<span class="fl">0.8</span>))) <span class="sc">+</span></span>
+<span id="cb822-5"><a href="ch7.html#cb822-5"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> meanmse, <span class="at">ymax =</span> meanpse, <span class="at">colour =</span> DRUG),</span>
+<span id="cb822-6"><a href="ch7.html#cb822-6"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">9</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:ebbp"></span>
+<img src="figure/minimal-ebbp-1.png" alt="Error bars overlaid on a bar plot of the `asthma` data." width="576"><p class="caption">
+Figure 7.17: Error bars overlaid on a bar plot of the <code>asthma</code> data.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-giv2" class="example"><strong>Example 7.12  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Next we consider overlaying intervals on a line plot Fig (<a href="ch7.html#fig:eb">7.18</a>). In the code below, lines connect points at treatment means (Lines 2-3).</p>
+<div class="sourceCode" id="cb823"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb823-1"><a href="ch7.html#cb823-1"></a>g <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="fu">aes</span>(<span class="at">colour =</span> DRUG)) <span class="sc">+</span></span>
+<span id="cb823-2"><a href="ch7.html#cb823-2"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">lty =</span> DRUG, <span class="at">colour =</span> DRUG)) <span class="sc">+</span></span>
+<span id="cb823-3"><a href="ch7.html#cb823-3"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb823-4"><a href="ch7.html#cb823-4"></a>  <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb823-5"><a href="ch7.html#cb823-5"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> meanmse, <span class="at">ymax =</span> meanpse, <span class="at">colour =</span> DRUG), </span>
+<span id="cb823-6"><a href="ch7.html#cb823-6"></a>                <span class="at">width =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eb"></span>
+<img src="figure/minimal-eb-1.png" alt="Error bars overlaid on a line plot of the `asthma` data." width="576"><p class="caption">
+Figure 7.18: Error bars overlaid on a line plot of the <code>asthma</code> data.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div class="example">
+<p><span id="exm:exm-giv3" class="example"><strong>Example 7.13  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Other geoms can be used to create interval plots, including the <em>ggplot2</em> function <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_crossbar()</a></code>. In Fig <a href="ch7.html#fig:cb">7.19</a> we show both raw data and summary standard error crossbars.</p>
+<div class="sourceCode" id="cb824"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_crossbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">meanmse</span>, ymax <span class="op">=</span> <span class="va">meanpse</span>, colour <span class="op">=</span> <span class="va">DRUG</span>,</span>
+<span>                      fill <span class="op">=</span> <span class="va">DRUG</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">asthma.long</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">FEV1</span>, x <span class="op">=</span> <span class="va">TIME</span>, colour <span class="op">=</span> <span class="va">DRUG</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:cb"></span>
+<img src="figure/minimal-cb-1.png" alt="Error bars overlaid on the `asthma` data using `geom_crossbar()`." width="576"><p class="caption">
+Figure 7.19: Error bars overlaid on the <code>asthma</code> data using <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_crossbar()</a></code>.
+</p>
+</div>
+<p>Note that individual data points are rather difficult to distinguish in Fig <a href="ch7.html#fig:cb">7.19</a>. As a solution we could plot points using using transparent colors, or jitter points with respect to the <span class="math inline">\(x\)</span>-axis (Fig <a href="ch7.html#fig:cb1">7.20</a>).</p>
+<div class="sourceCode" id="cb825"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_crossbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">meanmse</span>, ymax <span class="op">=</span> <span class="va">meanpse</span>, colour <span class="op">=</span> <span class="va">DRUG</span>,</span>
+<span>                      fill <span class="op">=</span> <span class="va">DRUG</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">asthma.long</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">FEV1</span>, x <span class="op">=</span> <span class="va">TIME</span>, colour <span class="op">=</span> <span class="va">DRUG</span><span class="op">)</span>, </span>
+<span>              alpha <span class="op">=</span> <span class="fl">.4</span>, width <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:cb1"></span>
+<img src="figure/minimal-cb1-1.png" alt="Jitter and transparency added to points in Fig \@ref(fig:cb)." width="576"><p class="caption">
+Figure 7.20: Jitter and transparency added to points in Fig <a href="ch7.html#fig:cb">7.19</a>.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+<div id="pairwise-comparisons-1" class="section level4" number="7.3.16.1">
+<h4>
+<span class="header-section-number">7.3.16.1</span> Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>Results of statistical pairwise comparisons can be overlain on <code>ggplot2</code> rendered boxplots and interval plots using a number of approaches. The package <em>ggpubr</em> <span class="citation">(<a href="references.html#ref-kass">Kassambara 2023</a>)</span> generates <em>ggplot2</em>-based ``publication ready plots’’, including interval plots showing pairwise comparisons. Examples given here largely follow those in the documentation for <em>ggpubr</em>.
+</p>
+<div class="example">
+<p><span id="exm:exm-gpw" class="example"><strong>Example 7.14  </strong></span><span class="math inline">\(\text{}\)</span><br><span class="citation">Crampton et al. (<a href="references.html#ref-crampton1947">1947</a>)</span> measured the lengths of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs with respect to three dosage levels of vitamin C (0.5, 1, and 2 mg/day), and two delivery methods, orange juice (OJ) or ascorbic acid (VC). The data are in the dataframe <code>ToothGrowth</code> from the package <em>datasets</em>. In <code>ToothGrowth</code> <code>dose</code> contains dosages and <code>supp</code> contains delivery levels.</p>
+<div class="sourceCode" id="cb826"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb826-1"><a href="ch7.html#cb826-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb826-2"><a href="ch7.html#cb826-2"></a>df <span class="ot">&lt;-</span> ToothGrowth</span>
+<span id="cb826-3"><a href="ch7.html#cb826-3"></a>df<span class="sc">$</span>dose <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>dose)</span>
+<span id="cb826-4"><a href="ch7.html#cb826-4"></a></span>
+<span id="cb826-5"><a href="ch7.html#cb826-5"></a>bxp <span class="ot">&lt;-</span> <span class="fu">ggboxplot</span>(</span>
+<span id="cb826-6"><a href="ch7.html#cb826-6"></a>  df, <span class="at">x =</span> <span class="st">"dose"</span>, <span class="at">y =</span> <span class="st">"len"</span>,</span>
+<span id="cb826-7"><a href="ch7.html#cb826-7"></a>  <span class="at">color =</span> <span class="st">"supp"</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>)) <span class="sc">+</span></span>
+<span id="cb826-8"><a href="ch7.html#cb826-8"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Odontoblast length ("</span>, mu,<span class="st">"g)"</span>), <span class="at">sep =</span> <span class="st">""</span>)) <span class="sc">+</span></span>
+<span id="cb826-9"><a href="ch7.html#cb826-9"></a>  <span class="fu">xlab</span>(<span class="st">"Dosage (mg/day)"</span>) <span class="sc">+</span></span>
+<span id="cb826-10"><a href="ch7.html#cb826-10"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="fu">guide_legend</span>(<span class="st">"Delivery:"</span>))  <span class="sc">+</span></span>
+<span id="cb826-11"><a href="ch7.html#cb826-11"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.10</span>)))</span>
+<span id="cb826-12"><a href="ch7.html#cb826-12"></a></span>
+<span id="cb826-13"><a href="ch7.html#cb826-13"></a>bxp <span class="sc">+</span> <span class="fu">geom_pwc</span>(</span>
+<span id="cb826-14"><a href="ch7.html#cb826-14"></a>  <span class="fu">aes</span>(<span class="at">group =</span> supp), <span class="at">tip.length =</span> <span class="dv">0</span>,</span>
+<span id="cb826-15"><a href="ch7.html#cb826-15"></a>  <span class="at">method =</span> <span class="st">"t_test"</span>, <span class="at">label =</span> <span class="st">"{p.adj.format}{p.adj.signif}"</span>,</span>
+<span id="cb826-16"><a href="ch7.html#cb826-16"></a>  <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>, <span class="at">p.adjust.by =</span> <span class="st">"panel"</span>,</span>
+<span id="cb826-17"><a href="ch7.html#cb826-17"></a>  <span class="at">hide.ns =</span> <span class="cn">TRUE</span></span>
+<span id="cb826-18"><a href="ch7.html#cb826-18"></a>)</span></code></pre></div>
+<p>In the code above, we have the following important steps:</p>
+<ul>
+<li>On Lines 1-3, I bring in the <em>ggpubr</em> package (Line 1), rename the dataframe <code>ToothGrowth</code> to be <code>df</code> and coerce the <code>dose</code> column to be a factor.</li>
+<li>On Lines 5-7, I use the function <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggpubr::ggboxplot()</a></code> to define basic plot characteristics.</li>
+<li>On Lines 8-11, nuances are added to the plot including customized axis labels (Lines 8-9), a customized legend title (Line 10), and an alteration to the axis scale (Line 11).</li>
+<li>On Lines 13-18, annotations for pairwise comparisons of delivery methods (<code>OJ</code> and <code>VC</code>) within dosages are added to the graph using the function <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/geom_pwc.html">ggpubr::geom_pwc()</a></code>.</li>
+<li>On Line 14, I specify that I want delivery methods (in <code>supp</code>) compared, and indicate that I don’t want lines extending to the compared levels from the label lines (for comparison, see Fig <a href="ch7.html#fig:pw3">7.23</a>).</li>
+<li>On Line 15, I indicate the type of test to be used in delivery method comparisons, and the labeling format. <code>"{p.adj.format}{p.adj.signif}"</code> indicates that both the adjusted <em>p</em>-value and the significance level for the adjusted <em>p</em>-value should be printed.</li>
+<li>On Lines 16-17, I specify use of the Bonferroni correction for simultaneous inference for three tests, and to not print results that are non-significant.</li>
+</ul>
+<p>The result is shown in Fig <a href="ch7.html#fig:pw1">7.21</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pw1"></span>
+<img src="figure/minimal-pw1-1.png" alt="Boxplot showing pairwise comparison of delivery levels in dosage for the `Toothgrowth` dataframe." width="576"><p class="caption">
+Figure 7.21: Boxplot showing pairwise comparison of delivery levels in dosage for the <code>Toothgrowth</code> dataframe.
+</p>
+</div>
+<p>Below we consider a more complex example that compares both delivery methods (<code>supp</code>) and dosage levels (<code>dose</code>). This is accomplished by applying <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/geom_pwc.html">ggpubr::geom_pwc()</a></code> twice (Lines 3-7 and Lines 11-15) and printing both results (Fig <a href="ch7.html#fig:pw2">7.22</a>).</p>
+<div class="sourceCode" id="cb827"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb827-1"><a href="ch7.html#cb827-1"></a><span class="co"># 1. Add p-values of OJ vs VC in each dose group</span></span>
+<span id="cb827-2"><a href="ch7.html#cb827-2"></a>bxp.complex <span class="ot">&lt;-</span> bxp <span class="sc">+</span></span>
+<span id="cb827-3"><a href="ch7.html#cb827-3"></a>  <span class="fu">geom_pwc</span>(</span>
+<span id="cb827-4"><a href="ch7.html#cb827-4"></a>    <span class="fu">aes</span>(<span class="at">group =</span> supp), <span class="at">tip.length =</span> <span class="dv">0</span>,</span>
+<span id="cb827-5"><a href="ch7.html#cb827-5"></a>    <span class="at">method =</span> <span class="st">"t_test"</span>, <span class="at">label =</span> <span class="st">"p.adj.format"</span>,</span>
+<span id="cb827-6"><a href="ch7.html#cb827-6"></a>    <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>, <span class="at">p.adjust.by =</span> <span class="st">"panel"</span></span>
+<span id="cb827-7"><a href="ch7.html#cb827-7"></a>  )</span>
+<span id="cb827-8"><a href="ch7.html#cb827-8"></a><span class="co"># 2. Add pairwise comparisons between dose levels</span></span>
+<span id="cb827-9"><a href="ch7.html#cb827-9"></a><span class="co"># Nudge up the brackets by 20% of the total height</span></span>
+<span id="cb827-10"><a href="ch7.html#cb827-10"></a>bxp.complex <span class="ot">&lt;-</span> bxp.complex <span class="sc">+</span></span>
+<span id="cb827-11"><a href="ch7.html#cb827-11"></a>  <span class="fu">geom_pwc</span>(</span>
+<span id="cb827-12"><a href="ch7.html#cb827-12"></a>    <span class="at">method =</span> <span class="st">"t_test"</span>, <span class="at">label =</span> <span class="st">"p.adj.format"</span>,</span>
+<span id="cb827-13"><a href="ch7.html#cb827-13"></a>    <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>,</span>
+<span id="cb827-14"><a href="ch7.html#cb827-14"></a>    <span class="at">bracket.nudge.y =</span> <span class="fl">0.2</span></span>
+<span id="cb827-15"><a href="ch7.html#cb827-15"></a>  )</span>
+<span id="cb827-16"><a href="ch7.html#cb827-16"></a><span class="co"># 3. Display the plot</span></span>
+<span id="cb827-17"><a href="ch7.html#cb827-17"></a>bxp.complex</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pw2"></span>
+<img src="figure/minimal-pw2-1.png" alt="Boxplot showing pairwise comparison of delivery levels and delivery levels in dosage for the `Toothgrowth` dataframe." width="576"><p class="caption">
+Figure 7.22: Boxplot showing pairwise comparison of delivery levels and delivery levels in dosage for the <code>Toothgrowth</code> dataframe.
+</p>
+</div>
+<p>In the code below, we create an interval plot with a barplot appearance using <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggbarplot.html">ggpubr::ggbarplot()</a></code> (Fig <a href="ch7.html#fig:pw3">7.23</a>. Note that this requires a different approach for customizing the title of the legend (Line 7).</p>
+<div class="sourceCode" id="cb828"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb828-1"><a href="ch7.html#cb828-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">ggbarplot</span>(</span>
+<span id="cb828-2"><a href="ch7.html#cb828-2"></a>  df, <span class="at">x =</span> <span class="st">"supp"</span>, <span class="at">y =</span> <span class="st">"len"</span>, <span class="at">fill =</span> <span class="st">"dose"</span>,</span>
+<span id="cb828-3"><a href="ch7.html#cb828-3"></a>  <span class="at">palette =</span> <span class="st">"npg"</span>, <span class="at">add =</span> <span class="st">"mean_sd"</span>,</span>
+<span id="cb828-4"><a href="ch7.html#cb828-4"></a>  <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb828-5"><a href="ch7.html#cb828-5"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Odontoblast length ("</span>, mu,<span class="st">"m)"</span>), <span class="at">sep =</span> <span class="st">""</span>)) <span class="sc">+</span></span>
+<span id="cb828-6"><a href="ch7.html#cb828-6"></a>  <span class="fu">xlab</span>(<span class="st">"Delivery method"</span>) <span class="sc">+</span></span>
+<span id="cb828-7"><a href="ch7.html#cb828-7"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">name =</span> <span class="st">"Dosage:"</span>)</span>
+<span id="cb828-8"><a href="ch7.html#cb828-8"></a></span>
+<span id="cb828-9"><a href="ch7.html#cb828-9"></a>bp <span class="sc">+</span></span>
+<span id="cb828-10"><a href="ch7.html#cb828-10"></a>  <span class="fu">geom_pwc</span>(</span>
+<span id="cb828-11"><a href="ch7.html#cb828-11"></a>    <span class="fu">aes</span>(<span class="at">group =</span> dose), <span class="at">tip.length =</span> <span class="fl">0.05</span>,</span>
+<span id="cb828-12"><a href="ch7.html#cb828-12"></a>    <span class="at">method =</span> <span class="st">"t_test"</span>, <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
+<span id="cb828-13"><a href="ch7.html#cb828-13"></a>    <span class="at">bracket.nudge.y =</span> <span class="sc">-</span><span class="fl">0.08</span></span>
+<span id="cb828-14"><a href="ch7.html#cb828-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb828-15"><a href="ch7.html#cb828-15"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>)))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pw3"></span>
+<img src="figure/minimal-pw3-1.png" alt="Barplot showing pairwise comparison of dosage levels in delivery methods for the `Toothgrowth` dataframe.  Bar heights are means, errors are standard deviations." width="576"><p class="caption">
+Figure 7.23: Barplot showing pairwise comparison of dosage levels in delivery methods for the <code>Toothgrowth</code> dataframe. Bar heights are means, errors are standard deviations.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="blackbox">
+<div class="center">
+<p><strong>CAUTION!</strong></p>
+</div>
+<p>The function <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/geom_pwc.html">ggpubr::geom_pwc()</a></code> can be potentially misused, illustrating the need for clear explanations (or understanding) when applying statistical algorithms. The default <code>test</code> specification in <code>geom_pwc()</code> is the Wilcox test, which will seldom be the most powerful method for comparing shifts in location for treatments (although it is strongly resistant to violations of normality). The argument <code>test = t_test</code> (specified in Figs <a href="ch7.html#fig:pw1">7.21</a>-<a href="ch7.html#fig:pw3">7.23</a>) runs <span class="math inline">\(t\)</span>-tests in isolation for each pairwise comparison, and thus will not utilize an omnibus ANOVA mean squared error, reducing power. The Bonferroni <span class="math inline">\(p\)</span>-value adjustment method used in Figs <a href="ch7.html#fig:pw1">7.21</a>-<a href="ch7.html#fig:pw3">7.23</a> is also famous for its low power. Given this situation, it may be most prudent to use <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/geom_pwc.html">ggpubr::geom_pwc()</a></code> as a graphical framework into which summaries, including <span class="math inline">\(p\)</span>-values can be inserted manually. This can be done with the function <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">ggpubr::stat_pvalue_manual()</a></code> whose usage is demonstrated <a href="https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/">here</a>.</p>
+</div>
+<!-- \begin{tcolorbox} -->
+<!-- [enhanced, -->
+<!-- title=Caution!, colframe = red!50!black, colback = umber!10!white, arc = 1mm, -->
+<!-- colbacktitle = umber!10!white, fonttitle = \bfseries, coltitle = umber!50!black, -->
+<!-- attach boxed title to top left = {xshift = 3.2mm, yshift = -0.5mm}, -->
+<!-- boxed title style = {skin = enhancedfirst jigsaw, size = small, arc = 1mm, -->
+<!-- bottom = -1mm, interior style = {fill = none, top color = umber!30!white, -->
+<!-- bottom color = umber!20!white}}] -->
+<!--  -->
+<!-- \end{tcolorbox} -->
+<!-- \index[R]{\texttt{ggpubr::stat\_pvalue\_manual}} -->
+</div>
+</div>
+<div id="trellis-plots-with-faceting" class="section level3" number="7.3.17">
+<h3>
+<span class="header-section-number">7.3.17</span> Trellis Plots with Faceting<a class="anchor" aria-label="anchor" href="#trellis-plots-with-faceting"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Like the package <em>lattice</em>, <em>ggplot2</em> contains functions for making trellis plots. We will use this approach to examine individual patient responses over time in the <code>asthma</code> dataset.</p>
+<div class="sourceCode" id="cb829"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># subset data to allow readable plots</span></span>
+<span><span class="va">asthma.long.a</span> <span class="op">&lt;-</span> <span class="va">asthma.long</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">PATIENT</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fl">201</span><span class="op">:</span><span class="fl">208</span><span class="op">)</span></span></code></pre></div>
+<p>Trellising can be enabled by using the <em>ggplot2</em> functions <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid()</a></code>. In Fig <a href="ch7.html#fig:tr">7.24</a> we define faceting within <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid()</a></code> using the <code>PATIENT</code> column in the data subset <code>asthma.long.a</code>. The function <code><a href="https://ggplot2.tidyverse.org/reference/vars.html">ggplot2::vars()</a></code> in <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid()</a></code> is analogous to the use of <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> in geoms.</p>
+<div class="sourceCode" id="cb830"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb830-1"><a href="ch7.html#cb830-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(asthma.long.a, <span class="fu">aes</span>(<span class="at">y =</span> FEV1, <span class="at">x =</span> TIME, <span class="at">colour =</span> DRUG,</span>
+<span id="cb830-2"><a href="ch7.html#cb830-2"></a>                                <span class="at">group =</span> DRUG)) <span class="sc">+</span></span>
+<span id="cb830-3"><a href="ch7.html#cb830-3"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb830-4"><a href="ch7.html#cb830-4"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb830-5"><a href="ch7.html#cb830-5"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb830-6"><a href="ch7.html#cb830-6"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">0.7</span>))) <span class="sc">+</span></span>
+<span id="cb830-7"><a href="ch7.html#cb830-7"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(PATIENT)) <span class="sc">+</span></span>
+<span id="cb830-8"><a href="ch7.html#cb830-8"></a>  <span class="fu">scale_colour_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>) <span class="sc">+</span></span>
+<span id="cb830-9"><a href="ch7.html#cb830-9"></a>  <span class="fu">ylab</span>(<span class="st">"Forced Expiratory Volume (1 min)"</span>) <span class="sc">+</span></span>
+<span id="cb830-10"><a href="ch7.html#cb830-10"></a>  <span class="fu">xlab</span>(<span class="st">"Time period"</span>)</span>
+<span id="cb830-11"><a href="ch7.html#cb830-11"></a>g</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:tr"></span>
+<img src="figure/minimal-tr-1.png" alt="A trellis plot showing individual patient responses over time from the `asthma` dataset." width="576"><p class="caption">
+Figure 7.24: A trellis plot showing individual patient responses over time from the <code>asthma</code> dataset.
+</p>
+</div>
+<p>
+</p>
+</div>
+<div id="multivariate-distributional-summaries" class="section level3" number="7.3.18">
+<h3>
+<span class="header-section-number">7.3.18</span> Multivariate Distributional Summaries<a class="anchor" aria-label="anchor" href="#multivariate-distributional-summaries"><i class="fas fa-link"></i></a>
+</h3>
+<p>Bivariate summaries can be shown in many ways using a <em>ggplot2</em> approach.
+</p>
+<div class="example">
+<p><span id="exm:exm-gMV" class="example"><strong>Example 7.15  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In Fig <a href="ch7.html#fig:bv">7.25</a>, I insert density grobs (graphical objects) on the margins of a scatterplot for five European countries using the <em>cowplot</em> functions <code>axis_canvas()</code>, <code>insert_xaxis_grob()</code>, <code>insert_xaxis_grob()</code>, and <code>gg_draw()</code>. The right margin shows GDP distributions for each country, whereas the top margin shows CO<span class="math inline">\(_2\)</span> emission distributions for each country. I also change symbol sizes with year in the main graph. Larger symbols indicate more recent years.</p>
+<div class="sourceCode" id="cb831"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb831-1"><a href="ch7.html#cb831-1"></a>europe <span class="ot">&lt;-</span> world.emissions <span class="sc">|&gt;</span></span>
+<span id="cb831-2"><a href="ch7.html#cb831-2"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"France"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>, <span class="st">"United Kingdom"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb831-3"><a href="ch7.html#cb831-3"></a>  <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="dv">2019</span> <span class="sc">&amp;</span> year <span class="sc">&gt;</span> <span class="dv">1950</span>) <span class="co"># comparable data</span></span>
+<span id="cb831-4"><a href="ch7.html#cb831-4"></a></span>
+<span id="cb831-5"><a href="ch7.html#cb831-5"></a>pmain <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(europe, <span class="fu">aes</span>(<span class="at">x=</span>co2, <span class="at">y=</span>gdp, <span class="at">color=</span> country)) <span class="sc">+</span></span>
+<span id="cb831-6"><a href="ch7.html#cb831-6"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> year), <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb831-7"><a href="ch7.html#cb831-7"></a>  <span class="fu">xlab</span>(xlab) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"GDP (International dollars)"</span>) <span class="sc">+</span></span>
+<span id="cb831-8"><a href="ch7.html#cb831-8"></a>  <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb831-9"><a href="ch7.html#cb831-9"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb831-10"><a href="ch7.html#cb831-10"></a></span>
+<span id="cb831-11"><a href="ch7.html#cb831-11"></a>xdens <span class="ot">&lt;-</span> <span class="fu">axis_canvas</span>(pmain, <span class="at">axis =</span> <span class="st">"x"</span>) <span class="sc">+</span></span>
+<span id="cb831-12"><a href="ch7.html#cb831-12"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> europe, <span class="fu">aes</span>(<span class="at">x =</span> co2, <span class="at">fill =</span> country), <span class="at">alpha=</span><span class="fl">0.6</span>, </span>
+<span id="cb831-13"><a href="ch7.html#cb831-13"></a>               <span class="at">size=</span>.<span class="dv">2</span>)</span>
+<span id="cb831-14"><a href="ch7.html#cb831-14"></a></span>
+<span id="cb831-15"><a href="ch7.html#cb831-15"></a>ydens <span class="ot">&lt;-</span> <span class="fu">axis_canvas</span>(pmain, <span class="at">axis =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb831-16"><a href="ch7.html#cb831-16"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> europe, <span class="fu">aes</span>(<span class="at">y =</span> gdp, <span class="at">fill =</span> country), <span class="at">alpha=</span><span class="fl">0.6</span>, </span>
+<span id="cb831-17"><a href="ch7.html#cb831-17"></a>               <span class="at">size=</span>.<span class="dv">2</span>)</span>
+<span id="cb831-18"><a href="ch7.html#cb831-18"></a></span>
+<span id="cb831-19"><a href="ch7.html#cb831-19"></a>p1 <span class="ot">&lt;-</span> <span class="fu">insert_xaxis_grob</span>(pmain, xdens, grid<span class="sc">::</span><span class="fu">unit</span>(.<span class="dv">2</span>, <span class="st">"null"</span>), </span>
+<span id="cb831-20"><a href="ch7.html#cb831-20"></a>                        <span class="at">position =</span> <span class="st">"top"</span>)</span>
+<span id="cb831-21"><a href="ch7.html#cb831-21"></a>p2 <span class="ot">&lt;-</span> <span class="fu">insert_yaxis_grob</span>(p1, ydens, grid<span class="sc">::</span><span class="fu">unit</span>(.<span class="dv">2</span>, <span class="st">"null"</span>), </span>
+<span id="cb831-22"><a href="ch7.html#cb831-22"></a>                        <span class="at">position =</span> <span class="st">"right"</span>)</span>
+<span id="cb831-23"><a href="ch7.html#cb831-23"></a><span class="fu">ggdraw</span>(p2)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:bv"></span>
+<img src="figure/minimal-bv-1.png" alt="Bivariate summaries for European countries from the `asbio::world.emissions` dataset." width="576"><p class="caption">
+Figure 7.25: Bivariate summaries for European countries from the <code><a href="https://rdrr.io/pkg/asbio/man/world.emissions.html">asbio::world.emissions</a></code> dataset.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="maps" class="section level3" number="7.3.19">
+<h3>
+<span class="header-section-number">7.3.19</span> Maps<a class="anchor" aria-label="anchor" href="#maps"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The <em>ggplot2</em> ecosystem has some support for mapping, including import of ARC-GIS shape files, and creation of map polygons. The function <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read()</a></code> allows loading of simple spatial features, including shapefiles, and the package <em>ggspatial</em> provides a number for creating useful maps under a <em>ggplot2</em> framework.
+</p>
+<div class="example">
+<p><span id="exm:exm-map" class="example"><strong>Example 7.16  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an example we will create a map of a small stream network in southwest Idaho named Murphy Creek. Data concerning the creek, including shapefiles, is contained in the package <em>streamDAG</em> <span class="citation">(<a href="references.html#ref-aho2023non">Aho, Kriloff, et al. 2023</a>)</span>.
+</p>
+<div class="sourceCode" id="cb832"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/">ggspatial</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">streamDAG</span><span class="op">)</span></span>
+<span><span class="va">mur_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/Murphy_Creek.shp"</span>, </span>
+<span>                              package<span class="op">=</span><span class="st">"streamDAG"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mur_coords</span><span class="op">)</span></span>
+<span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="va">mur_coords</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>Reading layer `Murphy_Creek' from data source 
+  `C:\Users\ahoken\AppData\Local\R\win-library\4.4\streamDAG\shape\Murphy_Creek.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 2 features and 2 fields
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: 512860 ymin: 4789000 xmax: 514720 ymax: 4789300
+Projected CRS: NAD83 / UTM zone 11N</code></pre>
+<p>The function <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">ggplot2::geom_sf()</a></code> (Line 2 below) can be used to draw different geometric objects depending on features present in the data, e.g., points, lines, or polygons. For the current case a line is generated. The function <code><a href="https://ggplot2.tidyverse.org/reference/expand_limits.html">ggplot2::expand_limits()</a></code> (Line 6) is used to increase the spatial range of the <span class="math inline">\(y\)</span>-axis which otherwise would be extremely narrow (since a single W to E trending line, representing the watershed, is being generated by <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code>). The <em>ggspatial</em> functions <code><a href="https://paleolimbot.github.io/ggspatial/reference/annotation_scale.html">annotation_scale()</a></code> and <code><a href="https://paleolimbot.github.io/ggspatial/reference/annotation_north_arrow.html">annotation_north_arrow()</a></code> provide spatially explicit scalebars and north-indicating arrows, respectively (Lines 8-9). The final product is shown in Fig <a href="ch7.html#fig:murmap">7.26</a>.</p>
+<div class="sourceCode" id="cb834"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb834-1"><a href="ch7.html#cb834-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mur_sf) <span class="sc">+</span></span>
+<span id="cb834-2"><a href="ch7.html#cb834-2"></a>  <span class="fu">geom_sf</span>(<span class="at">colour =</span> <span class="st">"lightblue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb834-3"><a href="ch7.html#cb834-3"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb834-4"><a href="ch7.html#cb834-4"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> coords, <span class="fu">aes</span>(<span class="at">x =</span> E, <span class="at">y =</span> N), <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb834-5"><a href="ch7.html#cb834-5"></a>             <span class="at">fill =</span> <span class="st">"orange"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb834-6"><a href="ch7.html#cb834-6"></a>  <span class="fu">expand_limits</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">4788562</span>,<span class="dv">4789700</span>)) <span class="sc">+</span></span>
+<span id="cb834-7"><a href="ch7.html#cb834-7"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb834-8"><a href="ch7.html#cb834-8"></a>  <span class="fu">annotation_scale</span>() <span class="sc">+</span></span>
+<span id="cb834-9"><a href="ch7.html#cb834-9"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">pad_x =</span> <span class="fu">unit</span>(<span class="fl">10.5</span>, <span class="st">"cm"</span>), <span class="at">pad_y =</span> <span class="fu">unit</span>(<span class="fl">6.6</span>, <span class="st">"cm"</span>))</span>
+<span id="cb834-10"><a href="ch7.html#cb834-10"></a>g</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:murmap"></span>
+<img src="figure/minimal-murmap-1.png" alt="Map of the Murphy Creek drainage system in southwest Idaho (outlet coordinates: 43.71839 $^\text{o}$N, 116.13747 $^\text{o}$W)." width="576"><p class="caption">
+Figure 7.26: Map of the Murphy Creek drainage system in southwest Idaho (outlet coordinates: 43.71839 <span class="math inline">\(^\text{o}\)</span>N, 116.13747 <span class="math inline">\(^\text{o}\)</span>W).
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="animation-1" class="section level3" number="7.3.20">
+<h3>
+<span class="header-section-number">7.3.20</span> Animation<a class="anchor" aria-label="anchor" href="#animation-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Animations in <em>ggplot2</em> can be created using looping strategies applied in Ch 6. Looping will be explicitly considered in the context of functions in Chapter 8.</p>
+<div class="example">
+<p><span id="exm:exm-ganim1" class="example"><strong>Example 7.17  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an initial demonstration, we reconsider the asthma data (Fig <a href="ch7.html#fig:bpp">7.16</a>). We first construct a function, <code>asthma.plot()</code> which will render a ggplot. The lone argument of <code>asthma.plot()</code>, <code>upper</code>, defines the upper time limit of under consideration in the longitudinal asthma drug study (Line 3). The <code>upper</code> argument is called in <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code> (Lines 5-6) to subset, if necessary, the underlying data. Vital to the animation is the <code>print.ggplot()</code> function (Line 12). Failure to include this code will create an empty animation.</p>
+<div class="sourceCode" id="cb835"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb835-1"><a href="ch7.html#cb835-1"></a>summary.FEV<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">18</span>), <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb835-2"><a href="ch7.html#cb835-2"></a></span>
+<span id="cb835-3"><a href="ch7.html#cb835-3"></a>asthma.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(upper){</span>
+<span id="cb835-4"><a href="ch7.html#cb835-4"></a>  a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb835-5"><a href="ch7.html#cb835-5"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> summary.FEV[summary.FEV<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">&amp;</span> </span>
+<span id="cb835-6"><a href="ch7.html#cb835-6"></a>                                   summary.FEV<span class="sc">$</span>time <span class="sc">&lt;=</span> upper,],</span>
+<span id="cb835-7"><a href="ch7.html#cb835-7"></a>              <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> mean, <span class="at">colour =</span> DRUG)) <span class="sc">+</span></span>
+<span id="cb835-8"><a href="ch7.html#cb835-8"></a>    <span class="fu">ylim</span>(<span class="fl">2.6</span>, <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb835-9"><a href="ch7.html#cb835-9"></a>    <span class="fu">xlim</span>(<span class="dv">11</span>, <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb835-10"><a href="ch7.html#cb835-10"></a>    <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb835-11"><a href="ch7.html#cb835-11"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Forced Expiratory Volume (1 min)"</span>,</span>
+<span id="cb835-12"><a href="ch7.html#cb835-12"></a>         <span class="at">x =</span> <span class="st">"Time (Hrs)"</span>)</span>
+<span id="cb835-13"><a href="ch7.html#cb835-13"></a>  <span class="fu">print</span>(a)</span>
+<span id="cb835-14"><a href="ch7.html#cb835-14"></a>}</span></code></pre></div>
+<p>Next, we create a function that runs <code>asthma.plot()</code> for a range of values for <code>upper</code>. The function consists of a loop run by <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> (lines 2-3). The final lines of code (lines 8-9) allow the animation to be saved using the function <code>saveGIF()</code> from the package <em>animation</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;As noted in Ch 6, use of &lt;code&gt;animation::saveGIF&lt;/code&gt; requires installation of open source software &lt;a href="http://www.imagemagick.org/script/convert.php"&gt;ImageMagick&lt;/a&gt; or &lt;a href="http://www.graphicsmagick.org"&gt;GraphicsMagick&lt;/a&gt; (see &lt;code&gt;?saveGIF&lt;/code&gt;).&lt;/p&gt;'><sup>66</sup></a>.
+</p>
+<div class="sourceCode" id="cb836"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb836-1"><a href="ch7.html#cb836-1"></a>asthma.animate <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb836-2"><a href="ch7.html#cb836-2"></a>  <span class="fu">lapply</span>(<span class="dv">12</span><span class="sc">:</span><span class="dv">18</span>, <span class="cf">function</span>(i){</span>
+<span id="cb836-3"><a href="ch7.html#cb836-3"></a>    <span class="fu">asthma.plot</span>(i)</span>
+<span id="cb836-4"><a href="ch7.html#cb836-4"></a>  })</span>
+<span id="cb836-5"><a href="ch7.html#cb836-5"></a>}</span>
+<span id="cb836-6"><a href="ch7.html#cb836-6"></a></span>
+<span id="cb836-7"><a href="ch7.html#cb836-7"></a><span class="co"># run animation</span></span>
+<span id="cb836-8"><a href="ch7.html#cb836-8"></a><span class="fu">asthma.animate</span>()</span>
+<span id="cb836-9"><a href="ch7.html#cb836-9"></a></span>
+<span id="cb836-10"><a href="ch7.html#cb836-10"></a><span class="co"># save frames into one GIF:</span></span>
+<span id="cb836-11"><a href="ch7.html#cb836-11"></a><span class="fu">library</span>(animation)</span>
+<span id="cb836-12"><a href="ch7.html#cb836-12"></a><span class="fu">saveGIF</span>(<span class="fu">asthma.animate</span>(), <span class="at">interval =</span> <span class="dv">1</span>, <span class="at">movie.name=</span><span class="st">"asthma.gif"</span>)</span></code></pre></div>
+<p>The animation result is shown in Fig <a href="ch7.html#fig:astanm">7.27</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:astanm"></span>
+<img src="figure/minimal-astanm-.gif" alt="Animation demonstration using the `asthma` dataset." width="576"><p class="caption">
+Figure 7.27: Animation demonstration using the <code>asthma</code> dataset.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>Amazing animations can be created with the package <em>gganimate</em>. These are demonstrated using several examples.
+</p>
+<div class="example">
+<p><span id="exm:exm-ganim2" class="example"><strong>Example 7.18  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In this example we create a scatterplot animation for the world emissions dataset. In the code below, steps particularly important to the animation occur on Lines 14-17.</p>
+<ul>
+<li>On Line 14 the plot title is modified as the animation progresses, allowing tracking of years. The code <code>title = 'Year: {frame_time}'</code> is a <em>gganimate</em> convention for extracting corresponding time sequence values (in this case the column <code>world.emission$year</code>) for a projection.</li>
+<li>On line 16 The function <code><a href="https://gganimate.com/reference/transition_time.html">gganimate::transition_time()</a></code> calls frame transitions between specific point in time in the column <code>year</code>. Usefully, the <em>gganimate</em> sets the transition time between the states in <code>transition_time()</code> to correspond to the actual time difference between them.</li>
+<li>On line 17 <code>ease_aes()</code> is used to linearly smooth the animation (in terms of coloration and the geometric positioning of features) between animation frames. The function is based on analogous functions from the package <em>tweener</em>.</li>
+</ul>
+<p>The package <em>gapminder</em> contains rational color designations (i.e., variations on prime colors within continents) for 142 countries. Countries without a color designation are colored gray by <code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual()</a></code>.</p>
+<div class="sourceCode" id="cb837"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb837-1"><a href="ch7.html#cb837-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb837-2"><a href="ch7.html#cb837-2"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb837-3"><a href="ch7.html#cb837-3"></a>world.data.sub <span class="ot">&lt;-</span> world.emissions <span class="sc">|&gt;</span></span>
+<span id="cb837-4"><a href="ch7.html#cb837-4"></a>  <span class="fu">filter</span>(continent <span class="sc">!=</span> <span class="st">"Redundant"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb837-5"><a href="ch7.html#cb837-5"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1950</span>)</span>
+<span id="cb837-6"><a href="ch7.html#cb837-6"></a></span>
+<span id="cb837-7"><a href="ch7.html#cb837-7"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(world.data.sub, <span class="fu">aes</span>(<span class="at">x =</span> gdp, <span class="at">y =</span> co2, <span class="at">size =</span> population,</span>
+<span id="cb837-8"><a href="ch7.html#cb837-8"></a>                                <span class="at">colour =</span> country)) <span class="sc">+</span></span>
+<span id="cb837-9"><a href="ch7.html#cb837-9"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb837-10"><a href="ch7.html#cb837-10"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> country_colors) <span class="sc">+</span></span>
+<span id="cb837-11"><a href="ch7.html#cb837-11"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb837-12"><a href="ch7.html#cb837-12"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb837-13"><a href="ch7.html#cb837-13"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent) <span class="sc">+</span></span>
+<span id="cb837-14"><a href="ch7.html#cb837-14"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Year: {frame_time}'</span>, <span class="at">x =</span> <span class="st">'GDP'</span>) <span class="sc">+</span></span>
+<span id="cb837-15"><a href="ch7.html#cb837-15"></a>  <span class="fu">ylab</span>(<span class="fu">bquote</span>(CO[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb837-16"><a href="ch7.html#cb837-16"></a>  <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(year)) <span class="sc">+</span></span>
+<span id="cb837-17"><a href="ch7.html#cb837-17"></a>  <span class="fu">ease_aes</span>(<span class="st">'linear'</span>)</span>
+<span id="cb837-18"><a href="ch7.html#cb837-18"></a>  <span class="fu">margin_theme</span>()</span>
+<span id="cb837-19"><a href="ch7.html#cb837-19"></a>g</span></code></pre></div>
+<p>The final result is shown in Fig <a href="ch7.html#fig:weanim1">7.28</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:weanim1"></span>
+<img src="figure/minimal-weanim1-1.gif" alt="Animated scatterplot of CO$_2$ levels over time for countries within continents. Symbol size scaled by population size." width="100%"><p class="caption">
+Figure 7.28: Animated scatterplot of CO<span class="math inline">\(_2\)</span> levels over time for countries within continents. Symbol size scaled by population size.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-ganim3" class="example"><strong>Example 7.19  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The next example uses <em>gganimate</em> to animate variation in CO<span class="math inline">\(_2\)</span> levels over time within continents, using boxplots.</p>
+<div class="sourceCode" id="cb838"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb838-1"><a href="ch7.html#cb838-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(world.data.sub, <span class="fu">aes</span>(<span class="at">x =</span> continent, <span class="at">y =</span> co2,</span>
+<span id="cb838-2"><a href="ch7.html#cb838-2"></a>                           <span class="at">group =</span> continent)) <span class="sc">+</span></span>
+<span id="cb838-3"><a href="ch7.html#cb838-3"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> continent), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb838-4"><a href="ch7.html#cb838-4"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb838-5"><a href="ch7.html#cb838-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Year: {frame_time}'</span>, <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb838-6"><a href="ch7.html#cb838-6"></a>       <span class="at">y =</span> <span class="st">"CO\U2082"</span>) <span class="sc">+</span></span>
+<span id="cb838-7"><a href="ch7.html#cb838-7"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb838-8"><a href="ch7.html#cb838-8"></a>                                   <span class="at">vjust =</span> <span class="fl">0.9</span>, <span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb838-9"><a href="ch7.html#cb838-9"></a>  <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(year))</span>
+<span id="cb838-10"><a href="ch7.html#cb838-10"></a>g</span></code></pre></div>
+<p>The final result is shown in Fig <a href="ch7.html#fig:bpanim1">7.29</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:bpanim1"></span>
+<img src="figure/minimal-bpanim1-1.gif" alt="Animated boxplot of CO$_2$ levels over time for countries within continents." width="100%"><p class="caption">
+Figure 7.29: Animated boxplot of CO<span class="math inline">\(_2\)</span> levels over time for countries within continents.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-ganim3a" class="example"><strong>Example 7.20  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a final (rather complex) example, I animate the non-perennial character of Murphy Creek (Fig <a href="ch7.html#fig:murmap">7.26</a>) over time.</p>
+<p>To prepare for making the map animation, I first bring in a dataset that documents the presence/absence of surface water <span class="math inline">\(=\{0,1\}\)</span> at 28 locations (i.e., nodes) over 1163 time steps, <code>mur_node_pres_abs</code> (Line 1). The 27 stream sections bounded by the the 28 nodes are defined as stream segments. I select from these time designations, at even intervals, to create a data subset of 250 time steps (Lines 2-8).</p>
+<div class="sourceCode" id="cb839"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb839-1"><a href="ch7.html#cb839-1"></a><span class="fu">data</span>(mur_node_pres_abs)</span>
+<span id="cb839-2"><a href="ch7.html#cb839-2"></a>u <span class="ot">&lt;-</span> <span class="fu">unique</span>(mur_node_pres_abs<span class="sc">$</span>Datetime)</span>
+<span id="cb839-3"><a href="ch7.html#cb839-3"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(u)</span>
+<span id="cb839-4"><a href="ch7.html#cb839-4"></a>frames <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb839-5"><a href="ch7.html#cb839-5"></a>times.sub <span class="ot">&lt;-</span> u[<span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">1</span>, n, <span class="at">length =</span> frames),<span class="dv">0</span>)]</span>
+<span id="cb839-6"><a href="ch7.html#cb839-6"></a></span>
+<span id="cb839-7"><a href="ch7.html#cb839-7"></a>w <span class="ot">&lt;-</span> <span class="fu">which</span>(mur_node_pres_abs<span class="sc">$</span>Datetime <span class="sc">%in%</span> times.sub)</span>
+<span id="cb839-8"><a href="ch7.html#cb839-8"></a>mnpa.sub <span class="ot">&lt;-</span> mur_node_pres_abs[w,]</span></code></pre></div>
+<p>In the code below, the function <code><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html">sf::st_coordinates()</a></code> is used to pull spatial coordinates from the Murphy Creek shapefile underlying the map in Fig <a href="ch7.html#fig:murmap">7.26</a>.
+I also use several functions from the <em>streamDAG</em> package, including <code><a href="https://rdrr.io/pkg/streamDAG/man/streamDAGs.html">streamDAGs()</a></code>, which creates a graph-theoretic representation Murphy Creek (see <span class="citation">Aho, Kriloff, et al. (<a href="references.html#ref-aho2023non">2023</a>)</span>), and thus defines how the stream flows from location to location. The function <code><a href="https://rdrr.io/pkg/streamDAG/man/STIC.RFimpute.html">streamDAG::STIC.RFimpute()</a></code> is a wrapper for the random forest algorithm <code><a href="https://rdrr.io/pkg/missForest/man/missForest.html">missForest::missForest()</a></code>, and allows imputation of missing stream presence/absence data from the dataset <code>mur_node_pres_abs</code>. The function <code><a href="https://rdrr.io/pkg/streamDAG/man/arc.pa.from.nodes.html">arc.pa.from.nodes()</a></code> from <em>streamDAG</em> creates stream segment surface water presence/absence outcomes based on data from the downstream bounding node of each segment (<code>approach = "dstream"</code>). The function <code><a href="https://rdrr.io/pkg/streamDAG/man/vector_segments.html">vector_segments()</a></code> from <em>streamDAG</em> is used to create the dataframe <code>vs</code> that contains arcs designations for shapefile coordinates in <code>sf.coords</code>, based on coordinates in the object <code>node.coords</code>, and the function <code><a href="https://rdrr.io/pkg/streamDAG/man/vector_segments.html">assign_pa_to_segments()</a></code> adds surface water presence/absence designations to <code>vs</code> based on outcomes from the object <code>arc.pa</code>, whew.</p>
+<div class="sourceCode" id="cb840"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb840-1"><a href="ch7.html#cb840-1"></a>mur_graph <span class="ot">&lt;-</span> <span class="fu">streamDAGs</span>(<span class="st">"mur_full"</span>)</span>
+<span id="cb840-2"><a href="ch7.html#cb840-2"></a><span class="co"># impute missing presence/absence data</span></span>
+<span id="cb840-3"><a href="ch7.html#cb840-3"></a>out <span class="ot">&lt;-</span> <span class="fu">STIC.RFimpute</span>(mnpa.sub[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb840-4"><a href="ch7.html#cb840-4"></a>mur.pa.sub <span class="ot">&lt;-</span> out<span class="sc">$</span>ximp</span>
+<span id="cb840-5"><a href="ch7.html#cb840-5"></a><span class="co"># arcs from nodes</span></span>
+<span id="cb840-6"><a href="ch7.html#cb840-6"></a>arc.pa <span class="ot">&lt;-</span> <span class="fu">arc.pa.from.nodes</span>(mur_graph, mur.pa.sub, <span class="at">approach =</span> <span class="st">"dstream"</span>)</span>
+<span id="cb840-7"><a href="ch7.html#cb840-7"></a></span>
+<span id="cb840-8"><a href="ch7.html#cb840-8"></a>node.coords <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(mur_coords[,(<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>)])</span>
+<span id="cb840-9"><a href="ch7.html#cb840-9"></a><span class="fu">row.names</span>(node.coords) <span class="ot">&lt;-</span> mur_coords[,<span class="dv">1</span>]</span>
+<span id="cb840-10"><a href="ch7.html#cb840-10"></a>sf.coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(mur_sf)[,<span class="sc">-</span><span class="dv">3</span>]</span>
+<span id="cb840-11"><a href="ch7.html#cb840-11"></a></span>
+<span id="cb840-12"><a href="ch7.html#cb840-12"></a>vs <span class="ot">&lt;-</span> <span class="fu">vector_segments</span>(sf.coords, node.coords, <span class="at">realign =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb840-13"><a href="ch7.html#cb840-13"></a>                      <span class="fu">colnames</span>(arc.pa), <span class="at">arc.symbol =</span> <span class="st">" -&gt; "</span>)</span>
+<span id="cb840-14"><a href="ch7.html#cb840-14"></a>datetime <span class="ot">&lt;-</span> mnpa.sub<span class="sc">$</span>Datetime</span>
+<span id="cb840-15"><a href="ch7.html#cb840-15"></a>vsn <span class="ot">&lt;-</span> <span class="fu">assign_pa_to_segments</span>(vs, frames, arc.pa, <span class="at">datetime =</span> datetime)</span></code></pre></div>
+<p>Using the data summaries created from the steps above, I can finally create an animated ggplot map.</p>
+<div class="sourceCode" id="cb841"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb841-1"><a href="ch7.html#cb841-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mur_sf) <span class="sc">+</span></span>
+<span id="cb841-2"><a href="ch7.html#cb841-2"></a>  <span class="fu">geom_sf</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">lwd =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb841-3"><a href="ch7.html#cb841-3"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb841-4"><a href="ch7.html#cb841-4"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> vsn, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> arc.label,</span>
+<span id="cb841-5"><a href="ch7.html#cb841-5"></a>                            <span class="at">colour =</span> <span class="fu">as.factor</span>(Presence)),</span>
+<span id="cb841-6"><a href="ch7.html#cb841-6"></a>              <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb841-7"><a href="ch7.html#cb841-7"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"orange"</span>,<span class="st">"lightblue"</span>)) <span class="sc">+</span></span>
+<span id="cb841-8"><a href="ch7.html#cb841-8"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> node.coords, <span class="fu">aes</span>(<span class="at">x =</span> E, <span class="at">y =</span> N), <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb841-9"><a href="ch7.html#cb841-9"></a>             <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">1.4</span>) <span class="sc">+</span></span>
+<span id="cb841-10"><a href="ch7.html#cb841-10"></a>  <span class="fu">expand_limits</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">4788562</span>,<span class="dv">4789700</span>)) <span class="sc">+</span></span>
+<span id="cb841-11"><a href="ch7.html#cb841-11"></a>  <span class="fu">annotation_scale</span>() <span class="sc">+</span></span>
+<span id="cb841-12"><a href="ch7.html#cb841-12"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Date: {frame_time}"</span>, <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb841-13"><a href="ch7.html#cb841-13"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">pad_x =</span> <span class="fu">unit</span>(<span class="fl">10.5</span>, <span class="st">"cm"</span>), </span>
+<span id="cb841-14"><a href="ch7.html#cb841-14"></a>                         <span class="at">pad_y =</span> <span class="fu">unit</span>(<span class="fl">6.6</span>, <span class="st">"cm"</span>)) <span class="sc">+</span></span>
+<span id="cb841-15"><a href="ch7.html#cb841-15"></a>  <span class="fu">transition_time</span>(<span class="fu">as.Date</span>(vsn<span class="sc">$</span>Time))</span></code></pre></div>
+<p>The final result, Fig <a href="ch7.html#fig:muranim1">7.30</a>, shows changing patterns of surface water presence at the Murphy Creek network during the summer of 2019.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:muranim1"></span>
+<img src="figure/minimal-muranim1-1.gif" alt="Paterns of drying at Murphy Creek, Idaho shown with an animated map. Blue segments indicate the presence of surface water. Gray segments indicate missing data." width="100%"><p class="caption">
+Figure 7.30: Paterns of drying at Murphy Creek, Idaho shown with an animated map. Blue segments indicate the presence of surface water. Gray segments indicate missing data.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+</div>
+<div id="exercises-6" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-6"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<p>Complete the following data management steps on the <code><a href="https://rdrr.io/pkg/asbio/man/world.emissions.html">asbio::world.emissions</a></code> data.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Eliminate redundant rows using <code>continent != 'Redundant'</code> and <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter</a></code>.</li>
+<li>Filter further to subset the data to the years 1955-2019.</li>
+<li>Filter further to subset the data to 8 countries of interest (your choice).</li>
+<li>Name the dataset <code>emissions.sub</code>.</li>
+<li>For the <code>emissions.sub</code> dataset, plot CO<span class="math inline">\(_2\)</span> emissions as a function of year in a scatterplot. Save the ggplot as an object (e.g., <code>g</code>).</li>
+</ol>
+</li>
+<li>
+<p>Continuing Question 1, overlay a linear regression model on <code>g</code> using <code>geom_smooth(method = "lm")</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Extract fitted model components using <code>g + stat_poly_eq(formula = y ~ x, geom = "debug")</code> from library <em>gginnards</em>. What is the model slope?</li>
+<li>Interpret the meaning of the shaded envelope around the line.</li>
+<li>Annotate the model onto the graph using: <code>g + stat_poly_eq()</code> from library <em>ggpmisc</em>.</li>
+</ol>
+</li>
+<li><p>Continuing Question 1, (1) color points in <code>g</code> by country (use transparency to allow viewing of points laying atop each other), and (2) vary point size by population size.</p></li>
+<li><p>Continuing Question 1, add a label in <code>g</code> identifying US emissions in 2005.</p></li>
+<li><p>Continuing Question 1, use and/or to add reference lines to <code>g</code> (your choice as to relevant <span class="math inline">\(x\)</span> or <span class="math inline">\(y\)</span>-axis location).</p></li>
+<li><p>Continuing Question 1, alter the the <span class="math inline">\(y\)</span>-axis limits in <code>g</code> (your choice of limits).</p></li>
+<li><p>Continuing Question 1, create (1) a boxplot, and (2) an interval plot showing CO<span class="math inline">\(_2\)</span> emissions as a function of country. Interpret the meaning of the hinges, centers, and whiskers of the boxplot and interpret the “errors” in the interval plot.</p></li>
+<li>
+<p>(Advanced) For the dataframe <code>npk</code> in the package <em>datasets</em>, use functions in the the package <em>ggpubr</em> to overlay results of pairwise comparisons of population means on interval plots. Specifically:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Use <code>ggbarplot()</code> to make a barplot showing mean Yields and standard errors as a function of nitrogen <code>N</code> and phosphate <code>P</code>. Vary bar colors using <code>P</code>. Create appropriate axis and legend labels.</li>
+<li>Overlay pairwise comparisons for both <code>N</code> and <code>P</code> levels on the barplot using the function <code>geom_pwc()</code>. Specify <code>method = t_test</code> since multiple tests for N will not occur within levels of P.</li>
+</ol>
+</li>
+<li>
+<p>For the <code><a href="https://rdrr.io/pkg/asbio/man/goats.html">asbio::goats</a></code> dataframe, use ggplot approaches to <span class="math inline">\(\dots\)</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>Make plots of the distribution of <code>NO3</code> using two of the following functions: <code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code>, <code>geom_freq()</code>, <code><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html">geom_dotplot()</a></code>, or <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code>.</li>
+<li>Create a scatterplot of <code>NO3</code> as a function of feces, Change symbol sizes to reflect the values in <code>organic.matter</code>.</li>
+<li>Plot <code>NO3</code> and <code>organic.matter</code> as simultaneous functions of <code>feces</code> by adding a second <em>y</em>-axis.</li>
+</ol>
+</li>
+<li><p>Using <em>gganimate</em>, and the <code><a href="https://rdrr.io/pkg/asbio/man/asthma.html">asbio::asthma</a></code> dataframe, track subject FEV1 levels over time with <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>. Use faceting to distinguish drug levels.</p></li>
+</ol>
+<!-- Probably the easiest to use *ggplot2* function is `qplot()`, short for ``quick plot". The `qplot()` function is designed to be similar to `plot()` in some respects, although `qplot()` can implement a much wider array of plot types than `plot()`.^[It appears that `qplot()` will soon be deprecated in *ggplot2*.] Geoms are specified within `qplot()` using the argument `geom` (Table \@ref(tab:geom)).\index[terms]{Geom} --><!-- \begin{table}[h!] --><!-- \caption{A few geom alternatives for the `qplot()` argument `geom`.} --><!-- \begin{center} --><!-- \rowcolors{1}{RoyalBlue!20}{RoyalBlue!5} --><!-- \renewcommand{\arraystretch}{1.1} --><!-- \begin{tabular}{l|l|l} --><!-- \hline --><!-- Plot type & `geom` argument  & Note                                                                                                      \\ \hline --><!-- Scatterplot   & `"point"`  & \begin{tabular}[c]{@{}l@{}} Default graphic if both `x` and `y` \\ coordinates are supplied.\end{tabular}         \\ --><!-- Smoother plot & `"smooth"` & \begin{tabular}[c]{@{}l@{}} Fits smoother(s) and standard \\ error(s).\end{tabular}                           \\ --><!-- Boxplot       &  `"boxplot"` & \begin{tabular}[c]{@{}l@{}} Box-and-whisker plot if `x` is \\ categorical and `y` is \\ quantitative\end{tabular} \\ --><!-- Line plot     & `"line"`  & \begin{tabular}[c]{@{}l@{}} Joins points with a line from \\ left to right. \end{tabular} \\ --><!-- \hline --><!-- \end{tabular}                     --><!-- \end{center} --><!-- {#tab:geom} --><!-- \end{table} --><!-- In Fig \@ref(fig:qplot) we use `qplot()` to examine the association of soil N and pH from the `varchem` data using three geoms: `"point"`, `"line"`, `"smooth"`).  These approaches will be explored more thoroughly later in this chapter. --><!-- \begin{figure}[H] --><!-- ```{r eval =T, echo = T, fig.width=6.5, fig.height=5.4, out.width='.6\\linewidth', message = F, warning = F} --><!-- library(vegan); data(varechem) --><!-- library(ggplot2) --><!-- with(varechem, qplot(N, pH, xlab = "% soil N", --><!--                      geom = c("point", "line", "smooth"))) --><!-- ``` --><!-- \caption{The simultaneous use of three `qplot()` geoms.  Probably not a great idea here.} --><!-- {#fig:qplot} --><!-- \end{figure} --><!-- \index[R]{`ggplot2::qplot()`} --><!-- Using functions to produce geom overlays allows much greater flexibility for creating graphs.   -->
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></div>
+<div class="next"><a href="ch8.html"><span class="header-section-number">8</span> Functions</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch7"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="nav-link" href="#grid-graphics"><span class="header-section-number">7.1</span> Grid Graphics</a></li>
+<li><a class="nav-link" href="#lattice"><span class="header-section-number">7.2</span> lattice</a></li>
+<li>
+<a class="nav-link" href="#ggplot2"><span class="header-section-number">7.3</span> ggplot2</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ggplot"><span class="header-section-number">7.3.1</span> ggplot()</a></li>
+<li><a class="nav-link" href="#gat"><span class="header-section-number">7.3.2</span> Geoms, Aesthetics, and Themes</a></li>
+<li><a class="nav-link" href="#boxplots-1"><span class="header-section-number">7.3.3</span> Boxplots</a></li>
+<li><a class="nav-link" href="#saving-plots"><span class="header-section-number">7.3.4</span> Saving Plots</a></li>
+<li><a class="nav-link" href="#line-plots"><span class="header-section-number">7.3.5</span> Line Plots</a></li>
+<li><a class="nav-link" href="#scatterplots-1"><span class="header-section-number">7.3.6</span> Scatterplots</a></li>
+<li><a class="nav-link" href="#ggtrans"><span class="header-section-number">7.3.7</span> Transformations</a></li>
+<li><a class="nav-link" href="#adding-model-fits"><span class="header-section-number">7.3.8</span> Adding Model Fits</a></li>
+<li><a class="nav-link" href="#annotations-in-graphs"><span class="header-section-number">7.3.9</span> Annotations in Graphs</a></li>
+<li><a class="nav-link" href="#secondary-axes-1"><span class="header-section-number">7.3.10</span> Secondary Axes</a></li>
+<li><a class="nav-link" href="#defining-graphical-features-using-vectors"><span class="header-section-number">7.3.11</span> Defining Graphical Features using Vectors</a></li>
+<li><a class="nav-link" href="#modifying-legends"><span class="header-section-number">7.3.12</span> Modifying Legends</a></li>
+<li><a class="nav-link" href="#multiple-plots-1"><span class="header-section-number">7.3.13</span> Multiple plots</a></li>
+<li><a class="nav-link" href="#univariate-distributional-summaries"><span class="header-section-number">7.3.14</span> Univariate Distributional Summaries</a></li>
+<li><a class="nav-link" href="#barplots-1"><span class="header-section-number">7.3.15</span> Barplots</a></li>
+<li><a class="nav-link" href="#interval-plots-1"><span class="header-section-number">7.3.16</span> Interval Plots</a></li>
+<li><a class="nav-link" href="#trellis-plots-with-faceting"><span class="header-section-number">7.3.17</span> Trellis Plots with Faceting</a></li>
+<li><a class="nav-link" href="#multivariate-distributional-summaries"><span class="header-section-number">7.3.18</span> Multivariate Distributional Summaries</a></li>
+<li><a class="nav-link" href="#maps"><span class="header-section-number">7.3.19</span> Maps</a></li>
+<li><a class="nav-link" href="#animation-1"><span class="header-section-number">7.3.20</span> Animation</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises-6">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

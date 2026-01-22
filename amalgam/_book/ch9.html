@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 9 R Interfaces | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content='“You should try things; R won’t break."  - Duncan Murdoch, from R-help (May 2016) Code from other languages can be interfaced to R at the command line prompt and within R scripts. For instance, we...'>
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 9 R Interfaces | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content='“You should try things; R won’t break."  - Duncan Murdoch, from R-help (May 2016) Code from other languages can be interfaced to R at the command line prompt and within R scripts. For instance, we...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 9 R Interfaces | An Amalgam of R">
+<meta name="twitter:description" content='“You should try things; R won’t break."  - Duncan Murdoch, from R-help (May 2016) Code from other languages can be interfaced to R at the command line prompt and within R scripts. For instance, we...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="active" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch9" class="section level1" number="9">
+<h1>
+<span class="header-section-number">9</span> R Interfaces<a class="anchor" aria-label="anchor" href="#ch9"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“You should try things; <strong>R</strong> won’t break."</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Duncan Murdoch</strong>, <em>from <strong>R</strong>-help (May 2016)</em></p>
+</div>
+<p>Code from other languages can be interfaced to <strong>R</strong> at the command line prompt and within <strong>R</strong> scripts. For instance, we have already considered the use of Perl regex calls for managing character strings in Ch <a href="ch4.html#ch4">4</a> (Section <a href="ch4.html#regex">4.3</a>). Other examples include code interfaces from C, C++ (via package <em>Rcpp</em>, <span class="citation">Eddelbuettel et al. (<a href="references.html#ref-edRcpp">2023</a>)</span>, <span class="citation">Eddelbuettel (<a href="references.html#ref-eddbook">2013</a>)</span>, <span class="citation">Eddelbuettel and Balamuta (<a href="references.html#ref-eddTAS">2018</a>)</span>), Fortran, MATLAB (via package <em>R.matlab</em>, <span class="citation">Bengtsson (<a href="references.html#ref-bengtsson">2022</a>)</span>), Python (via package <em>reticulate</em>, <span class="citation">Ushey, Allaire, and Tang (<a href="references.html#ref-ushey">2023</a>)</span>), Java (via package <em>rJava</em>, <span class="citation">Urbanek (<a href="references.html#ref-urbanak">2021</a>)</span>). <strong>R</strong> can also be called <em>from</em> a number of different languages including C and C++ (see package <em>RInside</em>, <span class="citation">Eddelbuettel, Francois, and Bachmeier (<a href="references.html#ref-edd">2023</a>)</span>), Java (via the Java package <em>RCaller</em>, <span class="citation">Satman (<a href="references.html#ref-satman2014">2014</a>)</span>), or Python (via the Python package, <a href="https://github.com/rpy2"><em>rpy2</em></a>). For instance, the <strong>R</strong> package <em>RCytoscape</em>, from the <a href="https://bioconductor.org/">Bioconductor project</a>, allows cross-communication between the popular Java-driven software for molecular networks <a href="https://cytoscape.org/">Cytoscape</a>, and <strong>R</strong>.</p>
+<p>There are costs and benefits to interfacing with <strong>R</strong> to and from other languages <span class="citation">(<a href="references.html#ref-chambers2008">Chambers 2008</a>)</span>. Costs include:</p>
+<ul>
+<li>Non interpreted languages (see Section <a href="ch9.html#interp">9.1</a> immediately below) will require compilation. Therefore it may be wise to limit such code to package-development applications (Ch <a href="ch10.html#ch10">10</a>) since <strong>R</strong> built-in procedures can facilitate this process during package building.</li>
+<li>Interfacing with older low level languages (e.g., Fortran and C (Section <a href="ch9.html#FC">9.3</a>)) increases the possibility for programming errors, often with serious consequences, including memory faults. That is, <em>bugs bite</em>!</li>
+<li>Interfacing with some languages may increase the possibility for programs being limited to specific platforms.</li>
+<li>
+<strong>R</strong> programs can often be written more succinctly. For instance, <span class="citation">Morandat et al. (<a href="references.html#ref-morandat2012">2012</a>)</span> found that <strong>R</strong> programs are about 40% smaller than analogous programs written in C.</li>
+</ul>
+<p>Despite these issues, there are a number of strong potential benefits. These include:</p>
+<ul>
+<li>A huge number of useful, well-tested, algorithms have been written in other languages, and it is often straightforward to interface these procedures through <strong>R</strong>.<br>
+</li>
+<li>The system speed of other languages may be much better than <strong>R</strong> for many tasks. For instance, algorithms written in non-interpreted languages, are often much faster than corresponding procedures written in <strong>R</strong>.</li>
+<li>Non-OOP languages may be more efficient than <strong>R</strong> with respect to memory usage.</li>
+</ul>
+<p>This chapter considers interfaces with several important programming languages, including Fortran, C, C++, and particularly, Python. Interfaces with languages used primarily for GUI generation and web-based applications, for example, Tcl/Tk, JavaScript, JavaScript Object Notation (JSON), HTML, and Cascading Style Sheets (CSS), are considered in Ch <a href="ch11.html#ch11">11</a>.</p>
+<p>To account for the frequent use of distinct computer languages in this chapter, the following chunk coloring conventions will be used hereafter in this book<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The chunks here show the methods for leaving comments in code. For &lt;strong&gt;R&lt;/strong&gt;, Fortran, (C and C++), Python, and Windows shell, these are &lt;code&gt;#&lt;/code&gt;, &lt;code&gt;!&lt;/code&gt;, &lt;code&gt;//&lt;/code&gt;, &lt;code&gt;#&lt;/code&gt;, and &lt;code&gt;::&lt;/code&gt;, respectively.&lt;/p&gt;"><sup>79</sup></a>:</p>
+<div class="sourceCode" id="cb1045"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># R code</span></span></code></pre></div>
+<pre class="fortran95 custom-outputF"><code>! Fortan code</code></pre>
+<div class="sourceCode" id="cb1047"><pre class="sourceCode c custom-outputC"><code class="sourceCode c"><span id="cb1047-1"><a href="ch9.html#cb1047-1" tabindex="-1"></a><span class="co">// C and C++ code</span></span></code></pre></div>
+<div class="sourceCode" id="cb1048"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1048-1"><a href="ch9.html#cb1048-1" tabindex="-1"></a><span class="co"># Python code</span></span></code></pre></div>
+<div class="sourceCode" id="cb1049"><pre class="sourceCode bash custom-cmd"><code class="sourceCode bash"><span id="cb1049-1"><a href="ch9.html#cb1049-1" tabindex="-1"></a><span class="ex">::</span> Shell command line</span></code></pre></div>
+<p>
+</p>
+<div id="interp" class="section level2" number="9.1">
+<h2>
+<span class="header-section-number">9.1</span> Interpreted versus Compiled Languages<a class="anchor" aria-label="anchor" href="#interp"><i class="fas fa-link"></i></a>
+</h2>
+<p>Along with many other useful languages (e.g., Python, JavaScript), <strong>R</strong> is generally applied as an interpreted language. Interpreted code must be translated into binary before it can be executed. This process can slow down function run times, particularly if the function includes iterative procedures like loops. Non-interpreted (compiled) languages include C, Fortran, and Java. For these languages, a compiler (a translation program) is used to transform the source code into a target “object” language, which is generally binary (Ch <a href="ch11.html#ch11">11</a>). The end product of the compilation is called an executable file (Figure <a href="ch9.html#fig:compiled">9.1</a>). Executables from other languages can be called from within <strong>R</strong> to run <strong>R</strong> functions and procedures.</p>
+<p>
+</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:compiled"></span>
+<img src="figs9/compile.png" alt="Creating an executable file in a compiled language." width="96%"><p class="caption">
+Figure 9.1: Creating an executable file in a compiled language.
+</p>
+</div>
+<div class="sourceCode" id="cb1050"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_knit.html">opts_knit</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">'rmarkdown.pandoc.to'</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "html"</code></pre>
+</div>
+<div id="markint" class="section level2" number="9.2">
+<h2>
+<span class="header-section-number">9.2</span> Interfacing with R Markdown/RStudio<a class="anchor" aria-label="anchor" href="#markint"><i class="fas fa-link"></i></a>
+</h2>
+<p>Language and program interfacing with <strong>R</strong> is often greatly facilitated through the use of <strong>R</strong> Markdown chunks. This is because many languages other than <strong>R</strong> are supported by <strong>R</strong> Markdown, via <em>knitr</em>. The language definition for a particular <strong>R</strong> Markdown chunk is given by the first term in that chunk. For instance, <code>```{r} ```</code> initiates a conventional <strong>R</strong> code chunk, whereas <code>```{python}```</code> initiates a Python code chunk. Here are the current <strong>R</strong> Markdown language engines (note that items 52-64 are not explicit computer languages).</p>
+<div class="sourceCode" id="cb1052"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/knit_engines.html">knit_engines</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] "awk"         "bash"        "coffee"      "gawk"        "groovy"     
+ [6] "haskell"     "lein"        "mysql"       "node"        "octave"     
+[11] "perl"        "php"         "psql"        "Rscript"     "ruby"       
+[16] "sas"         "scala"       "sed"         "sh"          "stata"      
+[21] "zsh"         "asis"        "asy"         "block"       "block2"     
+[26] "bslib"       "c"           "cat"         "cc"          "comment"    
+[31] "css"         "ditaa"       "dot"         "embed"       "eviews"     
+[36] "exec"        "fortran"     "fortran95"   "go"          "highlight"  
+[41] "js"          "julia"       "python"      "R"           "Rcpp"       
+[46] "sass"        "scss"        "sql"         "stan"        "targets"    
+[51] "tikz"        "verbatim"    "theorem"     "lemma"       "corollary"  
+[56] "proposition" "conjecture"  "definition"  "example"     "exercise"   
+[61] "hypothesis"  "proof"       "remark"      "solution"    "glue"       
+[66] "glue_sql"    "gluesql"    </code></pre>
+<p>As evident in the output above, <strong>R</strong> Markdown engines extend to compiled languages including Fortran (engine = <code>fortran</code>) and C (engine = <code>c</code>). Ideally, this is accomplished by compiling source code in a chunk in an on-the-fly, automated step, using native <strong>R</strong> compilers, and automatically loading the resulting compiled executable for potential calls in <strong>R</strong> chunks <span class="citation">(<a href="references.html#ref-xie2020">Xie, Dervieux, and Riederer 2020</a>)</span>. This process may be hampered, however, by a number of factors including non-administrator permissions and environmental path definitions, particularly on Windows computers. As a result, I present more complex, but more dependable method for code compilation and execution here.</p>
+</div>
+<div id="FC" class="section level2" number="9.3">
+<h2>
+<span class="header-section-number">9.3</span> Fortran and C<a class="anchor" aria-label="anchor" href="#FC"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+<strong>S</strong>, the progenitor of <strong>R</strong>, was created at a time when Fortran routines dominated numerical programming, and <strong>R</strong> arose when C was approaching its peak in popularity. As a result, strong connections to those languages, particularly C, remain in <strong>R</strong><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;As noted in Ch 1, Fortran is one of the oldest programming languages still in active use. Specifically, although Fortran’s development followed an IBM proposal for an alternative to assembly language in 1953 &lt;span class="citation"&gt;(&lt;a href="references.html#ref-backus"&gt;Backus 1998&lt;/a&gt;)&lt;/span&gt;, and the first correctly compiled version of Fortran occurred in 1958, Fortran remains among the top programming languages in the &lt;a href="@https://www.tiobe.com/tiobe-index/"&gt;TIOBE index&lt;/a&gt; &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikifor"&gt;Wikipedia 2024d&lt;/a&gt;)&lt;/span&gt;. C is a widely-used general programming language developed during the 1970s &lt;span class="citation"&gt;(&lt;a href="references.html#ref-ritchie1993develC"&gt;Ritchie 1993&lt;/a&gt;)&lt;/span&gt;. Recall that early iterations of &lt;strong&gt;S&lt;/strong&gt; were strongly dependent on Fortran procedures (Section &lt;a href="ch1.html#Rhist"&gt;1.4&lt;/a&gt;). Further, because &lt;strong&gt;R&lt;/strong&gt; is largely written in C, it is not surprising that the most direct language for interfacing with &lt;strong&gt;R&lt;/strong&gt; is C &lt;span class="citation"&gt;(&lt;a href="references.html#ref-chambers2008"&gt;Chambers 2008&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>80</sup></a>. <strong>R</strong> contains specific base functions for interfacing with both C and Fortran executables: <code><a href="https://rdrr.io/r/base/Foreign.html">.C()</a></code> and <code><a href="https://rdrr.io/r/base/Foreign.html">.Fortran()</a></code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The &lt;a href="https://cran.r-project.org/doc/manuals/R-exts.html"&gt;Writing &lt;strong&gt;R&lt;/strong&gt; Extensions&lt;/a&gt; guide details several potential problems with &lt;code&gt;.Fortran()&lt;/code&gt;, including issues with passing character strings, and the fact that &lt;code&gt;.Fortran()&lt;/code&gt; was primarily intended for Fortran 77 code, which precludes any support for ‘modern’ Fortran. The guide notes that a better way to interface modern Fortran code is using &lt;code&gt;.C()&lt;/code&gt;, and writing a C interface using &lt;em&gt;use iso_c_binding&lt;/em&gt;, a standard Fortran 2003 module that defines named constants, types, and procedures for C interoperability.
+&lt;/p&gt;'><sup>81</sup></a>, respectively. More flexible general interface functions, which were introduced in later versions of <strong>R</strong>, and may have better performance characteristics, include <code><a href="https://rdrr.io/r/base/CallExternal.html">.Call()</a></code> and <code><a href="https://rdrr.io/r/base/CallExternal.html">.External()</a></code>.<br></p>
+<p>Recall that an <strong>R</strong> object of class numeric will be automatically assigned to base type <code>double</code>, although it can be coerced to base type <code>integer</code> (this will potentially result in information loss through the elimination of its “decimal” component). Fortran, C, and many other languages require explicit user-assignments for underlying base types.</p>
+<p>If one is interfacing <strong>R</strong> with Fortran or C, only a limited number of base types are possible (Table <a href="ch9.html#tab:CRF">9.1</a>), and one will need to use appropriate coercion functions for <strong>R</strong> objects if one wishes to use those objects in Fortran or C scripts<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Specifically, the functions &lt;code&gt;.C()&lt;/code&gt; and &lt;code&gt;.Call&lt;/code&gt; expect that &lt;strong&gt;R&lt;/strong&gt;-dependent code will be used. The functions &lt;code&gt;.C()&lt;/code&gt; and &lt;code&gt;.Fortran()&lt;/code&gt;, assume that &lt;strong&gt;R&lt;/strong&gt; objects will not be directly used in algorithms.&lt;/p&gt;"><sup>82</sup></a>. Interfaced C script arguments must be pointers<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;A pointer is a variable used to store the memory address of another variable as its value.&lt;/p&gt;"><sup>83</sup></a> and arguments in Fortran scripts must be arrays for the types given in Table <a href="ch9.html#tab:CRF">9.1</a>.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:CRF">Table 9.1: </span>Correpsonding types for <strong>R</strong>, C, and Fortran. Table adapted from <span class="citation">Chambers (<a href="references.html#ref-chambers2008">2008</a>)</span>.</caption>
+<colgroup>
+<col width="22%">
+<col width="33%">
+<col width="18%">
+<col width="26%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">
+<strong>R</strong> base type</th>
+<th align="left">
+<strong>R</strong> coercion function</th>
+<th align="left">C type</th>
+<th align="left">Fortran type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>logical</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code></td>
+<td align="left"><code>int *</code></td>
+<td align="left"><code>integer</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>integer</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code></td>
+<td align="left"><code>int *</code></td>
+<td align="left"><code>integer</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>double</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/double.html">as.double()</a></code></td>
+<td align="left"><code>double *</code></td>
+<td align="left"><code>double precision</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>complex</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/complex.html">as.complex()</a></code></td>
+<td align="left"><code>Rcomplex *</code></td>
+<td align="left"><code>double complex</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>charater</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code></td>
+<td align="left"><code>char **</code></td>
+<td align="left"><code>character*255</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>raw</code></td>
+<td align="left"><code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code></td>
+<td align="left"><code>char *</code></td>
+<td align="left">none</td>
+</tr>
+</tbody>
+</table></div>
+<div id="compile" class="section level3" number="9.3.1">
+<h3>
+<span class="header-section-number">9.3.1</span> Compiling Executables<a class="anchor" aria-label="anchor" href="#compile"><i class="fas fa-link"></i></a>
+</h3>
+<p>Raw Fortran source code is generally saved as an .f, or (.f90 or .f95; modern Fortran) file, whereas C source code is saved as an .c file. One can create a file with the correct file type extension by using <code><a href="https://rdrr.io/r/base/files.html">file.create()</a></code>. For example, below I create a file called <code>foo.f90</code> that I can open (from my working directory) in a text editor (e.g., Notepad, RStudio) to build a Fortran script.</p>
+<div class="sourceCode" id="cb1054"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.create</a></span><span class="op">(</span><span class="st">"foo.f90"</span><span class="op">)</span></span></code></pre></div>
+<p></p>
+<p>Windows executable files compiled from source code will generally have an .exe or .cmd extension, whereas Mac OS executable files generally have have .app extension. For use in <strong>R</strong>, however, these files must be shared library executables (see below), with .dll and .so extensions for Windows and Unix-alike (e.g., Mac-OS) operating systems, respectively. Shared library objects are different from conventional executables in that they cannot be evaluated directly. In this case, <strong>R</strong> will be required as the executable entry point<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The extension .dll identifies a Windows &lt;em&gt;dynamic-link library&lt;/em&gt; (DLL) file, whereas the extension .so stands for &lt;em&gt;shared object&lt;/em&gt; or &lt;em&gt;shared library&lt;/em&gt; file.&lt;/p&gt;"><sup>84</sup></a>.
+</p>
+<p><strong>R</strong> contains shared library compilers for Fortran and C within the <code>Rcmd</code> executable, which is located in the <strong>R</strong> bin directory, along with several other important executables. <code>Rcmd</code> is typically invoked from a shell command line (in Windows one can access this editor by typing <code>cmd</code> in the Search bar) using the format: <code>R CMD command args</code>. Here <code>command</code> is currently one of <code>INSTALL</code>, <code>REMOVE</code>, <code>SHLIB</code>, <code>BATCH</code>, <code>build</code>, <code>check</code>, <code>Rprof</code>, <code>Rdconfig</code>, <code>Rdiff</code>, <code>Rd2pdf</code>, <code>Stangle</code>, <code>Sweave</code>, <code>config</code>, <code>open</code>, and <code>texify</code>, and <code>args</code> defines arguments specific to the <code>R CMD</code> command. The shell script:</p>
+<div class="sourceCode" id="cb1055"><pre class="sourceCode r custom-cmd"><code class="sourceCode r"><span id="cb1055-1"><a href="ch9.html#cb1055-1" tabindex="-1"></a>R CMD SHLIB foo</span></code></pre></div>
+<p>
+will prompt the building of a shared library object from the user-defined script <code>foo</code>, which is generally Fortran or C source code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;&lt;code&gt;SHLIB&lt;/code&gt; stands for &lt;em&gt;shared library&lt;/em&gt;.&lt;/p&gt;"><sup>85</sup></a>. The compilation of shared libraries will be facilitated by the installation of the toolbox bundle <a href="https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html">Rtools</a> along an accessible environmental path.</p>
+<p>Notably, the <code>SHLIB</code> compilers will only work for Fortran code written as a subroutine<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;A Fortran subroutine is invoked with a &lt;code&gt;CALL&lt;/code&gt; statement. Unlike a Fortran function, which returns a single value, a subroutine can return many (or no) values.&lt;/p&gt;"><sup>86</sup></a> and C code written in void formats<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Void functions in C are used for their side effects, such as performing a task or writing to output.&lt;/p&gt;"><sup>87</sup></a>. As a result, neither code type will return a value directly<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Several other &lt;code&gt;R CMD&lt;/code&gt; commands are addressed in Ch &lt;a href="ch10.html#ch10"&gt;10&lt;/a&gt;, including &lt;code&gt;INSTALL&lt;/code&gt;, &lt;code&gt;check&lt;/code&gt;, &lt;code&gt;BATCH&lt;/code&gt;, &lt;code&gt;build&lt;/code&gt;, AND &lt;code&gt;Rd2pdf&lt;/code&gt;&lt;/p&gt;'><sup>88</sup></a>.</p>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-c91" class="example"><strong>Example 9.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here is a simple example for calling Fortran and C compiled executables, from <strong>R</strong>, to speed up looping. The content follows <a href="http://users.stat.umn.edu/~geyer/rc/">class notes</a> created by Charles Geyer at the University of Minnesota. Clearly, the example could also be run without looping. Equation <a href="ch9.html#eq:ftoc">(9.1)</a> shows the simple formula for converting temperature measurements in degrees Fahrenheit to degrees Celsius.</p>
+<p><span class="math display" id="eq:ftoc">\[\begin{equation}
+C = 5/9(F - 32)
+\tag{9.1}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(C\)</span> and <span class="math inline">\(F\)</span> denote temperatures in Celsius and Fahrenheit, respectively.</p>
+<p>Here is a Fortan subroutine for calculating Celsius temperatures from a dataset of Fahrenheit measures, using a loop.</p>
+<div class="sourceCode" id="cb1056"><pre class="sourceCode numberSource fortran custom-outputF numberLines"><code class="sourceCode fortranfixed"><span id="cb1056-1"><a href="ch9.html#cb1056-1"></a><span class="kw">subroutine</span> FtoC(n, x)</span>
+<span id="cb1056-2"><a href="ch9.html#cb1056-2"></a><span class="dt">integer</span> n</span>
+<span id="cb1056-3"><a href="ch9.html#cb1056-3"></a><span class="dt">double precision</span> x(n)</span>
+<span id="cb1056-4"><a href="ch9.html#cb1056-4"></a><span class="dt">integer</span> i</span>
+<span id="cb1056-5"><a href="ch9.html#cb1056-5"></a><span class="kw">do</span> <span class="dv">100</span> i <span class="kw">=</span> <span class="dv">1</span>, n</span>
+<span id="cb1056-6"><a href="ch9.html#cb1056-6"></a>x(i) <span class="kw">=</span> (x(i)<span class="kw">-</span><span class="dv">32</span>)<span class="kw">*</span>(<span class="fl">5.</span><span class="kw">/</span><span class="fl">9.</span>)</span>
+<span id="cb1056-7"><a href="ch9.html#cb1056-7"></a><span class="dv">100</span> <span class="kw">continue</span></span>
+<span id="cb1056-8"><a href="ch9.html#cb1056-8"></a><span class="kw">end</span></span></code></pre></div>
+<p>The Fortran code above consists of the following steps:</p>
+<ul>
+<li>On Line 1 a subroutine is invoked using the Fortran function <code>subroutine</code>. The subroutine is named <code>FtoC</code>, and has arguments <code>x</code> (the Fahrenheit temperatures) and <code>n</code> (the number of temperatures)</li>
+<li>On Line 2 the entry given for <code>n</code> is defined to be an integer (Table <a href="ch9.html#tab:CRF">9.1</a>).</li>
+<li>On Line 3 we define <code>x</code> to be a double precision numeric vector of length <code>n</code>.</li>
+<li>On Line 4 we define that the looping index to be used, <code>i</code>, will be an integer.</li>
+<li>On Lines 5-7 we proceed with a Fortran <code>do</code> loop. The code <code>do 100 i = 1, n</code> means that the loop will 1) run initially up to 100 times, 2) has a lower limit of 1, and 3) has an upper limit of <code>n</code>. The code: <code>x(i) = (x(i)-32)*(5./9.)</code> calculates Eq. <a href="ch9.html#eq:ftoc">(9.1)</a>. The code <code>5./9.</code> is used because the result of the division can be a non-integer. The code <code>100 continue</code> allows the loop to continue to <code>n</code>.</li>
+<li>On Line 8 the subroutine ends. All Fortran scripts must end with <code>end</code>.</li>
+</ul>
+<p>I save the code under the filename <code>FtoC.f90</code>, and transfer it to an appropriate directory (I use <code>C:/Users/ahoken/Documents/Amalgam/Amalgam_Bookdown/scripts/</code>). I then open a shell editor (the Windows command shell can be accessed by typing <code>cmd</code> in the Search bar), and navigate to the <strong>R</strong> bin\x64 directory. For my Windows machine, the address will be: <code>C:\Program Files\R-4.4.1\bin\x64</code>.</p>
+<p>The shell language for Windows is somewhat similar to the POSIX (Portable Operating System Interface) compliant shell language generally used by Unix-like systems (guidance can be found <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands">here</a>). For instance, the command <code>cd</code> changes directories, and the command <code>cd ..</code> navigates <em>up</em> (toward the root directory).</p>
+<p></p>
+<p>I compile <code>FtoC.f90</code> using the script <code>R CMD SHLIB FtoC.f90</code>. Thus, at the shell command line I enter:</p>
+<div class="sourceCode" id="cb1057"><pre class="sourceCode default custom-cmd"><code class="sourceCode default"><span id="cb1057-1"><a href="ch9.html#cb1057-1" tabindex="-1"></a>cd C:\Program Files\R\R-4.4.2\R\bin\x64  </span>
+<span id="cb1057-2"><a href="ch9.html#cb1057-2" tabindex="-1"></a>R CMD SHLIB C:/Users/ahoken/Documents/Amalgam/Amalgam_Bookdown/scripts/FtoC.f90</span></code></pre></div>
+<p>Note the change from back slashes to (Unix-style) forward slashes when specifying addresses for <code>SHLIB</code>.
+The command above creates the compiled Fortran executable <code>FtoC.dll</code>. Specifically, the Fortran compiler, GNU Fortran (GCC), is used to create a Unix-style shared library <code>FtoC.o</code> (GCC is short for GNU compiler collection). This file is then converted to a .dll file, aided by the RTools GCC 10/MinGW-w64 compiler toolchain. By default, the .dll is saved the directory that contained the source code. The compilation process can be followed (with difficulty) in the cryptic shell output below:
+</p>
+<p><img src="figs9/cl2_2n.png" width="100%" style="display: block; margin: auto;"><br>
+Here is an analogous C loop function for converting Fahrenheit to Celsius.</p>
+<div class="sourceCode" id="cb1058"><pre class="sourceCode numberSource c custom-outputC numberLines"><code class="sourceCode c"><span id="cb1058-1"><a href="ch9.html#cb1058-1"></a></span>
+<span id="cb1058-2"><a href="ch9.html#cb1058-2"></a><span class="dt">void</span> ftocc<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>nin<span class="op">,</span> <span class="dt">double</span> <span class="op">*</span>x<span class="op">)</span></span>
+<span id="cb1058-3"><a href="ch9.html#cb1058-3"></a><span class="op">{</span></span>
+<span id="cb1058-4"><a href="ch9.html#cb1058-4"></a>  <span class="dt">int</span> n <span class="op">=</span> nin<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb1058-5"><a href="ch9.html#cb1058-5"></a>  <span class="dt">int</span> i<span class="op">;</span></span>
+<span id="cb1058-6"><a href="ch9.html#cb1058-6"></a>  <span class="cf">for</span> <span class="op">(</span>i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb1058-7"><a href="ch9.html#cb1058-7"></a>    x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>x<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> <span class="dv">32</span><span class="op">)</span> <span class="op">*</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">9</span><span class="op">;</span></span>
+<span id="cb1058-8"><a href="ch9.html#cb1058-8"></a><span class="op">}</span></span></code></pre></div>
+<p>The C code above consists of the following steps.</p>
+<ul>
+<li>Line 1 is a line break. This currently appears to be required for the compilation of C void functions in <code>SHLIB</code>.</li>
+<li>On Line 2 a <code>void</code> function is initialized with two arguments. The code <code>int *nin</code> means “access the value that <code>nin</code> points to and define it as an integer.” The code <code>double *x</code> means: “access the value that <code>x</code> points to and define it as double precision.”</li>
+<li>Lines 8-9 define the C <code>for</code> loop. These loops have the general format: <code>for ( init; condition; increment ) {statement(s); }</code>. The <code>init</code> step is executed first and only once. Next the <code>condition</code> is evaluated. If true, the loop is executed. The syntax <code>i++</code> literally means: <code>i = i + 1</code>.</li>
+</ul>
+<!-- % \begin{center} --><!-- % \includegraphics[width=.48\textwidth]{figs/ftocC.png} --><!-- % \end{center} --><p>One again, I save the source code, <code>FtoCc.c</code>, within an appropriate directory. I compile the code using the command <code>R CMD SHLIB FtoCc.c</code>. Thus, at the shell command line I enter:</p>
+<div class="sourceCode" id="cb1059"><pre class="sourceCode default custom-cmd"><code class="sourceCode default"><span id="cb1059-1"><a href="ch9.html#cb1059-1" tabindex="-1"></a>cd C:\Program Files\R\R-4.4.2\R\bin\x64  </span>
+<span id="cb1059-2"><a href="ch9.html#cb1059-2" tabindex="-1"></a>R CMD SHLIB C:/Users/ahoken/Documents/Amalgam/Amalgam_Bookdown/scripts/FtoCc.c </span></code></pre></div>
+<p>This creates the shared library executable <code>FtoCc.dll</code>.</p>
+<div class="inline-figure"><img src="figs9/cl3_2n.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Below is an <strong>R</strong>-wrapper that can call the Fortran executable, <code>call = "Fortran"</code>, the C executable, <code>call = "C"</code>, or use <strong>R</strong> looping, <code>call = "R"</code>. Several new functions are used. On Line 10 the function <code><a href="https://rdrr.io/r/base/dynload.html">dyn.load()</a></code> is used to load the shared Fortran library file <code>FtoC.dll</code>, while on Lines 14-15 <code><a href="https://rdrr.io/r/base/dynload.html">dyn.load()</a></code> loads the shared C library file <code>FtoCc.dll</code>. Note that the variable <code>nin</code> is pointed toward <code>n</code>, and <code>x</code> is included as an argument in <code><a href="https://rdrr.io/r/base/dynload.html">dyn.load()</a></code> on Line 15. On Line 11 the function <code><a href="https://rdrr.io/r/base/Foreign.html">.Fortran()</a></code> is used to execute <code>FtoC.dll</code>, and on Line 16 <code><a href="https://rdrr.io/r/base/Foreign.html">.C()</a></code> is used to execute <code>FtoCc.dll</code>.</p>
+<div class="sourceCode" id="cb1060"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1060-1"><a href="ch9.html#cb1060-1"></a>F2C <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">call =</span> <span class="st">"R"</span>){</span>
+<span id="cb1060-2"><a href="ch9.html#cb1060-2"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb1060-3"><a href="ch9.html#cb1060-3"></a>  <span class="cf">if</span>(call <span class="sc">==</span> <span class="st">"R"</span>){</span>
+<span id="cb1060-4"><a href="ch9.html#cb1060-4"></a>    out <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb1060-5"><a href="ch9.html#cb1060-5"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb1060-6"><a href="ch9.html#cb1060-6"></a>    out[i] <span class="ot">&lt;-</span> (x[i] <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)</span>
+<span id="cb1060-7"><a href="ch9.html#cb1060-7"></a>    }</span>
+<span id="cb1060-8"><a href="ch9.html#cb1060-8"></a>  }</span>
+<span id="cb1060-9"><a href="ch9.html#cb1060-9"></a>  <span class="cf">if</span>(call <span class="sc">==</span> <span class="st">"Fortran"</span>){</span>
+<span id="cb1060-10"><a href="ch9.html#cb1060-10"></a>    <span class="fu">dyn.load</span>(<span class="st">"C:/Users/ahoken/Documents/Amalgam/Amalgam_Bookdown/scripts/FtoC.dll"</span>)</span>
+<span id="cb1060-11"><a href="ch9.html#cb1060-11"></a>    out <span class="ot">&lt;-</span> <span class="fu">.Fortran</span>(<span class="st">"ftoc"</span>, <span class="at">n =</span> <span class="fu">as.integer</span>(n), <span class="at">x =</span> <span class="fu">as.double</span>(x))</span>
+<span id="cb1060-12"><a href="ch9.html#cb1060-12"></a>  }</span>
+<span id="cb1060-13"><a href="ch9.html#cb1060-13"></a>  <span class="cf">if</span>(call <span class="sc">==</span> <span class="st">"C"</span>){</span>
+<span id="cb1060-14"><a href="ch9.html#cb1060-14"></a>    <span class="fu">dyn.load</span>(<span class="st">"C:/Users/ahoken/Documents/Amalgam/Amalgam_Bookdown/scripts/FtoCc.dll"</span>,</span>
+<span id="cb1060-15"><a href="ch9.html#cb1060-15"></a>             <span class="at">nin =</span> n, x)</span>
+<span id="cb1060-16"><a href="ch9.html#cb1060-16"></a>    out <span class="ot">&lt;-</span> <span class="fu">.C</span>(<span class="st">"ftocc"</span>, <span class="at">n =</span> <span class="fu">as.integer</span>(n), <span class="at">x =</span> <span class="fu">as.double</span>(x))</span>
+<span id="cb1060-17"><a href="ch9.html#cb1060-17"></a>  }</span>
+<span id="cb1060-18"><a href="ch9.html#cb1060-18"></a>  out</span>
+<span id="cb1060-19"><a href="ch9.html#cb1060-19"></a>}</span></code></pre></div>
+<p>Here I create <span class="math inline">\(10^8\)</span> potential Fahrenheit temperatures that will be converted to Celsius using (unnecessary) looping.</p>
+<div class="sourceCode" id="cb1061"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100000000</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 76.391 68.578 12.061 71.886 66.711 72.958</code></pre>
+<p>Note first that the Fortran, C, and <strong>R</strong> loops provide identical temperature transformations. Here are first 6 transformations:</p>
+<div class="sourceCode" id="cb1063"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="st">"Fortran"</span><span class="op">)</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  24.661  20.321 -11.077  22.159  19.284  22.755</code></pre>
+<div class="sourceCode" id="cb1065"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  24.661  20.321 -11.077  22.159  19.284  22.755</code></pre>
+<div class="sourceCode" id="cb1067"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  24.661  20.321 -11.077  22.159  19.284  22.755</code></pre>
+<p>However, the run times are dramatically different<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Run on an Intel Core processor with a clock speed of 3 GHz, and 32 GB of RAM.&lt;/p&gt;"><sup>89</sup></a>. The C executable is much faster than <strong>R</strong>, and the venerable Fortran executable is even faster than C!</p>
+<div class="sourceCode" id="cb1069"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span>, <span class="st">"Fortran"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   0.54    0.22    0.76 </code></pre>
+<div class="sourceCode" id="cb1071"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   0.52    0.39    0.91 </code></pre>
+<div class="sourceCode" id="cb1073"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">F2C</span><span class="op">(</span><span class="va">x</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   5.44    0.41    5.96 </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+</div>
+<div id="c" class="section level2" number="9.4">
+<h2>
+<span class="header-section-number">9.4</span> C++<a class="anchor" aria-label="anchor" href="#c"><i class="fas fa-link"></i></a>
+</h2>
+</div>
+<div id="python" class="section level2" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> Python<a class="anchor" aria-label="anchor" href="#python"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>Python</strong>, whose image logo is shown in Fig <a href="ch9.html#fig:pysym">9.2</a>, is similar to <strong>R</strong> in several respects. Python was formally introduced in the early 90s, is an open source OOP language that is rapidly gaining popularity, and its user code is evaluated in an on-the-fly manner. That is Python, like <strong>R</strong>, is an interpreted language.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pysym"></span>
+<img src="figs9/python.jpg" alt="The symbol for Python, a high-level, general-purpose, programming language." width="60%"><p class="caption">
+Figure 9.2: The symbol for Python, a high-level, general-purpose, programming language.
+</p>
+</div>
+<p>Like <strong>R</strong>, comments in Python are made using the metacharacter #<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;A Python comment spanning multiple lines can be implemented by enclosing the comment in triple quotes (&lt;code&gt;&quot;&quot;&quot;&lt;/code&gt; or &lt;code&gt;'''&lt;/code&gt;).&lt;/p&gt;"><sup>90</sup></a>. Boolean operators are similar, although, while the unary operator for “not” in <strong>R</strong> is <code>!</code>, in Python it actually <em>is</em> <code>not</code>, and Python uses <code>True</code> and <code>False</code> instead of <code>TRUE</code> and <code>FALSE</code>.</p>
+<p>There are, however, several fundamental differences. These include the fact that while white spaces in <strong>R</strong> code (including tabs) simply reflect coding style preferences –for example, to increase code clarity– Python indentations denote code blocks<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In computer science this is called &lt;em&gt;significant indentation&lt;/em&gt;, or the &lt;em&gt;off-side&lt;/em&gt; rule.&lt;/p&gt;"><sup>91</sup></a>. That is, Python indentations serve the same purpose as <strong>R</strong> curly braces. Another important difference is that <strong>R</strong> object names can contain a <code>.</code> (dot), while in Python <code>.</code> means: “attribute in a namespace.” Useful guidance for converting <strong>R</strong> code to analogous Python code can be found <a href="https://www.mit.edu/~amidi/teaching/data-science-tools/conversion-guide/r-python-data-manipulation/">here</a>.</p>
+<p>Python can be downloaded for free from (<a href="https://www.python.org/downloads/" class="uri">https://www.python.org/downloads/</a>), and can be activated from the Windows command line using the command <code>py</code>, and activated from the Mac and Unix/Linux command line using the command <code>python</code> (Fig <a href="ch9.html#fig:py1">9.3</a>). As with previous sections on Fortran, C, and C++, this short section is not meant to be a thorough introduction to Python. General guidance for the Python language can be found at (<a href="https://docs.python.org/" class="uri">https://docs.python.org/</a>) and many other sources including <a href="https://wiki.python.org/moin/PythonBooks">these books</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:py1"></span>
+<img src="figs9/py_cl1.png" alt="The Python command line interface in Windows." width="100%"><p class="caption">
+Figure 9.3: The Python command line interface in Windows.
+</p>
+</div>
+<p>Note that the standard command line prompt for the Python shell is <code>&gt;&gt;&gt;</code>. We can exit Python from the command line by typing <code><a href="https://rdrr.io/r/base/quit.html">quit()</a></code>.
+</p>
+<div id="reticulate" class="section level3" number="9.5.1">
+<h3>
+<span class="header-section-number">9.5.1</span> <em>reticulate</em><a class="anchor" aria-label="anchor" href="#reticulate"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Because our primary interest is interfacing Python and <strong>R</strong>, and not Python itself, we will use <strong>R</strong> as our base of operations. This will require the <strong>R</strong> package <em>reticulate</em>.</p>
+<div class="sourceCode" id="cb1075"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("reticulate")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/">reticulate</a></span><span class="op">)</span></span></code></pre></div>
+<p>RStudio (via <em>reticulate</em>) can be used as an IDE for Python<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Many IDEs have been developed specifically for Python, although quite a few are proprietary. Free IDEs include a primitive Python-bundled interface called IDLE. IDLE can be opened from the Windows command line using: &lt;code&gt;Path to python.exe\python.exe -m idlelib&lt;/code&gt;, &lt;a href="https://jupyter.org/"&gt;Jupyter Notebook&lt;/a&gt;, a web-based IDE, with many useful features, including support for &lt;strong&gt;R&lt;/strong&gt; and Markdown-driven workflow documentation, &lt;a href="https://www.spyder-ide.org/"&gt;Spyder&lt;/a&gt;, a widely used IDE, (e.g., &lt;span class="citation"&gt;Pine (&lt;a href="references.html#ref-pine2019"&gt;2019&lt;/a&gt;)&lt;/span&gt;), &lt;a href="https://pythontoolkit.sourceforge.net/"&gt;Python Toolkit&lt;/a&gt;, which hasn’t been updated for a while, and &lt;a href="https://www.jetbrains.com/pycharm/"&gt;pycharm&lt;/a&gt; (which also has a commercial version).
+&lt;/p&gt;'><sup>92</sup></a>. In this capacity RStudio will:</p>
+<ul>
+<li>Generate a Python specific environment (to allow separate listing of Python and <strong>R</strong> objects).</li>
+<li>Call separate <strong>R</strong> and Python environments, depending on which language is currently used in a chunk. Python code can be run in <strong>R</strong> Markdown (via RStudio) by defining <code>python</code> (instead of <code>r</code>) as the first option in an <strong>R</strong> Markdown chunk.</li>
+</ul>
+<p>We can specify a path to the Python system (allowing us to use different versions of Python) with <code><a href="https://rstudio.github.io/reticulate/reference/use_python.html">reticulate::use_python</a></code>. This is important because specific versions of Python may dramatically affect the usability of basic Python functions. The code below specifies use of the current version of Python, as accessed with <code><a href="https://rdrr.io/r/base/Sys.which.html">Sys.which()</a></code>, which finds full paths to program executables.</p>
+<div class="sourceCode" id="cb1076"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html">use_python</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.which.html">Sys.which</a></span><span class="op">(</span><span class="st">"python"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>
+A Python command line interface can also be called directly in <strong>R</strong> using:</p>
+<div class="sourceCode" id="cb1077"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/repl_python.html">repl_python</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Python can be closed from the resulting interface (returning one to <strong>R</strong>) by typing:</p>
+<div class="sourceCode" id="cb1078"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1078-1"><a href="ch9.html#cb1078-1" tabindex="-1"></a>exit</span></code></pre></div>
+<p>One can obtain information about the version of Python currently being used by <em>reticulate</em> by running the function <code>retuclate::py_config</code> (in <strong>R</strong>).</p>
+<div class="sourceCode" id="cb1079"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_config.html">py_config</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>python:         C:/Users/ahoken/AppData/Local/Programs/Python/Python311/python.exe
+libpython:      C:/Users/ahoken/AppData/Local/Programs/Python/Python311/python311.dll
+pythonhome:     C:/Users/ahoken/AppData/Local/Programs/Python/Python311
+version:        3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]
+Architecture:   64bit
+numpy:          C:/Users/ahoken/AppData/Local/Programs/Python/Python311/Lib/site-packages/numpy
+numpy_version:  1.24.2
+
+NOTE: Python version was forced by RETICULATE_PYTHON_FALLBACK</code></pre>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-c92" class="example"><strong>Example 9.2  </strong></span><span class="math inline">\(\text{}\)</span><br></p>
+<p>The following are Python operations, run directly from RStudio.</p>
+<div class="sourceCode" id="cb1081"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1081-1"><a href="ch9.html#cb1081-1" tabindex="-1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>4</code></pre>
+<p>The Python assignment operator is <code>=</code>.</p>
+<div class="sourceCode" id="cb1083"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1083-1"><a href="ch9.html#cb1083-1" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb1083-2"><a href="ch9.html#cb1083-2" tabindex="-1"></a>x <span class="op">+</span> x</span></code></pre></div>
+<pre><code>4</code></pre>
+<p>Here we see the aforementioned importance of indentation.</p>
+<div class="sourceCode" id="cb1085"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1085-1"><a href="ch9.html#cb1085-1" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb1085-2"><a href="ch9.html#cb1085-2" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"negative"</span>)</span>
+<span id="cb1085-3"><a href="ch9.html#cb1085-3" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb1085-4"><a href="ch9.html#cb1085-4" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"positive"</span>)</span></code></pre></div>
+<pre><code>positive</code></pre>
+<p>Lack of an indented “block” following <code>if</code> will produce an error. Indentations in code can be made flexibly (e.g., one space, two space, tab, etc.) but they should be used consistently.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="packages" class="section level3" number="9.5.2">
+<h3>
+<span class="header-section-number">9.5.2</span> Packages<a class="anchor" aria-label="anchor" href="#packages"><i class="fas fa-link"></i></a>
+</h3>
+<p>Like <strong>R</strong>, Python consists of a core language, a set of built-in functions, modules, and libraries (i.e., the <a href="https://docs.python.org/3/library/index.html"><em>Python standard library</em></a>), and a vast collection (<a href="https://www.activestate.com/blog/top-10-must-have-python-packages/"><span class="math inline">\(&gt;200,000\)</span></a>) of supplemental libraries. Imported libraries are extremely important in Python because its distributed version has limited functional capabilities (compared to <strong>R</strong>). A number of important Python supplemental libraries, each of which contain multiple packages, are shown in Table <a href="ch9.html#tab:pypack">9.2</a>.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:pypack">Table 9.2: </span>Important Python supplemental libraries. For more information use hyperlinks.</caption>
+<colgroup>
+<col width="22%">
+<col width="77%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Library</th>
+<th align="left">Purpose</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="https://docs.scipy.org/doc/numpy/reference/index.html"><em>sumpy</em></a></td>
+<td align="left">Fundamental package for scientific computing</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="https://docs.scipy.org/doc/scipy/reference"><em>scipy</em></a></td>
+<td align="left">Mathematical functions and routines</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="https//matplotlib.sourceforge.net"><em>matplotlib</em></a></td>
+<td align="left">2- and 3-dimensional plots</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="https://pandas.pydata.org"><em>pandas</em></a></td>
+<td align="left">Data manipulation and analysis</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="https://www.sympy.org/en/index.html"><em>sympy</em></a></td>
+<td align="left">Symbolic mathematics</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="https://docs.bokeh.org/en/latest/index.html"><em>bokeh</em></a></td>
+<td align="left">Interactive data visualizations</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<p>We can install Python packages and libraries using the <em>pip</em> package manager for Python<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The name “pip” is recursive acronym for “Pip Installs Packages.”&lt;/p&gt;"><sup>93</sup></a>. Installation only needs to occur once on a workstation (similar to <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> in <strong>R</strong>). Following installation, one can load a package for a particular work session using the Python function <code>import</code> (analogous to <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> in <strong>R</strong>)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Loading Python libraries (aside from &lt;em&gt;numpy&lt;/em&gt;) in &lt;code&gt;reticulate&lt;/code&gt; will produce an error if one specifies a Python location in &lt;code&gt;use_python()&lt;/code&gt; that does not contain the installed libraries.&lt;/p&gt;"><sup>94</sup></a>.</p>
+<p>Installation of a Python package, <em>foo</em>, with <em>reticulate</em>, via pip, can be accomplished using the function <code><a href="https://rstudio.github.io/reticulate/reference/py_install.html">reticulate::py_install</a></code> (in <strong>R</strong>)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;This approach generally works well. If problems occur loading libraries &lt;code&gt;reticulate::py_install&lt;/code&gt; one can download libraries from the command line using using &lt;code&gt;pip install&lt;/code&gt; &lt;em&gt;foo&lt;/em&gt;.&lt;/p&gt;"><sup>95</sup></a>.
+</p>
+<div class="sourceCode" id="cb1087"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html">py_install</a></span><span class="op">(</span><span class="st">"foo"</span>, pip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p></p>
+<p>For example, to install the <em>scipy</em> library I use the command:</p>
+<div class="sourceCode" id="cb1088"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html">py_install</a></span><span class="op">(</span><span class="st">"scipy"</span>, pip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Run in R, if scipy has not been installed</span></span></code></pre></div>
+<p>To load the <em>scipy</em> library I could use the Python function <code><a href="https://rstudio.github.io/reticulate/reference/import.html">import()</a></code>:</p>
+<div class="sourceCode" id="cb1089"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1089-1"><a href="ch9.html#cb1089-1" tabindex="-1"></a><span class="im">import</span> scipy </span></code></pre></div>
+<p></p>
+</div>
+<div id="functions-in-packages" class="section level3" number="9.5.3">
+<h3>
+<span class="header-section-number">9.5.3</span> Functions in Packages<a class="anchor" aria-label="anchor" href="#functions-in-packages"><i class="fas fa-link"></i></a>
+</h3>
+<p>Functions within Python packages are obtained using a <code>package.function</code> syntax.
+Here I import <em>numpy</em> and run the function <code>pi</code> (which is contained in <em>numpy</em>).</p>
+<div class="sourceCode" id="cb1090"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1090-1"><a href="ch9.html#cb1090-1" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb1090-2"><a href="ch9.html#cb1090-2" tabindex="-1"></a>numpy.pi</span></code></pre></div>
+<pre><code>3.141592653589793</code></pre>
+<p>If we are writing a lot of <em>mumpy</em> functions, Python will allow you to define a simplified library prefix. For instance, here I created a shortcut for <em>numpy</em> called <code>np</code> and use this shortcut to access the <em>numpy</em> functions <code><a href="https://rdrr.io/r/base/Constants.html">pi()</a></code> and <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>.</p>
+<div class="sourceCode" id="cb1092"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1092-1"><a href="ch9.html#cb1092-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1092-2"><a href="ch9.html#cb1092-2" tabindex="-1"></a>np.sin(<span class="dv">20</span> <span class="op">*</span> np.pi<span class="op">/</span><span class="dv">180</span>) <span class="co"># sin(20 degrees)</span></span></code></pre></div>
+<pre><code>0.3420201433256687</code></pre>
+<p>
+</p>
+<p>Use of the command <code>from numpy import *</code> would cause names of functions from <em>NumPy</em> to overwrite functions with the same name from other packages. That is, we could run <code>numpy.pi</code> simply using <code>pi</code>.
+</p>
+<p>Here we import the package <em>pyplot</em> from the library <em>matplotlib</em>, rename the package <code>plt</code>, and create a plot using the function <code>pyplot.plot()</code> (as <code>plt.plot()</code>) by calling:</p>
+<style type="text/css">
+pre.numberSource code > span > a:first-child::before {
+  left: -.05em;
+}
+</style>
+<div class="sourceCode" id="cb1094"><pre class="sourceCode numberSource python custom-outputP numberLines"><code class="sourceCode python"><span id="cb1094-1"><a href="ch9.html#cb1094-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1094-2"><a href="ch9.html#cb1094-2"></a>plt.plot(<span class="bu">range</span>(<span class="dv">10</span>), <span class="st">'bo'</span>)</span></code></pre></div>
+<div class="inline-figure"><img src="figure/minimal-unnamed-chunk-732-1.png" width="672" style="display: block; margin: auto;"></div>
+<p>In Line 2, the command <code>range(10)</code> creates a sequence of integers from zero to ten. This is used as the first argument of <code>plt.plot()</code>, which specifies the plot <span class="math inline">\(x\)</span>-coordinates. If <span class="math inline">\(y\)</span> coordinates are not specified in the second argument, <span class="math inline">\(x\)</span>-coordinates will be reused as <span class="math inline">\(y\)</span> coordinates. The command <code>'bo'</code> places blue filled circles at <span class="math inline">\(x\)</span>,<span class="math inline">\(y\)</span> coordinates. Documentation for <code>matplotlib.pyplot.plot()</code> can be found <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html">here</a>.</p>
+<p>
+</p>
+</div>
+<div id="dataset-storage-types" class="section level3" number="9.5.4">
+<h3>
+<span class="header-section-number">9.5.4</span> Dataset Storage Types<a class="anchor" aria-label="anchor" href="#dataset-storage-types"><i class="fas fa-link"></i></a>
+</h3>
+<p>There are four different built-in dataset storage types in Python: lists, tuples, sets, and dictionaries (Table <a href="ch9.html#tab:dso">9.3</a>). Data storage types of Python objects can be identified with the Python function <code>type()</code>.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:dso">Table 9.3: </span>The four Python dataset storage types.</caption>
+<colgroup>
+<col width="11%">
+<col width="22%">
+<col width="66%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Storage type</th>
+<th align="left">Example</th>
+<th align="left">Entry characteristics</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">List</td>
+<td align="left"><code>["hot","cold"]</code></td>
+<td align="left">Ordered entries, Changeable, Mult. data storage types, Duplicates OK.</td>
+</tr>
+<tr class="even">
+<td align="left">Tuple</td>
+<td align="left"><code>("hot","cold")</code></td>
+<td align="left">Ordered entries, Unchangeable, Mult. data storage types, Duplicates OK.</td>
+</tr>
+<tr class="odd">
+<td align="left">Set</td>
+<td align="left"><code>{"hot","cold"}</code></td>
+<td align="left">Ordered entries, Unchangeable, Mult. data storage types, Duplicates not OK.</td>
+</tr>
+<tr class="even">
+<td align="left">Dictionary</td>
+<td align="left"><code>{"temp":["hot", cold"]}</code></td>
+<td align="left">Ordered entries, Changeable, Mult. data storage types, Duplicates not OK.</td>
+</tr>
+</tbody>
+</table></div>
+<p>We can make a <em>Python</em> list, which can contain both text and numeric data, using square brackets or the function <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>.
+</p>
+<div class="sourceCode" id="cb1095"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1095-1"><a href="ch9.html#cb1095-1" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">7</span>, <span class="st">"Hi"</span>, <span class="dv">7</span>, <span class="st">"end"</span>]</span></code></pre></div>
+<p>An empty list can be specified as <code>[]</code></p>
+<div class="sourceCode" id="cb1096"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1096-1"><a href="ch9.html#cb1096-1" tabindex="-1"></a>empty <span class="op">=</span> []</span>
+<span id="cb1096-2"><a href="ch9.html#cb1096-2" tabindex="-1"></a>empty</span></code></pre></div>
+<pre><code>[]</code></pre>
+<p>Like <strong>R</strong>, we can index list elements using square brackets. Importantly, <code>a[0]</code> refers to the first element of the list <code>a</code>.</p>
+<div class="sourceCode" id="cb1098"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1098-1"><a href="ch9.html#cb1098-1" tabindex="-1"></a>a[<span class="dv">0</span>]</span></code></pre></div>
+<pre><code>20</code></pre>
+<p>And the third element would be:</p>
+<div class="sourceCode" id="cb1100"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1100-1"><a href="ch9.html#cb1100-1" tabindex="-1"></a>a[<span class="dv">3</span>]</span></code></pre></div>
+<pre><code>7</code></pre>
+<p>Square brackets can also be used to reassign list values</p>
+<div class="sourceCode" id="cb1102"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1102-1"><a href="ch9.html#cb1102-1" tabindex="-1"></a>a[<span class="dv">3</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1102-2"><a href="ch9.html#cb1102-2" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[20, 7, 'Hi', 10, 'end']</code></pre>
+<p>We can use the function <code>.append()</code> to append entries to the end of list. For instance, to append the number 9 to the object <code>a</code> in the previous example, I could type:</p>
+<div class="sourceCode" id="cb1104"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1104-1"><a href="ch9.html#cb1104-1" tabindex="-1"></a>a.append(<span class="dv">9</span>)</span>
+<span id="cb1104-2"><a href="ch9.html#cb1104-2" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[20, 7, 'Hi', 10, 'end', 9]</code></pre>
+<p></p>
+<p>Unlike a Python list, a data object called a tuple, which is designated using parentheses, contains elements that cannot be changed:</p>
+<div class="sourceCode" id="cb1106"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1106-1"><a href="ch9.html#cb1106-1" tabindex="-1"></a>b <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span>
+<span id="cb1106-2"><a href="ch9.html#cb1106-2" tabindex="-1"></a>b[<span class="dv">0</span>]</span></code></pre></div>
+<pre><code>1</code></pre>
+<div class="sourceCode" id="cb1108"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1108-1"><a href="ch9.html#cb1108-1" tabindex="-1"></a>b[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">10</span> <span class="co"># produces error</span></span></code></pre></div>
+<p>Multidimensional numerical arrays, including matrices, can be created using functions from <em>numpy</em>. Here we define:</p>
+<p><span class="math display">\[\boldsymbol{B} =
+\begin{bmatrix}
+1 &amp; 4 &amp; 5 \\
+9 &amp; 7.2 &amp; 4
+\end{bmatrix}
+\]</span></p>
+<p>and find <span class="math inline">\(\boldsymbol{B} - 5\)</span>.</p>
+<div class="sourceCode" id="cb1109"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1109-1"><a href="ch9.html#cb1109-1" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>], [<span class="dv">9</span>, <span class="fl">7.2</span>, <span class="dv">4</span>]])</span>
+<span id="cb1109-2"><a href="ch9.html#cb1109-2" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>array([[1. , 4. , 5. ],
+       [9. , 7.2, 4. ]])</code></pre>
+<div class="sourceCode" id="cb1111"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1111-1"><a href="ch9.html#cb1111-1" tabindex="-1"></a>B <span class="op">-</span> <span class="dv">5</span></span></code></pre></div>
+<pre><code>array([[-4. , -1. ,  0. ],
+       [ 4. ,  2.2, -1. ]])</code></pre>
+<p></p>
+<p>Extensive linear algebra tools are contained in the libraries <em>numpy</em> and <em>scipy</em>.</p>
+</div>
+<div id="mathematical-operations" class="section level3" number="9.5.5">
+<h3>
+<span class="header-section-number">9.5.5</span> Mathematical Operations<a class="anchor" aria-label="anchor" href="#mathematical-operations"><i class="fas fa-link"></i></a>
+</h3>
+<p>Basic Python mathematical operators are generally (but not always) identical to <strong>R</strong>. For instance, note that for exponentiation <code>**</code> is used instead of <code>^</code> (Table <a href="ch9.html#tab:pymath">9.4</a>).</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:pymath">Table 9.4: </span>Basic Python mathematical functions and operators.</caption>
+<colgroup>
+<col width="19%">
+<col width="29%">
+<col width="17%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find</th>
+<th align="left">We type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>+</code></td>
+<td align="left">addition</td>
+<td align="left"><span class="math inline">\(2 + 2\)</span></td>
+<td align="left"><code>2 + 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>-</code></td>
+<td align="left">subtraction</td>
+<td align="left"><span class="math inline">\(2 - 2\)</span></td>
+<td align="left"><code>2 - 2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>*</code></td>
+<td align="left">multiplication</td>
+<td align="left"><span class="math inline">\(2 \times 2\)</span></td>
+<td align="left"><code>2 * 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="left">division</td>
+<td align="left"><span class="math inline">\(\frac{2}{3}\)</span></td>
+<td align="left"><code>2/3</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>**</code></td>
+<td align="left">exponentiation</td>
+<td align="left"><span class="math inline">\(2^3\)</span></td>
+<td align="left"><code>2**3</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sqrt(x)</code></td>
+<td align="left"><span class="math inline">\(\sqrt{x}\)</span></td>
+<td align="left"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td align="left"><code>numpy.sqrt(2)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>factorial(x)</code></td>
+<td align="left"><span class="math inline">\(x!\)</span></td>
+<td align="left"><span class="math inline">\(5!\)</span></td>
+<td align="left"><code>numpy.math.factorial(5)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>pi</code></td>
+<td align="left"><span class="math inline">\(\pi = 3.141593 \dots\)</span></td>
+<td align="left"><span class="math inline">\(\pi\)</span></td>
+<td align="left"><code>numpy.pi</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>log</code></td>
+<td align="left"><span class="math inline">\(\log_e\)</span></td>
+<td align="left"><span class="math inline">\(\log_e(3)\)</span></td>
+<td align="left"><code>numpy.log</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<p>Symbolic derivative solutions to functions can be obtained using functions from the library <em>sympy</em>. Results from the package functions can be printed in LaTeX for pretty mathematics.</p>
+<div class="sourceCode" id="cb1113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html">py_install</a></span><span class="op">(</span><span class="st">"sympy"</span>, pip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># run in R if sympy hasn't been installed</span></span></code></pre></div>
+<p>Here we solve:
+<span class="math display">\[\frac{d}{dx} 3e^{-x^2}\]</span></p>
+<div class="sourceCode" id="cb1114"><pre class="sourceCode numberSource python custom-outputP numberLines"><code class="sourceCode python"><span id="cb1114-1"><a href="ch9.html#cb1114-1"></a><span class="im">from</span> sympy <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1114-2"><a href="ch9.html#cb1114-2"></a>x <span class="op">=</span> symbols (<span class="st">'x'</span>)</span>
+<span id="cb1114-3"><a href="ch9.html#cb1114-3"></a>fx <span class="op">=</span> <span class="dv">3</span> <span class="op">*</span> exp(<span class="op">-</span>x <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1114-4"><a href="ch9.html#cb1114-4"></a><span class="bu">print</span>(diff(fx))</span></code></pre></div>
+<p><span class="math display">\[- 6 x e^{- x^{2}}\]</span>
+In Line 2, <code>x</code> is defined symbolically using the <code>sympy.symbols()</code> function. The variable <code>x</code> is used as a term in the expression <code>fx</code> in Line 3. The function <code>fx</code> is differentiated in Line 4 using the function <code>sympy.diff()</code>.</p>
+<p>
+</p>
+<p>Integration in Python can be handled with the function <code>quad()</code> in <em>scipy</em>. Here we find:
+<span class="math display">\[\int_0^1 3e^{-x^2} dx\]</span></p>
+<p>To perform integration we must install the <em>scipy.integrate</em> library using <em>pip</em> and bring in the function <code>quad()</code>.
+</p>
+<div class="sourceCode" id="cb1115"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1115-1"><a href="ch9.html#cb1115-1" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> quad</span></code></pre></div>
+<p>We then define the integrand as a Python function using the function <code>def()</code>. That is, <code>def()</code> is analogous to <code>function()</code> in <strong>R</strong>.</p>
+<div class="sourceCode" id="cb1116"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1116-1"><a href="ch9.html#cb1116-1" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb1116-2"><a href="ch9.html#cb1116-2" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">3</span> <span class="op">*</span> np.exp(<span class="op">-</span>x<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div>
+<p>We now run <code>quad()</code> on the user function <code>f</code> with the defined bounds of integration.</p>
+<div class="sourceCode" id="cb1117"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1117-1"><a href="ch9.html#cb1117-1" tabindex="-1"></a>quad(f, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>(2.240472398437281, 2.487424042782217e-14)</code></pre>
+<p>The first number is the value of the definite integral (in this case, the area under the function <code>f</code> from 0 to 1). The second is a measure of the absolute error in the numerical approximation.
+</p>
+</div>
+<div id="reading-in-data" class="section level3" number="9.5.6">
+<h3>
+<span class="header-section-number">9.5.6</span> Reading in Data<a class="anchor" aria-label="anchor" href="#reading-in-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Data in delimited files, including .csv files, can be read into Python using the <em>mumpy</em> function <code>loadtxt()</code>.</p>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-c93" class="example"><strong>Example 9.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Assume that we have a comma separated dataset, named <code>ffall.csv</code>, located in the Python working directory, describing the free fall properties of some object over six seconds, with columns for observation number, time (in seconds), altitude (in mm) and uncertainty (in mm). The Python working directory (which need not be the same as the <strong>R</strong> working directory in RStudio) can be identified using the function <code>getcwd()</code> from the library <em>os</em>.</p>
+<div class="sourceCode" id="cb1119"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1119-1"><a href="ch9.html#cb1119-1" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1119-2"><a href="ch9.html#cb1119-2" tabindex="-1"></a>os.getcwd()</span></code></pre></div>
+<pre><code>'C:\\Users\\ahoken\\Documents\\GitHub\\Amalgam'</code></pre>
+<!-- The data in Excel might have a form similar to one shown in Fig \@ref(fig:excel9.1). -->
+<!-- ```{r excel9.1,  out.width="40%", fig.align = 'center', fig.cap = "A potential gravitational dataset for import into Python as an Excel file.", echo = F} -->
+<!-- knitr::include_graphics("figs9/excel1.png", dpi = 300) -->
+<!-- ``` -->
+<!-- \index[terms]{Python!functions/operators!\texttt{numpy.loadtxt()}} -->
+<!-- % If we were to save the data as a .csv file in our working directory under the name `freefall.csv` and open it in a text editor, it would look something like Fig \@ref(fig:excel9.2): -->
+<!-- ```{r excel9.2,  out.width="40%", fig.align = 'center', fig.cap = "A potential gravitational dataset for import into Python shaown as ASCII text.", echo = F} -->
+<!-- knitr::include_graphics("figs9/text1.png", dpi = 300) -->
+<!-- ``` -->
+<p>We can load <code>freefall.csv</code> using:</p>
+<div class="sourceCode" id="cb1121"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1121-1"><a href="ch9.html#cb1121-1" tabindex="-1"></a>obs, time, height, error <span class="op">=</span> np.loadtxt(<span class="st">"ffall.csv"</span>, </span>
+<span id="cb1121-2"><a href="ch9.html#cb1121-2" tabindex="-1"></a>delimiter <span class="op">=</span> <span class="st">","</span>, skiprows <span class="op">=</span> <span class="dv">1</span>, unpack <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
+<p>The first row was skipped (using <code>skiprows = 1</code>) because it contained column names and those were re-assigned when I brought in the data.
+<!-- \begin{flushleft} -->
+<!-- \includegraphics[width=.97\textwidth]{figs/py13.png} -->
+<!-- \end{flushleft} -->
+Note that, unlike <strong>R</strong>, columns in the dataset are automatically attached to the global environment upon loading, and will overwrite objects with the same name.</p>
+<div class="sourceCode" id="cb1122"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1122-1"><a href="ch9.html#cb1122-1" tabindex="-1"></a>height<span class="op">/</span><span class="dv">1000</span> <span class="co"># height in meters</span></span></code></pre></div>
+<pre><code>array([0.18 , 0.182, 0.178, 0.165, 0.16 , 0.148, 0.136, 0.12 , 0.099,
+       0.083, 0.055, 0.035, 0.005])</code></pre>
+<p>File readers in <em>pandas</em> are less clunky (and more similar to <strong>R</strong>).
+We can bring in <code>freefall.csv</code> using the function <code>pandas.read_csv()</code>:</p>
+<div class="sourceCode" id="cb1124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html">py_install</a></span><span class="op">(</span><span class="st">"pandas"</span><span class="op">)</span>  <span class="co"># Run if pandas is not installed </span></span></code></pre></div>
+<div class="sourceCode" id="cb1125"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1125-1"><a href="ch9.html#cb1125-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># run in a Python chunk</span></span>
+<span id="cb1125-2"><a href="ch9.html#cb1125-2" tabindex="-1"></a>ffall <span class="op">=</span> pd.read_csv(<span class="st">'ffall.csv'</span>)</span>
+<span id="cb1125-3"><a href="ch9.html#cb1125-3" tabindex="-1"></a>ffall</span></code></pre></div>
+<pre><code>    obs  time  height  error
+0     1   0.0     180   3.50
+1     2   0.5     182   4.50
+2     3   1.0     178   4.00
+3     4   1.5     165   5.50
+4     5   2.0     160   2.50
+5     6   2.5     148   3.00
+6     7   3.0     136   2.50
+7     8   3.5     120   3.00
+8     9   4.0      99   4.00
+9    10   4.5      83   2.50
+10   11   5.0      55   3.60
+11   12   5.5      35   1.75
+12   13   6.0       5   0.75</code></pre>
+<p>The object <code>ffall</code> is a <em>Pandas</em> <em>DataFrame</em>, which is different in several respects, from an <strong>R</strong> dataframe. Column arrays in <code>ffall</code> can be called using the syntax: <code>ffall.</code>, or by using braces. For instance:</p>
+<div class="sourceCode" id="cb1127"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1127-1"><a href="ch9.html#cb1127-1" tabindex="-1"></a>ffall.height</span></code></pre></div>
+<pre><code>0     180
+1     182
+2     178
+3     165
+4     160
+5     148
+6     136
+7     120
+8      99
+9      83
+10     55
+11     35
+12      5
+Name: height, dtype: int64</code></pre>
+<div class="sourceCode" id="cb1129"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1129-1"><a href="ch9.html#cb1129-1" tabindex="-1"></a>ffall[<span class="st">"height"</span>]</span></code></pre></div>
+<pre><code>0     180
+1     182
+2     178
+3     165
+4     160
+5     148
+6     136
+7     120
+8      99
+9      83
+10     55
+11     35
+12      5
+Name: height, dtype: int64</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+<p>In RStudio, <strong>R</strong> and Python (<code>reticulate</code>) sessions are considered separately. In this process, when accessing Python from <strong>R</strong>, <strong>R</strong> data types are automatically converted to their equivalent Python types. Conversely, When values are returned from Python to <strong>R</strong> they are converted back to <strong>R</strong> types. It is possible, however, to access each from the others’ session.</p>
+<p>The <em>reticulate</em> operator <code>py</code> allows one to interact with a Python session directly from the <strong>R</strong> console. Here I convert the <em>pandas</em> DataFrame <code>ffall</code> into a recognizable <strong>R</strong> dataframe, within <strong>R</strong>.</p>
+<div class="sourceCode" id="cb1131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ffallR</span> <span class="op">&lt;-</span> <span class="va">py</span><span class="op">$</span><span class="va">ffall</span></span></code></pre></div>
+<p>Which allows me to examine it with <strong>R</strong> functions.</p>
+<div class="sourceCode" id="cb1132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">ffallR</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     obs     time   height    error 
+  7.0000   3.0000 118.9231   3.1615 </code></pre>
+<p>On Lines 1 and 2 in the chunk below, I bring in the Python library <em>pandas</em> into <strong>R</strong> with the function <code>reticulate:import()</code>. The code <code>pd &lt;- import("pandas", convert = FALSE)</code> is the Python equivalent to: <code>import pandas as pd</code>.
+</p>
+<div class="sourceCode" id="cb1134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/import.html">import</a></span><span class="op">(</span><span class="st">"pandas"</span>, convert <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>As expected, the column names constitute the names attribute of the dataframe <code>ffallR</code>.</p>
+<div class="sourceCode" id="cb1135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ffallR</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "obs"    "time"   "height" "error" </code></pre>
+<p>The <code>ffall</code> dataset, however, has different characteristics as a Python object. Note that in the code below the <em>pandas</em> function <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> is accessed using <code>pd$read_csv()</code> instead of <code>pd.read_csv()</code> because an <strong>R</strong> chunk is being used.</p>
+<div class="sourceCode" id="cb1137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ffallP</span> <span class="op">&lt;-</span> <span class="va">pd</span><span class="op">$</span><span class="fu">read_csv</span><span class="op">(</span><span class="st">"ffall.csv"</span><span class="op">)</span></span></code></pre></div>
+<p>The names attribute of the <em>pandas</em> DataFrame <code>ffallP</code>, as perceived by <strong>R</strong>, contains over 200 entities, many of which are provided by the built-in Python module <em>statistics</em>. Here are the first 20.</p>
+<div class="sourceCode" id="cb1138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ffallP</span><span class="op">)</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] "abs"        "add"        "add_prefix" "add_suffix" "agg"       
+ [6] "aggregate"  "align"      "all"        "any"        "apply"     
+[11] "applymap"   "asfreq"     "asof"       "assign"     "astype"    
+[16] "at"         "at_time"    "attrs"      "axes"       "backfill"  </code></pre>
+<p>I can use these entities to obtain statistical summaries of each column array, revealing an approach for <strong>R</strong>/Python syntheses.</p>
+<div class="sourceCode" id="cb1140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ffallP</span><span class="op">$</span><span class="fu">mean</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>obs         7.000000
+time        3.000000
+height    118.923077
+error       3.161538
+dtype: float64</code></pre>
+<div class="sourceCode" id="cb1142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ffallP</span><span class="op">$</span><span class="fu">var</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>obs         15.166667
+time         3.791667
+height    3495.243590
+error        1.512147
+dtype: float64</code></pre>
+<div class="sourceCode" id="cb1144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ffallP</span><span class="op">$</span><span class="fu">kurt</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>obs      -1.200000
+time     -1.200000
+height   -0.692166
+error     0.445443
+dtype: float64</code></pre>
+<p>For further analysis in <strong>R</strong> these expression will need to be explicitly converted to <strong>R</strong> objects using the function <code><a href="https://rstudio.github.io/reticulate/reference/r-py-conversion.html">py_to_r()</a></code>.</p>
+<div class="sourceCode" id="cb1146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trans</span> <span class="op">&lt;-</span> <span class="va">ffallP</span><span class="op">$</span><span class="fu">transpose</span><span class="op">(</span><span class="op">)</span> <span class="co"># transpose matrix</span></span>
+<span><span class="va">transR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/r-py-conversion.html">py_to_r</a></span><span class="op">(</span><span class="va">trans</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">transR</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     obs     time   height    error 
+  7.0000   3.0000 118.9231   3.1615 </code></pre>
+</div>
+<div id="pvR" class="section level3" number="9.5.7">
+<h3>
+<span class="header-section-number">9.5.7</span> Python versus R<a class="anchor" aria-label="anchor" href="#pvR"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> allows much greater flexibility than Python for explicit statistical analyses and graphical summaries. For example, the Python statistics library <em>Pymer4</em> actually uses generalized linear mixed effect model (see <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span>) functions from the <strong>R</strong> package <em>lme4</em> to complete computations. Additionally, Python tends to be <em>less</em> efficient than <strong>R</strong> for pseudo-random number generation<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A &lt;em&gt;pseudo-random number generator&lt;/em&gt; (PRNG) is a deterministic algorithm for generating numbers whose properties approximate those of random numbers &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikrandom"&gt;Wikipedia 2024f&lt;/a&gt;)&lt;/span&gt;. A PRNG sequence is dependent on an initial &lt;em&gt;seed&lt;/em&gt; value provided to the generator. By default, &lt;strong&gt;R&lt;/strong&gt; PRNG seeds are generated from the current session time. Details are provided in &lt;code&gt;?RNG&lt;/code&gt;. Numbers from distinct probability distributions can be generated from an underlying pseudo-random continuous uniform sequence by obtaining the corresponding inverse CDF outcomes for the same lower-tailed probability. &lt;strong&gt;R&lt;/strong&gt; can employ a large number algorithmic approaches for generating pseudo-random numbers, including, by default, the “Mersenne-Twister” &lt;span class="citation"&gt;(&lt;a href="references.html#ref-matsumoto1998"&gt;Matsumoto and Nishimura 1998&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>96</sup></a>, since it requires looping to generate multiple pseudo-random outcomes (see <span class="citation">Van Rossum and Drake (<a href="references.html#ref-python3">2009</a>)</span>).</p>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-Rpy" class="example"><strong>Example 9.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here I generate <span class="math inline">\(10^8\)</span> pseudo-random outcomes from a continuous uniform distribution (processor details footnoted in Example <a href="ch9.html#exm:exm-c91">9.1</a>).<br><strong>R</strong>:</p>
+<div class="sourceCode" id="cb1148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">ranR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1e8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   2.50    0.10    2.61 </code></pre>
+<p>Python:</p>
+<div class="sourceCode" id="cb1150"><pre class="sourceCode numberSource python custom-outputP numberLines"><code class="sourceCode python"><span id="cb1150-1"><a href="ch9.html#cb1150-1"></a><span class="im">import</span> time</span>
+<span id="cb1150-2"><a href="ch9.html#cb1150-2"></a><span class="im">import</span> random</span>
+<span id="cb1150-3"><a href="ch9.html#cb1150-3"></a>ranP <span class="op">=</span> []</span>
+<span id="cb1150-4"><a href="ch9.html#cb1150-4"></a></span>
+<span id="cb1150-5"><a href="ch9.html#cb1150-5"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb1150-6"><a href="ch9.html#cb1150-6"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">9999999</span>):</span>
+<span id="cb1150-7"><a href="ch9.html#cb1150-7"></a>  n <span class="op">=</span> random.random()</span>
+<span id="cb1150-8"><a href="ch9.html#cb1150-8"></a>  ranP.append(n)</span>
+<span id="cb1150-9"><a href="ch9.html#cb1150-9"></a>time.time() <span class="op">-</span> start_time</span></code></pre></div>
+<pre><code>5.81349515914917</code></pre>
+<p>The operation takes much longer for Python than <strong>R</strong>.</p>
+<p>The Python code above requires some explanation. On Lines 1 and 2, the Python modules <span class="math inline">\(time\)</span> and <span class="math inline">\(random\)</span> are loaded from the Python standard library, and on Line 3 an empty list <code>ranP</code> is created that will be filled as the loop commences. On Line 5, the start time for the operation is recorded using the function <code><a href="https://rdrr.io/r/stats/time.html">time()</a></code> from the module <em>time</em>. On Line 6 a sequence of length <span class="math inline">\(10^8\)</span> is defined as a reference for the index variable <code>i</code> as the for loop commences. On Lines 7 and 8 a random number is generated using the function <code>random()</code> from the module <em>random</em> and this number is appended to <code>ranP</code>. Note that Lines 7 and 8 are indented to indicate that they reside in the loop. Finally, on Line 9 the start time is subtracted from the end time to get the system time for the operation.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>On the other hand, the system time efficiency of Python may be better than <strong>R</strong> for many applications, including the management of large datasets <span class="citation">(<a href="references.html#ref-morandat2012">Morandat et al. 2012</a>)</span>.</p>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-Rpy2" class="example"><strong>Example 9.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here I add the randomly generated dataset to itself in <strong>R</strong>:</p>
+<div class="sourceCode" id="cb1152"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">ranR</span> <span class="op">+</span> <span class="va">ranR</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   0.17    0.14    0.31 </code></pre>
+<p>and Python:</p>
+<div class="sourceCode" id="cb1154"><pre class="sourceCode python custom-outputP"><code class="sourceCode python"><span id="cb1154-1"><a href="ch9.html#cb1154-1" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb1154-2"><a href="ch9.html#cb1154-2" tabindex="-1"></a>diff <span class="op">=</span> ranP <span class="op">+</span> ranP</span>
+<span id="cb1154-3"><a href="ch9.html#cb1154-3" tabindex="-1"></a>time.time() <span class="op">-</span> start_time</span></code></pre></div>
+<pre><code>0.11191940307617188</code></pre>
+<p>For this operation, Python is faster.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>Of course, IDEs like RStudio allow, through the package <em>reticulate</em>, simultaneous use of both <strong>R</strong> and Python systems, allowing one to draw on the strengths of each language.</p>
+<!-- Here we import the library *statistics*, following installation, via pip, and bring in a version of the `ffall` dataframe (without the strange header). Note that my Python and RStudio working directories need not be the same.  -->
+<!-- \index[terms]{Python!package!*statistics*} -->
+<!-- ```{python} -->
+<!-- import statistics as stats -->
+<!-- ``` -->
+</div>
+</div>
+<div id="exercises-8" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-8"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>The Fortran script below calculates the circumference of the earth (in km) for a given latitude (measured in radians). For additional information, see Question 6 from the Exercise in <a href="ch2.html#ch2">2</a>. Explain what is happening in each line of code below.
+<code>hi.temps$day2</code> using <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>.</li>
+</ol>
+<div class="sourceCode" id="cb1156"><pre class="sourceCode numberSource fortran custom-outputF numberLines"><code class="sourceCode fortranfixed"><span id="cb1156-1"><a href="ch9.html#cb1156-1"></a><span class="kw">subroutine</span> circumf(x, n)</span>
+<span id="cb1156-2"><a href="ch9.html#cb1156-2"></a><span class="dt">double precision</span> x(n)</span>
+<span id="cb1156-3"><a href="ch9.html#cb1156-3"></a><span class="dt">integer</span> n</span>
+<span id="cb1156-4"><a href="ch9.html#cb1156-4"></a>x <span class="kw">=</span> <span class="bu">cos</span>(x)<span class="kw">*</span><span class="fl">40075.017</span></span>
+<span id="cb1156-5"><a href="ch9.html#cb1156-5"></a><span class="kw">end</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Create a file <code>circumf.f90</code> containing the code and save it to an appropriate directory. Take a screen shot of the directory.</p></li>
+<li><p>Compile <code>circumf.f90</code> to create <code>circumf.dll</code>. In Windows this will require the shell script:</p></li>
+</ol>
+<div class="sourceCode" id="cb1157"><pre class="sourceCode default custom-cmd"><code class="sourceCode default"><span id="cb1157-1"><a href="ch9.html#cb1157-1" tabindex="-1"></a>cd Root part of address\bin\x64  </span>
+<span id="cb1157-2"><a href="ch9.html#cb1157-2" tabindex="-1"></a>R CMD SHLIB Appropriate directory/circumf.f90</span></code></pre></div>
+<div class="line-block">      You will have to supply your own <code>Root part of address</code>, and <code>Approriate directory</code> will be the directory containing <code>circumf.f90</code>.<br>
+      Take a screenshot to show you have created <code>circumf.dll</code>. Running the shell code may require that you use the shell as an Administrator.)</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Here is a wrapper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Unix-alikes should replace &lt;code&gt;circumf.dll&lt;/code&gt; with &lt;code&gt;circumf.o&lt;/code&gt;.&lt;/p&gt;"><sup>97</sup></a> for <code>circumf.dll</code>. Again, you will have to supply <code>Approriate directory</code>. Explain what is happening on Lines 2, 4, and 5. And, finally, run: <code>cearthf(0:90)</code>.
+<code>hi.temps$day2</code> using <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>.</li>
+</ol>
+<div class="sourceCode" id="cb1158"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1158-1"><a href="ch9.html#cb1158-1"></a>cearthf <span class="ot">&lt;-</span> <span class="cf">function</span>(latdeg){</span>
+<span id="cb1158-2"><a href="ch9.html#cb1158-2"></a>  x <span class="ot">&lt;-</span> latdeg <span class="sc">*</span> pi<span class="sc">/</span><span class="dv">180</span></span>
+<span id="cb1158-3"><a href="ch9.html#cb1158-3"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb1158-4"><a href="ch9.html#cb1158-4"></a>  <span class="fu">dyn.load</span>(<span class="st">"Appropriate directory/circumf.dll"</span>)</span>
+<span id="cb1158-5"><a href="ch9.html#cb1158-5"></a>  out <span class="ot">&lt;-</span> <span class="fu">.Fortran</span>(<span class="st">"circumf"</span>, <span class="at">x =</span> <span class="fu">as.double</span>(x), <span class="at">n =</span> <span class="fu">as.integer</span>(n))</span>
+<span id="cb1158-6"><a href="ch9.html#cb1158-6"></a>  out</span>
+<span id="cb1158-7"><a href="ch9.html#cb1158-7"></a>}</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Here is a C script that is identical in functionality to the Fortran script in Q. 1. The code: <code>#include &lt;math.h&gt;</code> allows access to C mathematical functions, including <code><a href="https://rdrr.io/r/base/Trig.html">cos()</a></code>. Describe what is happening on Lines 7-10.</li>
+</ol>
+<div class="sourceCode" id="cb1159"><pre class="sourceCode numberSource c custom-outputC numberLines"><code class="sourceCode c"><span id="cb1159-1"><a href="ch9.html#cb1159-1"></a></span>
+<span id="cb1159-2"><a href="ch9.html#cb1159-2"></a><span class="pp">#include </span><span class="im">&lt;math.h&gt;</span></span>
+<span id="cb1159-3"><a href="ch9.html#cb1159-3"></a></span>
+<span id="cb1159-4"><a href="ch9.html#cb1159-4"></a></span>
+<span id="cb1159-5"><a href="ch9.html#cb1159-5"></a><span class="dt">void</span> circumc<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>nin<span class="op">,</span> <span class="dt">double</span> <span class="op">*</span>x<span class="op">)</span></span>
+<span id="cb1159-6"><a href="ch9.html#cb1159-6"></a><span class="op">{</span></span>
+<span id="cb1159-7"><a href="ch9.html#cb1159-7"></a>  <span class="dt">int</span> n <span class="op">=</span> nin<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb1159-8"><a href="ch9.html#cb1159-8"></a>  <span class="dt">int</span> i<span class="op">;</span></span>
+<span id="cb1159-9"><a href="ch9.html#cb1159-9"></a>  <span class="cf">for</span> <span class="op">(</span>i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span>n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb1159-10"><a href="ch9.html#cb1159-10"></a>    x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>cos<span class="op">(</span>x<span class="op">[</span>i<span class="op">])</span> <span class="op">*</span> <span class="fl">40075.017</span><span class="op">);</span></span>
+<span id="cb1159-11"><a href="ch9.html#cb1159-11"></a><span class="op">}</span></span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Repeat Qs, 2 and 3 for the C subroutine <code>circumc</code>.</p></li>
+<li><p>Here is an <strong>R</strong> wrapper for <code>circumc.dll</code>. Explain what is happening on Lines 4-6 and run: <code>cearthc(0:90)</code>.</p></li>
+</ol>
+<div class="sourceCode" id="cb1160"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1160-1"><a href="ch9.html#cb1160-1"></a>cearthc <span class="ot">&lt;-</span> <span class="cf">function</span>(latdeg){</span>
+<span id="cb1160-2"><a href="ch9.html#cb1160-2"></a>  x <span class="ot">&lt;-</span> latdeg <span class="sc">*</span> pi<span class="sc">/</span><span class="dv">180</span></span>
+<span id="cb1160-3"><a href="ch9.html#cb1160-3"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb1160-4"><a href="ch9.html#cb1160-4"></a>  <span class="fu">dyn.load</span>(<span class="st">"Appropriate directory/circumc.dll"</span>,</span>
+<span id="cb1160-5"><a href="ch9.html#cb1160-5"></a>           <span class="at">nin =</span> n, x)</span>
+<span id="cb1160-6"><a href="ch9.html#cb1160-6"></a>  out <span class="ot">&lt;-</span> <span class="fu">.C</span>(<span class="st">"circumc"</span>, <span class="at">n =</span> <span class="fu">as.integer</span>(n), <span class="at">x =</span> <span class="fu">as.double</span>(x))</span>
+<span id="cb1160-7"><a href="ch9.html#cb1160-7"></a>  out</span>
+<span id="cb1160-8"><a href="ch9.html#cb1160-8"></a>}</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>
+<p>Make a Python list with elements <code>"pear"</code>, <code>"banana"</code>, and <code>"cherry"</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Extract the second item in the list.</li>
+<li>Replace the first item in the list with <code>"melon"</code>.</li>
+<li>Append the number 3 to the list.</li>
+</ol>
+</li>
+<li>
+<p>Make a Python tuple with elements <code>"pear"</code>, <code>"banana"</code>, and <code>"cherry"</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Extract the second item in the tuple.</li>
+<li>Replace the first item in the tuple with <code>"melon"</code>. Was there an issue?</li>
+<li>Append the number 3 to the tuple. Was there an issue?</li>
+</ol>
+</li>
+<li><p>Using <code>def()</code>, write a Python function that will square any value <code>x</code>, and adds a constant <code>c</code> to the squared value of <code>x</code>.</p></li>
+<li><p>From the Exercises in Ch <a href="ch2.html#ch2">2</a>, use Python (or call Python from <strong>R</strong>) to complete Problem 4 (a-h). Document your work in <strong>R</strong> Markdown (note how much better Python is at simplifying derivatives).</p></li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch8.html"><span class="header-section-number">8</span> Functions</a></div>
+<div class="next"><a href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch9"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="nav-link" href="#interp"><span class="header-section-number">9.1</span> Interpreted versus Compiled Languages</a></li>
+<li><a class="nav-link" href="#markint"><span class="header-section-number">9.2</span> Interfacing with R Markdown/RStudio</a></li>
+<li>
+<a class="nav-link" href="#FC"><span class="header-section-number">9.3</span> Fortran and C</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#compile"><span class="header-section-number">9.3.1</span> Compiling Executables</a></li></ul>
+</li>
+<li><a class="nav-link" href="#c"><span class="header-section-number">9.4</span> C++</a></li>
+<li>
+<a class="nav-link" href="#python"><span class="header-section-number">9.5</span> Python</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#reticulate"><span class="header-section-number">9.5.1</span> reticulate</a></li>
+<li><a class="nav-link" href="#packages"><span class="header-section-number">9.5.2</span> Packages</a></li>
+<li><a class="nav-link" href="#functions-in-packages"><span class="header-section-number">9.5.3</span> Functions in Packages</a></li>
+<li><a class="nav-link" href="#dataset-storage-types"><span class="header-section-number">9.5.4</span> Dataset Storage Types</a></li>
+<li><a class="nav-link" href="#mathematical-operations"><span class="header-section-number">9.5.5</span> Mathematical Operations</a></li>
+<li><a class="nav-link" href="#reading-in-data"><span class="header-section-number">9.5.6</span> Reading in Data</a></li>
+<li><a class="nav-link" href="#pvR"><span class="header-section-number">9.5.7</span> Python versus R</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises-8">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

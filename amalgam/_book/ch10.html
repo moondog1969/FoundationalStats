@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 10 Building R Packages | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content="“There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no...">
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 10 Building R Packages | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="“There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 10 Building R Packages | An Amalgam of R">
+<meta name="twitter:description" content="“There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="active" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch10" class="section level1" number="10">
+<h1>
+<span class="header-section-number">10</span> Building R Packages<a class="anchor" aria-label="anchor" href="#ch10"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult.”</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Tony Hoare</strong>, <em>Pioneering British computer scientist</em></p>
+</div>
+<div id="introduction-1" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>One of strengths of <strong>R</strong> is its capacity to format and share user-designed software as packages. Clearly it is possible to apply <strong>R</strong> for one’s entire scientific career without creating an <strong>R</strong> package. However, development of a package, even if it is not distributed to a formal repository, ensures that your software is trustworthy and portable. Importantly, this chapter only provides a overview of basic topics in package development. The most thorough guide to package creation is the document <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a>, which is maintained by the the <strong>R</strong> development core team.</p>
+</div>
+<div id="package-components" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> Package Components<a class="anchor" aria-label="anchor" href="#package-components"><i class="fas fa-link"></i></a>
+</h2>
+<p>An <strong>R</strong> package is a directory of files, generally with nested subdirectories. Specifically,</p>
+<ul>
+<li>
+<code>DESCRIPTION</code> and <code>NAMESPACE</code> files define fundamental characteristics of the package, e.g., the author(s), the maintainer, the package version, the dependency on other packages, etc.</li>
+<li>Subdirectories, and their nested files, contain the package contents. The following subdirectories are possible, although not all need to exist within a package.</li>
+<li>The <code>R</code> subdirectory contains the package <strong>R</strong> code, stored as .r files, and will almost always exist.</li>
+<li>The <code>data</code> subdirectory contains package datasets, usually stored as .rda files, which can be created using <code><a href="https://rdrr.io/r/base/save.html">save()</a></code>.</li>
+<li>The <code>man</code> subdirectory contains the package documentation, stored as .rd files, for functions (in the <code>R</code> directory) and data (in <code>data</code>), and almost always exists.</li>
+<li>The (optional) <code>src</code> subdirectory contains raw source code requiring compilation (C, C++, Fortran). When building a package <strong>R</strong> will call <code>R CMD SHLIB</code> (see Section <a href="ch9.html#compile">9.3.1</a>) to create appropriate binary shared library files.<br>
+</li>
+<li>Other potential subdirectories include: <code>demo</code>, <code>exec</code>, <code>inst</code>, <code>po</code>, <code>tests</code>, <code>tools</code>, and <code>vignettes</code>.</li>
+</ul>
+<p></p>
+<p>Fig <a href="ch10.html#fig:sdag">10.1</a> shows the contents of the <em>streamDAG</em> package. These directories, and their files, are contained within a parent directory called <code>streamDAG</code>.
+</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:sdag"></span>
+<img src="figs10/sddirs.png" alt="Subdirectory level components of the *streamDAG* package." width="60%"><p class="caption">
+Figure 10.1: Subdirectory level components of the <em>streamDAG</em> package.
+</p>
+</div>
+<div class="{$\text{}$}">
+
+</div>
+<div class="example">
+<p><span id="exm:exm-c101" class="example"><strong>Example 10.1  </strong></span><span class="math inline">\(\text{}\)</span><br></p>
+<p>Creation of package components can be facilitated with the function <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code> . From the <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code> documentation Examples (see <code><a href="https://rdrr.io/r/utils/package.skeleton.html">?package.skeleton</a></code>), assume that we want to build a package that contains two silly functions: (<code>f</code> and <code>g</code>) and two silly datasets: (<code>d</code> and <code>e</code>).</p>
+<div class="sourceCode" id="cb1161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">-</span> <span class="va">y</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span>, b <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
+<p>We specify these as the <code>list</code> argument in <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code> and give the package the name <em>mypkg</em>.</p>
+<div class="sourceCode" id="cb1162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"f"</span>,<span class="st">"g"</span>,<span class="st">"d"</span>,<span class="st">"e"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"mypkg"</span><span class="op">)</span></span></code></pre></div>
+<p>Running this code will cause a package skeleton for <em>mypkg</em> to be sent to the working directory. Note that the skeleton contains the subdirectories: <code>data</code>, <code>r</code>, and <code>man</code> (Fig <a href="ch10.html#fig:mypkg1">10.2</a>). The datasets <code>d</code> and <code>e</code> were converted to .rda files by <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code> and were placed in the <code>data</code> subdirectory. The functions <code>f</code> and <code>g</code> were converted to .r files and placed in the <code>r</code> subdirectory. Documentation skeletons for both functions and both datasets, as .rd files, were placed in the <code>man</code> subdirectory. Package <code>DESCRIPTION</code>, <code>NAMESPACE</code> files, and a throw-away (<code>Read-and-delete-me</code>) file were also created (Fig <a href="ch10.html#fig:mypkg1">10.2</a>).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:mypkg1"></span>
+<img src="figs10/mypkg1.png" alt="Subdirectory level components of the toy *mypkg* package." width="60%"><p class="caption">
+Figure 10.2: Subdirectory level components of the toy <em>mypkg</em> package.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="datasets-the-data-subdirectory" class="section level2" number="10.3">
+<h2>
+<span class="header-section-number">10.3</span> Datasets (the <code>data</code> Subdirectory)<a class="anchor" aria-label="anchor" href="#datasets-the-data-subdirectory"><i class="fas fa-link"></i></a>
+</h2>
+<p>Datasets in <strong>R</strong> are stored in the <code>data</code> subdirectory. Three data formats are possible:</p>
+<ul>
+<li>Raw .r code</li>
+<li>Tabular data (e.g., .txt, .csv files)</li>
+<li>Data `<code>images'' created using the function</code>save()`, e.g., .rda or .Rdata files. This approach is generally recommended, particularly for large datasets. Here we create a simple .rda dataset, and send it to the working directory.</li>
+</ul>
+<div class="sourceCode" id="cb1163"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html">save</a></span><span class="op">(</span><span class="va">x</span>, file <span class="op">=</span> <span class="st">"x.rda"</span><span class="op">)</span></span></code></pre></div>
+<p>
+Data from packages will either be accessible via lazy loading (which allows increased accessibility) or with the <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code> function. Under the former approach, package data objects will not be loaded upon loading of their package environment, however promises are created, requiring the object to be loaded when its name is entered in a session. Lazy loading always occurs for package <strong>R</strong> code but is optional for package data. Lazy loading of data can be specified in a <code>‘LazyData’</code> field from a package’s <code>DESCRIPTION</code> file (see below). Examples of lazy loaded data include objects from the package <em>datasets</em>. Note that these do not require <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code> for loading:</p>
+<div class="sourceCode" id="cb1164"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/BOD.html">BOD</a></span> <span class="co"># data describing Biochemical Oxygen Demand</span></span></code></pre></div>
+<pre><code>  Time demand
+1    1    8.3
+2    2   10.3
+3    3   19.0
+4    4   16.0
+5    5   15.6
+6    7   19.8</code></pre>
+<p>Under the latter, more common approach, <code>data(*foo*)</code> must be called to allow availability of the dataset <em>foo</em>.</p>
+<div class="sourceCode" id="cb1166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">asbio</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">bighorn.sel</span><span class="op">)</span> <span class="co"># bighorn sheep resource use and availability</span></span>
+<span><span class="va">bighorn.sel</span></span></code></pre></div>
+<pre><code>          resources avail  y1  n1
+1          Riparian  0.06   0 445
+2           Conifer  0.13   6 445
+3       Mt. Shrub 1  0.16   9 445
+4             Aspen  0.15  18 445
+5      Rock outcrop  0.06  14 445
+6  Sage/Bitterbrush  0.17  63 445
+7  Windblown ridges  0.12  46 445
+8        Mt shrub 2  0.04  62 445
+9  Prescribed burns  0.09 178 445
+10         Clearcut  0.02  49 445</code></pre>
+<p></p>
+</div>
+<div id="r-code-the-r-subdirectory" class="section level2" number="10.4">
+<h2>
+<span class="header-section-number">10.4</span> R Code (the <code>r</code> Subdirectory)<a class="anchor" aria-label="anchor" href="#r-code-the-r-subdirectory"><i class="fas fa-link"></i></a>
+</h2>
+<p>Code for functions is generally stored in the <code>r</code> directory, as .r files. IDEs like RStudio, which contain options for the generation of .r scripts, e.g., <strong>File <span class="math inline">\(&gt;\)</span> New File <span class="math inline">\(&gt;\)</span> R script</strong>, can greatly aid in this process. Single .r files can contain multiple functions, although a one function per file approach may be easier to manage.
+</p>
+</div>
+<div id="documentation-the-man-subdirectory" class="section level2" number="10.5">
+<h2>
+<span class="header-section-number">10.5</span> Documentation (the <code>man</code> Subdirectory)<a class="anchor" aria-label="anchor" href="#documentation-the-man-subdirectory"><i class="fas fa-link"></i></a>
+</h2>
+<p>As functions become complex, it may become difficult to keep track of the meaning of function arguments, and the characteristics of function output, using a simple notes-to-self approach, e.g., . <strong>R</strong> documentation (.rd) files provide a framework for documenting, <strong>R</strong> functions, methods, and datasets. The <code><a href="https://rdrr.io/r/utils/prompt.html">prompt()</a></code> family of functions can greatly facilitate the creation of .rd files. In Example <a href="ch10.html#exm:exm-c101">10.1</a>, the function <code>package.skelton()</code> used the functions <code><a href="https://rdrr.io/r/utils/prompt.html">prompt()</a></code> and <code>promptData</code> to build documentation skeletons for functions and datasets, respectively. For instance, the code below was applied to create documentation for the function <code>f()</code>.</p>
+<div class="sourceCode" id="cb1168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/prompt.html">prompt</a></span><span class="op">(</span><span class="va">f</span>, filename <span class="op">=</span> <span class="st">"f"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Created file named 'f'.
+Edit the file and move it to the appropriate directory.</code></pre>
+<p>This code causes the file <code>f.rd</code> to be generated, and sent to the working directory for further editing (Fig <a href="ch10.html#fig:fdoc">10.3</a>).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:fdoc"></span>
+<img src="figs10/frd.png" alt="Documentation file skeleton for the toy function `f()`" width="60%"><p class="caption">
+Figure 10.3: Documentation file skeleton for the toy function <code>f()</code>
+</p>
+</div>
+<p>Some guidance for completing .rd files is provided by notes in the skeleton generated by <code><a href="https://rdrr.io/r/utils/prompt.html">prompt()</a></code>. I have removed these notes in Fig <a href="ch10.html#fig:fdoc">10.3</a> to save space. As before, the authoritative resource for documentation building is <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a>.</p>
+<p>Package documentation files can be placed into a <code>man</code> directory and compiled into a single documentation entity as the package is compiled<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Following package compilation, installation, and loading, this allows access to documentation via &lt;code&gt;help(documented topic)&lt;/code&gt; or &lt;code&gt;?documented topic&lt;/code&gt; (Section &lt;a href="ch2.html#help"&gt;2.4&lt;/a&gt;)&lt;/p&gt;'><sup>98</sup></a>, or compiled singly for <strong>R</strong> objects that a user deems worthy of documentation. The latter approach is facilitated with the <strong>Preview</strong> widget in RStudio, which is available upon opening an .rd file. Running <strong>Preview</strong> on the file <code>f.rd</code> resulting in the .html preview shown in Fig <a href="ch10.html#fig:fpre">10.4</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:fpre"></span>
+<img src="figs10/fpre.png" alt="Preview of the .html generated from the code shown Fig \@ref(fig:fdoc)." width="80%"><p class="caption">
+Figure 10.4: Preview of the .html generated from the code shown Fig <a href="ch10.html#fig:fdoc">10.3</a>.
+</p>
+</div>
+<p>An .rd file can be converted to legible documentation in .html, .pdf or other formats by depositing the file in the <strong>R</strong> directory containing <code>R CMD</code> routines (e.g., bin/x64), and running the appropriate <code>R CMD</code> algorithms from the command line. In Windows this requires first navigating to the directory containing the <code>R CMD</code> routines using the Windows shell command line editor (see Ch 9). Important <code>R CMD</code> documentation rendering algorithms include:</p>
+<ul>
+<li>
+<code>R CMD Rd2pdf</code> <em>foo.rd</em>`, can be used to compile the documentation file <em>foo.rd</em> into a .pdf document.</li>
+<li>
+<code>R CMD Rd2txt</code> <em>foo.rd</em>`, can be used to compile the documentation file <em>foo.rd</em> into a pretty text format.</li>
+<li>
+<code>R CMD Rdconv</code> <em>foo.rd</em>`, can be used to compile the documentation file <em>foo.rd</em> into a variety formats including plain text, HTML, or LaTeX.</li>
+</ul>
+<p>
+</p>
+</div>
+<div id="the-description-file" class="section level2" number="10.6">
+<h2>
+<span class="header-section-number">10.6</span> The DESCRIPTION File<a class="anchor" aria-label="anchor" href="#the-description-file"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <code>DESCRIPTION</code> file contains basic information about a package. The <code>DESCRIPTION</code> file skeleton for the <em>mypkg</em> package, created by <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code> in Example <a href="ch10.html#exm:exm-c101">10.1</a>, is shown in Fig <a href="ch10.html#fig:desc">10.5</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:desc"></span>
+<img src="figs10/desc.png" alt="`DESCRIPTION` file of the toy *mypkg* package." width="80%"><p class="caption">
+Figure 10.5: <code>DESCRIPTION</code> file of the toy <em>mypkg</em> package.
+</p>
+</div>
+<p>The <code>DESCRIPTION</code> file will have a Debian control file format (see <code><a href="https://rdrr.io/r/base/dcf.html">?read.dcf</a></code>. Specifically, fields in <code>DESCRIPTION</code> must start with the field name, comprised of ASCII (Ch 12) printable characters, followed by a colon. The value for the field is given after the colon and an additional space (Fig <a href="ch10.html#fig:desc">10.5</a>). If allowed, field values longer than one line must use a space or a tab to start a new line. Specification of <code>‘Package’</code>, <code>‘Version’</code>, <code>‘License’</code>, <code>‘Description’</code>, <code>‘Title’</code>, <code>‘Author’</code>, and <code>‘Maintainer’</code> fields, shown in Fig <a href="ch10.html#fig:desc">10.5</a>, are mandatory.</p>
+<ul>
+<li>The <code>‘Package’</code> field gives the name of the package.</li>
+<li>The <code>‘Version’</code> field gives a user-specified package version. It should be a sequence of at least two non-negative integers separated by single usages <code>‘.’</code> and/or <code>‘-’</code> characters.</li>
+<li>The <code>‘Title’</code> field should provide a descriptive title for the package. It should use title case (capitals for principal words), and not have any continuation lines.</li>
+<li>The <code>‘Author’</code> field describes who wrote the package. Note that if your package contains wrappers of the work of others, which are included in the <code>src</code> directory, then you are not the sole author.</li>
+<li>The <code>‘Maintainer’</code> field provides a single name followed by a valid email address in angle brackets (Fig <a href="ch10.html#fig:desc">10.5</a>).</li>
+<li>The <code>‘Description’</code> field should provide a comprehensive description of what the package does. Several (complete) sentences, complete, although these should limited to one paragraph. The field value should not to start with the package name, or <code>‘This package...’</code>.</li>
+<li>The <code>‘License’</code> field provides standard open source
+license information for the package. Failure to specify license information may prevent others from legally using, or distributing your package. Standard licenses available from (<a href="https://www.R-project.org/Licenses/" class="uri">https://www.R-project.org/Licenses/</a>) include GPL-2, GPL-3, LGPL-2, LGPL-2.1, LGPL-3, AGPL-3, Artistic-2.0, BSD_2_clause, and BSD_3_clause MIT. See <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a> for more information.</li>
+<li>Other optional fields include: <code>‘Copyright’</code>, <code>‘Date’</code>, <code>‘Depends’</code>, <code>‘Imports’</code>, <code>‘Suggests’</code>, <code>‘Enhances’</code>, <code>‘LinkingTo’</code>, <code>‘Additional_repositories’</code>, <code>‘SystemRequirements’</code>, <code>‘URL’</code>, <code>‘BugReports’</code>, <code>‘Collate’</code>, <code>‘LazyData’</code>, <code>‘KeepSource’</code>, <code>‘ByteCompile’</code>, <code>‘UseLTO’</code>, <code>‘StagedInstall’</code>, <code>‘Biarch’</code>, <code>‘BuildVignettes’</code>, <code>‘VignetteBuilder’</code>, <code>‘NeedsCompilation’</code>, <code>‘OS_type’</code>, and <code>‘Type’</code>. See <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a> for more information on these fields.
+</li>
+</ul>
+</div>
+<div id="the-namespace-file" class="section level2" number="10.7">
+<h2>
+<span class="header-section-number">10.7</span> The NAMESPACE File<a class="anchor" aria-label="anchor" href="#the-namespace-file"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <strong>R</strong> namespace management system allows package authors to specify which variables in the package can be exported to package users, and which variables should be imported from other packages. The mandatory <code>NAMESPACE</code> file for the toy <em>mypkg</em> package is extremely simple (Fig <a href="ch10.html#fig:namespace">10.6</a>). It indicates that all four objects contained in the package, and their associated names, can be exported. If one wishes to export all objects and names for a large package, it is simpler to specify: <code>exportPattern(.)</code>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:namespace"></span>
+<img src="figs10/namespace.png" alt="`NAMESPACE` file of the toy *mypkg* package." width="40%"><p class="caption">
+Figure 10.6: <code>NAMESPACE</code> file of the toy <em>mypkg</em> package.
+</p>
+</div>
+<p>Import of exported variables from other packages requires specification of <code>import</code> and <code>importFrom</code>. The <code>import</code> directive imports all exported variables from specified package(s). Thus, <code>import(foo)</code>
+imports all exported variables in the package <em>foo</em>. If a package requires some of the exported variables from a package, then <code>importFrom</code> can be used. The <code>NAMESPACE</code> directive <code>importFrom(foo, f, g)</code> indicates that <code>f</code> and <code>g</code> from package <em>foo</em> should be imported.</p>
+<p>To ensure that S3 methods for package classes are available, one must register the methods in the <code>NAMESPACE</code> file. For instance, if a package has a function <code>print.foo()</code> that serves as a print method for class <code>foo</code>, then one should include <code>S3method(print, foo)</code> as a line in <code>NAMESPACE</code>.</p>
+<p>
+## Package Compilation
+As with compilation of C and Fortran files (Ch 9), and the conversion of individual .rd files, the building and installation of a user-designed package requires depositing the package contents in the <strong>R</strong> directory containing the <code>R CMD</code> routines.<sup>[Or providing a navigation address to the package for <code>R CMD</code>]<span class="math inline">\(^{,}\)</span></sup>[Probably the only <code>R CMD</code> routine isn’t clearly tied to the development of <strong>R</strong> packages is <code>Rcmd BATCH</code>, which is used for running <strong>R</strong> scripts from the command line.] As before, one must run <code>R CMD</code> routines from the command line, requiring (in Windows) that a user navigate to the directory containing the <code>R CMD</code> routines at the Windows shell command line. This is unnecessary in Unix-like operating system (including MacOS), as these algorithms can be called directly from the computer’s command line. <code>R CMD</code> routines for package building include:</p>
+<ul>
+<li>
+<code>R CMD build</code> <em>foo</em>, which would build the package <em>foo</em>.</li>
+<li>
+<code>R CMD check</code> <em>foo.tar.gz</em>, which would check the tarballed package <em>foo.tar.gz</em>, created by <code>R CMD build</code>.</li>
+<li>
+<code>R CMD INSTALL</code> <em>foo.tar.gz</em> can be used to install the package <em>foo</em>.</li>
+</ul>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-c102" class="example"><strong>Example 10.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Continuing from Example <a href="ch10.html#exm:exm-c101">10.1</a>, I complete the following steps for package building/compression, checking, and installation.</p>
+<ul>
+<li>Here I Build a tarballed version of the <em>mypkg</em> package using: <code>R CMD build mypkg</code>.</li>
+</ul>
+<div class="inline-figure"><img src="figs10/RCMDbuild.png" width="80%" style="display: block; margin: auto;"></div>
+<ul>
+<li>Here I check the tarballed version of the package using: <code>R CMD check mypkg_0.1.tar.gz</code>.</li>
+</ul>
+<div class="inline-figure"><img src="figs10/RCMDcheck.png" width="80%" style="display: block; margin: auto;"></div>
+<p>Note that the checks from <code>R CMD check</code> can be extensive (the output above is just an excerpt). Checks are even more taxing if one uses the option <code>--as-cran</code> which performs assessments one must pass for submission to CRAN.</p>
+<ul>
+<li>Finally, I Install the <em>mypkg</em> package into my workstation using: <code>R CMD INSTALL mypkg_0.1.tar.gz</code>.</li>
+</ul>
+<div class="inline-figure"><img src="figs10/RCMDINSTALL.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="exercises-9" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-9"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><p>Create an .rd documentation file for the function for McIntosh’s index of site biodiversity from Exercise 2 in <a href="ch8.html#ch8">8</a>. Make a .pdf or .html from the .rd file using the appropriate <code>R CMD</code> routines.</p></li>
+<li>
+<p>Create an <strong>R</strong> package consisting of at least one function. Specifically,</p>
+<ol style="list-style-type: lower-alpha">
+<li>Create a skeleton of the package using <code><a href="https://rdrr.io/r/utils/package.skeleton.html">package.skeleton()</a></code>.</li>
+<li>Finish the .rd file(s) in <code>man</code>.</li>
+<li>Complete the <code>DESCRIPTION</code> file.</li>
+<li>Complete the <code>NAMESPACE</code> file.</li>
+<li>Build the package using <code>R CMD build</code>.</li>
+<li>Check the package using <code>R CMD check</code>. Modify the package (if necessary) until no more <code>ERRORS</code> or <code>WARNINGS</code> occur.</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></div>
+<div class="next"><a href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch10"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="nav-link" href="#introduction-1"><span class="header-section-number">10.1</span> Introduction</a></li>
+<li><a class="nav-link" href="#package-components"><span class="header-section-number">10.2</span> Package Components</a></li>
+<li><a class="nav-link" href="#datasets-the-data-subdirectory"><span class="header-section-number">10.3</span> Datasets (the data Subdirectory)</a></li>
+<li><a class="nav-link" href="#r-code-the-r-subdirectory"><span class="header-section-number">10.4</span> R Code (the r Subdirectory)</a></li>
+<li><a class="nav-link" href="#documentation-the-man-subdirectory"><span class="header-section-number">10.5</span> Documentation (the man Subdirectory)</a></li>
+<li><a class="nav-link" href="#the-description-file"><span class="header-section-number">10.6</span> The DESCRIPTION File</a></li>
+<li><a class="nav-link" href="#the-namespace-file"><span class="header-section-number">10.7</span> The NAMESPACE File</a></li>
+<li><a class="nav-link" href="#exercises-9">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

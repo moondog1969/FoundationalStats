@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 2: R and Climate</title>
+  <meta name="description" content="Lab 2: R and Climate" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 2: R and Climate" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 2: R and Climate" />
+  
+  
+  
+
+<meta name="author" content="Ken Aho" />
+
+
+<meta name="date" content="2025-01-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="climate.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>1</b> <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r.html"><a href="r.html#r-as-a-calculator"><i class="fa fa-check"></i><b>1.1</b> <strong>R</strong> as a Calculator</a></li>
+<li class="chapter" data-level="1.2" data-path="r.html"><a href="r.html#expressions-or-assignments"><i class="fa fa-check"></i><b>1.2</b> Expressions or Assignments</a></li>
+<li class="chapter" data-level="1.3" data-path="r.html"><a href="r.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.3</b> Reading data into R</a></li>
+<li class="chapter" data-level="1.4" data-path="r.html"><a href="r.html#queryingsubsetting-data"><i class="fa fa-check"></i><b>1.4</b> Querying/Subsetting Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="climate.html"><a href="climate.html"><i class="fa fa-check"></i><b>2</b> Climate</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="climate.html"><a href="climate.html#walter-diagrams-average-conditions"><i class="fa fa-check"></i><b>2.1</b> Walter Diagrams (Average Conditions)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="assignment.html"><a href="assignment.html"><i class="fa fa-check"></i>Assignment</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Lab 2: R and Climate</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Lab 2: R and Climate</h1>
+<p class="author"><em>Ken Aho</em></p>
+<p class="date"><em>2025-01-29</em></p>
+</div>
+<div id="r" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> <strong>R</strong><a href="r.html#r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>R</strong> is a computer language and an open source setting for statistics, data management, computation, and graphics. Upon opening <strong>R</strong>, the first two things that will appear in the console of the Graphical User Interface (<strong>R</strong>-GUI) are the license disclaimers and the command line prompt, i.e. <code>&gt;</code>. The prompt indicates that <strong>R</strong> is ready for a command.</p>
+<div id="r-as-a-calculator" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> <strong>R</strong> as a Calculator<a href="r.html#r-as-a-calculator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As an introduction we can use <strong>R</strong> as a calculator. Type <code>2 + 2</code> and press <kbd>Enter</kbd>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="r.html#cb1-1" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>The <code>[1]</code> means, “this is the first requested element.” In this case there is just one element, the solution to <code>2 + 2</code>. The reappearance of the command prompt indicates that <strong>R</strong> is ready for another command.</p>
+<p>A new command can be entered at the prompt or by separating commands with a semicolon.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="r.html#cb3-1" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span>; <span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<pre><code>[1] 5</code></pre>
+<p>The former is generally preferable.</p>
+<p>Usual (and unusual) mathematical operators are easily specified in <strong>R</strong> (Table <a href="r.html#tab:commath">1.1</a>).</p>
+<table>
+<caption><span id="tab:commath">Table 1.1: </span>Elementary mathematical operators and functions in <strong>R</strong>. For all functions <code>x</code> represents a scalar or a numeric vector.</caption>
+<colgroup>
+<col width="24%" />
+<col width="25%" />
+<col width="27%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>+</code></td>
+<td align="left">addition</td>
+<td align="left"><span class="math inline">\(2 + 2\)</span></td>
+<td align="left"><code>2 + 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>-</code></td>
+<td align="left">subtraction</td>
+<td align="left"><span class="math inline">\(2 - 2\)</span></td>
+<td align="left"><code>2 - 2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>*</code></td>
+<td align="left">multiplication</td>
+<td align="left"><span class="math inline">\(2 \times 2\)</span></td>
+<td align="left"><code>2 * 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="left">division</td>
+<td align="left"><span class="math inline">\(\frac{2}{3}\)</span></td>
+<td align="left"><code>2/3</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>^</code></td>
+<td align="left">exponentiation</td>
+<td align="left"><span class="math inline">\(2^3\)</span></td>
+<td align="left"><code>2^3</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>abs(x)</code></td>
+<td align="left"><span class="math inline">\(\mid x \mid\)</span></td>
+<td align="left"><span class="math inline">\(\mid -23.7 \mid\)</span></td>
+<td align="left"><code>abs(-23.7)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>round(x, digits = d)</code></td>
+<td align="left">round <span class="math inline">\(x\)</span> to <span class="math inline">\(d\)</span> digits</td>
+<td align="left">round <span class="math inline">\(-23.71\)</span> to 1 digit</td>
+<td align="left"><code>round(-23.71, 1)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sqrt(x)</code></td>
+<td align="left"><span class="math inline">\(\sqrt{x}\)</span></td>
+<td align="left"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td align="left"><code>sqrt(2)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>log(x)</code></td>
+<td align="left"><span class="math inline">\(\log_e{x}\)</span></td>
+<td align="left"><span class="math inline">\(\log_e{5}\)</span></td>
+<td align="left"><code>log(5)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>log(x, base = b)</code></td>
+<td align="left"><span class="math inline">\(\log_b{x}\)</span></td>
+<td align="left"><span class="math inline">\(\log_{10}{5}\)</span></td>
+<td align="left"><code>log(5, base = 10)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>factorial(x)</code></td>
+<td align="left"><span class="math inline">\(x!\)</span></td>
+<td align="left"><span class="math inline">\(5!\)</span></td>
+<td align="left"><code>factorial(5)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sum(x)</code></td>
+<td align="left"><span class="math inline">\(\sum_{i=1}^{n}x_i\)</span></td>
+<td align="left">sum of <code>x</code></td>
+<td align="left"><code>sum(x)</code></td>
+</tr>
+</tbody>
+</table>
+<p>As with command line functions from all programming languages <strong>R</strong> functions generally require that a user to specify arguments (in parentheses) following the function name. For example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="r.html#cb6-1" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">2</span>, <span class="at">base =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+</div>
+<div id="expressions-or-assignments" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Expressions or Assignments<a href="r.html#expressions-or-assignments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Commands in <strong>R</strong> consist of either <em>expressions</em> or <em>assignments</em>. If a command is an <em>expression</em>, it will be evaluated, printed and discarded. Examples include: <code>2 + 2</code>, or even <code>(log(3) + exp(5)) * 15^-5</code>. Conversely, an assignment evaluates an expression, and assigns the output to an <strong>R</strong>-object, but does not automatically print the results. For instance, if I type:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="r.html#cb8-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="r.html#cb9-1" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span> <span class="ot">-&gt;</span> x</span></code></pre></div>
+<p>then the sum will be contained in the object <code>x</code>. To print the result (to see <code>x</code>) I simply type:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="r.html#cb10-1" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>The entity <code>&lt;-</code> is the <em>assignment</em> operator, and represents an arrow.</p>
+</div>
+<div id="reading-data-into-r" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Reading data into R<a href="r.html#reading-data-into-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A question of obvious importance is: how do I get my data into <strong>R</strong>? The answer is: two ways. First, one can enter data “by hand” at the command line. Second, one can read in entire data files, e.g., spreadsheets. Under the first approach, data can be combined into a single entity with the function <code>c()</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="r.html#cb12-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>); b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span></code></pre></div>
+<p>We can use the function <code>cbind()</code> to combine data as columns, under a matrix format,</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="r.html#cb13-1" tabindex="-1"></a><span class="fu">cbind</span>(a, b)</span></code></pre></div>
+<pre><code>     a b
+[1,] 1 2
+[2,] 2 3
+[3,] 3 4</code></pre>
+<p>while <code>rbind</code> lets us combine data as rows.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="r.html#cb15-1" tabindex="-1"></a><span class="fu">rbind</span>(a, b)</span></code></pre></div>
+<pre><code>  [,1] [,2] [,3]
+a    1    2    3
+b    2    3    4</code></pre>
+<p>Under the second approach, we can use the function <code>read.csv()</code> in conjunction with <code>file.choose()</code> to load comma separated value (.csv) spreadsheets. Specifically, the code:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="r.html#cb17-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.choose</span>())</span></code></pre></div>
+<p>would allow one to mouse-search for a .csv spreadsheet file, download it, and save it as an object named <code>data</code>.</p>
+</div>
+<div id="queryingsubsetting-data" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Querying/Subsetting Data<a href="r.html#queryingsubsetting-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>R</strong> allows us to easily specify particular subsets of a matrix using subset brackets, i.e. <code>[ ]</code>. A dataframe or matrix, <code>mat</code> followed by brackets with a comma preceding a number, e.g., 2, inside the brackets, indicates: extract column 2 from <code>mat</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="r.html#cb18-1" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(a, b)</span>
+<span id="cb18-2"><a href="r.html#cb18-2" tabindex="-1"></a>mat[,<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>a b 
+2 3 </code></pre>
+<p>The command <code>mat[1,]</code> extracts row 1 in <code>mat</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="r.html#cb20-1" tabindex="-1"></a>mat[<span class="dv">1</span>,]</span></code></pre></div>
+<pre><code>[1] 1 2 3</code></pre>
+<p>Brackets without commas can be used to subset individual elements in a data matrix. For instance the code:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r.html#cb22-1" tabindex="-1"></a>mat[,<span class="dv">1</span>][<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>a 
+1 </code></pre>
+<p>extracts the entry in the first cell of column 1.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="climate.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

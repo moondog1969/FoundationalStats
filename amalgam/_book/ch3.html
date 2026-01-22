@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 3 Data Objects, Packages, and Datasets | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content='"In God we trust. All others [must] have data."  - Edwin R. Fisher, cancer pathologist  3.1 Data Storage Objects There are five primary types of data storage objects in R. These are: (atomic)...'>
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 3 Data Objects, Packages, and Datasets | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content='"In God we trust. All others [must] have data."  - Edwin R. Fisher, cancer pathologist  3.1 Data Storage Objects There are five primary types of data storage objects in R. These are: (atomic)...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 3 Data Objects, Packages, and Datasets | An Amalgam of R">
+<meta name="twitter:description" content='"In God we trust. All others [must] have data."  - Edwin R. Fisher, cancer pathologist  3.1 Data Storage Objects There are five primary types of data storage objects in R. These are: (atomic)...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="active" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch3" class="section level1" number="3">
+<h1>
+<span class="header-section-number">3</span> Data Objects, Packages, and Datasets<a class="anchor" aria-label="anchor" href="#ch3"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>"In God we trust. All others [must] have data."</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Edwin R. Fisher</strong>, <em>cancer pathologist</em></p>
+</div>
+<div id="data-storage-objects" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Data Storage Objects<a class="anchor" aria-label="anchor" href="#data-storage-objects"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are five primary types of data storage objects in <strong>R</strong>. These are: (atomic) vectors, matrices, arrays, dataframes, and lists<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Note that distinctions of these objects are not always clear or consistent. For instance, a &lt;code&gt;names&lt;/code&gt; attribute can be given to elements of vectors and lists, and columns of dataframes. However, only names from dataframes and lists can be made visible using &lt;code&gt;attach&lt;/code&gt;, or called using &lt;code&gt;$&lt;/code&gt;. See additional examples &lt;a href="https://adv-r.hadley.nz/vectors-chap.html"&gt;here&lt;/a&gt;.&lt;/p&gt;'><sup>33</sup></a>.</p>
+<div id="vectors" class="section level3" number="3.1.1">
+<h3>
+<span class="header-section-number">3.1.1</span> Atomic Vectors<a class="anchor" aria-label="anchor" href="#vectors"><i class="fas fa-link"></i></a>
+</h3>
+<p><em>Atomic vectors</em> contain data with order and length, but no dimension. This is clearly different from the linear algebra conception of a vector. In linear algebra, a row vector with <span class="math inline">\(n\)</span> elements has dimension <span class="math inline">\(1 \times n\)</span> (1 row and <span class="math inline">\(n\)</span> columns), whereas a column vector has dimension <span class="math inline">\(n \times 1\)</span>.</p>
+<p>We can create atomic vectors with the function <code>c</code>, which means <em>combine</em>.
+</p>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">is.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>NULL</code></pre>
+<p>We can add a names attribute to vector elements. For example,</p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span>, b <span class="op">=</span> <span class="fl">2</span>, c <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span></span></code></pre></div>
+<pre><code>a b c 
+1 2 3 </code></pre>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$names
+[1] "a" "b" "c"</code></pre>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"names"</span><span class="op">)</span> <span class="co"># or  names(x)</span></span></code></pre></div>
+<pre><code>[1] "a" "b" "c"</code></pre>
+<p>
+The function <code>as.matrix(x)</code> (see Section <a href="ch3.html#s3coer">3.3.2</a>) can be used to coerce <code>x</code> to have a matrix structure with dimension <span class="math inline">\(3 \times 1\)</span> (3 rows and 1 column). Thus, in <strong>R</strong> a matrix has dimension, but a vector does not.</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3 1</code></pre>
+<p>Recall (Section <a href="ch2.html#bt">2.3.4</a>) that an object’s base type defines the (<strong>R</strong> internal) type or storage mode of any object. Recall further that the 25 base types include <code>"integer"</code>, <code>"double"</code>, <code>"complex"</code>, and <code>"character"</code>. Elements of vectors must have a single data storage mode. Thus, a vector cannot contain both numeric and character data.
+</p>
+<p>Importantly, when an element-wise operation is applied to two unequal length vectors, <strong>R</strong> will generate a warning and automatically recycle elements of the shorter vector. For instance:</p>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">13</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in c(1, 2, 3) + c(1, 0, 4, 5, 13): longer object length is not a
+multiple of shorter object length</code></pre>
+<pre><code>[1]  2  2  7  6 15</code></pre>
+<p>In this case, the result of the addition of the two vectors is: <span class="math inline">\(1 + 1, 2 + 0, 3 + 4, 1 + 5\)</span>, and <span class="math inline">\(2 + 13\)</span>. Thus, the first two elements in the first object are recycled in the vector-wise addition.</p>
+</div>
+<div id="Sec3M" class="section level3" number="3.1.2">
+<h3>
+<span class="header-section-number">3.1.2</span> Matrices<a class="anchor" aria-label="anchor" href="#Sec3M"><i class="fas fa-link"></i></a>
+</h3>
+<p><em>Matrices</em> are two-dimensional (row and column) data structures whose elements all have the same data storage mode (typically <code>"double"</code>).</p>
+<p>The function <code><a href="https://rdrr.io/r/base/matrix.html">matrix()</a></code> can be used to create matrices.</p>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">2</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">A</span></span></code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    2</code></pre>
+<p>Note that <code><a href="https://rdrr.io/r/base/matrix.html">matrix()</a></code> enters data “by column.” That is, the first two entries in the <code>data</code> argument are placed in column one, and the last two entries are placed in column two. One can enter data “by row” by adding the argument <code>byrow = TRUE</code>.</p>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">2</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">B</span></span></code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    1    2
+[2,]    3    2</code></pre>
+<p><em>Matrix algebra</em> operations can be applied directly to <strong>R</strong> matrices (Table <a href="ch3.html#tab:boo1">3.1</a>). More complex matrix analyses are also possible, including spectral decomposition (function <code><a href="https://rdrr.io/r/base/eigen.html">eigen()</a></code>), and single value, QR, and Cholesky decompositions (the functions <code><a href="https://rdrr.io/r/base/svd.html">svd()</a></code>, <code><a href="https://rdrr.io/r/base/qr.html">qr()</a></code>, <code><a href="https://rdrr.io/r/base/chol.html">chol()</a></code>, respectively).<br></p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:boo1">Table 3.1: </span>Simple matrix algebra operations in <strong>R</strong>. In all operations <span class="math inline">\(\boldsymbol{A}\)</span> (and correspondingly, <code>A</code>) is a matrix</caption>
+<colgroup>
+<col width="13%">
+<col width="22%">
+<col width="50%">
+<col width="14%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code><a href="https://rdrr.io/r/base/t.html">t()</a></code></td>
+<td align="left">Matrix transpose</td>
+<td align="left"><span class="math inline">\(\boldsymbol{A}^T\)</span></td>
+<td align="left"><code>t(A)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>%*%</code></td>
+<td align="left">Matrix multiply</td>
+<td align="left"><span class="math inline">\(\boldsymbol{A} \cdot \boldsymbol{A}\)</span></td>
+<td align="left"><code>A%*%A</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://rdrr.io/r/base/det.html">det()</a></code></td>
+<td align="left">Determinant</td>
+<td align="left"><span class="math inline">\(Det(\boldsymbol{A})\)</span></td>
+<td align="left"><code>det(A)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://rdrr.io/r/base/solve.html">solve()</a></code></td>
+<td align="left">Matrix inverse</td>
+<td align="left"><span class="math inline">\(\boldsymbol{A}^{-1}\)</span></td>
+<td align="left"><code>solve(A)</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-3M" class="example"><strong>Example 3.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The matrix <code>A</code>, defined above, has the form:<br><span class="math display">\[\boldsymbol{A} = \begin{bmatrix}
+1 &amp; 3\\
+2 &amp; 2
+\end{bmatrix}.\]</span>
+Consider the operations:</p>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    1    2
+[2,]    3    2</code></pre>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">A</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">A</span></span></code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    7    9
+[2,]    6   10</code></pre>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/det.html">det</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] -4</code></pre>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     [,1]  [,2]
+[1,] -0.5  0.75
+[2,]  0.5 -0.25</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>We can use the function <code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code> to combine vectors into matrix columns,</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>; <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     a b
+[1,] 1 2
+[2,] 2 3
+[3,] 3 4</code></pre>
+<p>and use the function <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> to combine vectors into matrix rows.</p>
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">a</span>,<span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  [,1] [,2] [,3]
+a    1    2    3
+b    2    3    4</code></pre>
+</div>
+<div id="arrays" class="section level3" number="3.1.3">
+<h3>
+<span class="header-section-number">3.1.3</span> Arrays<a class="anchor" aria-label="anchor" href="#arrays"><i class="fas fa-link"></i></a>
+</h3>
+<p><em>Arrays</em> are one, two dimensional (matrix), or three or more dimensional data structures whose elements contain a single type of data. Thus, while all matrices are arrays, not all arrays are matrices.</p>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "matrix" "array" </code></pre>
+<p>As with matrices, elements in arrays can have only one data storage mode.</p>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="co"># base type (data storage mode)</span></span></code></pre></div>
+<pre><code>[1] "double"</code></pre>
+<p>
+The function <code><a href="https://rdrr.io/r/base/array.html">array()</a></code> can be used to create arrays. The first argument in <code><a href="https://rdrr.io/r/base/array.html">array()</a></code> defines the data. The second argument is a vector that defines both the number of dimensions (this will be the length of the vector), and the number of levels in each dimension (numbers in dimension elements).</p>
+<div class="example">
+<p><span id="exm:exm-3A" class="example"><strong>Example 3.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here is a <span class="math inline">\(2 \times 2 \times 2\)</span> array:</p>
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">some.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="va">some.data</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">B</span></span></code></pre></div>
+<pre><code>, , 1
+
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+, , 2
+
+     [,1] [,2]
+[1,]    5    7
+[2,]    6    8</code></pre>
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "array"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="dataframes" class="section level3" number="3.1.4">
+<h3>
+<span class="header-section-number">3.1.4</span> Dataframes<a class="anchor" aria-label="anchor" href="#dataframes"><i class="fas fa-link"></i></a>
+</h3>
+<p><em>Dataframes</em> are two-dimensional structures whose columns can have different data storage modes (e.g., quantitative <em>and</em> categorical). The function <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> can be used to create dataframes.
+</p>
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>numeric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, non.numeric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           a
+2       2           b
+3       3           c</code></pre>
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "data.frame"</code></pre>
+<p>Because of the possibility of different data storage modes for distinct columns, the data storage mode of a dataframe is <code>"list"</code>. Specifically, a dataframe is a list, whose storage <em>elements</em> are columns.</p>
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "list"</code></pre>
+<p>A <code>names</code> attribute will exist for each dataframe column<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Matrices and arrays which, optimally, will both be numeric storage structures, cannot have a &lt;code&gt;names&lt;/code&gt; attribute. Instead, row names and column names can be applied using the functions &lt;code&gt;row.names()&lt;/code&gt; and &lt;code&gt;col.names()&lt;/code&gt;. These, however, cannot be made visible to search paths with &lt;code&gt;attach()&lt;/code&gt; or called with &lt;code&gt;$&lt;/code&gt;.&lt;/p&gt;"><sup>34</sup></a>.
+</p>
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "numeric"     "non.numeric"</code></pre>
+<p>The <code>$</code> operator allows access to dataframe columns.</p>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">non.numeric</span></span></code></pre></div>
+<pre><code>[1] "a" "b" "c"</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/attach.html">attach()</a></code> allows <strong>R</strong> to recognize column names of a dataframe as global variables.</p>
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/attach.html">attach</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="va">non.numeric</span></span></code></pre></div>
+<pre><code>[1] "a" "b" "c"</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/detach.html">detach()</a></code> is the programming inverse of <code><a href="https://rdrr.io/r/base/attach.html">attach()</a></code>.</p>
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/detach.html">detach</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="va">non.numeric</span></span></code></pre></div>
+<pre><code>Error: object 'non.numeric' not found</code></pre>
+<p>The functions <code><a href="https://rdrr.io/r/base/rm.html">rm()</a></code> and <code><a href="https://rdrr.io/r/base/rm.html">remove()</a></code> will entirely remove any <strong>R</strong>-object, including a vector, matrix, or dataframe from a session. To remove <em>all</em> objects from the workspace one can use <code>rm(list=ls())</code> or (in RStudio) the “broom” button in the environments and history panel<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;All objects from a specific class can also be removed from a workspace. For example, to remove all dataframes, from a work session one could use: &lt;code&gt;rm(list=ls(all=TRUE)[sapply(mget(ls(all=TRUE)), class) == "data.frame"])&lt;/code&gt;&lt;/p&gt;'><sup>35</sup></a>.</p>
+<p>A safer alternative to <code><a href="https://rdrr.io/r/base/attach.html">attach()</a></code> is the function <code><a href="https://rdrr.io/r/base/with.html">with()</a></code>. Using <code><a href="https://rdrr.io/r/base/with.html">with()</a></code> eliminates concerns about multiple variables with the same name becoming mixed up in functions. This is because the variable names for a dataframe specified in <code><a href="https://rdrr.io/r/base/with.html">with()</a></code> will not be permanently attached in an <strong>R</strong>-session.</p>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">non.numeric</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "a" "b" "c"</code></pre>
+</div>
+<div id="lists" class="section level3" number="3.1.5">
+<h3>
+<span class="header-section-number">3.1.5</span> Lists<a class="anchor" aria-label="anchor" href="#lists"><i class="fas fa-link"></i></a>
+</h3>
+<p><em>Lists</em> are often used to contain miscellaneous associated objects. Like dataframes, lists need not use a single data storage mode. Unlike dataframes, however, lists can include objects that are not two-dimensional or with different data classes including character strings (i.e., units of character objects), multiple matrices and dataframes with varying dimensionality, and even other lists. The function <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> can be used to create lists.</p>
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldata1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, b <span class="op">=</span> <span class="st">"this.is.a.list"</span><span class="op">)</span></span>
+<span><span class="va">ldata1</span></span></code></pre></div>
+<pre><code>$a
+[1] 1 2 3
+
+$b
+[1] "this.is.a.list"</code></pre>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">ldata1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "list"</code></pre>
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">ldata1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "list"</code></pre>
+<p>
+Objects in lists can be called using the <code>$</code> operator. Here is the character string <code>b</code> from <code>ldata</code>.</p>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldata1</span><span class="op">$</span><span class="va">b</span></span></code></pre></div>
+<pre><code>[1] "this.is.a.list"</code></pre>
+<p>We note that to create an <strong>R</strong>-object containing character strings, we need to place quotation
+marks around entries.</p>
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"med"</span>, <span class="st">"high"</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] "low"  "med"  "high"</code></pre>
+<p>The function <code>str</code> attempts to display the <em>internal structure</em> of an <strong>R</strong> object. It is extremely useful for succinctly displaying the contents of complex objects like lists.</p>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ldata1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>List of 2
+ $ a: num [1:3] 1 2 3
+ $ b: chr "this.is.a.list"</code></pre>
+<p>We are told that <code>ldata1</code> is a list containing two objects: a sequence of numbers from 1 to 3, and a character string.
+</p>
+<p>The function <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code> is useful for large scale manipulations of data storage objects. For example, what if you had a list containing multiple dataframes with the same column names that you wanted to bind together?</p>
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldata2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>df1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>lo.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span>, </span>
+<span>                                high.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">78</span>, <span class="fl">67</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>              df2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>lo.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">3</span>,<span class="fl">7</span><span class="op">)</span>, </span>
+<span>                               high.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">75</span>, <span class="fl">87</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>              df3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>lo.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0</span>,<span class="fl">2</span><span class="op">)</span>, </span>
+<span>                               high.temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You could do something like:</p>
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>,<span class="va">ldata2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>      lo.temp high.temp
+df1.1      -1        78
+df1.2       3        67
+df1.3       5        90
+df2.1      -4        75
+df2.2       3        87
+df2.3       7        80
+df3.1       0        70
+df3.2       2        80</code></pre>
+<p>Or what if I wanted to replicate the <code>df3</code> dataframe from <code>ldata</code> above, by binding it onto the bottom of itself three times? I could do something like:</p>
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">3</span>, <span class="va">ldata2</span><span class="op">$</span><span class="va">df3</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  lo.temp high.temp
+1       0        70
+2       2        80
+3       0        70
+4       2        80
+5       0        70
+6       2        80</code></pre>
+<p>Note the use of the function <code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code>.
+</p>
+</div>
+</div>
+<div id="boolean-operations" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> Boolean Operations<a class="anchor" aria-label="anchor" href="#boolean-operations"><i class="fas fa-link"></i></a>
+</h2>
+<p>Computer operations that dichotomously classify true and false statements are called <em>logical</em> or <em>Boolean</em>. In <strong>R</strong>, a Boolean operation will always return one of the values <code>TRUE</code> or <code>FALSE</code>. <strong>R</strong> logical operators are listed in Table <a href="ch3.html#tab:boo">3.2</a>.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:boo">Table 3.2: </span>Logical (Boolean) operators in <strong>R</strong>; <code>x</code>, <code>y</code>, and <code>z</code> in columns three and four are <strong>R</strong> objects.</caption>
+<colgroup>
+<col width="13%">
+<col width="21%">
+<col width="38%">
+<col width="26%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To ask:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>&gt;</code></td>
+<td align="left"><span class="math inline">\(&gt;\)</span></td>
+<td align="left">Is <code>x</code> greater than <code>y</code>?</td>
+<td align="left"><code>x &gt; y</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>&gt;=</code></td>
+<td align="left"><span class="math inline">\(\geq\)</span></td>
+<td align="left">Is <code>x</code> greater than or equal to <code>y</code>?</td>
+<td align="left"><code>x &gt;= y</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&lt;</code></td>
+<td align="left"><span class="math inline">\(&lt;\)</span></td>
+<td align="left">Is <code>x</code> less than <code>y</code>?</td>
+<td align="left"><code>x &lt; y</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>&lt;=</code></td>
+<td align="left"><span class="math inline">\(\leq\)</span></td>
+<td align="left">Is <code>x</code> less than or equal to <code>y</code>
+</td>
+<td align="left"><code>x &lt;= y</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>==</code></td>
+<td align="left"><span class="math inline">\(=\)</span></td>
+<td align="left">Is <code>x</code> equal to <code>y</code>?</td>
+<td align="left"><code>x == y</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>!=</code></td>
+<td align="left"><span class="math inline">\(\neq\)</span></td>
+<td align="left">Is <code>x</code> not equal to <code>y</code>?</td>
+<td align="left"><code>x != y</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&amp;</code></td>
+<td align="left"><em>and</em></td>
+<td align="left">Do <code>x</code> and <code>y</code> equal <code>z</code>?</td>
+<td align="left"><code>x &amp;  y == z</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>&amp;&amp;</code></td>
+<td align="left">
+<em>and</em> (control flow)</td>
+<td align="left">Do <code>x</code> and <code>y</code> equal <code>z</code>?</td>
+<td align="left"><code>x &amp;&amp; y == z</code></td>
+</tr>
+<tr class="odd">
+<td align="left">|</td>
+<td align="left"><em>or</em></td>
+<td align="left">Do <code>x</code> or <code>y</code> equal <code>z</code>?</td>
+<td align="left">
+<code>x</code> | <code>y == z</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">||</td>
+<td align="left">
+<em>or</em> (control flow)</td>
+<td align="left">Do <code>x</code> or <code>y</code> equal <code>z</code>?</td>
+<td align="left">
+<code>x</code> || <code>y == z</code>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<p>Note that there are two ways to specify “and” (<code>&amp;</code> and <code>&amp;&amp;</code>), and two ways to specify “or” (<code>|</code> and <code>||</code>). The longer forms of “and” and “or” evaluate queries from left to right, stopping when a result is determined. Thus, this form is more appropriate for programming control-flow operations.</p>
+<div class="example">
+<p><span id="exm:exm-1" class="example"><strong>Example 3.3  </strong></span><br>
+For demonstration purposes, here is a simple dataframe:</p>
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">18</span>,<span class="fl">22</span>,<span class="fl">23</span>,<span class="fl">21</span>,<span class="fl">22</span>,<span class="fl">19</span>,<span class="fl">18</span>,<span class="fl">18</span>,<span class="fl">19</span>,<span class="fl">21</span><span class="op">)</span>,</span>
+<span>Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span><span class="op">)</span>,</span>
+<span>Weight_kg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">63.5</span>,<span class="fl">77.1</span>,<span class="fl">86.1</span>,<span class="fl">81.6</span>,<span class="fl">70.3</span>,<span class="fl">49.8</span>,<span class="fl">54.4</span>,<span class="fl">59.0</span>,<span class="fl">65</span>,<span class="fl">69</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dframe</span></span></code></pre></div>
+<pre><code>   Age Sex Weight_kg
+1   18   M      63.5
+2   22   M      77.1
+3   23   M      86.1
+4   21   M      81.6
+5   22   M      70.3
+6   19   F      49.8
+7   18   F      54.4
+8   18   F      59.0
+9   19   F      65.0
+10  21   F      69.0</code></pre>
+<p>The <strong>R</strong> logical operator for equals is <code>==</code> (Table <a href="ch3.html#tab:boo">3.2</a>). Thus, to identify <code>Age</code> outcomes equal to 21 we type:</p>
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">dframe</span>, <span class="va">Age</span> <span class="op">==</span> <span class="fl">21</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<p>The argument <code>Age == 21</code> has base type <code>logical</code>.</p>
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">dframe</span><span class="op">$</span><span class="va">Age</span> <span class="op">==</span> <span class="fl">21</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "logical"</code></pre>
+<p>
+The <em>unary operator</em> for “not” is <code>!</code> (Table <a href="ch3.html#tab:boo">3.2</a>). Thus, to identify <code>Age</code> outcomes not equal to 21 we could type:</p>
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">dframe</span>, <span class="va">Age</span> <span class="op">!=</span> <span class="fl">21</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</code></pre>
+<p>Multiple Boolean queries can be made. Here we identify <code>Age</code> data less than 19, or equal to 21.</p>
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">dframe</span>, <span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">19</span> <span class="op">|</span> <span class="va">Age</span> <span class="op">==</span> <span class="fl">21</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1]  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE</code></pre>
+<p>Queries can involve multiple variables. For instance, here we identify males less than or equal to 21 years old that weigh less than 80 kg.</p>
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">dframe</span>, <span class="va">Age</span> <span class="op">&lt;=</span> <span class="fl">21</span> <span class="op">&amp;</span> <span class="va">Sex</span> <span class="op">==</span> <span class="st">"M"</span>, <span class="va">weight</span> <span class="op">&lt;</span> <span class="fl">80</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+<!-- \begin{flushright}$\blacksquare$ -->
+<!-- \end{flushright} --></p>
+</div>
+<div id="sctc" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Testing and Coercing Classes<a class="anchor" aria-label="anchor" href="#sctc"><i class="fas fa-link"></i></a>
+</h2>
+<p>We have already considered functions for identifying the class of an arbitrary <strong>R</strong> object, <em>foo</em>. These include <code>class(foo)</code> and <code>attr(foo, "class")</code> (Section <a href="ch2.html#oc">2.3.3</a>). We have also considered approaches for identifying the base type of an object, including <code>typeof(foo)</code> (Section <a href="ch2.html#bt">2.3.4</a>). This section considers methods for identifying object membership in <em>particular</em> classes and base types, and coercing an object’s class and base type membership.
+</p>
+<div id="testing" class="section level3" number="3.3.1">
+<h3>
+<span class="header-section-number">3.3.1</span> Testing<a class="anchor" aria-label="anchor" href="#testing"><i class="fas fa-link"></i></a>
+</h3>
+<p>Functions exist to logically <em>test</em> for object membership to major <strong>R</strong> classes. These functions generally begin with an <code>.is</code> prefix and include: <code><a href="https://rdrr.io/r/base/matrix.html">is.matrix()</a></code>, <code><a href="https://rdrr.io/r/base/array.html">is.array()</a></code>, <code><a href="https://rdrr.io/r/base/list.html">is.list()</a></code>, <code><a href="https://rdrr.io/r/base/factor.html">is.factor()</a></code>, <code><a href="https://rdrr.io/r/base/double.html">is.double()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html">is.integer()</a></code> <code><a href="https://rdrr.io/r/base/numeric.html">is.numeric()</a></code>, <code><a href="https://rdrr.io/r/base/character.html">is.character()</a></code>, and many others.
+The Boolean function <code><a href="https://rdrr.io/r/base/numeric.html">is.numeric()</a></code> can be used to test if an object or an object’s components behave like numbers<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The &lt;code&gt;numeric&lt;/code&gt; class is often used as an alias for class &lt;code&gt;double&lt;/code&gt;. In fact, &lt;code&gt;as.numeric()&lt;/code&gt; is identical to &lt;code&gt;as.double()&lt;/code&gt;, and &lt;code&gt;numeric()&lt;/code&gt; is identical to &lt;code&gt;double()&lt;/code&gt; &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wickham2019advanced"&gt;Wickham 2019&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>36</sup></a>.</p>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">23</span>, <span class="fl">34</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html">is.double</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>Thus, <code>x</code> contains numbers stored with double precision. However,</p>
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<p>Data objects with categorical entries can be created using the function <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code>. In statistics the term “factor” refers to a categorical variable whose categories (factor levels) are likely replicated as treatments in an experimental design.</p>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] 1 2 3 4
+Levels: 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">is.factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>The <strong>R</strong> class <code>factor</code> streamlines many analytical processes, including summarization of a quantitative variable with respect to a factor and specifying interactions of two or more factors. Here we see the interaction of levels in <code>x</code> with levels in another factor, <code>y</code>.</p>
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>,<span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1.a 2.b 3.c 4.d
+16 Levels: 1.a 2.a 3.a 4.a 1.b 2.b 3.b 4.b 1.c 2.c 3.c 4.c 1.d 2.d ... 4.d</code></pre>
+<p></p>
+<p>Sixteen interactions are possible, although only four actually occur when simultaneously considering <code>x</code> and <code>y</code>.</p>
+<p>To decrease memory usage<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;All &lt;code&gt;numeric&lt;/code&gt; objects in &lt;strong&gt;R&lt;/strong&gt; are stored with double-precision, and will require two adjacent locations in computer memory (see Ch 12). Numeric objects coerced to be integers (with &lt;code&gt;as.intger()&lt;/code&gt;) will be stored with double precision, although one of the storage locations will not be used. As a result, integers are not conventional double precision data.&lt;/p&gt;"><sup>37</sup></a>, objects of class <code>factor</code> have an unexpected base type:</p>
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "integer"</code></pre>
+<p>
+Despite this designation, and the fact that categories in <code>x</code> are distinguished using numbers, the entries in <code>x</code> do not have a numerical meaning and cannot be evaluated mathematically.</p>
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">+</span> <span class="fl">5</span></span></code></pre></div>
+<pre><code>Warning in Ops.factor(x, 5): '+' not meaningful for factors</code></pre>
+<pre><code>[1] NA NA NA NA</code></pre>
+<p>Occasionally an ordering of categorical levels is desirable. For instance, assume that we wish to apply three different imprecise temperature treatments <code>"low"</code>, <code>"med"</code> and <code>"high"</code> in an experiment with six experimental units. While we do not know the exact temperatures of these levels, we know that <code>"med"</code> is hotter than <code>"low"</code> and <code>"high"</code> is hotter than <code>"med"</code>. To provide this categorical ordering we can use <code>factor(data, ordered = TRUE)</code> or the function <code><a href="https://rdrr.io/r/base/factor.html">ordered()</a></code>.
+</p>
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"med"</span>,<span class="st">"low"</span>,<span class="st">"high"</span>,<span class="st">"high"</span>,<span class="st">"med"</span>,<span class="st">"low"</span><span class="op">)</span>,</span>
+<span>            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"med"</span>,<span class="st">"high"</span><span class="op">)</span>,</span>
+<span>            ordered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] med  low  high high med  low 
+Levels: low &lt; med &lt; high</code></pre>
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">is.factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">is.ordered</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>The <code>levels</code> argument in <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> specifies the correct ordering of levels.</p>
+<p>
+The function <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> can be applied to atomic vectors or one dimensional arrays (e.g., rows or columns) to evaluate a logical argument and provide particular outcomes if the argument is <code>TRUE</code> or <code>FALSE</code>. The function requires three arguments.</p>
+<ul>
+<li>The first argument, <code>test</code>, gives the logical test to be evaluated.</li>
+<li>The second argument, <code>yes</code>, provides the output if the test is true.</li>
+<li>The third argument, <code>no</code>, provides the output if the test is false.</li>
+</ul>
+<p>For instance:</p>
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">dframe</span><span class="op">$</span><span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">20</span>, <span class="st">"Young"</span>, <span class="st">"Not so young"</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] "Young"        "Not so young" "Not so young" "Not so young"
+ [5] "Not so young" "Young"        "Young"        "Young"       
+ [9] "Young"        "Not so young"</code></pre>
+<p>A more generalized approach to providing a condition and then defining the consequences (often used in functions) uses the commands <code>if</code> and <code>else</code>, potentially in combination with the functions <code><a href="https://rdrr.io/r/base/any.html">any()</a></code> and <code><a href="https://rdrr.io/r/base/all.html">all()</a></code>. For instance:</p>
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="va">dframe</span><span class="op">$</span><span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="st">"Young"</span> <span class="kw">else</span> <span class="st">"Not so Young"</span></span></code></pre></div>
+<pre><code>[1] "Young"</code></pre>
+<p>and</p>
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">dframe</span><span class="op">$</span><span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="st">"Young"</span> <span class="kw">else</span> <span class="st">"Not so Young"</span></span></code></pre></div>
+<pre><code>[1] "Not so Young"</code></pre>
+<p>
+.</p>
+</div>
+<div id="s3coer" class="section level3" number="3.3.2">
+<h3>
+<span class="header-section-number">3.3.2</span> Coercion<a class="anchor" aria-label="anchor" href="#s3coer"><i class="fas fa-link"></i></a>
+</h3>
+<p>Objects can be switched from one class to another using <em>coercion</em> functions that begin with an <code>as.</code> prefix<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Coercion can also be implemented using class generating functions described earlier. For instance, &lt;code&gt;data.frame(matrix(nrow = 2, data = rnorm(4)))&lt;/code&gt; converts a &lt;span class="math inline"&gt;\(2 \times 2\)&lt;/span&gt; matrix into an equivalent dataframe.&lt;/p&gt;'><sup>38</sup></a>. Analogues to the testing (<code>.is</code>) functions listed above are:
+<code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code>, <code><a href="https://rdrr.io/r/base/array.html">as.array()</a></code>, <code><a href="https://rdrr.io/r/base/list.html">as.list()</a></code>, <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code>, <code><a href="https://rdrr.io/r/base/double.html">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code> <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code>, and <code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code>.
+</p>
+<p>For instance, a non-factor object can be coerced to have class <code>factor</code> with the function <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code>.</p>
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">23</span>, <span class="fl">34</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">is.factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">is.factor</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>Coercion may result in removal and addition of attributes. For instance conversion from atomic vector to matrix below results in the loss of the names attribute.</p>
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>eulers_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, log_exp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>, pi <span class="op">=</span> <span class="va">pi</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>eulers_num    log_exp         pi 
+    2.7183     1.0000     3.1416 </code></pre>
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "eulers_num" "log_exp"    "pi"        </code></pre>
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>NULL</code></pre>
+<p>Coercion may also have unexpected results. Here <code>NA</code>s result when attempting to coerce a object with apparent mixed storage modes to class numeric.</p>
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>[1] NA NA 10</code></pre>
+</div>
+<div id="na" class="section level3" number="3.3.3">
+<h3>
+<span class="header-section-number">3.3.3</span> <code>NA</code><a class="anchor" aria-label="anchor" href="#na"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> identifies <em>missing values</em> (empty cells) as <code>NA</code>, which means “not available.” Hence, the <strong>R</strong> function to identify missing values is <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code>.
+For example:</p>
+<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<p>Conversely, to identify outcomes that are not missing, I would use the “not” operator to specify <code>!is.na()</code>.</p>
+<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</code></pre>
+<p>There are a number of <strong>R</strong> functions to get rid of missing values. These include <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code>.</p>
+<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 2 3 1 2 3 2
+attr(,"na.action")
+[1] 5
+attr(,"class")
+[1] "omit"</code></pre>
+<p>We see that <strong>R</strong> dropped the missing observation and then told us which observation was omitted (observation number 5).</p>
+<p>Functions in <strong>R</strong> often, but not always, have built in capacities to handle missing data, for instance, by calling <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code>. Consider the following dataframe which provides plant percent cover data for four plant species at two sites. Plant species are identified with four letter codes, consisting of the first two letters of the Linnaean genus and species names.</p>
+<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">field.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ACMI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">13</span><span class="op">)</span>, ELSC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, CAEL <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                         CAPA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>, TACE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"site1"</span>, <span class="st">"site2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">field.data</span></span></code></pre></div>
+<pre><code>      ACMI ELSC CAEL CAPA TACE
+site1   12    0   NA   20    0
+site2   13    4    2   30    2</code></pre>
+<p></p>
+<p>The function <code><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases()</a></code> checks for completeness of the data in rows of a data array.</p>
+<div class="sourceCode" id="cb250"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE  TRUE</code></pre>
+<p>If <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code> is applied in this context, the entire row containing the missing observation will be dropped.</p>
+<div class="sourceCode" id="cb252"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">)</span></span></code></pre></div>
+<pre><code>      ACMI ELSC CAEL CAPA TACE
+site2   13    4    2   30    2</code></pre>
+<p>Unfortunately, this means that information about the other four species at site one will lost. Thus, it is generally more rational to remove <code>NA</code> values while retaining non-missing values. For instance, many statistical functions have to capacity to base summaries on non-<code>NA</code> data.</p>
+<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in mean.default(field.data[1, ], na.rm = T): argument is not
+numeric or logical: returning NA</code></pre>
+<pre><code>[1] NA</code></pre>
+</div>
+<div id="nan" class="section level3" number="3.3.4">
+<h3>
+<span class="header-section-number">3.3.4</span> <code>NaN</code><a class="anchor" aria-label="anchor" href="#nan"><i class="fas fa-link"></i></a>
+</h3>
+<p>The designation <code>NaN</code> is associated with the current conventions of the IEEE 754-2008 arithmetic used by <strong>R</strong>. It means “not a number.” Mathematical operations which produce <code>NaN</code> include:
+</p>
+<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">0</span><span class="op">/</span><span class="fl">0</span></span></code></pre></div>
+<pre><code>[1] NaN</code></pre>
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="cn">Inf</span><span class="op">-</span><span class="cn">Inf</span></span></code></pre></div>
+<pre><code>[1] NaN</code></pre>
+<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in sin(Inf): NaNs produced</code></pre>
+<pre><code>[1] NaN</code></pre>
+</div>
+<div id="null" class="section level3" number="3.3.5">
+<h3>
+<span class="header-section-number">3.3.5</span> <code>NULL</code><a class="anchor" aria-label="anchor" href="#null"><i class="fas fa-link"></i></a>
+</h3>
+<p>In object oriented programming, a <em>null object</em> has no referenced value or has a defined neutral behavior <span class="citation">(<a href="references.html#ref-wikinull">Wikipedia 2023b</a>)</span>. Occasionally one may wish to specify that an <strong>R</strong> object is <code>NULL</code>. For example, a <code>NULL</code> object can be included as an argument in a function without requiring that it has a particular value or meaning. As with <code>NA</code> and <code>NaN</code>, the <code>NULL</code> specification is easy.</p>
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<p>The class and base type of <code>x</code> are <code>NULL</code>:</p>
+<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "NULL"</code></pre>
+<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "NULL"</code></pre>
+<p>
+</p>
+<p>It should be emphasized that <strong>R</strong>-objects or elements within objects that are <code>NA</code>, <code>NaN</code> or <code>NULL</code> cannot be identified with the Boolean operators <code>==</code> or <code>!=</code>. For instance:</p>
+<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">==</span> <span class="cn">NULL</span></span></code></pre></div>
+<pre><code>logical(0)</code></pre>
+<div class="sourceCode" id="cb271"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">==</span> <span class="cn">NA</span></span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<p>Instead one should use <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html">is.nan()</a></code> or <code><a href="https://rdrr.io/r/base/NULL.html">is.null()</a></code> to identify <code>NA</code>, <code>NaN</code> or <code>NULL</code> components, respectively. </p>
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<p>
+</p>
+</div>
+</div>
+<div id="accessing-and-subsetting-data-with" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Accessing and Subsetting Data With <code>[]</code><a class="anchor" aria-label="anchor" href="#accessing-and-subsetting-data-with"><i class="fas fa-link"></i></a>
+</h2>
+<p>One can subset data storage objects using <em>square bracket operators</em>, i.e., <code>[]</code>, along with a variety of functions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;For instance, &lt;code&gt;subset()&lt;/code&gt;, &lt;code&gt;split()&lt;/code&gt;, and &lt;code&gt;dplyr::filter()&lt;/code&gt;.&lt;/p&gt;"><sup>39</sup></a>. Because of their simplicity, I focus on square brackets for subsetting here. Gaining skills with square brackets will greatly enhance your ability to manipulate datasets in <strong>R</strong>. As toy datasets here are an atomic vector (with a names attribute), a matrix, a three dimensional array, a dataframe, and a list:</p>
+<p>
+</p>
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span>, b <span class="op">=</span> <span class="fl">2</span>, c <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">vdat</span></span></code></pre></div>
+<pre><code>a b c 
+1 2 3 </code></pre>
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">2</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mdat</span></span></code></pre></div>
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    4</code></pre>
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adat</span></span></code></pre></div>
+<pre><code>, , 1
+
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+, , 2
+
+     [,1] [,2]
+[1,]    5    7
+[2,]    6    8</code></pre>
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>numeric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, non.numeric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ddat</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           a
+2       2           b
+3       3           c</code></pre>
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>element1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, element2 <span class="op">=</span> <span class="st">"this.is.a.list"</span><span class="op">)</span></span>
+<span><span class="va">ldat</span></span></code></pre></div>
+<pre><code>$element1
+[1] 1 2 3
+
+$element2
+[1] "this.is.a.list"</code></pre>
+<p>
+</p>
+<p>To obtain the <span class="math inline">\(i\)</span>th component from an atomic vector, matrix, array, dataframe or list named <code>foo</code> we would specify <code>foo[i]</code>. For instance, here is the first component of our toy data objects:</p>
+<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vdat</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>a 
+1 </code></pre>
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdat</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adat</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric
+1       1
+2       2
+3       3</code></pre>
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldat</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>$element1
+[1] 1 2 3</code></pre>
+<p>Importantly, dataframes and lists view their <span class="math inline">\(i\)</span>th element as the <span class="math inline">\(i\)</span>th column and the <span class="math inline">\(i\)</span>th list element, respectively.<br></p>
+<p>We can also apply double square brackets, i.e., <code>[[]]</code> to list-type objects, i.e., atomic vectors and explicit lists, with similar results. Note, however, that the data subsets are now missing their name attributes.
+</p>
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vdat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 1 2 3</code></pre>
+<p>If a data storage object has a names attribute, then a name can be placed in square brackets to obtain corresponding data.</p>
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="st">"numeric"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric
+1       1
+2       2
+3       3</code></pre>
+<p>The advantage of square brackets over <code>$</code> in this an application is that several components can be specified simultaneously using the former approach:</p>
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"non.numeric"</span>,<span class="st">"numeric"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>  non.numeric numeric
+1           a       1
+2           b       2
+3           c       3</code></pre>
+<p>If <em>foo</em> has a row <span class="math inline">\(\times\)</span> column structure, i.e., a matrix, array, or dataframe, we could obtain the <span class="math inline">\(i\)</span>th column from <em>foo</em> using <code>foo[,i]</code> (or <code>foo[[i]]</code>) and the <span class="math inline">\(j\)</span>th row from <em>foo</em> using <code>foo[j,]</code>. For instance, here is the second column from <code>mdat</code>, and the first row from <code>ddat</code>.</p>
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 3 4</code></pre>
+<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           a</code></pre>
+<p>The element from <code>foo</code> corresponding to row <em>j</em> and column <em>i</em> can be accessed using: <code>foo[j, i]</code>, or <code>foo[,i][j]</code>, or <code>foo[j,][i]</code>.</p>
+<div class="sourceCode" id="cb314"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdat</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span>; <span class="va">mdat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>; <span class="va">mdat</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="co"># 1st element from 2nd column</span></span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<pre><code>[1] 3</code></pre>
+<pre><code>[1] 3</code></pre>
+<p>Arrays may require more than two indices. For instance, for a three dimensional array, <code>foo</code>, the specification <code>foo[,j,i]</code> will return the entirety of the <span class="math inline">\(j\)</span>th column in the <span class="math inline">\(i\)</span>th component of the outermost dimension of <code>foo</code>, whereas <code>foo[k,j,i]</code> will return the <span class="math inline">\(k\)</span>th element from the <span class="math inline">\(j\)</span>th column in the <span class="math inline">\(i\)</span>th component of the outermost dimension of <code>foo</code>.</p>
+<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adat</span><span class="op">[</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 3 4</code></pre>
+<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adat</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adat</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>Ranges or particular subsets of elements from a data storage object can also be selected. For instance, here I access rows two and three of <code>ddat</code>:</p>
+<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span> <span class="co"># note the position of the comma</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+2       2           b
+3       3           c</code></pre>
+<p>I can <code>drop</code> data object components by using negative integers in square brackets. Here I obtain an identical result to the example above by dropping row one from <code>ddat</code>:</p>
+<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>,<span class="op">]</span> <span class="co"># drop row one</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+2       2           b
+3       3           c</code></pre>
+<p>Here I obtain <code>ddat</code> rows one and three in two different ways:</p>
+<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           a
+3       3           c</code></pre>
+<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="op">-</span><span class="fl">2</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           a
+3       3           c</code></pre>
+<p>Square braces can also be used to rearrange data components:</p>
+<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+3       3           c
+1       1           a
+2       2           b</code></pre>
+<p>Duplicate components:</p>
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ldat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>$element2
+[1] "this.is.a.list"
+
+$element2
+[1] "this.is.a.list"</code></pre>
+<p>Or even replace data components:</p>
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>,<span class="st">"e"</span>,<span class="st">"f"</span><span class="op">)</span></span>
+<span><span class="va">ddat</span></span></code></pre></div>
+<pre><code>  numeric non.numeric
+1       1           d
+2       2           e
+3       3           f</code></pre>
+<div id="subsetting-a-factor" class="section level3" number="3.4.1">
+<h3>
+<span class="header-section-number">3.4.1</span> Subsetting a Factor<a class="anchor" aria-label="anchor" href="#subsetting-a-factor"><i class="fas fa-link"></i></a>
+</h3>
+<p>Importantly, the factor level structure of a <code>factor</code> will remain intact even if one or more of the levels are entirely removed.</p>
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">ddat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">fdat</span></span></code></pre></div>
+<pre><code>[1] d e f
+Levels: d e f</code></pre>
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fdat</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] e f
+Levels: d e f</code></pre>
+<p>Note that the level <code>a</code> remains a characteristic of <code>fdat</code>, even though the cell containing the lone observation of <code>a</code> was removed from the dataset. This outcome is allowed because it is desirable for certain analytical situations (for instance, summarizations that should acknowledge missing data for some levels). To remove levels that no longer occur in a <code>factor</code>, we can use the function <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code>.</p>
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">fdat</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] e f
+Levels: e f</code></pre>
+<p></p>
+</div>
+<div id="subsetting-with-boolean-operators" class="section level3" number="3.4.2">
+<h3>
+<span class="header-section-number">3.4.2</span> Subsetting with Boolean Operators<a class="anchor" aria-label="anchor" href="#subsetting-with-boolean-operators"><i class="fas fa-link"></i></a>
+</h3>
+<p>Boolean (<code>TRUE</code> or <code>FALSE</code>) outcomes can be used in combination with square brackets to subset data. Consider the dataframe used earlier (Exercise <a href="ch3.html#exm:exm-1">3.3</a>) to demonstrate logical commands.</p>
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">18</span>,<span class="fl">22</span>,<span class="fl">23</span>,<span class="fl">21</span>,<span class="fl">22</span>,<span class="fl">19</span>,<span class="fl">18</span>,<span class="fl">18</span>,<span class="fl">19</span>,<span class="fl">21</span><span class="op">)</span>,</span>
+<span>Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span><span class="op">)</span>,</span>
+<span>Weight_kg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">63.5</span>,<span class="fl">77.1</span>,<span class="fl">86.1</span>,<span class="fl">81.6</span>,<span class="fl">70.3</span>,<span class="fl">49.8</span>,<span class="fl">54.4</span>,<span class="fl">59.0</span>,<span class="fl">65</span>,<span class="fl">69</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Here we extract <code>Age</code> outcomes less than or equal to 21.</p>
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ageTF</span> <span class="op">&lt;-</span> <span class="va">dframe</span><span class="op">$</span><span class="va">Age</span> <span class="op">&lt;=</span> <span class="fl">21</span></span>
+<span><span class="va">dframe</span><span class="op">$</span><span class="va">Age</span><span class="op">[</span><span class="va">ageTF</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 18 21 19 18 18 19 21</code></pre>
+<p>We could also use this information to obtain entire rows of the dataframe.</p>
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dframe</span><span class="op">[</span><span class="va">ageTF</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>   Age Sex Weight_kg
+1   18   M      63.5
+4   21   M      81.6
+6   19   F      49.8
+7   18   F      54.4
+8   18   F      59.0
+9   19   F      65.0
+10  21   F      69.0</code></pre>
+</div>
+<div id="when-subset-is-larger-than-underlying-data" class="section level3" number="3.4.3">
+<h3>
+<span class="header-section-number">3.4.3</span> When Subset Is Larger Than Underlying Data<a class="anchor" aria-label="anchor" href="#when-subset-is-larger-than-underlying-data"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> allows one to make a data subset larger than underlying data itself, although this results in the generation of filler <code>NA</code>s. Consider the following example:</p>
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">45</span><span class="op">)</span></span></code></pre></div>
+<p>The atomic vector <code>x</code> has length five. If I ask for a subset of length seven, I get:</p>
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] -2  3  4  6 45 NA NA</code></pre>
+</div>
+<div id="utlt" class="section level3" number="3.4.4">
+<h3>
+<span class="header-section-number">3.4.4</span> Subsetting with <code>upper.tri()</code>, <code>lower.tri()</code>, and <code>diag()</code><a class="anchor" aria-label="anchor" href="#utlt"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can use square brackets alongside the functions <code><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri()</a></code>, <code><a href="https://rdrr.io/r/base/lower.tri.html">lower.tri()</a></code>, and <code><a href="https://rdrr.io/r/base/diag.html">diag()</a></code> to examine the upper triangle, lower triangle, and diagonal parts of a matrix, respectively.
+</p>
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span>, nrow <span class="op">=</span> <span class="fl">3</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mat</span></span></code></pre></div>
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    5
+[2,]    2    4    1
+[3,]    3    3    4</code></pre>
+<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 2 5 1</code></pre>
+<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html">lower.tri</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 2 3 3</code></pre>
+<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1 4 4</code></pre>
+<p>Note that <code><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri()</a></code> and <code><a href="https://rdrr.io/r/base/lower.tri.html">lower.tri()</a></code> are used identify the appropriate triangle in the object <code>mat</code>. Subsetting is then accomplished using square brackets.</p>
+</div>
+</div>
+<div id="package" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> Packages<a class="anchor" aria-label="anchor" href="#package"><i class="fas fa-link"></i></a>
+</h2>
+<p>An <strong>R</strong> <em>package</em> contains a set of related functions, documentation, and (often) data files that have been bundled together. The so-called <strong>R</strong>-<em>distribution packages</em> are included with a conventional download of <strong>R</strong> (Table <a href="ch3.html#tab:Rdist">3.3</a>). These packages are directly controlled by the <strong>R</strong> core development team and are extremely well-vetted and trustworthy.</p>
+<p>Packages in Table <a href="ch3.html#tab:Rrecc">3.4</a> constitute the <strong>R</strong>-<em>recommended packages</em>. These are not necessarily controlled by the <strong>R</strong> core development team, but are also extremely useful, well-tested, and stable, and like the <strong>R</strong>-distribution packages, are included in conventional downloads of <strong>R</strong>.</p>
+<p>Aside from distribution and recommended packages, there are a large number of <em>contributed packages</em> that have been created by <strong>R</strong>-users (<span class="math inline">\(&gt; 20000\)</span> as of 9/12/2023). Table <a href="ch3.html#tab:Rcon">3.5</a> lists a few.</p>
+<div id="packagei" class="section level3" number="3.5.1">
+<h3>
+<span class="header-section-number">3.5.1</span> Package Installation<a class="anchor" aria-label="anchor" href="#packagei"><i class="fas fa-link"></i></a>
+</h3>
+<p>Contributed packages can be <em>installed</em> from CRAN (the Comprehensive <strong>R</strong> Archive Network). To do this, one can go to <strong>Packages<span class="math inline">\(&gt;\)</span>Install package(s)</strong> on the <strong>R</strong>-GUI toolbar, and choose a nearby CRAN mirror site to minimize download time (non-Unix only). Once a mirror site is selected, the packages available at the site will appear. One can simply click on the desired packages to install them. Packages can also be downloaded directly from the command line using <code>install.packages("package name")</code>. Thus, to install the package <em>vegan</em> (see Table <a href="ch3.html#tab:Rcon">3.5</a>), I would simply type:</p>
+<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"vegan"</span><span class="op">)</span></span></code></pre></div>
+<!-- This package can then be loaded for a particular session. \ -->
+<p>If local web access is not available, packages can be installed as compressed (.zip, .tar) files which can then be placed manually on a workstation by inserting the package files into the <strong>library</strong> folder within the top level <strong>R</strong> directory, or into a path-defined <strong>R</strong> library folder in a user directory.</p>
+<p>The installation pathway for contributed packages can be identified using <code>.libPath()</code>.
+</p>
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "C:/Users/ahoken/AppData/Local/R/win-library/4.4"
+[2] "C:/Program Files/R/R-4.4.2/library"             </code></pre>
+<p>This process can be facilitated in RStudio via the plots and files (see Section <a href="ch2.html#RStudio">2.9</a>).</p>
+<p>Several functions exist for updating packages and for comparing currently installed versions packages with their latest versions on CRAN or other repositories. The function <code><a href="https://rdrr.io/r/utils/update.packages.html">old.packages()</a></code> indicates which currently installed packages which have a (suitable) later version. Here are a few of the packages I have installed that have later versions.</p>
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/update.packages.html">old.packages</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>         Package    Installed Built   ReposVer 
+ape      "ape"      "5.8"     "4.4.1" "5.8-1"  
+askpass  "askpass"  "1.2.0"   "4.4.1" "1.2.1"  
+bit      "bit"      "4.0.5"   "4.4.1" "4.5.0.1"
+bit64    "bit64"    "4.0.5"   "4.4.1" "4.6.0-1"
+bookdown "bookdown" "0.39"    "4.4.0" "0.42"   
+broom    "broom"    "1.0.6"   "4.4.1" "1.0.7"  </code></pre>
+<p>The function <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages()</a></code> will identify, and offer to download and install later versions of installed packages.</p>
+<p>
+</p>
+</div>
+<div id="packagel" class="section level3" number="3.5.2">
+<h3>
+<span class="header-section-number">3.5.2</span> Loading Packages<a class="anchor" aria-label="anchor" href="#packagel"><i class="fas fa-link"></i></a>
+</h3>
+<p>Once a contributed package is installed on a computer it never needs to be re-installed. However, for use in an <strong>R</strong> session, recommended packages, and installed contributed packages will need to be <em>loaded</em>. This can be done using the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function, or point and click tools if one is using RStudio. For example, to load the installed contributed <em>vegan</em> package, I would type:</p>
+<p></p>
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/vegandevs/vegan">vegan</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>Loading required package: permute</code></pre>
+<pre><code>Loading required package: lattice</code></pre>
+<pre><code>This is vegan 2.6-8</code></pre>
+<p>We see that two other packages are loaded when we load <em>vegan</em>: <em>permute</em> and <em>lattice</em>.</p>
+<p>To detach <em>vegan</em> from the global environment, I would type:</p>
+<!-- ```{r, echo = F} -->
+<!-- detach(package:plant.ecol) -->
+<!-- ``` -->
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/detach.html">detach</a></span><span class="op">(</span><span class="va">package</span><span class="op">:</span><span class="va">vegan</span><span class="op">)</span></span></code></pre></div>
+<p></p>
+<p>We can check if a specific package is loaded using the function <code><a href="https://rdrr.io/r/base/zpackages.html">.packages()</a></code>. Most of the <strong>R</strong> distribution packages are loaded (by default) upon opening a session. Exceptions include <code>compiler</code>, <code>grid</code>, <code>parallel</code>, <code>splines</code>, <code>stats4</code>, and <code>tools</code>.</p>
+<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bpack</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"base"</span>, <span class="st">"compiler"</span>, <span class="st">"datasets"</span>, <span class="st">"grDevices"</span>, <span class="st">"graphics"</span>,</span>
+<span>           <span class="st">"grid"</span>, <span class="st">"methods"</span>, <span class="st">"parallel"</span>, <span class="st">"splines"</span>, <span class="st">"stats"</span>, <span class="st">"stats4"</span>, </span>
+<span>           <span class="st">"tcltk"</span>, <span class="st">"tools"</span>, <span class="st">"translations"</span>, <span class="st">"utils"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">bpack</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/zpackages.html">.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>        base     compiler     datasets    grDevices     graphics 
+        TRUE        FALSE         TRUE         TRUE         TRUE 
+        grid      methods     parallel      splines        stats 
+       FALSE         TRUE        FALSE        FALSE         TRUE 
+      stats4        tcltk        tools translations        utils 
+       FALSE         TRUE        FALSE        FALSE         TRUE </code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, which allows application of a function to each element in a vector or list, is formally introduced in Section <a href="ch4.html#apply">4.1.1</a>.</p>
+<p>The package <em>vegan</em> is no longer loaded because of the application of <code>detach(package:vegan)</code>.</p>
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="st">"vegan"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/zpackages.html">.packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<p>
+</p>
+<p>We can get a summary of information about a session, including details about the version of <strong>R</strong> being used, the underlying computer platform, and the loaded packages with the function <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code>.</p>
+<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">si</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">si</span><span class="op">$</span><span class="va">R.version</span><span class="op">$</span><span class="va">version.string</span></span></code></pre></div>
+<pre><code>[1] "R version 4.4.2 (2024-10-31 ucrt)"</code></pre>
+<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">si</span><span class="op">$</span><span class="va">running</span></span></code></pre></div>
+<pre><code>[1] "Windows 10 x64 (build 17134)"</code></pre>
+<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">si</span><span class="op">$</span><span class="va">loadedOnly</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Matrix"   "jsonlite" "vegan"    "compiler" "plotrix"  "xml2"    </code></pre>
+<p>This information is important to include when reporting issues to package maintainers.
+</p>
+<p>Once a package is installed its functions can generally be accessed using the <em>double colon</em> metacharacter, <code>::</code>, even if the package is not actually loaded. For instance, the function <code><a href="https://rdrr.io/pkg/vegan/man/diversity.html">vegan::diversity()</a></code> will allow access to the function <code><a href="https://rdrr.io/pkg/vegan/man/diversity.html">diversity()</a></code> from <em>vegan</em>, even when <em>vegan</em> is not loaded.</p>
+<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">vegan</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/vegan/man/diversity.html">diversity</a></span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] function (x, index = "shannon", groups, equalize.groups = FALSE, 
+[2]     MARGIN = 1, base = exp(1))                                   </code></pre>
+<p>The <em>triple colon</em> metacharacter, <code>:::</code>, can be used to access internal package functions. These functions, however, are generally kept internal for good reason, and probably shouldn’t be used outside of the context of the rest of the package.
+</p>
+</div>
+<div id="other-package-repositories" class="section level3" number="3.5.3">
+<h3>
+<span class="header-section-number">3.5.3</span> Other Package Repositories<a class="anchor" aria-label="anchor" href="#other-package-repositories"><i class="fas fa-link"></i></a>
+</h3>
+<p>Aside from CRAN, there are currently three other extensive repositories of <strong>R</strong> packages. First, the Bioconductor project (<a href="http://www.bioconductor.org/packages/release/Software/html" class="uri">http://www.bioconductor.org/packages/release/Software/html</a>) contains a large number of packages for the analysis of data from current and emerging biological assays. Bioconductor packages are generally not stored at CRAN. Packages can be downloaded from Bioconductor using an <code>R</code> script called <code>biocLite</code>. To access the script and download the package <em>RCytoscape</em> from Biocondctor, I could type:</p>
+<div class="sourceCode" id="cb382"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"http://bioconductor.org/biocLite.R"</span><span class="op">)</span></span>
+<span><span class="fu">biocLite</span><span class="op">(</span><span class="st">"RCytoscape"</span><span class="op">)</span></span></code></pre></div>
+<p>Second, the <em>Posit Package Manager</em> (formerly the RStudio Package Manager) provides a repository interface for <strong>R</strong> packages from CRAN, Bioconductor, and packages for the Python system (see Section <a href="ch9.html#python">9.5</a>). Third, <strong>R</strong>-forge (<a href="http://r-forge.r-project.org/" class="uri">http://r-forge.r-project.org/</a>) contains releases of packages that have not yet been implemented into CRAN, and other miscellaneous code. Bioconductor, Posit, and <strong>R</strong>-forge can be specified as repositories from <strong>Packages<span class="math inline">\(&gt;\)</span>Select Repositories</strong> in the <strong>R</strong>-GUI (non-Unix only). Other informal <strong>R</strong> package and code repositories currently include <a href="https://github.com/">GitHub</a> and <a href="https://zenodo.org/">Zenodo</a>.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Rdist">Table 3.3: </span>The <strong>R</strong>-distribution packages.</caption>
+<colgroup>
+<col width="13%">
+<col width="17%">
+<col width="50%">
+<col width="17%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Package</th>
+<th align="left">Maintainer</th>
+<th align="left">Topic(s) addressed by package</th>
+<th align="left">Author/Citation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>base</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Base <strong>R</strong> functions</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>compiler</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">
+<strong>R</strong> byte code compiler</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>datasets</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Base <strong>R</strong> datasets</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>grDevices</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Devices for base and grid graphics</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>graphics</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">
+<strong>R</strong> functions for base graphics</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>grid</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Grid graphics layout capabilities</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>methods</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Formal methods and classes for <strong>R</strong> objects</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>parallel</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Support for parallel computation</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>splines</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Regression spline functions and classes</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>stats</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">
+<strong>R</strong> statistical functions</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>stats4</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Statistical functions with S4 classes</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>tcltk</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Language bindings to Tcl/Tk</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>tools</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">Tools forpackage development/administration</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>utils</em></td>
+<td align="left">
+<strong>R</strong> Core Team</td>
+<td align="left">
+<strong>R</strong> utility functions</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<caption>
+<span id="tab:Rrecc">Table 3.4: </span>The <strong>R</strong>-recommended packages.</caption>
+<colgroup>
+<col width="14%">
+<col width="17%">
+<col width="45%">
+<col width="22%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Package</th>
+<th align="left">Maintainer</th>
+<th align="left">Topic(s) addressed by package</th>
+<th align="left">Author/Citation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>KernSmooth</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Kernel smoothing</td>
+<td align="left"><span class="citation">Wand (<a href="references.html#ref-wand">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>MASS</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Important statistical methods</td>
+<td align="left"><span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Matrix</em></td>
+<td align="left">M. Maechler</td>
+<td align="left">Classes and methods for matrices</td>
+<td align="left"><span class="citation">Bates, Maechler, and Jagan (<a href="references.html#ref-Matrix">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>boot</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Bootstrapping</td>
+<td align="left"><span class="citation">Canty and Ripley (<a href="references.html#ref-boot">2022</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>class</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Classification</td>
+<td align="left"><span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>cluster</em></td>
+<td align="left">M. Maechler</td>
+<td align="left">Cluster analysis</td>
+<td align="left"><span class="citation">Maechler et al. (<a href="references.html#ref-cluster">2022</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>codetools</em></td>
+<td align="left">S. Wood</td>
+<td align="left">Code analysis tools</td>
+<td align="left"><span class="citation">Tierney (<a href="references.html#ref-codetools">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>foreign</em></td>
+<td align="left">
+<strong>R</strong> core team</td>
+<td align="left">Data stored by non-<strong>R</strong> software</td>
+<td align="left"><span class="citation">R Core Team (<a href="references.html#ref-R">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>lattice</em></td>
+<td align="left">D. Sarkar</td>
+<td align="left">Lattice graphics</td>
+<td align="left"><span class="citation">Sarkar (<a href="references.html#ref-lattice">2008</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>mgcv</em></td>
+<td align="left">S. Wood</td>
+<td align="left">Generalized Additive Models</td>
+<td align="left">
+<span class="citation">S. N. Wood (<a href="references.html#ref-wood2011">2011</a>)</span>, <span class="citation">S. N. Wood (<a href="references.html#ref-wood2017">2017</a>)</span>
+</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>nlme</em></td>
+<td align="left">
+<strong>R</strong> core team</td>
+<td align="left">Linear and non-linear mixed effect models</td>
+<td align="left"><span class="citation">Pinheiro and Bates (<a href="references.html#ref-pinheiro2000">2000</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>nnet</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Feed-forward neural networks</td>
+<td align="left"><span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>rpart</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Partitioning and regression trees</td>
+<td align="left"><span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>spatial</em></td>
+<td align="left">B. Ripley</td>
+<td align="left">Kriging and point pattern analysis</td>
+<td align="left"><span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Rcon">Table 3.5: </span>Useful contributed <strong>R</strong> packages.</caption>
+<colgroup>
+<col width="13%">
+<col width="15%">
+<col width="41%">
+<col width="30%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Package</th>
+<th align="left">Maintainer</th>
+<th align="left">Topic(s) addressed by package</th>
+<th align="left">Author/Citation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>asbio</em></td>
+<td align="left">K. Aho</td>
+<td align="left">Stats pedagogy and applied stats</td>
+<td align="left"><span class="citation">Aho (<a href="references.html#ref-aho2023">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>car</em></td>
+<td align="left">J. Fox</td>
+<td align="left">General linear models</td>
+<td align="left"><span class="citation">Fox and Weisberg (<a href="references.html#ref-fox2019">2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>coin</em></td>
+<td align="left">T. Hothorn</td>
+<td align="left">Non-parametric analysis</td>
+<td align="left">
+<span class="citation">Hothorn et al. (<a href="references.html#ref-hothorn2006">2006</a>)</span>, <span class="citation">Hothorn et al. (<a href="references.html#ref-hothorn2008">2008</a>)</span>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><em>ggplot2</em></td>
+<td align="left">H. Wickham</td>
+<td align="left">
+<em>Tidyverse</em> grid graphics</td>
+<td align="left"><span class="citation">Wickham (<a href="references.html#ref-wickham2016">2016</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>lme4</em></td>
+<td align="left">B. Bolker</td>
+<td align="left">Linear mixed-effects models</td>
+<td align="left"><span class="citation">Bates et al. (<a href="references.html#ref-lme4">2015</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><em>plotrix</em></td>
+<td align="left">J. Lemonetal.</td>
+<td align="left">Helpful graphical ideas</td>
+<td align="left"><span class="citation">Lemon (<a href="references.html#ref-plotrix">2006</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>spdep</em></td>
+<td align="left">R. Bivand</td>
+<td align="left">Spatial analysis</td>
+<td align="left">
+<span class="citation">Bivand, Pebesma, and Gómez-Rubio (<a href="references.html#ref-bivand2013">2013</a>)</span>, <span class="citation">Pebesma and Bivand (<a href="references.html#ref-pebesma">2023</a>)</span>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><em>tidyverse</em></td>
+<td align="left">H. Wickham</td>
+<td align="left">Data science under the <em>tidyverse</em>
+</td>
+<td align="left"><span class="citation">Wickham et al. (<a href="references.html#ref-tidyverse">2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>vegan</em></td>
+<td align="left">J. Oksanen</td>
+<td align="left">Multivariate and ecological analysis</td>
+<td align="left"><span class="citation">Oksanen et al. (<a href="references.html#ref-vegan">2022</a>)</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+</div>
+<div id="accessing-package-information" class="section level3" number="3.5.4">
+<h3>
+<span class="header-section-number">3.5.4</span> Accessing Package Information<a class="anchor" aria-label="anchor" href="#accessing-package-information"><i class="fas fa-link"></i></a>
+</h3>
+<p>Important information concerning a package can be obtained from the <code><a href="https://rdrr.io/r/utils/packageDescription.html">packageDescription()</a></code> family of functions. Here is the version of the <strong>R</strong> contributed package <em>asbio</em> on my work station:</p>
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op">(</span><span class="st">"asbio"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] '1.11'</code></pre>
+<p>Here is the version of <strong>R</strong> used to build the installed version of <em>asbio</em>, and the package’s build date:</p>
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageDescription</a></span><span class="op">(</span><span class="st">"asbio"</span>, fields<span class="op">=</span><span class="st">"Built"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "R 4.4.2; ; 2025-01-21 02:43:26 UTC; windows"</code></pre>
+<p>
+</p>
+</div>
+<div id="accessing-datasets-in-r-packages" class="section level3" number="3.5.5">
+<h3>
+<span class="header-section-number">3.5.5</span> Accessing Datasets in R-packages<a class="anchor" aria-label="anchor" href="#accessing-datasets-in-r-packages"><i class="fas fa-link"></i></a>
+</h3>
+<p>The command:</p>
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>results in a listing of a datasets available in a session from within <strong>R</strong> packages loaded in a particular <strong>R</strong> session. Whereas the code:</p>
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/zpackages.html">.packages</a></span><span class="op">(</span>all.available <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>results in a listing of a datasets available in a session from within <em>installed</em> <strong>R</strong> packages.</p>
+<p>If one is interested in datasets from a particular package, for instance the package <em>datasets</em>, one could type:</p>
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"datasets"</span><span class="op">)</span></span></code></pre></div>
+<p>The dataset <code>Loblolly</code> in the <em>datasets</em> package contains height, age, and seed type records for a sample of loblolly pine trees (<em>Pinus taeda</em>). To access the data we can type:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;This actually isn’t necessary since datasets in the package &lt;em&gt;dataset&lt;/em&gt; default to being read into an &lt;strong&gt;R&lt;/strong&gt;-session automatically. This step will be necessary, however, in order to obtain datasets from packages that are not lazy loaded (Ch 10).&lt;/p&gt;"><sup>40</sup></a></p>
+<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span></span></code></pre></div>
+<p>The data are now contained in a dataframe (called <code>Loblolly</code>) that we can manipulate and analyze.</p>
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "nfnGroupedData" "nfGroupedData"  "groupedData"    "data.frame"    </code></pre>
+<p>Note that there are three classes (<code>nfnGroupedData, nfGroupedData, groupedData</code>) in addition to <code>dataframe</code>. These classes allow recognition of the nested structure of the <code>age</code> and <code>Seed</code> variables (defined to <code>height</code> is a function of <code>age</code> <em>in</em> <code>Seed</code>), and facilitates the analysis of the data using mixed effect model algorithms in the package <em>nlme</em>. We can get a general feel for the <code>Loblolly</code> dataset by accessing the first few rows using the function <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>:</p>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Loblolly</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+1    4.51   3  301
+15  10.89   5  301
+29  28.72  10  301
+43  41.74  15  301
+57  52.70  20  301</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> provides the mean and a conventional <em>five number summary</em> (minimum, 1st quartile, median, 3rd quartile, maximum) of both quantitative variables (<code>height</code> and <code>age</code>) and a count of the number of observations (six) in each level of the categorical variable <code>Seed</code>.</p>
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     height           age            Seed   
+ Min.   : 3.46   Min.   : 3.0   329    : 6  
+ 1st Qu.:10.47   1st Qu.: 5.0   327    : 6  
+ Median :34.00   Median :12.5   325    : 6  
+ Mean   :32.36   Mean   :13.0   307    : 6  
+ 3rd Qu.:51.36   3rd Qu.:20.0   331    : 6  
+ Max.   :64.10   Max.   :25.0   311    : 6  
+                                (Other):48  </code></pre>
+<p><strong>R</strong> provides a spreadsheet-style data editor if one types <code>fix(x)</code>, when <code>x</code> is a dataframe or a two dimensional array. For instance, the command <code>fix(loblolly)</code> will open the <code>Loblolly</code> pine dataframe in the data editor (Figure <a href="ch3.html#fig:fix">3.1</a>). When <code>x</code> is a function or character string, then a script editor is opened containing <code>x</code>. The data editor has limited flexibility compared to software whose main interface is a spreadsheet, and whose primary purpose is data entry and manipulation, e.g., Microsoft Excel<span class="math inline">\(^{\circledR}\)</span>. Changes made to an object using <code><a href="https://rdrr.io/r/utils/fix.html">fix()</a></code> will only be maintained for the current work session. They will not permanently alter objects brought in remotely to a session. The function <code>View(x)</code> (RStudio only) will provide a non-editable spreadsheet representation of a dataframe or numeric array.
+</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:fix"></span>
+<img src="figs3/Fix.png" alt="The default **R** spreadsheet editor." width="40%"><p class="caption">
+Figure 3.1: The default <strong>R</strong> spreadsheet editor.
+</p>
+</div>
+</div>
+</div>
+<div id="facilitating-command-line-data-entry" class="section level2" number="3.6">
+<h2>
+<span class="header-section-number">3.6</span> Facilitating Command Line Data Entry<a class="anchor" aria-label="anchor" href="#facilitating-command-line-data-entry"><i class="fas fa-link"></i></a>
+</h2>
+<p>Command line data entry is made easier with with several <strong>R</strong> functions. The function <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code> can speed up data entry because a prompt is given for each data point<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;If one uses the default &lt;code&gt;scan()&lt;/code&gt; argument: &lt;code&gt;file = ""&lt;/code&gt;. See Section &lt;a href="ch3.html#rt"&gt;3.7.1&lt;/a&gt;.&lt;/p&gt;'><sup>41</sup></a>, and separators are created by the function itself. Data entries can be separated using the space bar or line breaks. The <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code> function will be terminated by a additional blank line or an end of file (EOF) signal. This will be <kbd>Ctrl</kbd> + <kbd>D</kbd> in Unix-alike operating systems and Windows.</p>
+<p>Below I enter the numbers 1, 2, and 3 as datapoints, separated by spaces, and end data entry using an additional line break. The data are saved as the object <code>a</code>.</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch3.html#cb397-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">scan</span>()</span>
+<span id="cb397-2"><a href="ch3.html#cb397-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span></span>
+<span id="cb397-3"><a href="ch3.html#cb397-3" tabindex="-1"></a><span class="dv">4</span><span class="sc">:</span></span>
+<span id="cb397-4"><a href="ch3.html#cb397-4" tabindex="-1"></a>Read <span class="dv">3</span> items</span></code></pre></div>
+<p>Sequences can be generated quickly in <strong>R</strong> using the <code>:</code> operator</p>
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<p>or the function <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code>, which allows additional options:</p>
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># 1 to 10 by two</span></span></code></pre></div>
+<pre><code>[1] 1 3 5 7 9</code></pre>
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, length <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># 1 to 10 in four evenly spaced points</span></span></code></pre></div>
+<pre><code>[1]  1  4  7 10</code></pre>
+<p>Entries can be repeated with the function <code><a href="https://rdrr.io/r/base/rep.html">rep()</a></code>. For example, to repeat the sequence 1 through 5, five times, I could type:</p>
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5</code></pre>
+<p>Note that the first argument in <code><a href="https://rdrr.io/r/base/rep.html">rep()</a></code>, defines the thing we want to repeat and the second argument, 5, specifies the number of repetitions. I can use the argument <code>each</code> to repeat individual elements a particular number of times.</p>
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] 1 1 2 2 3 3 4 4 5 5</code></pre>
+<p>We can use <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> and <code><a href="https://rdrr.io/r/base/rep.html">rep()</a></code> simultaneously to create complex sequences. For instance, to repeat the sequence 1,3,5,7,9,11,13,15,17,19, three times, we could type:</p>
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1]  1  3  5  7  9 11 13 15 17 19  1  3  5  7  9 11 13 15 17 19  1  3  5
+[24]  7  9 11 13 15 17 19</code></pre>
+</div>
+<div id="importing-data-into-r" class="section level2" number="3.7">
+<h2>
+<span class="header-section-number">3.7</span> Importing Data Into R<a class="anchor" aria-label="anchor" href="#importing-data-into-r"><i class="fas fa-link"></i></a>
+</h2>
+<p>While it is possible to enter data into <strong>R</strong> at the command line, this will normally be inadvisable except for small datasets. In general it will be much easier to import data. <strong>R</strong> can read data from many different kinds of formats including .txt, and .csv (comma separator) files, and files with space, tab, and carriage return datum separators. I generally organize my datasets using Excel<span class="math inline">\(^{\circledR}\)</span> or some other spreadsheet program (although <strong>R</strong> can handle much larger datasets than these platforms), then save them as .csv files. I then import the .csv files into <strong>R</strong> using the <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>, or <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code> functions. The function <code><a href="https://rdrr.io/r/base/load.html">load()</a></code> can be used to import data files in .rda data formats, or other <strong>R</strong> objects. Datasets read into <strong>R</strong> will generally be of class <code>dataframe</code> and data storage mode <code>list</code>.</p>
+<div id="rt" class="section level3" number="3.7.1">
+<h3>
+<span class="header-section-number">3.7.1</span> Import Using <code>read.table()</code>, <code>read.csv()</code>, and <code>scan()</code><a class="anchor" aria-label="anchor" href="#rt"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> function can import data organized under a wide range of formats. It’s first three arguments are very important.</p>
+<ul>
+<li>
+<code>file</code> defines the name of the file and directory hierarchy which the data are to be read from.</li>
+<li>
+<code>header</code> is a a logical (<code>TRUE</code> or <code>FALSE</code>) value indicating whether <code>file</code> contains column names as its first line.</li>
+<li>
+<code>sep</code> refers to the type of data separator used for columns. Comma separated files use commas to separate data entries. Thus, in this case <code>sep = ","</code>. Tab separators are specified as <code>"\t"</code>. Space separators are specified as spaces, specified as simply <code>" "</code>.</li>
+</ul>
+<p>Other useful <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> arguments include <code>row.names</code>, <code>header</code>, and <code>na.strings</code>. The specification <code>row.names = 1</code> indicates that the first column in the imported dataset contains row names. The specification <code>header = TRUE</code>, the default setting, indicates that the first row of data contains column names. The argument <code>na.strings = "."</code> indicates that missing values in the imported dataset are designated with periods. By default <code>na.strings = NA</code>.</p>
+<p>As an example of <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> usage, assume that I want to import a .csv file called <code>veg.csv</code> located in folder called veg_data, in my working directory. The first row of <code>veg.csv</code> contains column names, while the first column contains row names. Missing data in the file are indicated with periods. I would type:</p>
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"veg_data/veg.csv"</span>, sep <span class="op">=</span> <span class="st">","</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, row.names</span>
+<span><span class="op">=</span> <span class="fl">1</span>, na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p>As before, note that as a legacy of its development under Unix, <strong>R</strong> locates files in directories using forward slashes (or doubled backslashes) rather than single Windows backslashes.</p>
+<p>The <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> function assumes data are in a .csv format. Because the argument <code>sep</code> is unnecessary, this results in a simpler code statement.</p>
+<div class="sourceCode" id="cb413"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"veg_data\\veg.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, row.names</span>
+<span><span class="op">=</span> <span class="fl">1</span>, na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p>The function <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code> can read in data from an essentially unlimited number of formats, and is extremely flexible with respect to character fields and storage modes of numeric data.
+In addition to arguments used by <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code> has the arguments</p>
+<ul>
+<li>
+<code>what</code> which describes the storage mode of data e.g., <code>"logical", "integer"</code>, etc., or if <code>what</code> is a list, components of variables including column names (see below), and</li>
+<li>
+<code>dec</code> which describes the decimal point character (European scientists and journals often use commas).</li>
+</ul>
+<p>Assume that <code>veg_data/veg.csv</code> has a column of species names, called <code>species</code>, that will serve as the dataframe’s row names, and 3 columns of numeric data, named <code>site1, site2</code>, and <code>site3</code>. We would read the data in with scan using:</p>
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/scan.html">scan</a></span><span class="op">(</span><span class="st">"veg.csv"</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">""</span>, site1 <span class="op">=</span> <span class="fl">0</span>, site2 <span class="op">=</span> <span class="fl">0</span>, site3 <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p>The empty string <code>species = ""</code> in the list comprising the argument <code>what</code>, indicates that <code>species</code> contains character data. Stating that the remaining variables equal 0, or any other number, indicates that they contain numeric data.</p>
+<p>The easiest way to import data, if the directory structure is unknown or complex, is to use <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> or <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, with the <code><a href="https://rdrr.io/r/base/file.choose.html">file.choose()</a></code> function as the <code>file</code> argument. For instance, by typing:</p>
+<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.choose.html">file.choose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can now browse for a .csv files to open that will, following import, be a dataframe with the name <code>df</code>. Other arguments (e.g., <code>header</code>, <code>row.names</code>) will need to be used, when appropriate, to import the file correctly.</p>
+<p>Occasionally strange characters, e.g., <code>ï..</code>, may appear in front of the first header name when reading in files created in Excel<span class="math inline">\(^{\circledR}\)</span> or other Microsoft applications. This is due to the addition of <em>Byte Order Mark</em> (BOM) characters which indicate, among other things, the Unicode character encoding of the file. These characters can generally be eliminated by using the argument <code>fileEncoding="UTF-8-BOM"</code> in <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>, or <code><a href="https://rdrr.io/r/base/scan.html">scan()</a></code>.
+</p>
+</div>
+<div id="import-using-rstudio" class="section level3" number="3.7.2">
+<h3>
+<span class="header-section-number">3.7.2</span> Import Using RStudio<a class="anchor" aria-label="anchor" href="#import-using-rstudio"><i class="fas fa-link"></i></a>
+</h3>
+<p>RStudio allows direct menu-driven import of file types from a number of spreadsheet and statistical packages including Excel<span class="math inline">\(^{\circledR}\)</span>, SPSS<span class="math inline">\(^{\circledR}\)</span>, SAS<span class="math inline">\(^{\circledR}\)</span>, and Stata<span class="math inline">\(^{\circledR}\)</span> by going to <strong>File<span class="math inline">\(&gt;\)</span>Import Dataset</strong>. We note, however, that restrictions may exist, which may not be present for <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> and <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>. These are summarized in Table <a href="ch3.html#tab:RStudioImport">3.6</a>.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:RStudioImport">Table 3.6: </span>Data import options in RStudio by data storage file type.</caption>
+<colgroup>
+<col width="26%">
+<col width="9%">
+<col width="16%">
+<col width="47%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">CSV or Text</th>
+<th align="left">Excel<span class="math inline">\(^{\circledR}\)</span>
+</th>
+<th align="left">SAS<span class="math inline">\(^{\circledR}\)</span>, SPSS<span class="math inline">\(^{\circledR}\)</span>, Stata<span class="math inline">\(^{\circledR}\)</span>
+</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Import from file system or URL</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">X</td>
+</tr>
+<tr class="even">
+<td align="left">Change column data types</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Skip or include columns</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">X</td>
+</tr>
+<tr class="even">
+<td align="left">Rename dataset</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Skip the first <em>n</em> rows</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Use header row for column names</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Trim spaces in names</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Change column delimiter</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Encodingselection</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Select quote identifiers</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Select escape identifiers</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Select comment identifiers</td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Select <code>NA</code> identifiers</td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Specify model file</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">X</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="final-considerations" class="section level3" number="3.7.3">
+<h3>
+<span class="header-section-number">3.7.3</span> Final Considerations<a class="anchor" aria-label="anchor" href="#final-considerations"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is generally recommended that datasets imported and used by <strong>R</strong> be smaller than 25% of the physical memory of the computer. For instance, they should use less than 8 GB on a computer with 32 GB of RAM. <strong>R</strong> can handle extremely large datasets, i.e. <span class="math inline">\(&gt; 10\)</span> GB, and <span class="math inline">\(&gt; 1.2 \times 10^{10}\)</span> rows. In this case, however, specific <strong>R</strong> packages can be used to aid in efficient data handling. Parallel computing and workstation modifications may allow even greater efficiency. The actual upper physical limit for an <strong>R</strong> dataframe is <span class="math inline">\(2 \times 10^{31}-1\)</span> elements. Note that this exceeds Excel<span class="math inline">\(^{\circledR}\)</span> by 31 orders of magnitude (Excel 2019 worksheets can handle approximately <span class="math inline">\(1.7 \times 10^{10}\)</span> cell elements). <strong>R</strong> also allows interfacing with a number relational database storage platforms. These include open source entities that express queries in SQL (Structured Query Language). For more information see and .</p>
+</div>
+</div>
+<div id="exercises-2" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>Create the following data structures:
+<ol style="list-style-type: lower-alpha">
+<li>An atomic vector object with the numeric entries <code>1,2,3,4</code>.</li>
+<li>A matrix object with two rows and two columns with the numeric entries <code>1,2,3,4</code>.</li>
+<li>A dataframe object with two columns; one column containing the numeric entries <code>1,2,3,4</code>, and one column containing the character entries <code>"a","b","c","d"</code>.</li>
+<li>A list containing the objects created in (b) and (c).</li>
+<li>Using <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>, identify the class and the data storage mode for the objects created in problems a-d. Discuss the characteristics of the identified classes.</li>
+</ol>
+</li>
+<li>Assume that you have developed an <strong>R</strong> algorithm that saves hourly stream temperature sensor outputs greater than <span class="math inline">\(20^\text{o}\)</span> from each day as separate dataframes and places them into a list container, because some days may have several points exceeding the threshold and some days may have none. Complete the following based on the list <code>hi.temps</code> given below:
+<ol style="list-style-type: lower-alpha">
+<li><p>Combine the dataframes in <code>hi.temps</code> into a single dataframe using <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>.</p></li>
+<li>
+<p>Create a dataframe consisting of 10 sets of repeated measures from the dataframe <code>hi.temps$day2</code> using <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>.</p>
+<div class="sourceCode" id="cb416"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hi.temps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>day1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>, temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                 day2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span>, </span>
+<span>                                   temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">21.1</span>,<span class="fl">22.2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                 day3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14</span>,<span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span>,</span>
+<span>                                   temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">21.3</span>,<span class="fl">20.2</span>,<span class="fl">21.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>Given the dataframe <code>boo</code> below, provide solutions to the following questions:
+<ol style="list-style-type: lower-alpha">
+<li><p>Identify heights that are less than or equal to 80 inches.</p></li>
+<li><p>Identify heights that are more than 80 inches.</p></li>
+<li><p>Identify females (i.e. <code>F</code>) greater than or equal to 59 inches but less 63 inches.</p></li>
+<li><p>Subset rows of <code>boo</code> to only contain only data for males (i.e. <code>M</code>) greater than or equal to 75 inches tall.</p></li>
+<li><p>Find the mean weight of males who are 75 or 76 inches tall.</p></li>
+<li>
+<p>Use <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> or <code>if()</code> to classify heights equal to 60 inches as <code>"small"</code>, and heights greater than or equal to 60 inches as <code>"tall"</code>.</p>
+<div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>height.in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">76</span>, <span class="fl">72</span>, <span class="fl">73</span>, <span class="fl">81</span>, <span class="fl">66</span>, <span class="fl">69</span>, <span class="fl">75</span>, </span>
+<span>                                <span class="fl">80</span>, <span class="fl">81</span>, <span class="fl">60</span>, <span class="fl">64</span>, <span class="fl">59</span>, <span class="fl">61</span>, <span class="fl">66</span>, <span class="fl">63</span>, </span>
+<span>                                <span class="fl">59</span>, <span class="fl">58</span>, <span class="fl">67</span>, <span class="fl">59</span><span class="op">)</span>,</span>
+<span>                  weight.lbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">160</span>, <span class="fl">185</span>, <span class="fl">180</span>, <span class="fl">186</span>, <span class="fl">200</span>, <span class="fl">156</span>, </span>
+<span>                                 <span class="fl">163</span>, <span class="fl">178</span>, <span class="fl">186</span>, <span class="fl">189</span>, <span class="fl">140</span>, <span class="fl">156</span>, </span>
+<span>                                 <span class="fl">136</span>, <span class="fl">141</span>, <span class="fl">158</span>, <span class="fl">154</span>, <span class="fl">135</span>, <span class="fl">120</span>, </span>
+<span>                                 <span class="fl">145</span>, <span class="fl">117</span><span class="op">)</span>,</span>
+<span>                  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>Create <code>x &lt;- NA</code>, <code>y &lt;- NaN</code>, and <code>z &lt;- NULL</code>.
+<ol style="list-style-type: lower-alpha">
+<li>Test for the class of <code>x</code> using <code>x == NA</code> and <code>is.na(x)</code> and discuss the results.</li>
+<li>Test for the class of <code>y</code> using <code>y == NaN</code> and <code>is.nan(y)</code> and discuss the results.</li>
+<li>Test for the class of <code>z</code> using <code>z == NULL</code> and <code>is.null(z)</code> and discuss the results.</li>
+<li>Discuss <code>NA</code>, <code>NaN</code>, and <code>NULL</code> designations what are these classes used for and what do they represent?</li>
+</ol>
+</li>
+<li>For the following questions, use data from Table <a href="ch3.html#tab:Q5">3.7</a> below.
+<ol style="list-style-type: lower-alpha">
+<li>Write the data into an <strong>R</strong> dataframe called <code>plant</code>. Use the functions <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> and <code><a href="https://rdrr.io/r/base/rep.html">rep()</a></code> to help.</li>
+<li>Use <code><a href="https://rdrr.io/r/base/names.html">names()</a></code> to find the names of the variables.</li>
+<li>Access the first row of data using square brackets.</li>
+<li>Access the third column of data using square brackets.</li>
+<li>Access rows three through five using square brackets.</li>
+<li>Access all rows <em>except</em> rows three, five and seven using square brackets.</li>
+<li>Access the fourth element from the third column using square brackets.</li>
+<li>Apply <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code> to the dataframe and discuss the consequences.</li>
+<li>Create a copy of <code>plant</code> called <code>plant2</code>. Using square brackets, replace the 7th item in the 2nd column in <code>plant2</code>, an <code>NA</code> value, with the value <code>12.1</code>.</li>
+<li>Switch the locations of columns two and three in <code>plant2</code> using square brackets.</li>
+<li>Export the <code>plant2</code> dataframe to your working directory.</li>
+<li>Convert the <code>plant2</code> dataframe into a matrix using the function <code>as.matrix</code>. Discuss the consequences.</li>
+</ol>
+</li>
+</ol>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Q5">Table 3.7: </span>Data for Question 5.</caption>
+<thead><tr class="header">
+<th align="left">Plant height (dm)</th>
+<th align="left">Soil N (%)</th>
+<th align="left">Water index (1-10)</th>
+<th align="left">Management type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">22.3</td>
+<td align="left">12</td>
+<td align="left">1</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">21</td>
+<td align="left">12.5</td>
+<td align="left">2</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">24.7</td>
+<td align="left">14.3</td>
+<td align="left">3</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="left">14.2</td>
+<td align="left">4</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">26.3</td>
+<td align="left">15</td>
+<td align="left">5</td>
+<td align="left">C</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
+<td align="left">14</td>
+<td align="left">6</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">31</td>
+<td align="left">NA</td>
+<td align="left">7</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">32</td>
+<td align="left">15</td>
+<td align="left">8</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">34</td>
+<td align="left">13.3</td>
+<td align="left">9</td>
+<td align="left">E</td>
+</tr>
+<tr class="even">
+<td align="left">42</td>
+<td align="left">15.2</td>
+<td align="left">10</td>
+<td align="left">E</td>
+</tr>
+<tr class="odd">
+<td align="left">28.9</td>
+<td align="left">13.6</td>
+<td align="left">1</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">33.3</td>
+<td align="left">14.7</td>
+<td align="left">2</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">35.2</td>
+<td align="left">14.3</td>
+<td align="left">3</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td align="left">36.7</td>
+<td align="left">16.1</td>
+<td align="left">4</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">34.4</td>
+<td align="left">15.8</td>
+<td align="left">5</td>
+<td align="left">C</td>
+</tr>
+<tr class="even">
+<td align="left">33.2</td>
+<td align="left">15.3</td>
+<td align="left">6</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">35</td>
+<td align="left">14</td>
+<td align="left">7</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">41</td>
+<td align="left">14.1</td>
+<td align="left">8</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">43</td>
+<td align="left">16.3</td>
+<td align="left">9</td>
+<td align="left">E</td>
+</tr>
+<tr class="even">
+<td align="left">44</td>
+<td align="left">16.5</td>
+<td align="left">10</td>
+<td align="left">E</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Let:
+<span class="math display">\[\boldsymbol{A} = \begin{bmatrix}
+2 &amp; -3\\
+1 &amp; 0
+\end{bmatrix}
+\text{and  } \boldsymbol{b} = \begin{bmatrix}
+1\\
+5
+\end{bmatrix} \]</span>
+Perform the following operations using <strong>R</strong>:
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\boldsymbol{A}\boldsymbol{b}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{b}\boldsymbol{A}\)</span></li>
+<li><span class="math inline">\(det(\boldsymbol{A})\)</span></li>
+<li><span class="math inline">\(\boldsymbol{A}^{-1}\)</span></li>
+<li><span class="math inline">\(\boldsymbol{A}'\)</span></li>
+</ol>
+</li>
+<li>We can solve systems of linear equations using matrix algebra under the framework <span class="math inline">\(\boldsymbol{A}\boldsymbol{x} = \boldsymbol{b}\)</span>, and (thus) <span class="math inline">\(\boldsymbol{A}^{-1}\boldsymbol{b} = \boldsymbol{x}\)</span>. In this notation <span class="math inline">\(\boldsymbol{A}\)</span> contains the coefficients from a series of linear equations (by row), <span class="math inline">\(\boldsymbol{b}\)</span> is a vector of solutions given in the individuals equations, and <span class="math inline">\(\boldsymbol{x}\)</span> is a vector of solutions sought in the system of models. Thus, for the linear equations:</li>
+</ol>
+<p><span class="math display">\[\begin{aligned}
+x + y &amp;= 2\\
+-x + 3y &amp;= 4
+\end{aligned}\]</span></p>
+<div class="line-block">            we have:</div>
+<p><span class="math display">\[\boldsymbol{A} = \begin{bmatrix}
+1 &amp; 1\\
+-1 &amp; 3
+\end{bmatrix}, \boldsymbol{ x} = \begin{bmatrix}
+x\\
+y
+\end{bmatrix}, \text{ and  } \boldsymbol{b} = \begin{bmatrix}
+2\\
+4
+\end{bmatrix}.\]</span></p>
+<div class="line-block">           Thus, we have</div>
+<p><span class="math display">\[\boldsymbol{A}^{-1}\boldsymbol{b} = \boldsymbol{x} = \begin{bmatrix}
+1/2\\
+3/2
+\end{bmatrix}.\]</span></p>
+<div class="line-block">           Given this framework, solve the system of equations below with linear algebra using <strong>R</strong>.</div>
+<p><span class="math display">\[
+\begin{aligned}
+3x + 2y - z &amp;= 1\\
+2x - 2y + 4z &amp;= -2\\
+-x + 0.5y -z &amp;= 0
+\end{aligned}
+\]</span></p>
+<ol start="8" style="list-style-type: decimal">
+<li>Complete the following exercises concerning the <strong>R</strong> contributed package <em>asbio</em>:
+<ol style="list-style-type: lower-alpha">
+<li>Install<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Installation of packages while knitting of &lt;strong&gt;R&lt;/strong&gt; Markdown or Sweave &lt;strong&gt;R&lt;/strong&gt; code chunks is not allowed. Instead, one should install packages from the console. Required packages can (and should) be &lt;em&gt;loaded&lt;/em&gt; while knitting once they are installed.&lt;/p&gt;"><sup>42</sup></a> and load the package <em>asbio</em> for the current work session.</li>
+<li>Access the help file for <code>bplot()</code> (a function in <em>asbio</em>).</li>
+<li>Load the dataset <code>fly.sex</code> from <em>asbio</em>.</li>
+<li>Obtain documentation for the dataset <code>fly.sex</code> and describe the dataset variables.</li>
+<li>Access the column <code>longevity</code> in <em>fly.sex</em> using the function <code><a href="https://rdrr.io/r/base/with.html">with()</a></code>.</li>
+</ol>
+</li>
+<li>Create .csv and .txt datasets, place them in your working directory, and read them into <strong>R</strong>.</li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></div>
+<div class="next"><a href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch3"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li>
+<a class="nav-link" href="#data-storage-objects"><span class="header-section-number">3.1</span> Data Storage Objects</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#vectors"><span class="header-section-number">3.1.1</span> Atomic Vectors</a></li>
+<li><a class="nav-link" href="#Sec3M"><span class="header-section-number">3.1.2</span> Matrices</a></li>
+<li><a class="nav-link" href="#arrays"><span class="header-section-number">3.1.3</span> Arrays</a></li>
+<li><a class="nav-link" href="#dataframes"><span class="header-section-number">3.1.4</span> Dataframes</a></li>
+<li><a class="nav-link" href="#lists"><span class="header-section-number">3.1.5</span> Lists</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#boolean-operations"><span class="header-section-number">3.2</span> Boolean Operations</a></li>
+<li>
+<a class="nav-link" href="#sctc"><span class="header-section-number">3.3</span> Testing and Coercing Classes</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#testing"><span class="header-section-number">3.3.1</span> Testing</a></li>
+<li><a class="nav-link" href="#s3coer"><span class="header-section-number">3.3.2</span> Coercion</a></li>
+<li><a class="nav-link" href="#na"><span class="header-section-number">3.3.3</span> NA</a></li>
+<li><a class="nav-link" href="#nan"><span class="header-section-number">3.3.4</span> NaN</a></li>
+<li><a class="nav-link" href="#null"><span class="header-section-number">3.3.5</span> NULL</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#accessing-and-subsetting-data-with"><span class="header-section-number">3.4</span> Accessing and Subsetting Data With []</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#subsetting-a-factor"><span class="header-section-number">3.4.1</span> Subsetting a Factor</a></li>
+<li><a class="nav-link" href="#subsetting-with-boolean-operators"><span class="header-section-number">3.4.2</span> Subsetting with Boolean Operators</a></li>
+<li><a class="nav-link" href="#when-subset-is-larger-than-underlying-data"><span class="header-section-number">3.4.3</span> When Subset Is Larger Than Underlying Data</a></li>
+<li><a class="nav-link" href="#utlt"><span class="header-section-number">3.4.4</span> Subsetting with upper.tri(), lower.tri(), and diag()</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#package"><span class="header-section-number">3.5</span> Packages</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#packagei"><span class="header-section-number">3.5.1</span> Package Installation</a></li>
+<li><a class="nav-link" href="#packagel"><span class="header-section-number">3.5.2</span> Loading Packages</a></li>
+<li><a class="nav-link" href="#other-package-repositories"><span class="header-section-number">3.5.3</span> Other Package Repositories</a></li>
+<li><a class="nav-link" href="#accessing-package-information"><span class="header-section-number">3.5.4</span> Accessing Package Information</a></li>
+<li><a class="nav-link" href="#accessing-datasets-in-r-packages"><span class="header-section-number">3.5.5</span> Accessing Datasets in R-packages</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#facilitating-command-line-data-entry"><span class="header-section-number">3.6</span> Facilitating Command Line Data Entry</a></li>
+<li>
+<a class="nav-link" href="#importing-data-into-r"><span class="header-section-number">3.7</span> Importing Data Into R</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#rt"><span class="header-section-number">3.7.1</span> Import Using read.table(), read.csv(), and scan()</a></li>
+<li><a class="nav-link" href="#import-using-rstudio"><span class="header-section-number">3.7.2</span> Import Using RStudio</a></li>
+<li><a class="nav-link" href="#final-considerations"><span class="header-section-number">3.7.3</span> Final Considerations</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises-2">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

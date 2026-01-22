@@ -1,0 +1,37 @@
+var counter = 0;
+function eraseKeywords() {
+	if(counter == 0) {
+		document.getElementById("searchbox").value = "";
+		counter++;
+	}
+}
+
+function selectAndGo() {
+	var thisindex = document.getElementById("quicklinks").selectedIndex;
+	if(thisindex != 0) {
+		newaddress = document.getElementById("quicklinks")[thisindex].value;
+		window.location.href = newaddress;
+	}
+}
+
+function makeQuickLinks() {
+	var quickLinksText = '<!-- This needs to be all one line keeping this same format for the javascript version to work, no newlines or additional attributes e.g. classes, please and thanks! --><li><a href="http://isubengals.ocsn.com/">Athletics</a></li><li><a href="http://www.isu.edu/catalogs.shtml">Academic Catalogs</a></li><li><a href="http://www.isu.edu/administration.shtml">Administration</a></li><li><a href="http://www.isu.edu/advising">Advising</a></li><li><a href="http://www.isu.edu/calendar_news.shtml">Calendars/Schedules</a></li><li><a href="http://classes.isu.edu">Class Schedule</a></li><li><a href="http://www.isu.edu/colleges.shtml">Colleges/Departments</a></li><li><a href="http://www2.isu.edu/isdb/search.php">Directories (Phone/Email)</a></li><li><a href="http://www.isu.edu/pubsafe/emergency_announce.shtml">Emergency Information</a></li><li><a href="http://www.isu.edu/humanr/employment.shtml">Employment Opportunities</a></li><li><a href="http://www.isu.edu/departments/its/">IT Services</a></li><li><a href="http://www.isu.edu/library/">Library</a></li><li><a href="http://www.isu.edu/directionsandmap.shtml">Maps and Directions</a></li><li><a href="http://imnh.isu.edu/">Museum</a></li><li><a href="http://www.isu.edu/research/">Office of Research</a></li><li><a href="http://www.isu.edu/other.shtml" title="Boise, Idaho Falls, NICHE, Twin Falls, American Falls, Blackfoot, Preston, Soda Springs">Other ISU Centers</a></li>';
+	listItems = quickLinksText.split ('</li>');
+
+	document.writeln('<form id="quicklinkform" name="quicklinkform" onsubmit="selectAndGo(); return false;">');
+	document.writeln('<fieldset>');
+	document.writeln('<select id="quicklinks" name="quicklinks">');
+	document.writeln('<option value="">ISU Quick Links...</option>');
+	for(i=0 ; i<listItems.length-1 ; i++) {
+		/** insert RegExp to strip out comments here **/
+		var thisOption = listItems[i];
+		thisOption = thisOption.replace(/<li><a href/, "<option onclick=\"selectAndGo(); return false;\" value");
+		thisOption = thisOption.replace(/a>/, "option>");
+		document.writeln(thisOption);
+	}
+	document.writeln('</select>');
+	document.writeln('<label for="quicklinksubmit"><input type="submit" alt="Go" value="Go" id="quicklinksubmit" name="quicklinksubmit" /></label>');
+	document.writeln('</fieldset>');
+	document.writeln('</form>');
+	document.getElementById("quicklinkform").reset();
+}

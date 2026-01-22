@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 12 R and Your Computer | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content="“Those who can imagine anything, can create the impossible.”  - Alan Turing, (1912–1954)  12.1 How Do Computers Work? To better understand R we need to understand the underlying constraints of...">
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 12 R and Your Computer | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="“Those who can imagine anything, can create the impossible.”  - Alan Turing, (1912–1954)  12.1 How Do Computers Work? To better understand R we need to understand the underlying constraints of...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 12 R and Your Computer | An Amalgam of R">
+<meta name="twitter:description" content="“Those who can imagine anything, can create the impossible.”  - Alan Turing, (1912–1954)  12.1 How Do Computers Work? To better understand R we need to understand the underlying constraints of...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="active" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch12" class="section level1" number="12">
+<h1>
+<span class="header-section-number">12</span> R and Your Computer<a class="anchor" aria-label="anchor" href="#ch12"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“Those who can imagine anything, can create the impossible.”</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Alan Turing</strong>, <em>(1912–1954)</em></p>
+</div>
+<div id="how-do-computers-work" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> How Do Computers Work?<a class="anchor" aria-label="anchor" href="#how-do-computers-work"><i class="fas fa-link"></i></a>
+</h2>
+<p>To better understand <strong>R</strong> we need to understand the underlying constraints of computer systems we use to run <strong>R</strong>.
+Computers accept data, process data, produce output, and store processed results. This is generally accomplished through through the generation, integration and storage of electrical signals at microscopic scales. A list of (current but often changing) computer hardware terms are given below.</p>
+<ul>
+<li><p><em>Power supply</em>: Converts alternating current (AC) electric power to low-voltage direct current (DC) power.</p></li>
+<li><p><em>Motherboard</em>: A circuit board connecting computer components including the CPU, RAM and memory disk drives.</p></li>
+<li><p><em>Central Processing Unit</em> (<em>CPU</em>): A microprocessor that performs most of the calculations that allow a computer to function. Specifically, the CPU processes program instructions and sends the results on for further processing and execution by other computer components.</p></li>
+<li><p><em>Graphics Processing Unit</em> (<em>GPU</em>): An electronic circuit originally designed to accelerate computer graphics, but now widely applied for non-graphic, but highly parallel, calculations.</p></li>
+<li><p><em>Chipset</em>: Mediates communication between the CPU and the other computer components.</p></li>
+<li><p><em>Random Access Memory</em> (<em>RAM</em>): Stores code and data in <em>primary memory</em> to allow it to be directly accessed by the CPU. RAM is volatile memory which requires power to retain stored information. Thus, when power is interrupted, RAM data can be lost. RAM types include <em>dynamic random access memory</em> (<em>DRAM</em>) and <em>static random-access memory</em> (<em>SRAM</em>). DRAM constitutes modern computer <em>main memory</em> and <em>graphics cards</em>. DRAM typically takes the form of an <em>integrated circuit</em> chip that can consist of up to billions of memory cells, with each cell consisting of a pairing of a tiny capacitor<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A capacitor stores electrical energy by “accumulating electric charges on two closely spaced surfaces that are insulated from each other” &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikicapacitor"&gt;Wikipedia 2024a&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>110</sup></a> and transistor<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A transistor
+is a semiconductor device (a material with an intermediate electrical conductivity, e.g., silicon) that is used to amplify or switch electrical signals and power” &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikitransistor"&gt;Wikipedia 2024i&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>111</sup></a>, allowing each cell to store or read or write one bit of information (Fig <a href="ch12.html#fig:dram">12.1</a>). SRAM uses latching circuitry that holds data permanently in the presence of power, whereas DRAM decays in seconds and must be periodically refreshed. Memory access via SRAM is much faster than DRAM, although DRAM circuits are much less expensive to construct.</p></li>
+</ul>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:dram"></span>
+<img src="figs12/DRAM.png" alt="Sixteen DRAM memory cells each representing a bit of information for computational storage, reading, or writing. To read the binary word line `0101...` in row two of the circuit, binary signals are sent down the bit lines to sense amplifiers." width="80%"><p class="caption">
+Figure 12.1: Sixteen DRAM memory cells each representing a bit of information for computational storage, reading, or writing. To read the binary word line <code>0101...</code> in row two of the circuit, binary signals are sent down the bit lines to sense amplifiers.
+</p>
+</div>
+<ul>
+<li><p><em>Disk drives</em>: including CD, DVD, <em>hard disk</em> (<em>HDD</em>), and <em>solid state disk</em> (<em>SSD</em>) are used for secondary memory. That is, memory that is not directly accessible from the CPU. Secondary memory can be accessed or retrieved even if the computer is off. Secondary memory is also non-volatile and thus can be used to store data and programs for extended periods. User files and software (like <strong>R</strong>) are generally stored on HDDs or SSDs. <em>Flash memory</em>, which uses modified <em>metal–oxide–semiconductor field-effect transistors</em> (<em>MOSFETs</em>), is typically used on USB and SSD devices to provide secondary memory that can be erased and reprogrammed. Flash memory can also be used in RAM applications.</p></li>
+<li><p><em>Read-Only Memory</em> (<em>ROM</em>): Stores the BIOS (see below) that runs when the computer is powered on (cold boot) or restarted (warm boot or <em>reboot</em>). ROM constitutes primary memory.</p></li>
+<li><p><em>Basic Input Output System</em> (<em>BIOS</em>): Basic boot (startup) and power management firmware (software that provides low level control for computer hardware). Newer motherboards use the so-called <em>Unified Extensible Firmware Interface</em> (<em>UEFI</em>) to address BIOS limitations, including restrictive 16 bit addresses.</p></li>
+<li><p><em>Video card</em>: Processes computer graphics.</p></li>
+</ul>
+<p>
+</p>
+<!-- ```{r , echo = F, eval = knitr::is_html_output(), results = 'asis', message = F, warning = F} -->
+<!-- data <- read.csv("figs12/Tab12_1.csv", header = T) -->
+<!-- for(i in 1:2){ -->
+<!-- data[,i] <- gsub(" +$", "", data[,i]) -->
+<!-- data[,i] <- gsub("^\\s+", "", data[,i])} -->
+<!-- names(data)[1] <- "" -->
+<!-- knitr::kable(data, align = c("l", "l"), caption = "Computer terminology.", label = "compstuff") -->
+<!-- ``` -->
+</div>
+<div id="base-2-and-base-10" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Base-2 and Base-10<a class="anchor" aria-label="anchor" href="#base-2-and-base-10"><i class="fas fa-link"></i></a>
+</h2>
+<p>To understand computer processes, it is important to distinguish base-2 (<em>binary</em>) and base-10 (<em>decimal</em>) numerical systems. In both cases, the <em>base</em> refers to the number of unique digits. Thus, base-2 systems can have two unique digits, commonly <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>, and the base-10 system has 10 unique digits: <span class="math inline">\(0,1,2,3,4,5,6,7,8,9\)</span>. The latter –more widely used system– probably arose because we have ten fingers for counting<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A base-20 system used by Pre-Columbian Mesoamerican cultures probably arose because we have twenty fingers and toes &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikidec"&gt;Wikipedia 2024c&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>112</sup></a>. A <em>radix</em> (commonly a decimal symbol) is used to distinguish the <em>integer part</em> of a number from its <em>fractional part</em> (Fig <a href="ch12.html#fig:bin">12.2</a>). The radix convention is used by both base-2 and base-10 systems. For example, the decimal number <span class="math inline">\(4\frac{3}{4}\)</span>, has integer component <span class="math inline">\(4\)</span> and fractional component <span class="math inline">\(\frac{3}{4}\)</span>, can be expressed as <span class="math inline">\(4.75\)</span>. The binary equivalent of <span class="math inline">\(4\frac{3}{4}\)</span> is 100.110.</p>
+<p>Traditionally, a base-10 number could only be expressed as a rational fraction whose denominator was a power of ten (Fig <a href="ch12.html#fig:bin">12.2</a>). However, the decimal system can be extended to any real number, by allowing a conceptual infinite sequence of digits following the radix <span class="citation">(<a href="references.html#ref-wikidec">Wikipedia 2024c</a>)</span>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:bin"></span>
+<img src="figs12/Base10.png" alt="A decimal place value chart. A radix (decimal) is placed between the ones and thenths columns to distinguish decimal number components greater than one (to the left), and components less than one but greater than zero (to the right)." width="100%"><p class="caption">
+Figure 12.2: A decimal place value chart. A radix (decimal) is placed between the ones and thenths columns to distinguish decimal number components greater than one (to the left), and components less than one but greater than zero (to the right).
+</p>
+</div>
+</div>
+<div id="bits-and-bytes" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> Bits and Bytes<a class="anchor" aria-label="anchor" href="#bits-and-bytes"><i class="fas fa-link"></i></a>
+</h2>
+<p>Computers are designed around bits and bytes. A <em>bit</em> is a binary (base-2) unit of digital information. Specifically, a bit will represent a <code>0</code> or a <code>1</code>. This convention occurs because computer systems typically use electronic circuits that exist in only one of two states, on or off. For instance, in DRAM memory cells (Fig <a href="ch12.html#fig:dram">12.1</a>) convert electrical low and high voltages into binary <code>0</code> and <code>1</code> responses, respectively, for the purpose of reading, writing, and storing data. Although bits are used by all software in all conventional computer operating systems, these mechanisms are easily revealed in <strong>R</strong>.</p>
+<p>Bits are generally counted in units of <em>bytes</em>. For somewhat arbitrary historical reasons, a byte equals eight bits. Two major systems exist for counting bytes. The <em>decimal method</em>, the most common system, uses powers of 10, allowing implementation of SI prefixes (i.e., kilo = <span class="math inline">\(10^3 = 1000\)</span>, mega = <span class="math inline">\(10^6\)</span> = <span class="math inline">\(1000^2\)</span>, giga = <span class="math inline">\(10^9\)</span> = <span class="math inline">\(1000^3\)</span>, etc.) (Table <a href="ch12.html#tab:mem">12.1</a>). A computer hard drive with 1 gigabyte (1 billion bytes) of memory will have <span class="math inline">\(1 \times 10^9\)</span> bytes = <span class="math inline">\(8 \times 10^9\)</span> bits of memory. The <em>binary system</em>, used frequently by Windows to describe RAM, defines byte units in multiples of 1024.</p>
+<p>
+</p>
+<div class="inline-table"><table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:mem">
+<caption style="caption-side: top; text-align: center;">
+<span id="tab:mem">Table 12.1: </span> Frequently used byte units.
+</caption>
+<col>
+<col>
+<col>
+<col>
+<tr>
+<th colspan="2" style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Decimal
+</th>
+<th colspan="2" style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Binary
+</th>
+</tr>
+<tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Bytes
+</th>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Name
+</th>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Bytes
+</th>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">
+Name (IEC)
+</th>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1000\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+kB (kilobyte)
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1024\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+KiB (kibibyte)
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1000^2\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+MB (megabyte)
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1024^2\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+MiB (mebibyte)
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1000^3\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+GB (gigabyte)
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1024^3\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+GiB (gibibyte)
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1000^4\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+TB (terabyte)
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1024^4\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+TiB (tebibyte)
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1000^5\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+PB (petabyte)
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+<span class="math inline">\(1024^5\)</span>
+</td>
+<td style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">
+PeB (pebibyte)
+</td>
+</tr>
+</table></div>
+<p>With a single bit we can describe only <span class="math inline">\(2^1 = 2\)</span> distinct digital objects. These will be an entity represented by a 0, and an entity represented by a 1. It follows that <span class="math inline">\(2^2 = 4\)</span> distinct objects can be described with two bits, <span class="math inline">\(2^3 = 8\)</span> entities can be described with three bits, and so on<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;For instance, images often contain eight bit (one byte) variables describing the colors red, green, and blue. Thus, the color red would be a number between 0 and 255 (i.e., red could have &lt;span class="math inline"&gt;\(2^8 = 256\)&lt;/span&gt; distinct values). Given that the colors blue and green were also eight bit, there would be &lt;span class="math inline"&gt;\(256^3 = 16,777,216\)&lt;/span&gt; color possibilities (combinations) for any pixel in an image.&lt;/p&gt;'><sup>113</sup></a>.</p>
+</div>
+<div id="decimal-to-binary" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> Decimal to Binary<a class="anchor" aria-label="anchor" href="#decimal-to-binary"><i class="fas fa-link"></i></a>
+</h2>
+<p>We count to ten in binary using: <code>0</code> = 0, <code>1</code> = 1, <code>10</code> = 2, <code>11</code> = 3, <code>100</code> = 4, <code>101</code> = 5, <code>110</code> = 6, <code>111</code> = 7, <code>1000</code> = 8, <code>1001</code> = 9, and <code>1010</code> = 10. Thus, we require four bits to count to ten. Note that the binary sequences for all positive integers greater than or equal to one, start with one.</p>
+<!-- %This follows from the guidelines for establishing binary expressions for positive integers: -->
+<!-- %  -->
+<!-- % -  For the smallest integer, given a particular number of bits, the leftmost placeholder will be a one, and all other bits will be zeros (e.g., `100` = 4). -->
+<!-- % -  For the next largest integer, a one is placed in the rightmost placeholder occupied by a zero in the previous step (e.g., `101` = 5). -->
+<!-- % -  For the next largest integer the one inserted in the previous step is moved one placeholder to the left if that bit is zero (e.g., `110` = 6). If the bit to the left is a one, then one would go to back step 2 (e.g., `111` = 7). If all bits are ones following (or preceding) step 2, then add a bit of information, and begin again at step 1 (e.g., `1000` = 8). -->
+<!-- %  -->
+<div id="positive-integers" class="section level3" number="12.4.1">
+<h3>
+<span class="header-section-number">12.4.1</span> Positive Integers<a class="anchor" aria-label="anchor" href="#positive-integers"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can obtain the binary expression of the integer part of any decimal number by iteratively performing <em>integer division</em> by two, and cataloging each <em>modulus</em>. The iterations are stopped when a quotient of one is reached. The modulus sequence is read from right to left (backwards). If the whole number of interest is greater than one (i.e., the whole number is not 0 or 1) we place a one in front of the reversed sequence, because all binary sequences for numbers greater than or equal to one must start with one.</p>
+<div class="example">
+<p><span id="exm:exm-c12ex1" class="example"><strong>Example 12.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the number 23:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Modulus (remainder)     }&amp; 1&amp;           &amp; 1&amp;          &amp; 1&amp;         &amp; 0&amp;\\
+&amp;\text{Integer Quotient        }            &amp; 23/2 = 11&amp; &amp; 11/2 = 5&amp; &amp; 5/2 = 2&amp; &amp; 2/2 = 1&amp;
+\end{aligned}
+\]</span></p>
+<p>The reversed sequence is <code>0111</code>. We place a one in front to get the binary representation for 23: <code>10111</code>. The function <code><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin()</a></code> from <em>asbio</em> does the work for us:
+</p>
+<div class="sourceCode" id="cb1228"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">asbio</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin</a></span><span class="op">(</span><span class="fl">23</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 10111</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="sec:pf" class="section level3" number="12.4.2">
+<h3>
+<span class="header-section-number">12.4.2</span> Positive Fractions<a class="anchor" aria-label="anchor" href="#sec:pf"><i class="fas fa-link"></i></a>
+</h3>
+<p>The fractional part of a decimal number can be converted to binary in a similar fashion.</p>
+<ul>
+<li>To identify the fractional expression as a non integer, start the binary sequence with <code>0.</code> (a zero followed by a decimal symbol).</li>
+<li>Double the fraction to be converted, and record a <code>1</code> if the product is <span class="math inline">\(\ge 1\)</span>, and <code>0</code> otherwise.</li>
+<li>For subsequent binary digits, multiply two by the fractional part of the previous multiplication. If the product is <span class="math inline">\(\ge 1\)</span>, record a <code>1</code>. If not, record a <code>0</code>.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-c12ex2" class="example"><strong>Example 12.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the fraction <span class="math inline">\(\frac{1}{4}\)</span>. We have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Binary outcome}&amp; 0              &amp; &amp; 1          &amp;&amp; 0         &amp;&amp; 0\\
+&amp;\text{Product}&amp; 1/4 \times 2 = 1/2 &lt; 1 &amp; &amp; 1/2 \times 2 = 1\ge 1 &amp;&amp; 0 \times 2 = 0 &lt; 1&amp;&amp; 0 \times 2 = 0 &lt; 1 \end{aligned}
+\]</span></p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>We have a clear repeating sequence of zeroes, due to a product of two in the second step. This allows us to stop the growth of the binary expression. For fractions, the binary sequence is read conventionally, from left to right. Thus, the binary expression for <span class="math inline">\(\frac{1}{4}\)</span> is <code>0.01</code> .</p>
+<div class="sourceCode" id="cb1230"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.01</code></pre>
+</div>
+</div>
+<div id="binary-to-decimal" class="section level2" number="12.5">
+<h2>
+<span class="header-section-number">12.5</span> Binary to Decimal<a class="anchor" aria-label="anchor" href="#binary-to-decimal"><i class="fas fa-link"></i></a>
+</h2>
+<p>The addition of a binary digit (i.e., a bit) represents a doubling of information storage. For instance, as we increase from two bits to three bits, the number of describable integers increases from four (integers 0 to 3) to eight (integers 0 to 7). As a result we say that the rightmost digit in a set of binary digits represents <span class="math inline">\(2^0\)</span>, the next represents <span class="math inline">\(2^1\)</span>, then <span class="math inline">\(2^2\)</span>, and so on. This can be defined with an equation based on Horner’s method <span class="citation">(<a href="references.html#ref-horner1815">Horner 1815</a>)</span> that allows conversion of binary to decimal numbers:</p>
+<p><span class="math display" id="eq:bin">\[\begin{equation}
+\sum_{\kappa=\min(\kappa)}^{\max(\kappa)}\alpha\beta^\kappa
+\tag{12.1}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is a quantity known as the <em>significand</em>, that contains bit (0, 1) outcomes. For the purpose of binary expressions, the modifying base, <span class="math inline">\(\beta\)</span>, is 2. The term <span class="math inline">\(\kappa\)</span> is called (appropriately) <em>the exponent</em>.</p>
+<p>The maximum and minimum values of <span class="math inline">\(\kappa\)</span> are determined by counting the number of placeholder digits in the binary expression represented by the significand, with respect to a binary radix point (Fig <a href="ch12.html#fig:bin2dec">12.3</a>). Note that counting starts with respect to 0 (the first digit to the left of the radix) for both positive (bits to the left of the radix) and negative (bits to the right of the radix) values of the exponent, <span class="math inline">\(\kappa\)</span>. The radix reference has prompted this method to be called <em>floating point arithmetic</em>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:bin2dec"></span>
+<img src="figs12/Fig12_1.png" alt="Conceptualization of binary to decimal conversion, as given in Eq \@ref(eq:bin)." width="100%"><p class="caption">
+Figure 12.3: Conceptualization of binary to decimal conversion, as given in Eq <a href="ch12.html#eq:bin">(12.1)</a>.
+</p>
+</div>
+<div id="positive-integers-1" class="section level3" number="12.5.1">
+<h3>
+<span class="header-section-number">12.5.1</span> Positive Integers<a class="anchor" aria-label="anchor" href="#positive-integers-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>For positive integers the entirety of the corresponding binomial expression will be to the left of the radix point (Fig <a href="ch12.html#fig:bin2dec">12.3</a>). Thus, the minimum value of <span class="math inline">\(\kappa\)</span> will be zero and the maximum value of <span class="math inline">\(\kappa\)</span> will be the number of digits (bits) in the binary expression, minus one.</p>
+<p>Equation <a href="ch12.html#eq:bin">(12.1)</a> represents a <em>dot product</em>. That is, the equation is a sum of the element-wise multiplication of two vectors. For instance, to find the integers represented by a single binary bit, we multiply the binary digit value, <code>0</code> or <code>1</code>, by the power of two it represents. Because the single bit signature would occur at the right-most address to the left of the radix, the value of exponent would be 0 (Fig <a href="ch12.html#fig:bin2dec">12.3</a>). That is, <span class="math inline">\(\min(\kappa)\)</span> = <span class="math inline">\(\max(\kappa)\)</span> = 0 in Eq. <a href="ch12.html#eq:bin">(12.1)</a>.<br></p>
+<p>If the single bit equals <code>0</code> we have:</p>
+<p><span class="math display">\[0 \times 2^0 = 0,\]</span></p>
+<p>and if the single bit equals <code>1</code> we have:</p>
+<p><span class="math display">\[1 \times 2^0 = 1.\]</span></p>
+<p>Accordingly, to find the decimal version of a set of binary values, we take the sum of the products of the binary digits and their corresponding (decreasing) powers of base 2.</p>
+<div class="example">
+<p><span id="exm:exm-c12ex3" class="example"><strong>Example 12.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For example, the binary number <code>010101</code> equals:</p>
+<p><span class="math display">\[\begin{aligned}
+(0 \times 2^5) + (1 \times 2^4) + (0 \times 2^3) + (1 \times 2^2) + (0 \times 2^1) + (1 \times 2^0) &amp;=
+0 + 16 + 0 + 4 + 0 +1 \\&amp;= 21.
+\end{aligned}
+\]</span></p>
+<p>The function <code>bin2dec</code> in <em>asbio</em> does the calculation for us.</p>
+<div class="sourceCode" id="cb1232"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec</a></span><span class="op">(</span><span class="fl">010101</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 21</code></pre>
+<p></p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="positive-fractions" class="section level3" number="12.5.2">
+<h3>
+<span class="header-section-number">12.5.2</span> Positive Fractions<a class="anchor" aria-label="anchor" href="#positive-fractions"><i class="fas fa-link"></i></a>
+</h3>
+<p>For positive fractions, values of the <span class="math inline">\(\kappa\)</span> exponent will decrease by minus one as bits increase by one (Fig <a href="ch12.html#fig:bin2dec">12.3</a>). Thus, to obtain decimal fractions from binary fractions we multiply a bit’s binary value by decreasing negative powers of base two, starting at 0, and find the sum, as shown in Eq <a href="ch12.html#eq:bin">(12.1)</a>.</p>
+<div class="example">
+<p><span id="exm:exm-c12ex4" class="example"><strong>Example 12.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For example, the binary value <code>0.01</code> equals:
+<span class="math display">\[(0 \times 2^0) + (0 \times 2^{-1}) + (1 \times 2^{-2}) = 0.25\]</span></p>
+<div class="sourceCode" id="cb1234"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec</a></span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.25</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div id="terminality" class="section level4" number="12.5.2.1">
+<h4>
+<span class="header-section-number">12.5.2.1</span> Terminality<a class="anchor" aria-label="anchor" href="#terminality"><i class="fas fa-link"></i></a>
+</h4>
+<p>Most decimal fractions will not have a clear <em>terminal</em> binary sequence. That is, a binary representation of a decimal fraction with a finite number of digits will not exist. This results in mere binary approximations of decimal numbers <span class="citation">(<a href="references.html#ref-goldberg1991">Goldberg 1991</a>)</span>. For instance, the 10 bit binary expression of <span class="math inline">\(\frac{1}{10}\)</span> is</p>
+<div class="sourceCode" id="cb1236"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.0001100110</code></pre>
+<p>But translating this back to decimal we find:</p>
+<div class="sourceCode" id="cb1238"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec</a></span><span class="op">(</span><span class="fl">0.0001100110</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.0996</code></pre>
+<p>Increasing the number of bits in the binary expression increases precision,</p>
+<div class="sourceCode" id="cb1240"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin</a></span><span class="op">(</span><span class="fl">0.1</span>, max.bits <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.00011001100110</code></pre>
+<p>but the decimal approximation remains imperfect.</p>
+<div class="sourceCode" id="cb1242"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec</a></span><span class="op">(</span><span class="fl">0.00011001100110</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.10000000000000000555</code></pre>
+<p>Note that the imperfect conversion above gives the actual result of the division <span class="math inline">\(\frac{1}{10}\)</span> for all software on all current conventional computers (not just <strong>R</strong>)!</p>
+<div class="sourceCode" id="cb1244"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="fl">1</span><span class="op">/</span><span class="fl">10</span></span></code></pre></div>
+<pre><code>[1] 0.10000000000000000555</code></pre>
+<p>It may seem surprising that rational fractions like <span class="math inline">\(\frac{1}{10}\)</span> may have non-terminating binary expressions. <em>Terminality</em>, however, will only occur for a decimal fraction if a product of 2 results from the successive multiplication steps described in Section <a href="ch12.html#sec:pf">12.4.2</a>. This product does not occur for <span class="math inline">\(\frac{1}{10}\)</span>.
+</p>
+<p>Lack of terminality for binary expressions prompts the need for quantifying imprecision in computers systems. This can be obtained from Eq <a href="ch12.html#eq:bin">(12.1)</a>. In particular, the exponent in Eq <a href="ch12.html#eq:bin">(12.1)</a> determines minimum and maximum possible encoded numeric values, and the number of digits in the significand determines numeric precision. Indeed, by changing the base from 2 to 10, Eq <a href="ch12.html#eq:bin">(12.1)</a> can be used to quantify the precision of binary and decimal numbers.</p>
+<div class="example">
+<p><span id="exm:exm-c12ex5" class="example"><strong>Example 12.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For instance, the decimal number <span class="math inline">\(1,245.42\)</span> has the <em>scientific notation</em>: <span class="math inline">\(1.24542 \times 10^3\)</span>. The expression has a the precision of six digits, because under Eq <a href="ch12.html#eq:bin">(12.1)</a> the significand has six digits. Note that applying these digits in Eq. <a href="ch12.html#eq:bin">(12.1)</a> we have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 \times 10^3 &amp; + &amp; 2 \times 10^2 &amp; + &amp; 4 \times 10^1 &amp; + &amp; 5 \times 10^0 &amp; + &amp; 4 \times 10^{-1} &amp; + &amp;2 \times 10^{-2} &amp; = \\
+         1000 &amp; + &amp; 200 &amp; + &amp; 40 &amp; + &amp; 5 &amp; + &amp; 0.4 &amp; + &amp;0.02 &amp; = 1245.42
+\end{aligned}
+\]</span></p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<!-- Imprecision in binary representations of decimal numbers in computer systems is generally handled through a process called *floating point arithmetic*. -->
+</div>
+</div>
+</div>
+<div id="double-precision" class="section level2" number="12.6">
+<h2>
+<span class="header-section-number">12.6</span> Double Precision<a class="anchor" aria-label="anchor" href="#double-precision"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+In most programs, on most workstations, the results of computations are stored as 32 bits (i.e., 4 bytes) or as 64 bits (8 bytes) of information. The 64 bit double precision format allows high precision representations of both positive and negative integers and their fractional components. Under this framework, one bit is allocated to the sign of the stored item, 53 bits are assigned to the significand, and 11 bits are given to the exponent (Fig <a href="ch12.html#fig:sfour">12.4</a>).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:sfour"></span>
+<img src="figs12/sixtyfourbit.png" alt="The IEEE 754 double-precision binary floating-point format Figure taken from (https://commons.wikimedia.org/w/index.php?curid=3595583)." width="100%"><p class="caption">
+Figure 12.4: The IEEE 754 double-precision binary floating-point format Figure taken from (<a href="https://commons.wikimedia.org/w/index.php?curid=3595583" class="uri">https://commons.wikimedia.org/w/index.php?curid=3595583</a>).
+</p>
+</div>
+<p>This can be represented mathematically as a more complex form of Eq <a href="ch12.html#eq:bin">(12.1)</a>:</p>
+<p><span class="math display" id="eq:dp">\[\begin{equation}
+(-1)^{\text{sign}}\left(1 + \sum_{i=1}^{52} b_{52-i} 2^{-i} \right)\times 2^{e-1023}
+\tag{12.2}
+\end{equation}\]</span></p>
+<p>which gives the assumed numeric value for a 64-bit double-precision datum with <em>exponent bias</em>.\</p>
+<div class="example">
+<p><span id="exm:exm-c12ex6" class="example"><strong>Example 12.6  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function <code>bit64()</code> below is taken from the Examples of the documentation for the <em>base</em> function <code><a href="https://rdrr.io/r/base/rawConversion.html">numToBits()</a></code>, which converts digital numbers to 64 bits. The function distinguishes:</p>
+<ul>
+<li>The single bit giving the sign of the number (<code>0</code> = positive, <code>1</code> = negative).</li>
+<li>The 11 bit exponent.</li>
+<li>A 52 bit significand (without the implicit leading <code>1</code>).</li>
+</ul>
+<p>
+<!-- \hypertarget{bit64}{} --></p>
+<div class="sourceCode" id="cb1246"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bit64</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/noquote.html">noquote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/double.html">as.double</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>                 <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>                   <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">numToBits</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2L</span>, <span class="fl">2L</span><span class="op">)</span></span>
+<span>                   <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>, <span class="st">" "</span>, <span class="va">b</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">12</span><span class="op">]</span>, <span class="st">" | "</span>, <span class="va">b</span><span class="op">[</span><span class="fl">13</span><span class="op">:</span><span class="fl">64</span><span class="op">]</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span>                   <span class="op">}</span>, <span class="st">""</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Here is the double precision representation of <span class="math inline">\(\frac{1}{3}\)</span></p>
+<div class="sourceCode" id="cb1247"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">bit64</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0 01111111101 | 0101010101010101010101010101010101010101010101010101</code></pre>
+<p>We see this follows the form of Eq <a href="ch12.html#eq:dp">(12.2)</a>. The exponent <code>01111111101</code> represents the decimal number 1021:</p>
+<div class="sourceCode" id="cb1249"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec</a></span><span class="op">(</span><span class="fl">01111111101</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1021</code></pre>
+<p>And one plus the dot product of the significand and base-2 raised to the sequence -1 to -52, multiplied by <span class="math inline">\(2^{1021 - 1023}\)</span>, is:</p>
+<div class="sourceCode" id="cb1251"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sigd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="st">"0101010101010101010101010101010101010101010101010101"</span>, <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">sigd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">sigd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">base2</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="op">-</span><span class="fl">52</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sigd</span> <span class="op">*</span> <span class="va">base2</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span></span></code></pre></div>
+<pre><code>[1] 0.3333</code></pre>
+<p>That is, we have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+value &amp;= (-1)^{\text{sign}}\left(1 + \sum_{i=1}^{52} b_{52-i} 2^{-i} \right)\times 2^{e-1023}\\
+&amp;= -1^{0} \times (1 + 2^{-2} + 2^{-4} + \dots + 2^{-52}) \times 2^{1021-1023}\\
+&amp;\approx 1.33\bar{3} \times 2^{-2}\\
+&amp;\approx \frac{1}{3}
+\end{aligned}
+\]</span></p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>The 11 bit width of the double precision exponent allows the expression of numbers between <span class="math inline">\(10^{-308}\)</span> and <span class="math inline">\(10^{308}\)</span>, with full 15–17 decimal digits precision. This is clearly demonstrated in <strong>R</strong>. Specifically, imprecision problems with non-terminal fractions become evident for decimal numbers with greater than 16 displayed digital digits.</p>
+<div class="sourceCode" id="cb1253"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span>
+<span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span></span></code></pre></div>
+<pre><code>[1] 0.333333333333333315</code></pre>
+<p>Additionally, the current upper numerical limit in <strong>R</strong> (ver 4.3.2) is somewhere between:</p>
+<div class="sourceCode" id="cb1255"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1.8</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="fl">307</span></span></code></pre></div>
+<pre><code>[1] 1.8e+307</code></pre>
+<p>and</p>
+<div class="sourceCode" id="cb1257"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1.8</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="fl">308</span></span></code></pre></div>
+<pre><code>[1] Inf</code></pre>
+<p>The <em>subnormal representation</em> compromises precision, but allows allows fractional representations approaching <span class="math inline">\(5 \times 10^{-324}\)</span>. This approach is used by <strong>R</strong>, whose smallest represented fraction is between:</p>
+<div class="sourceCode" id="cb1259"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">5.0</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="op">-</span><span class="fl">323</span></span></code></pre></div>
+<pre><code>[1] 4.94065645841246544e-323</code></pre>
+<p>and</p>
+<div class="sourceCode" id="cb1261"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">5.0</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="op">-</span><span class="fl">324</span></span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<p>Binary fractional numbers are expressed with respect to a decimal, and the number of digits will (often) be dictated by the significand. Given 13 bits we have the following binary translations to decimal numbers: <code>1</code> = 1/1, <code>0.1</code> = 1/2, = 1/3, <code>0.01</code> = 1/4, <code>0.00110011</code> = 1/5, = 1/6, = 1/7, <code>0.001</code> = 1/8, = 1/9, = 1/10.</p>
+<!-- % % Floating point arithmetic may give unexpected results. For instance: -->
+<!-- % % -->
+<!-- % % ```{r } -->
+<!-- % % options(digits = 20) -->
+<!-- % % 1/10 -->
+<!-- % % @ -->
+<!-- % % -->
+<!-- % % Due to the character of the binary floating point 1/10 = 0.1 can only be approximated by a binary number. The approximation is very close (out to the 18th significant digit), but not exactly equal to 0.1. Many other fractional quantities cannot be expressed exactly.  As other examples, consider -->
+<!-- % % -->
+<!-- % % ```{r } -->
+<!-- % % 1/3 -->
+<!-- % % @ -->
+<!-- % % -->
+<!-- % % and -->
+<!-- % % -->
+<!-- % % ```{r } -->
+<!-- % % sqrt(2)^2 == 2 -->
+<!-- % % @ -->
+<!-- % % -->
+<!-- % % and even -->
+<!-- % % -->
+<!-- % % ```{r } -->
+<!-- % % 12.3 - 49.2 -->
+<!-- % % @ -->
+</div>
+<div id="binary-characters" class="section level2" number="12.7">
+<h2>
+<span class="header-section-number">12.7</span> Binary Characters<a class="anchor" aria-label="anchor" href="#binary-characters"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+Characters can also be expressed in binary. The American Standard Code for Information Interchange (ASCII) consists of 128 characters, and requires one byte = eight bits<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Originally developed from telegraph code, ASCII has only 128 code points, of which only 95 are printable characters &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikiascii"&gt;Wikipedia 2023a&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>114</sup></a>. The newer eight bit Unicode Transformation Format (<a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a>) system –the most widely used Unicode system– can represent 1,112,064 valid code points, using between 1 to 4 bytes = 8 to 32 bits <span class="citation">(<a href="references.html#ref-wikutf8">Wikipedia 2024k</a>)</span>. Specifically, from the perspective of the <a href="https://en.wikipedia.org/wiki/UTF-16#U+D800_to_U+DFFF">UTF-16</a> system, the UTF-8 system uses portions of seventeen <em>planes</em> <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In Unicode, a plane is a group of &lt;span class="math inline"&gt;\(2^{16} = 65,536\)&lt;/span&gt; code points. There are 17 planes because UTF-16, can encode &lt;span class="math inline"&gt;\(2^{20}\)&lt;/span&gt; code points (16 planes) as pairs of words, plus the so-called Basic Multilingual Plane (UTF-16 plane 0) as a single word.&lt;/p&gt;'><sup>115</sup></a>, each consisting of sixteen bits (and, thus, <span class="math inline">\(2^{16} = 65,536\)</span> code variants). This results in the quantity:</p>
+<p><span class="math display">\[(17 \times 2^{16}) - 2^{11} = 1,112,064\]</span></p>
+<p>The <span class="math inline">\(2^{11} = 2048\)</span> subtraction acknowledges that there are 2048 technically-invalid Unicode surrogates <span class="citation">(<a href="references.html#ref-wikutf16">Wikipedia 2024j</a>)</span>. The first 128 UTF-8 characters are the ASCII characters, allowing back-comparability with ASCII.</p>
+<div class="example">
+<p><span id="exm:exm-c12ex7" class="example"><strong>Example 12.7  </strong></span><span class="math inline">\(\text{}\)</span><br><strong>R</strong> uses the UTF-8 system of characters. We can observe the process of binary character assignment using the functions <code><a href="https://rdrr.io/r/base/raw.html">as.raw()</a></code>, <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code>, and <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToBits()</a></code>. The base type <code>raw</code> (Section <a href="ch2.html#bt">2.3.4</a>) is intended to hold raw byte information.
+Here is a list of the 128 ASCII characters.
+</p>
+<div class="sourceCode" id="cb1263"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/raw.html">as.raw</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">128</span><span class="op">)</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  [1] "\001" "\002" "\003" "\004" "\005" "\006" "\a"   "\b"   "\t"    "\n"  
+ [11] "\v"   "\f"   "\r"   "\016" "\017" "\020" "\021" "\022" "\023" "\024"
+ [21] "\025" "\026" "\027" "\030" "\031" "\032" "\033" "\034" "\035" "\036"
+ [31] "\037" " "    "!"    "\""   "#"    "$"    "%"    "&amp;"    "'"    "("   
+ [41] ")"    "*"    "+"    ","    "-"    "."    "/"    "0"    "1"    "2"   
+ [51] "3"    "4"    "5"    "6"    "7"    "8"    "9"    ":"    ";"    "&lt;"   
+ [61] "="    "&gt;"    "?"    "@"    "A"    "B"    "C"    "D"    "E"    "F"   
+ [71] "G"    "H"    "I"    "J"    "K"    "L"    "M"    "N"    "O"    "P"   
+ [81] "Q"    "R"    "S"    "T"    "U"    "V"    "W"    "X"    "Y"    "Z"   
+ [91] "["    "\\"   "]"    "^"    "_"    "`"    "a"    "b"    "c"    "d"   
+[101] "e"    "f"    "g"    "h"    "i"    "j"    "k"    "l"    "m"    "n"   
+[111] "o"    "p"    "q"    "r"    "s"    "t"    "u"    "v"    "w"    "x"   
+[121] "y"    "z"    "{"    "|"    "}"    "~"    "\177" "\200"   </code></pre>
+<p>Note that the exclamation point is character number 33. Its 16 bit binary code is:</p>
+<div class="sourceCode" id="cb1265"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToBits</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/raw.html">as.raw</a></span><span class="op">(</span><span class="fl">33</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 01 00 00 00 00 01 00 00</code></pre>
+<p>From the output above, codes 1-31 and 127-128 are not printable characters. Thus, there are only 128 - 33 = 95 printable ASCII characters. Note that codes 7-13 are command characters. For instance, character 10, indicates ``make a new line’’ within a character string.
+</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="optimizing-r" class="section level2" number="12.8">
+<h2>
+<span class="header-section-number">12.8</span> Optimizing R<a class="anchor" aria-label="anchor" href="#optimizing-r"><i class="fas fa-link"></i></a>
+</h2>
+<p>Because attention was given to computational efficiency in several earlier sections in this chapter, here I briefly consider several methods for optimizing <strong>R</strong>. In particular, I consider the use of <strong>R</strong>-interfaces, including scripting from command line OS shells to implement high performance computers (HPCs) and parallel computing.</p>
+<div id="calling-linux-driven-hpcs" class="section level3" number="12.8.1">
+<h3>
+<span class="header-section-number">12.8.1</span> Calling Linux-driven HPCs<a class="anchor" aria-label="anchor" href="#calling-linux-driven-hpcs"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Under construction
+<!-- % % \begin{frame} -->
+<!-- % %  -->
+<!-- % %  -->
+<!-- % %  -->
+<!-- % % \end{frame} --></p>
+</div>
+<div id="parallel-computing" class="section level3" number="12.8.2">
+<h3>
+<span class="header-section-number">12.8.2</span> Parallel Computing<a class="anchor" aria-label="anchor" href="#parallel-computing"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Under construction</p>
+</div>
+</div>
+<div id="exercises-11" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-11"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<p>Define the following terms:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Motherboard</li>
+<li>Central processing unit (CPU)</li>
+<li>Random access memory</li>
+<li>Primary memory</li>
+<li>Secondary memory</li>
+<li>Volatile memory</li>
+<li>Non-volatile memory<br>
+ </li>
+</ol>
+</li>
+<li><p>What is the level of trustworthy precision (in number of digits) for decimal fractional components in <strong>R</strong> (and all software that use 64 bit double precision)?</p></li>
+<li><p>Obtain the five bit binary sequence for the number 21 by hand. Check your answer using <code><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">dec2bin()</a></code>.</p></li>
+<li><p>Find the decimal number corresponding to the five bit binary sequence <code>11111</code>. Check your answer using <code><a href="https://rdrr.io/pkg/asbio/man/bin2dec.html">bin2dec()</a></code>.</p></li>
+<li><p>Find the 64 bit expression for the decimal number <span class="math inline">\(-2\)</span> (minus 2) using the function <code>bit64()</code>, as shown in this chapter. Back-transform this binary representation to the decimal number by hand using Eq. <a href="ch12.html#eq:dp">(12.2)</a>. Use <strong>R</strong> functions like <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code>, etc., to help.</p></li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></div>
+<div class="next"><a href="references.html">References</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch12"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="nav-link" href="#how-do-computers-work"><span class="header-section-number">12.1</span> How Do Computers Work?</a></li>
+<li><a class="nav-link" href="#base-2-and-base-10"><span class="header-section-number">12.2</span> Base-2 and Base-10</a></li>
+<li><a class="nav-link" href="#bits-and-bytes"><span class="header-section-number">12.3</span> Bits and Bytes</a></li>
+<li>
+<a class="nav-link" href="#decimal-to-binary"><span class="header-section-number">12.4</span> Decimal to Binary</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#positive-integers"><span class="header-section-number">12.4.1</span> Positive Integers</a></li>
+<li><a class="nav-link" href="#sec:pf"><span class="header-section-number">12.4.2</span> Positive Fractions</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#binary-to-decimal"><span class="header-section-number">12.5</span> Binary to Decimal</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#positive-integers-1"><span class="header-section-number">12.5.1</span> Positive Integers</a></li>
+<li><a class="nav-link" href="#positive-fractions"><span class="header-section-number">12.5.2</span> Positive Fractions</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#double-precision"><span class="header-section-number">12.6</span> Double Precision</a></li>
+<li><a class="nav-link" href="#binary-characters"><span class="header-section-number">12.7</span> Binary Characters</a></li>
+<li>
+<a class="nav-link" href="#optimizing-r"><span class="header-section-number">12.8</span> Optimizing R</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#calling-linux-driven-hpcs"><span class="header-section-number">12.8.1</span> Calling Linux-driven HPCs</a></li>
+<li><a class="nav-link" href="#parallel-computing"><span class="header-section-number">12.8.2</span> Parallel Computing</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises-11">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+body, .level0 #container, #footer p, .level0 #footer p {
+	background-image: none;
+}
+html, body {
+	height: auto;
+}
+
+a {
+	color: #000 !important;
+	text-decoration: none !important;
+}
+
+#container {
+	background-image: none;
+	width: auto;
+}
+
+#header, #isunav, #bannernav, #header form, #quicklinks, #searchbox, #search, #isunav, #nav, #splash, #homenav, .more {
+	display: none;
+}
+
+.level0 #header {
+	display: block;
+	background-color: #FFF;
+	border-bottom: none;
+}
+
+.level0 #header h1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	background-image: none;
+	width: auto;
+	height: auto;
+}
+
+.level0 #header h1 a {
+	display: inline;
+	width: auto;
+	height: auto;
+}
+
+.level0 #header h1 span {
+	display: inline;
+}
+
+#infobar {
+	width: 183px;
+	float: left;
+}
+
+#news {
+	width: auto;
+	margin: auto;
+	margin-right: 50px;
+}
+
+#events {
+	width: auto;
+	margin: auto;
+	margin-right: 50px;
+	float: none;
+}
+
+#footer {
+	background: #FFF none;
+	height: auto;
+	color: #000;
+}

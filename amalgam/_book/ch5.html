@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 5 Welcome to the Tidyverse | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content="“Data is like garbage. You’d better know what you are going to do with it before you collect it.”  - Mark Twain, 1835 - 1910  5.1 The Tidyverse This chapter demonstrates the data management...">
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 5 Welcome to the Tidyverse | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="“Data is like garbage. You’d better know what you are going to do with it before you collect it.”  - Mark Twain, 1835 - 1910  5.1 The Tidyverse This chapter demonstrates the data management...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 5 Welcome to the Tidyverse | An Amalgam of R">
+<meta name="twitter:description" content="“Data is like garbage. You’d better know what you are going to do with it before you collect it.”  - Mark Twain, 1835 - 1910  5.1 The Tidyverse This chapter demonstrates the data management...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="active" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch5" class="section level1" number="5">
+<h1>
+<span class="header-section-number">5</span> Welcome to the Tidyverse<a class="anchor" aria-label="anchor" href="#ch5"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“Data is like garbage. You’d better know what you are going to do with it before you collect it.”</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Mark Twain</strong>, <em>1835 - 1910</em></p>
+</div>
+<div id="the-tidyverse" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> The Tidyverse<a class="anchor" aria-label="anchor" href="#the-tidyverse"><i class="fas fa-link"></i></a>
+</h2>
+<p>This chapter demonstrates the data management capabilities of the <em>tidyverse</em> <span class="citation">(<a href="references.html#ref-tidyverse">Wickham et al. 2019</a>)</span>. Thus, Chapter 5 can be considered a <em>tidyverse</em> reconsideration of Ch <a href="ch4.html#ch4">4</a>. The <em>tidyverse</em> is currently a collection of eight core packages (Fig <a href="ch5.html#fig:tidyvpackages">5.1</a>). These are:</p>
+<ul>
+<li>
+<a href="https://dplyr.tidyverse.org/"><em>dplyr</em></a> Grammar and functions for data manipulation.</li>
+<li>
+<a href="https://forcats.tidyverse.org/"><em>forcats</em></a> Tools for solving common problems with factors.</li>
+<li>
+<a href="https://ggplot2.tidyverse.org/"><em>ggplot2</em></a> A system for “declaratively creating graphics”, based on the book <em>The Grammar of Graphics</em> <span class="citation">(<a href="references.html#ref-wilkinson2012">Wilkinson 2012</a>)</span>.</li>
+<li>
+<a href="https://purrr.tidyverse.org/"><em>purrr</em></a> An enhancement of <strong>R</strong>’s functional programming (FP) toolkit.</li>
+<li>
+<a href="https://readr.tidyverse.org/"><em>readr</em></a> Methods for reading rectangular data.</li>
+<li>
+<a href="https://www.tidyverse.org/packages/"><em>stringr</em></a> Functions to facilitate working with strings.</li>
+<li>
+<a href="https://tibble.tidyverse.org/"><em>tibble</em></a> A “modern re-imagining of the data frame.”</li>
+<li>
+<a href="https://tidyr.tidyverse.org/"><em>tidyr</em></a> A set of functions for “tidying data.”</li>
+</ul>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:tidyvpackages"></span>
+<img src="figs5/tidyv.png" alt="The main packages of the *tidyverse*." width="50%"><p class="caption">
+Figure 5.1: The main packages of the <em>tidyverse</em>.
+</p>
+</div>
+<p>The <em>tidyverse</em> library also contains several useful ancillary packages, including <em>lubridate</em>, <em>reshape2</em>, <em>hms</em>, <em>blob</em>, <em>margrittr</em>, and <em>glue</em>. While installing <em>tidyverse</em> will result in the installation of both main and ancillary packages, loading the <em>tidyverse</em> will result only in the complete loading of the eight main <em>tidyverse</em> packages.</p>
+<p>Importantly, this chapter is not meant to be an authoritative summary of the <em>tidyverse</em>. Coverage here is mostly limited to the core data management packages <em>magrittr</em>, <em>tibble</em>, <em>dplyr</em>, <em>stringer</em>, and the ancillary packages <em>lubridate</em> and <em>reshape2</em>. The <em>tidyverse</em> <em>ggplot2</em> package is the major focus of Chapter <a href="ch7.html#ch7">7</a>. <span class="citation">Wickham, Çetinkaya-Rundel, and Grolemund (<a href="references.html#ref-wickham2023">2023</a>)</span> provides a succinct but thorough introduction to the <em>tidyverse</em> in the open source book <a href="https://r4ds.hadley.nz/"><em>R for Data Science</em></a>. Useful <em>tidyverse</em> “cheatsheets” can be found <a href="https://posit.co/resources/cheatsheets/">here</a>.<br></p>
+<p>The <em>tidyverse</em> packages can be downloaded using:</p>
+<div class="sourceCode" id="cb603"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span></code></pre></div>
+<!-- (http://www.stat.cmu.edu/~ryantibs/statcomp-F18/lectures/tidyverse1.html) -->
+<p>
+</p>
+</div>
+<div id="pipes" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Pipes<a class="anchor" aria-label="anchor" href="#pipes"><i class="fas fa-link"></i></a>
+</h2>
+<p>An important convention of the <em>tidyverse</em> is the widespread use of the forward <em>pipe operator</em>: <code>|&gt;</code> . In programming, a pipe is a set of commands connected in series, where the output of one command is the input of the next<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pipe programming dates back to early developments in Unix operating systems &lt;span class="citation"&gt;(&lt;a href="references.html#ref-ritchie1984"&gt;Ritchie 1984&lt;/a&gt;; &lt;a href="references.html#ref-bellunix"&gt;Bell Labs 2004&lt;/a&gt;)&lt;/span&gt;, wherein pipes are codified as vertical bars &lt;code&gt;"|"&lt;/code&gt;. Along with Unix/Linux, pipes are widely used in the languages F#, Julia, and JavaScript, among others.
+&lt;/p&gt;'><sup>47</sup></a>.
+In many cases, use of pipes allows clearer representations of coding processes<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In particular, when you see &lt;code&gt;|&amp;gt;&lt;/code&gt; it is helpful to think “and then”.&lt;/p&gt;"><sup>48</sup></a>. Incidentally, the <code>|&gt;</code> pipe, from the <em>base</em> package, is motivated by an older forward pipe operator from the <em>tidyverse</em> package <em>magrittr</em>, <code>%&gt;%</code>. As of <strong>R</strong> 4.1, the native pipe operator for the <em>tidyverse</em> is <code>|&gt;</code> (although <code>%&gt;%</code> will still work if <em>magrittr</em> is loaded)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The RStudio shortcut for &lt;code&gt;%&amp;gt;%&lt;/code&gt; is &lt;strong&gt;Ctrl&lt;span class="math inline"&gt;\(+\)&lt;/span&gt;Shift&lt;span class="math inline"&gt;\(+\)&lt;/span&gt;m&lt;/strong&gt;. To force RStudio to default to &lt;code&gt;|&amp;gt;&lt;/code&gt; when using &lt;strong&gt;Ctrl&lt;span class="math inline"&gt;\(+\)&lt;/span&gt;Shift&lt;span class="math inline"&gt;\(+\)&lt;/span&gt;m&lt;/strong&gt; (or some other keyboard shortcut), one can modify appropriate settings in &lt;strong&gt;Tools&lt;span class="math inline"&gt;\(&amp;gt;\)&lt;/span&gt;Global Options&lt;span class="math inline"&gt;\(&amp;gt;\)&lt;/span&gt;Code&lt;/strong&gt;.&lt;/p&gt;'><sup>49</sup></a>. Notably, while <code>|&gt;</code> is more syntactically (and algorithmically) streamlined than <code>%&gt;%</code>, there are several features available to <code>%&gt;%</code> that do not exist for <code>|&gt;</code>, including the potential for a placeholder operator<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In general, the dot placeholder operator, &lt;code&gt;.&lt;/code&gt;, from &lt;em&gt;magrittr&lt;/em&gt; allows operations like &lt;span class="math inline"&gt;\(f(x,y)\)&lt;/span&gt; by specifying &lt;code&gt;x |&amp;gt; f(.,y)&lt;/code&gt;. For example: &lt;code&gt;2 %&amp;gt;% log(10, base = .)&lt;/code&gt;. In this script the number 2 will be piped into the &lt;code&gt;base&lt;/code&gt; argument in the function &lt;code&gt;log()&lt;/code&gt;.&lt;/p&gt;'><sup>50</sup></a>. Nonetheless, I focus on <code>|&gt;</code>, not <code>%&gt;%</code>, here.
+</p>
+<div class="example">
+<p><span id="exm:exm-51" class="example"><strong>Example 5.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the circular operation: <span class="math inline">\(\log_e(\exp(1))\)</span>. We could write this as,</p>
+<div class="sourceCode" id="cb604"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<p>Here the number <span class="math inline">\(1\)</span> is piped into the function <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code>, with the result: <span class="math inline">\(\exp(1) = e^1 = e\)</span>, and this outcome is piped into the function <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code>, with the result: <span class="math inline">\(\log_e e = 1\)</span>. Because the first arguments of <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code> and <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> are simply calls to numeric data, and these are provided by the previous pipe segment, we do not have to include information about <code>x</code> for <code>f(x)</code> operations. Thus, when functions require only the previous pipe segment result as an argument, then <code>x |&gt; f()</code> is equivalent to <span class="math inline">\(f(x)\)</span><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The &lt;code&gt;%&amp;gt;%&lt;/code&gt; forward pipe does not even require the &lt;code&gt;()&lt;/code&gt; &lt;em&gt;no argument&lt;/em&gt; designation. That is, &lt;code&gt;x %&amp;gt;% f&lt;/code&gt; is equivalent to &lt;span class="math inline"&gt;\(f(x)\)&lt;/span&gt;.&lt;/p&gt;'><sup>51</sup></a>. In the case that multiple arguments need to be specified, the script <code>x |&gt; f(y)</code> is equivalent to <span class="math inline">\(f(x, y)\)</span>, and <code>x |&gt; f(y) |&gt; g(z)</code> describes <span class="math inline">\(g(f(x, y), z)\)</span>. For instance,</p>
+<div class="sourceCode" id="cb606"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">10</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3.3219</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div class="example">
+<p><span id="exm:exm-52" class="example"><strong>Example 5.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+This example illustrates that the forward pipe works recursively from the result of the previous pipe segment.</p>
+<div class="sourceCode" id="cb608"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span> <span class="co"># First 6 rows of data</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+1    4.51   3  301
+15  10.89   5  301
+29  28.72  10  301
+43  41.74  15  301
+57  52.70  20  301
+71  60.92  25  301</code></pre>
+<div class="sourceCode" id="cb610"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="co"># Last 2 rows from first 6 rows</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+57  52.70  20  301
+71  60.92  25  301</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-53" class="example"><strong>Example 5.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+We can define the result of a pipe to be a global variable. Consider the script below (Fig <a href="ch5.html#fig:sinx">5.2</a>).</p>
+<div class="sourceCode" id="cb612"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span>,length<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylab <span class="op">=</span> <span class="st">"sin(x)"</span>, xlab <span class="op">=</span> <span class="st">"x (radians)"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:sinx"></span>
+<img src="figure/minimal-sinx-1.png" alt="Creating a global variable (object) resulting from a pipeline." width="480"><p class="caption">
+Figure 5.2: Creating a global variable (object) resulting from a pipeline.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div id="other-pipes" class="section level3" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> Other Pipes<a class="anchor" aria-label="anchor" href="#other-pipes"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is worth noting that, in addition to <code>%&gt;%</code>, <em>magrittr</em> contains several other potentially useful pipe operators. These include the <em>assignment pipe</em> and the <em>tee pipe</em>. The assignment pipe operator, <code>%&lt;&gt;%</code>, will pipe <code>x</code> into one or more <code>f(x)</code> expressions, and then assign the result to the name <code>x</code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;For instance, &lt;code&gt;library(magrittr); x &amp;lt;- -4:4; x  %&amp;lt;&amp;gt;% abs %&amp;gt;% sort; x&lt;/code&gt; would print the pipe-modified version of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;"><sup>52</sup></a>. The tee pipe operator <code>%T&gt;%</code> works like <code>%&gt;%</code>, except the return value in <code>x %T&gt;% f(x)</code> is <code>x</code> itself. This is useful when a pipeline requires a side-effect like plotting or printing<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;For instance, &lt;code&gt;rnorm(20) |&amp;gt; matrix(ncol = 2) %T&amp;gt;% plot |&amp;gt; colSums&lt;/code&gt;. In this case a plot and the sums of columns will both be printed (see Example &lt;a href="ch5.html#exm:exm-59"&gt;5.12&lt;/a&gt;).&lt;/p&gt;'><sup>53</sup></a>.</p>
+<p>
+</p>
+</div>
+</div>
+<div id="tibble" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> <em>tibble</em><a class="anchor" aria-label="anchor" href="#tibble"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+The <em>tidyverse</em> package <em>tibble</em> provides an alternative to the <code>data.frame</code> format of data storage, called a tibble. Tibbles have classes <code>dataframe</code> and <code>tbl_df</code>, allowing them to posses additional characteristics including enhanced printing (see Example <a href="ch5.html#exm:exm-54">5.4</a> below).
+Additional distinguishing characteristics of tibbles include: 1) a character vector is not automatically coerced to have class <code>factor</code>, 2) recycling (see Section <a href="ch3.html#vectors">3.1.1</a>) only occurs for an input of length one, and 3) there is no partial matching when <code>$</code> is used to index by tibble columns by name<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;According to package &lt;em&gt;tibble&lt;/em&gt;: “&lt;span class="math inline"&gt;\(\ldots\)&lt;/span&gt;tibbles are lazy and surly: they do less and complain more than base dataframes. This forces problems to be tackled earlier and more explicitly, typically leading to code that is more expressive and robust.”&lt;/p&gt;'><sup>54</sup></a>. The functions <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble()</a></code> generates tibbles. The function <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> coerces a dataframe to be a tibble.
+</p>
+<div class="example">
+<p><span id="exm:exm-54" class="example"><strong>Example 5.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we compare dataframe and tibble output of the same data.</p>
+<div class="sourceCode" id="cb613"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>numbers <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, letters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span><span class="op">)</span>,</span>
+<span>                   date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"2021-12-1"</span>, <span class="st">"2021-12-2"</span>,</span>
+<span>                                    <span class="st">"2021-12-2"</span><span class="op">)</span>,</span>
+<span>                           format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data</span></span></code></pre></div>
+<pre><code>  numbers letters       date
+1       1       a 2021-12-01
+2       2       b 2021-12-02
+3       3       c 2021-12-02</code></pre>
+<div class="sourceCode" id="cb615"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="va">datat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="va">datat</span></span></code></pre></div>
+<pre><code># A tibble: 3 x 3
+  numbers letters date      
+    &lt;int&gt; &lt;chr&gt;   &lt;date&gt;    
+1       1 a       2021-12-01
+2       2 b       2021-12-02
+3       3 c       2021-12-02</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="dplyr" class="section level2" number="5.4">
+<h2>
+<span class="header-section-number">5.4</span> <em>dplyr</em><a class="anchor" aria-label="anchor" href="#dplyr"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+The <em>dplyr</em> package contains a collection of core <em>tidyverse</em> algorithms for data manipulation<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;&lt;em&gt;dplyr&lt;/em&gt; has largely replaced the now retired &lt;em&gt;plyr&lt;/em&gt; package.&lt;/p&gt;"><sup>55</sup></a>. Table <a href="ch5.html#tab:dplyr">5.1</a> lists some useful <em>dplyr</em> functions.
+<!-- Importantly, *dplyr* functions are analogous to those from the language SQL. --></p>
+<p></p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:dplyr">Table 5.1: </span>Important <em>dplyr</em> data management functions.</caption>
+<colgroup>
+<col width="18%">
+<col width="81%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Function</th>
+<th align="left">Usage</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code></td>
+<td align="left">Numerical summaries of variables.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>group_by</code></td>
+<td align="left">Group a dataframe by a categorical variable.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code></td>
+<td align="left">Subset variables based on outcomes.</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code></td>
+<td align="left">Reorder rows in a dataframe or tibble.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code></td>
+<td align="left">Creates new variables from functions of existing variables.</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code></td>
+<td align="left">Selects variables from tibbles or dataframes.</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div id="summarize" class="section level3" number="5.4.1">
+<h3>
+<span class="header-section-number">5.4.1</span> <code>summarize()</code><a class="anchor" aria-label="anchor" href="#summarize"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The function <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>, or equivalently <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>, creates a new data frame with one row for each combination of specified grouping variables. If no groups are given (for instance, in the case that <code>group_by</code> is <em>not</em> used to group data), dataframe rows will be summaries of all observations in the required input <code>.data</code> argument.</p>
+<div class="example">
+<p><span id="exm:exm-55" class="example"><strong>Example 5.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we use <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> to obtain means for loblolly pine height (in feet) and age (in years).</p>
+<div class="sourceCode" id="cb617"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.height.ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>, mean.age.yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  mean.height.ft mean.age.yrs
+1         32.364           13</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="group_by" class="section level3" number="5.4.2">
+<h3>
+<span class="header-section-number">5.4.2</span> <code>group_by()</code><a class="anchor" aria-label="anchor" href="#group_by"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> function is often used in conjunction with other <em>dplyr</em> functions, including <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>, to provide an underlying grouping framework for data summaries.</p>
+<div class="example">
+<p><span id="exm:exm-55a" class="example"><strong>Example 5.6  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> with <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> to describe the <code>Loblolly</code> height data. Specifically, we will take the mean and the variance of <code>Loblolly$height</code> with respect to categories specified in <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>.</p>
+<div class="sourceCode" id="cb619"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Seed</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.height.ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>,</span>
+<span>            var.height.ft2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span></span>
+<span>            <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code># A tibble: 5 x 3
+  Seed  mean.height.ft var.height.ft2
+  &lt;ord&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+1 329             30.3           443.
+2 327             30.6           440.
+3 325             31.9           468.
+4 307             31.3           494.
+5 331             31.0           495.</code></pre>
+<p>More than only grouping variable can be specified in <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>:</p>
+<div class="sourceCode" id="cb621"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Seed</span>, <span class="va">age</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.height.ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>,</span>
+<span>            var.height.ft2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span></span>
+<span>            <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>`summarise()` has grouped output by 'Seed'. You can override
+using the `.groups` argument.</code></pre>
+<pre><code># A tibble: 5 x 4
+# Groups:   Seed [1]
+  Seed    age mean.height.ft var.height.ft2
+  &lt;ord&gt; &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+1 329       3           3.93             NA
+2 329       5           9.34             NA
+3 329      10          26.1              NA
+4 329      15          37.8              NA
+5 329      20          48.3              NA</code></pre>
+<p>Clearly, <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> allow more options than the base function <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code> (Section <a href="ch4.html#tapply">4.1.1.4</a>). The latter function only provides summaries of groups within a single categorical <code>INDEX</code>, with respect to a single quantitative vector, and a single user-defined function.</p>
+<p>Starting with <em>dplyr</em> 1.1.0, we can use the <code>.by</code> argument in <code>summarize</code> to bypass <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>, although this argument is experimental, and may be deprecated in the future (see <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">?summarise</a></code>).</p>
+<div class="sourceCode" id="cb624"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.height.ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>,</span>
+<span>            var.height.ft2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>,</span>
+<span>            .by <span class="op">=</span> <span class="va">Seed</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  Seed mean.height.ft var.height.ft2
+1  301         33.247         512.50
+2  303         34.107         552.24
+3  305         35.115         572.51
+4  307         31.328         493.83
+5  309         33.782         535.12</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="filter" class="section level3" number="5.4.3">
+<h3>
+<span class="header-section-number">5.4.3</span> <code>filter()</code><a class="anchor" aria-label="anchor" href="#filter"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The function <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> provides a straightforward way to extract dataframe rows based on Boolean operators.</p>
+<div class="example">
+<p><span id="exm:exm-56" class="example"><strong>Example 5.7  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we obtain rows in <code>Loblolly</code> associated with seed type 301.</p>
+<div class="sourceCode" id="cb626"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Seed</span> <span class="op">==</span> <span class="st">"301"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+1    4.51   3  301
+15  10.89   5  301
+29  28.72  10  301
+43  41.74  15  301
+57  52.70  20  301
+71  60.92  25  301</code></pre>
+<p>Here are <code>Loblolly</code> rows associated with <code>height</code> responses greater than 60 feet.</p>
+<div class="sourceCode" id="cb628"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">&gt;</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+71  60.92  25  301
+72  63.39  25  303
+73  64.10  25  305
+75  63.05  25  309
+77  60.07  25  315
+78  60.69  25  319
+79  60.28  25  321
+80  61.62  25  323</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="arrange" class="section level3" number="5.4.4">
+<h3>
+<span class="header-section-number">5.4.4</span> <code>arrange()</code><a class="anchor" aria-label="anchor" href="#arrange"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The function <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> orders the rows of a data frame based on the alphanumeric ordering of specified data.</p>
+<div class="example">
+<p><span id="exm:exm-57" class="example"><strong>Example 5.8  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we use <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> to sort the result from the previous chunk from smallest to largest loblolly pine heights.</p>
+<div class="sourceCode" id="cb630"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">&gt;</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+77  60.07  25  315
+79  60.28  25  321
+78  60.69  25  319
+71  60.92  25  301
+80  61.62  25  323
+75  63.05  25  309
+72  63.39  25  303
+73  64.10  25  305</code></pre>
+<p>One can use <code>arrange(desc())</code> to sort a dataframe in descending (largest-to-smallest) order.</p>
+<div class="sourceCode" id="cb632"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">&gt;</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+73  64.10  25  305
+72  63.39  25  303
+75  63.05  25  309
+80  61.62  25  323
+71  60.92  25  301
+78  60.69  25  319
+79  60.28  25  321
+77  60.07  25  315</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="slice_min-and-slice_max" class="section level3" number="5.4.5">
+<h3>
+<span class="header-section-number">5.4.5</span> <code>slice_min()</code> and <code>slice_max()</code><a class="anchor" aria-label="anchor" href="#slice_min-and-slice_max"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The helpful <em>dplyr</em> functions <code><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_min()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max()</a></code> allow subsetting of dataframe rows by minimum and maximum values in some column, respectively.</p>
+<div class="example">
+<p><span id="exm:exm-58" class="example"><strong>Example 5.9  </strong></span><span class="math inline">\(\text{}\)</span><br></p>
+<div class="sourceCode" id="cb634"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Grouped Data: height ~ age | Seed
+   height age Seed
+73  64.10  25  305
+72  63.39  25  303
+75  63.05  25  309
+80  61.62  25  323
+71  60.92  25  301</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="select" class="section level3" number="5.4.6">
+<h3>
+<span class="header-section-number">5.4.6</span> <code>select()</code><a class="anchor" aria-label="anchor" href="#select"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function allows one to select particular variables in a data frame.</p>
+<div class="example">
+<p><span id="exm:exm-58a" class="example"><strong>Example 5.10  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For instance, here I select <code>height</code> from <code>Loblolly</code>.</p>
+<div class="sourceCode" id="cb636"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   height
+1    4.51
+15  10.89
+29  28.72
+43  41.74
+57  52.70
+71  60.92</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>The <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function can be used in more sophisticated ways by combining it with other <em>dplyr</em> functions like <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with()</a></code>, or other Boolean operators.
+</p>
+<div class="example">
+<p><span id="exm:exm-58b" class="example"><strong>Example 5.11  </strong></span><span class="math inline">\(\text{}\)</span><br>
+He we select the <code>height</code> and <code>age</code> columns by calling for variable names that start with <code>"h"</code> or end with <code>"e"</code>.</p>
+<div class="sourceCode" id="cb638"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"h"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op">(</span><span class="st">"e"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   height age
+1    4.51   3
+15  10.89   5
+29  28.72  10</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<!-- Generally speaking, additional care is needed if we want to summarize a dataframe comprised of a single column using **R**. In this case we must first convert from the `"list"` data storage mode of a dataframe to an atomic vector. We accomplish this using `unlist()` in the chunk below:\index[R]{`unlist()`} -->
+<!-- ```{r } -->
+<!-- Loblolly |> -->
+<!--   select(height) |> -->
+<!--   unlist() |> #unlist() |> # necessary because height is a single column -->
+<!--   summarize(mean.ht = mean(height),  -->
+<!--             max.ht = max(height),  -->
+<!--             var.ht = var(height))   -->
+<!-- # t(data.frame(m) -->
+<!-- ``` -->
+</div>
+<div id="mutate" class="section level3" number="5.4.7">
+<h3>
+<span class="header-section-number">5.4.7</span> <code>mutate()</code><a class="anchor" aria-label="anchor" href="#mutate"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+The function <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> creates new dataframe columns that are functions of existing variables.</p>
+<div class="example">
+<p><span id="exm:exm-59" class="example"><strong>Example 5.12  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Below we select the <code>age</code> and <code>height</code> columns using <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, convert height in feet to height in meters using <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, plot the result as a side-task using the tee pipe, <code>%T&gt;%</code> (note the use of the <code>.</code> placeholder operator) (Fig <a href="ch5.html#fig:mutate">5.3</a>), and then take the column means of <code>age</code> and <code>height</code>. Note that by default, all columns from the previous pipe segment will be in the <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> output although all columns need not be explicitly mutated. Output columns can be specified using the <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> argument <code>.keep</code>.</p>
+<div class="sourceCode" id="cb640"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># to access tee pipe</span></span>
+<span></span>
+<span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>height <span class="op">=</span> <span class="va">height</span> <span class="op">*</span> <span class="fl">0.3048</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/tee.html">%T&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">.</span>,ylab <span class="op">=</span> <span class="st">"Height (m)"</span>, xlab <span class="op">=</span> <span class="st">"Age (yrs)"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>    age  height 
+13.0000  9.8647 </code></pre>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:mutate"></span>
+&lt;img src=“figure/minimal-mutate-1.png” alt=“Plot of loblolly pine height as a function of age, after converting height to meters. In base <strong>R</strong> dialect we could use: <code>with(Loblolly, plot(age, height * 0.3048, ylab = "Height (m)", xlab = "Age (yrs)"))</code>. This is quite a bit harder to decipher.” width=“384” /&gt;
+<p class="caption">
+Figure 5.3: Plot of loblolly pine height as a function of age, after converting height to meters. In base <strong>R</strong> dialect we could use: <code>with(Loblolly, plot(age, height * 0.3048, ylab = "Height (m)", xlab = "Age (yrs)"))</code>. This is quite a bit harder to decipher.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="across" class="section level3" number="5.4.8">
+<h3>
+<span class="header-section-number">5.4.8</span> <code>across()</code><a class="anchor" aria-label="anchor" href="#across"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <em>dplyr</em> function <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code> allows extensions similar to those in <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> wherein the same function can be applied to all columns in the first argument of <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code>. Specifying the first argument in <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code> as <code><a href="https://tidyselect.r-lib.org/reference/everything.html">everything()</a></code> would allow application of a function to all columns in a dataframe.</p>
+<div class="example">
+<p><span id="exm:exm-510" class="example"><strong>Example 5.13  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we take the medians of the quantitative columns in <code>Loblolly</code> using <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>.</p>
+<div class="sourceCode" id="cb642"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Loblolly</span> <span class="op">|&gt;</span></span>
+<span>   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">height</span><span class="op">)</span>, <span class="va">median</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   age height
+1 12.5     34</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div id="stringr" class="section level2" number="5.5">
+<h2>
+<span class="header-section-number">5.5</span> <em>stringr</em><a class="anchor" aria-label="anchor" href="#stringr"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+As evident in Section <a href="ch4.html#regex">4.3</a>, use of regular expressions for matching, querying and substituting strings can be confusing. The <em>stringr</em> package attempts to simplify some of these difficulties. The <em>stringr</em> package uses processing tools from the package <em>stringi</em> <span class="citation">(<a href="references.html#ref-stringi">Gagolewski 2022</a>)</span> for pattern searching under a wide array of potential approaches. All <em>stringr</em> functions have the prefix <code>str_</code> and take a character string or string vector as the first argument.</p>
+<p>Consider the vector of plant scientific names used to demonstrate string management in Section <a href="ch4.html#regex">4.3</a>.</p>
+<div class="sourceCode" id="cb644"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Achillea millefolium"</span>, <span class="st">"Aster foliaceus"</span>,</span>
+<span>                           <span class="st">"Elymus scribneri"</span>, <span class="st">"Erigeron rydbergii"</span>,</span>
+<span>                           <span class="st">"Carex elynoides"</span>, <span class="st">"Carex paysonis"</span>,</span>
+<span>                           <span class="st">"Taraxacum ceratophorum"</span><span class="op">)</span></span></code></pre></div>
+<div class="example">
+<p><span id="exm:exm-5str1" class="example"><strong>Example 5.14  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function <code><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length()</a></code> can be used to count the number of characters in a string.</p>
+<div class="sourceCode" id="cb645"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span><span class="op">(</span><span class="va">names</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 20 15 16 18 15 14 22</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div class="example">
+<p><span id="exm:exm-5str0" class="example"><strong>Example 5.15  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function <code><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a></code> tests for the presence or absence of a pattern in a string. Here I test for presence of the genus <em>Aster</em>.</p>
+<div class="sourceCode" id="cb647"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"Aster"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<p>Here are entries <em>not</em> containing <em>Aster</em>.</p>
+<div class="sourceCode" id="cb649"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"Aster"</span>, negate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div class="example">
+<p><span id="exm:exm-5str2" class="example"><strong>Example 5.16  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we subset <code>names</code> using the function <code><a href="https://stringr.tidyverse.org/reference/str_subset.html">stringr::str_subset()</a></code> to obtain species within the genus <em>Carex</em>.</p>
+<div class="sourceCode" id="cb651"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_subset.html">str_subset</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"Carex"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Carex elynoides" "Carex paysonis" </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-5str05" class="example"><strong>Example 5.17  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function <code><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace()</a></code> is analogous to the base <strong>R</strong> function <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code>. It can be used to replace text based on a pattern.</p>
+<div class="sourceCode" id="cb653"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"Carex"</span>, <span class="st">"C."</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Achillea millefolium"   "Aster foliaceus"       
+[3] "Elymus scribneri"       "Erigeron rydbergii"    
+[5] "C. elynoides"           "C. paysonis"           
+[7] "Taraxacum ceratophorum"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<p>
+Most <em>stringr</em> functions work with regular expressions (Section <a href="ch4.html#rgx">4.3.6</a>).</p>
+<div class="example">
+<p><span id="exm:exm-5str3" class="example"><strong>Example 5.18  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we count upper and lower case vowels with the function <code><a href="https://stringr.tidyverse.org/reference/str_count.html">stringr::str_count()</a></code> using a pattern defined by the regex character class <code>[AEIOUaeiou]</code>.</p>
+<div class="sourceCode" id="cb655"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_count.html">str_count</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"[AEIOUaeiou]"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 9 7 5 7 6 5 9</code></pre>
+<p>and use <code><a href="https://stringr.tidyverse.org/reference/str_extract.html">stringr::str_extract()</a></code> to extract strings nine alphanumeric characters long, and then sort the strings with a pipe.</p>
+<div class="sourceCode" id="cb657"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">names</span>, <span class="st">"[[:alnum:]]{9}"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "elynoides" "foliaceus" "millefoli" "rydbergii" "scribneri" "Taraxacum"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="lubridate" class="section level2" number="5.6">
+<h2>
+<span class="header-section-number">5.6</span> <em>lubridate</em><a class="anchor" aria-label="anchor" href="#lubridate"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+Base <strong>R</strong> approaches for handling date-time data are described in Section <a href="ch4.html#datetime">4.4</a>. The package <em>lubridate</em> (<a href="https://lubridate.tidyverse.org/" class="uri">https://lubridate.tidyverse.org/</a>) contains functions for simplifying and extending some of these operations.</p>
+<div class="example">
+<p><span id="exm:exm-5lub1" class="example"><strong>Example 5.19  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an example dataset, I will use the time series used to illustrate date-time classes in Section <a href="ch4.html#datetime">4.4</a>.</p>
+<div class="sourceCode" id="cb659"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"08/13/2019 04:00"</span>, <span class="st">"08/13/2019 06:30"</span>, <span class="st">"08/13/2019 09:00"</span>,</span>
+<span>           <span class="st">"08/13/2019 11:30"</span>, <span class="st">"08/13/2019 14:00"</span>, <span class="st">"08/13/2019 16:30"</span>,</span>
+<span>           <span class="st">"08/13/2019 19:00"</span>, <span class="st">"08/13/2019 21:30"</span>, <span class="st">"08/14/2019 00:00"</span>,</span>
+<span>           <span class="st">"08/14/2019 02:30"</span>, <span class="st">"08/14/2019 05:00"</span>, <span class="st">"08/14/2019 07:30"</span>,</span>
+<span>           <span class="st">"08/14/2019 10:00"</span>, <span class="st">"08/14/2019 12:30"</span>, <span class="st">"08/14/2019 15:00"</span>,</span>
+<span>           <span class="st">"08/14/2019 17:30"</span>, <span class="st">"08/14/2019 20:00"</span>, <span class="st">"08/14/2019 22:30"</span>,</span>
+<span>           <span class="st">"08/15/2019 01:00"</span>, <span class="st">"08/15/2019 03:30"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span></span></code></pre></div>
+<p>We will define the timezone to be timezone of our computer workstation.</p>
+<div class="sourceCode" id="cb660"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone</a></span><span class="op">(</span>location <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The package <em>lubridate</em> contains data-time parsers that may be easier to use than the base functions <code>strptime</code> and <code>as.Date</code>.
+For the current example, we note that the data are in a month/day/year hour:minute format. So we can create a time series using the function <code><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">lubridate::mdy_hm</a></code>.</p>
+<div class="sourceCode" id="cb661"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">date_lub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">mdy_hm</a></span><span class="op">(</span><span class="va">dates</span>, tz <span class="op">=</span> <span class="va">tz</span><span class="op">)</span></span>
+<span><span class="va">date_lub</span></span></code></pre></div>
+<pre><code> [1] "2019-08-13 04:00:00 MDT" "2019-08-13 06:30:00 MDT"
+ [3] "2019-08-13 09:00:00 MDT" "2019-08-13 11:30:00 MDT"
+ [5] "2019-08-13 14:00:00 MDT" "2019-08-13 16:30:00 MDT"
+ [7] "2019-08-13 19:00:00 MDT" "2019-08-13 21:30:00 MDT"
+ [9] "2019-08-14 00:00:00 MDT" "2019-08-14 02:30:00 MDT"
+[11] "2019-08-14 05:00:00 MDT" "2019-08-14 07:30:00 MDT"
+[13] "2019-08-14 10:00:00 MDT" "2019-08-14 12:30:00 MDT"
+[15] "2019-08-14 15:00:00 MDT" "2019-08-14 17:30:00 MDT"
+[17] "2019-08-14 20:00:00 MDT" "2019-08-14 22:30:00 MDT"
+[19] "2019-08-15 01:00:00 MDT" "2019-08-15 03:30:00 MDT"</code></pre>
+<p>Other <em>lubridate</em> parsers include <code><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">ymd_hms()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/ymd.html">dmy()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">dmy_hms()</a></code>, and <code><a href="https://lubridate.tidyverse.org/reference/ymd.html">mdy()</a></code>. The <em>lubridate</em> parsers can often handle mixed methods of data entry. From the <code><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd()</a></code> documentation we have the following example:</p>
+<div class="sourceCode" id="cb663"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20090101</span>, <span class="st">"2009-01-02"</span>, <span class="st">"2009 01 03"</span>, <span class="st">"2009-1-4"</span>,</span>
+<span>       <span class="st">"2009-1, 5"</span>, <span class="st">"Created on 2009 1 6"</span>, <span class="st">"200901 !!! 07"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "2009-01-01" "2009-01-02" "2009-01-03" "2009-01-04" "2009-01-05"
+[6] "2009-01-06" "2009-01-07"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<p><em>Lubridate</em> also allows extended mathematical operations for its date-time objects with the functions <code><a href="https://lubridate.tidyverse.org/reference/duration.html">duration()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/period.html">period()</a></code>, and <code><a href="https://lubridate.tidyverse.org/reference/interval.html">interval()</a></code>.</p>
+<div class="example">
+<p><span id="exm:exm-5lub2" class="example"><strong>Example 5.20  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Duration functions include <code><a href="https://lubridate.tidyverse.org/reference/duration.html">dseconds()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/duration.html">dminutes()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays()</a></code>, and <code><a href="https://lubridate.tidyverse.org/reference/duration.html">dmonths()</a></code>.</p>
+<div class="sourceCode" id="cb665"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">duration</a></span><span class="op">(</span><span class="st">"12m"</span>, units <span class="op">=</span> <span class="st">"seconds"</span><span class="op">)</span> <span class="co"># seconds in 1 year</span></span></code></pre></div>
+<pre><code>[1] "31557600s (~1 years)"</code></pre>
+<div class="sourceCode" id="cb667"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">dmonths</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "31557600s (~1 years)"</code></pre>
+<div class="sourceCode" id="cb669"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">date_lub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "2019-08-13 04:00:00 MDT"</code></pre>
+<div class="sourceCode" id="cb671"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">date_lub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "2019-08-14 04:00:00 MDT"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-5lub3" class="example"><strong>Example 5.21  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Periodic functions include <code><a href="https://lubridate.tidyverse.org/reference/period.html">seconds()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/period.html">minutes()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/period.html">hours()</a></code>, and <code><a href="https://lubridate.tidyverse.org/reference/period.html">days()</a></code>.</p>
+<div class="sourceCode" id="cb673"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html">days</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html">minutes</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html">seconds</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "12d 0H 2M 3S"</code></pre>
+<div class="sourceCode" id="cb675"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">date_lub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "2019-08-13 04:00:00 MDT"</code></pre>
+<div class="sourceCode" id="cb677"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">date_lub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html">days</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "2019-08-01 04:00:00 MDT"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<div class="example">
+<p><span id="exm:exm-5lub4" class="example"><strong>Example 5.22  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Interval functions include <code><a href="https://lubridate.tidyverse.org/reference/interval.html">int_length()</a></code>, <code><a href="https://lubridate.tidyverse.org/reference/interval.html">int_start()</a></code>, and <code><a href="https://lubridate.tidyverse.org/reference/interval.html">int_end()</a></code>.</p>
+<div class="sourceCode" id="cb679"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/interval.html">interval</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">date_lub</span><span class="op">)</span>, end <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">last</a></span><span class="op">(</span><span class="va">date_lub</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/interval.html">int_length</a></span><span class="op">(</span><span class="va">int</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">duration</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "171000s (~1.98 days)"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="reshape2" class="section level2" number="5.7">
+<h2>
+<span class="header-section-number">5.7</span> <em>reshape2</em><a class="anchor" aria-label="anchor" href="#reshape2"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+Tidyverse functions generally require that data are in a <em>long table</em> format. That is, data are stored with columns containing all the values for a particular variable of interest. Unfortunately, this format is not conventional for many scientific applications, particularly longitudinal studies that follow experimental units over time. These will often have a <em>wide table</em> format. The <em>tidyverse</em> <em>reshape2</em> package contains several functions for converting dataframes from wide to a long table formats, including the functions <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">reshape2::melt()</a></code> and <code><a href="https://tidyr.tidyverse.org/reference/gather.html">tidyr::gather()</a></code>. The <code><a href="https://rdrr.io/pkg/reshape2/man/melt.data.frame.html">reshape2::melt.data.frame()</a></code> function generates a <code>value</code> column based on data commonalities of outcomes given in a variable or variables defined in the <code>id</code> argument. A remaining column, if any, that captures these commonalities will be given the name <code>variable</code>. The names of the <code>value</code> and <code>variable</code> output columns can be changed with the arguments <code>value.name</code> and <code>variable.name</code>, respectively.
+</p>
+<div class="example">
+<p><span id="exm:exm-511" class="example"><strong>Example 5.23  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the <code><a href="https://rdrr.io/pkg/asbio/man/asthma.html">asbio::asthma</a></code> dataset, which has a wide table format.
+The dataset documents the effect of three respiratory treatments (measured as Forced Expiratory Volume in one second (FEV1))
+for 24 asthmatic patients over time (<code>11H</code> - <code>18H</code>, i.e, hour 11 to hour 18). A baseline measure of FEV1 (<code>BASEFEV1</code>) was also taken 11 hours before application of the treatment.</p>
+<div class="sourceCode" id="cb681"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">asthma</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">asthma</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  PATIENT BASEFEV1 FEV11H FEV12H FEV13H FEV14H FEV15H FEV16H FEV17H FEV18H
+1     201     2.46   2.68   2.76   2.50   2.30   2.14   2.40   2.33   2.20
+2     202     3.50   3.95   3.65   2.93   2.53   3.04   3.37   3.14   2.62
+3     203     1.96   2.28   2.34   2.29   2.43   2.06   2.18   2.28   2.29
+4     204     3.44   4.08   3.87   3.79   3.30   3.80   3.24   2.98   2.91
+5     205     2.80   4.09   3.90   3.54   3.35   3.15   3.23   3.46   3.27
+6     206     2.36   3.79   3.97   3.78   3.69   3.31   2.83   2.72   3.00
+  DRUG
+1    a
+2    a
+3    a
+4    a
+5    a
+6    a</code></pre>
+<div class="sourceCode" id="cb683"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span></span>
+<span><span class="va">asthma.long</span> <span class="op">&lt;-</span> <span class="va">asthma</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DRUG"</span>, <span class="st">"PATIENT"</span><span class="op">)</span>,</span>
+<span>                               value.name <span class="op">=</span> <span class="st">"FEV1"</span>,</span>
+<span>                               variable.name <span class="op">=</span> <span class="st">"TIME"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># here I simplify the names in the TIME variable</span></span>
+<span><span class="va">asthma.long</span><span class="op">$</span><span class="va">TIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">asthma.long</span><span class="op">$</span><span class="va">TIME</span>,</span>
+<span>                           labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BASE"</span>,</span>
+<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="fl">11</span><span class="op">:</span><span class="fl">18</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">asthma.long</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  DRUG PATIENT TIME FEV1
+1    a     201 BASE 2.46
+2    a     202 BASE 3.50
+3    a     203 BASE 1.96
+4    a     204 BASE 3.44
+5    a     205 BASE 2.80
+6    a     206 BASE 2.36</code></pre>
+<p>In the code above, the function <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">reshape2::melt()</a></code> is used to convert to a long table format, and time designations are simplified using the <em>base</em> function <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code>. The <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> function can be used to create a categorical variable with particular levels (Section <a href="ch3.html#sctc">3.3</a>), or to change the names of levels. The latter application is used here.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="exercises-4" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-4"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>Create a tibble from the <code>Downs</code> dataframe shown below. The data comprise part of a report summarizing Down’s syndrome cases in British Columbia, compiled by the British Columbia Health Surveillance Registry <span class="citation">(<a href="references.html#ref-geyer1991">Geyer 1991</a>)</span>.
+<ol style="list-style-type: lower-alpha">
+<li><p>Examine both the original <code>Downs</code> dataframe and the tibble representation of <code>Downs</code> by printing them. Do we gain additional information from the tibble?</p></li>
+<li>
+<p>Find the mean and variance of the <code>Age</code> column from the <code>Downs</code> dataset using pipes and <em>dpylr</em> functions.</p>
+<div class="sourceCode" id="cb685"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Downs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">20.5</span>, <span class="fl">21.5</span>, <span class="fl">29.5</span>, <span class="fl">30.5</span>, <span class="fl">38.5</span>, <span class="fl">39.5</span>,</span>
+<span>                            <span class="fl">40.5</span>, <span class="fl">44.5</span>, <span class="fl">45.5</span>, <span class="fl">47</span><span class="op">)</span>,</span>
+<span>                    Births <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13555</span>, <span class="fl">22005</span>, <span class="fl">23896</span>, <span class="fl">15685</span>, <span class="fl">13954</span>,</span>
+<span>                               <span class="fl">4834</span>, <span class="fl">3961</span>, <span class="fl">2952</span>, <span class="fl">596</span>, <span class="fl">327</span>, <span class="fl">249</span><span class="op">)</span>,</span>
+<span>                    Cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">22</span>, <span class="fl">16</span>, <span class="fl">9</span>, <span class="fl">12</span>, <span class="fl">15</span>, <span class="fl">30</span>, <span class="fl">31</span>, <span class="fl">22</span>, <span class="fl">11</span>,</span>
+<span>                              <span class="fl">7</span><span class="op">)</span></span>
+<span>                    <span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>Bring in the <code>world.emissions</code> dataset from package <em>asbio</em>.
+<ol style="list-style-type: lower-alpha">
+<li>Using the forward pipe operator, <code>|&gt;</code>, and <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> from <em>dplyr</em>, create a dataframe of just US data.</li>
+<li>Using <code>|&gt;</code>, <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>, and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>, find the first and last year of emissions data for the US.</li>
+<li>Using <code>|&gt;</code>, <code>%T&gt;%</code>, <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, and <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, plot per capita CO<span class="math inline">\(_2\)</span> emissions for the US by year (as an intermediate pipeline step) and find the maximum CO<span class="math inline">\(_2\)</span> emission level. Hint: see Exercise <a href="ch5.html#exm:exm-59">5.12</a>.</li>
+<li>Using <code>|&gt;</code> and <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> create a new dataframe called <code>no.repeats</code> that eliminates rows with the entry <code>"redundant"</code> in the <code>world.emissions$continent</code> column.</li>
+<li>With the <code>no.repeats</code> dataframe and the functions <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>, and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>, get mean CO<span class="math inline">\(_2\)</span> levels for each country over time.</li>
+<li>Using <code>|&gt;</code>, <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max()</a></code>, identify the 10 countries with the highest recorded cumulative CO<span class="math inline">\(_2\)</span> emissions.</li>
+</ol>
+</li>
+<li>Consider the character vector <code>omics</code> below <span class="citation">(<a href="references.html#ref-bonn">Bonnin 2021</a>)</span>.
+<ol style="list-style-type: lower-alpha">
+<li><p>Use <code><a href="https://stringr.tidyverse.org/reference/str_detect.html">stringr::str_detect()</a></code> to test for strings with the pattern <code>"genom"</code>.</p></li>
+<li><p>Using <code><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a></code>, test for strings <em>starting</em> with the pattern <code>"genom"</code> by using an extended regular expression: <code>^genom</code> in the <code><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a></code> argument <code>pattern</code> (see Section <a href="ch4.html#ergx">4.3.6.1</a>).</p></li>
+<li><p>Using <code><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a></code>, test for strings <em>ending</em> with the pattern <code>"omics"</code> by using an extended regular expression (see Section <a href="ch4.html#ergx">4.3.6.1</a>).</p></li>
+<li><p>Using <code><a href="https://stringr.tidyverse.org/reference/str_subset.html">str_subset()</a></code>, subset the string vector <code>omics</code> to string entries containing the pattern <code>"genom"</code>.</p></li>
+<li>
+<p>Using <code><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace()</a></code>, replace the text <code>"omics"</code> with <code>"ome"</code>.</p>
+<div class="sourceCode" id="cb686"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">omics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"genomics"</span>, <span class="st">"proteomics"</span>, <span class="st">"proteome"</span>,</span>
+<span>           <span class="st">"transcriptomics"</span>, <span class="st">"metagenomics"</span>, <span class="st">"metabolomics"</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>Consider the character vector <code>times</code> below, which has the format: <code>day-month-year hour:minute:second</code>.
+<ol style="list-style-type: lower-alpha">
+<li><p>Convert <code>times</code> into a <em>lubridate</em> date-time object using an appropriate <em>lubridate</em> function.</p></li>
+<li><p>Add two days and seven seconds to each entry in <code>time</code> using <code><a href="https://lubridate.tidyverse.org/reference/period.html">lubridate::days</a></code>.</p></li>
+<li>
+<p>Using <em>lubridate</em> functions, find the difference, in seconds, between the beginning and the end of the time series.</p>
+<div class="sourceCode" id="cb687"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"12-12-2023 12:12:20"</span>,</span>
+<span>           <span class="st">"12-01-2021 01:12:40"</span>,</span>
+<span>           <span class="st">"15-10-2021 23:10:15"</span>,</span>
+<span>           <span class="st">"25-07-2022 13:09:45"</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></div>
+<div class="next"><a href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch5"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="nav-link" href="#the-tidyverse"><span class="header-section-number">5.1</span> The Tidyverse</a></li>
+<li>
+<a class="nav-link" href="#pipes"><span class="header-section-number">5.2</span> Pipes</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#other-pipes"><span class="header-section-number">5.2.1</span> Other Pipes</a></li></ul>
+</li>
+<li><a class="nav-link" href="#tibble"><span class="header-section-number">5.3</span> tibble</a></li>
+<li>
+<a class="nav-link" href="#dplyr"><span class="header-section-number">5.4</span> dplyr</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#summarize"><span class="header-section-number">5.4.1</span> summarize()</a></li>
+<li><a class="nav-link" href="#group_by"><span class="header-section-number">5.4.2</span> group_by()</a></li>
+<li><a class="nav-link" href="#filter"><span class="header-section-number">5.4.3</span> filter()</a></li>
+<li><a class="nav-link" href="#arrange"><span class="header-section-number">5.4.4</span> arrange()</a></li>
+<li><a class="nav-link" href="#slice_min-and-slice_max"><span class="header-section-number">5.4.5</span> slice_min() and slice_max()</a></li>
+<li><a class="nav-link" href="#select"><span class="header-section-number">5.4.6</span> select()</a></li>
+<li><a class="nav-link" href="#mutate"><span class="header-section-number">5.4.7</span> mutate()</a></li>
+<li><a class="nav-link" href="#across"><span class="header-section-number">5.4.8</span> across()</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#stringr"><span class="header-section-number">5.5</span> stringr</a></li>
+<li><a class="nav-link" href="#lubridate"><span class="header-section-number">5.6</span> lubridate</a></li>
+<li><a class="nav-link" href="#reshape2"><span class="header-section-number">5.7</span> reshape2</a></li>
+<li><a class="nav-link" href="#exercises-4">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

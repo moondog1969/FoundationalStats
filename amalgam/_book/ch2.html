@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Some Basics | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content='“Learning to write programs stretches your mind, and helps you think better."  - Bill Gates, 1955-  2.1 First Steps Upon opening R in Windows, two things will appear in the console of the R...'>
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Some Basics | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content='“Learning to write programs stretches your mind, and helps you think better."  - Bill Gates, 1955-  2.1 First Steps Upon opening R in Windows, two things will appear in the console of the R...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Some Basics | An Amalgam of R">
+<meta name="twitter:description" content='“Learning to write programs stretches your mind, and helps you think better."  - Bill Gates, 1955-  2.1 First Steps Upon opening R in Windows, two things will appear in the console of the R...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="active" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch2" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Some Basics<a class="anchor" aria-label="anchor" href="#ch2"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“Learning to write programs stretches your mind,
+and helps you think better."</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Bill Gates</strong>, <em>1955-</em></p>
+</div>
+<div id="first-steps" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> First Steps<a class="anchor" aria-label="anchor" href="#first-steps"><i class="fas fa-link"></i></a>
+</h2>
+<p>Upon opening <strong>R</strong> in Windows, two things will appear in the console of the <strong>R</strong> <em>Graphical User Interface</em> (<strong>R</strong>-GUI)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Unix/Linux operating systems require &lt;strong&gt;R&lt;/strong&gt; to be launched from the shell command line by typing: &lt;code&gt;R&lt;/code&gt;. This will begin an interactive &lt;strong&gt;R&lt;/strong&gt; session on the system shell command line itself.&lt;/p&gt;"><sup>13</sup></a>. These are the <em>license disclaimer</em> (blue text at the top of the console) and the <em>command line prompt</em>, i.e., <span style="color: red;"><span class="math inline">\(\boldsymbol{&gt;}\)</span></span> (Fig <a href="ch2.html#fig:rconsole">2.1</a>). The prompt indicates that <strong>R</strong> is ready for a command. All commands in <strong>R</strong> must begin at <span style="color: red;"><span class="math inline">\(\boldsymbol{&gt;}\)</span></span>.</p>
+<p>The appearance of this simple interface will vary slightly among operating systems. In the Windows <strong>R</strong>-GUI, the command line prompt and user commands are colored red, and output, including errors and warnings, are colored blue. In Mac OS, the command line prompt will be purple, user inputs will be blue, and output will be black. In Unix/Linux, wherein <strong>R</strong> will generally run from a shell command line, absent of any menus, all three will be black<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;A Unix/Linux GUI, similar to those in Windows and Mac OS, can be initiated by opening &lt;strong&gt;R&lt;/strong&gt; with the commands: &lt;code&gt;R -g Tk &amp;amp;&lt;/code&gt;.&lt;/p&gt;"><sup>14</sup></a>.</p>
+<p>We can exit <strong>R</strong> at any time by typing <code><a href="https://rdrr.io/r/base/quit.html">q()</a></code> in the console, closing the GUI window (non-Linux only), or by selecting <strong>Exit</strong> from the pulldown File menu (non-Linux only).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:rconsole"></span>
+<img src="figs2/Capture.png" alt="An aged, but still recognizable **R** console: **R** version 2.15.1, 'Roasted Marshmallows', ca. 2012." width="70%"><p class="caption">
+Figure 2.1: An aged, but still recognizable <strong>R</strong> console: <strong>R</strong> version 2.15.1, ‘Roasted Marshmallows’, ca. 2012.
+</p>
+</div>
+</div>
+<div id="first-operations" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> First Operations<a class="anchor" aria-label="anchor" href="#first-operations"><i class="fas fa-link"></i></a>
+</h2>
+<p>As an introduction we can use <strong>R</strong> to evaluate a simple mathematical expression. Type <code>2 + 2</code> and press <kbd>Enter</kbd>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>The output term <code>[1]</code> means, “this is the first requested element.” In this case there is just one requested element, <span class="math inline">\(4\)</span>, the solution to <span class="math inline">\(2 + 2\)</span>. If the output elements cannot be held on a single console line, then <strong>R</strong> would begin the second line of output with the element number comprising the first element of the new line. For instance, the command <code>rnorm(20)</code> will take 20 pseudo-random samples (see footnote in Section <a href="ch9.html#pvR">9.5.7</a>) from a standard normal distribution (see Ch 3 in <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span>). We have:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] -1.07681600 -0.12916910  0.43102091 -0.59504704  0.28437423
+ [6]  2.09798848 -0.47150646  0.66189228 -0.50411240  0.57065698
+[11]  0.19438861 -0.09344153  0.75595706 -3.18338031 -2.13038113
+[16] -0.66466199 -0.47244628 -0.46971852  0.28603184 -0.43981785</code></pre>
+<p>
+The reappearance of the command line prompt indicates that <strong>R</strong> is ready for another command. Multiple commands can be entered on a single line, separated by semicolons. Note, however, that this is considered poor programming style, as it may make your code more difficult to understand by a third party.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span>; <span class="fl">3</span> <span class="op">+</span> <span class="fl">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<pre><code>[1] 5</code></pre>
+<p><strong>R</strong> commands are generally insensitive to spaces. This allows the use of spaces to make code more legible. To my eyes, the command <code>2 + 2</code> is simply easier to read and debug than <code>2+2</code>.</p>
+<div id="use-your-scroll-keys" class="section level3" number="2.2.1">
+<h3>
+<span class="header-section-number">2.2.1</span> Use Your Scroll Keys<a class="anchor" aria-label="anchor" href="#use-your-scroll-keys"><i class="fas fa-link"></i></a>
+</h3>
+<p>As with many other command line environments, the scroll keys (Fig <a href="ch2.html#fig:scroll">2.2</a>) provide an important shortcut in <strong>R</strong>. Instead of editing a line of code by tediously mouse-searching for an earlier command to copy, paste and then modify, you can simply scroll back through your earlier work using the upper scroll key, i.e., <kbd> <span class="math inline">\(\uparrow\)</span> </kbd>. Accordingly, scrolling down using <kbd> <span class="math inline">\(\downarrow\)</span> </kbd> will allow you to move forward through earlier commands.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:scroll"></span>
+<img src="figs2/keyboard.png" alt="Typical scroll direction keys on a keyboard." width="30%"><p class="caption">
+Figure 2.2: Typical scroll direction keys on a keyboard.
+</p>
+</div>
+</div>
+<div id="note-to-self" class="section level3" number="2.2.2">
+<h3>
+<span class="header-section-number">2.2.2</span> Note to Self: <code>#</code><a class="anchor" aria-label="anchor" href="#note-to-self"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> will not recognize commands preceded by <code>#</code>. As a result this is a good way for us to leave messages to ourselves.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Note at beginning of line</span></span>
+<span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>We can even place comments in the middle of an expression, as long the expression is finished on a new line.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="co"># Note in middle of line</span></span>
+<span><span class="op">+</span> <span class="fl">2</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>In the “best” code writing style it is recommended that one place a space after <code>#</code> before beginning a comment, and to insert two spaces following code before placing <code>#</code> in the middle of a line. This convention is followed above.</p>
+</div>
+<div id="unfinished-commands" class="section level3" number="2.2.3">
+<h3>
+<span class="header-section-number">2.2.3</span> Unfinished Commands<a class="anchor" aria-label="anchor" href="#unfinished-commands"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> will be unable to move on to a new task when a command line is unfinished. For example, type</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="ch2.html#cb14-1" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span></span></code></pre></div>
+<p>and press <kbd>Enter</kbd>. We note that the <em>continuation prompt</em>, <code>+</code>, is now where the command prompt should be. <strong>R</strong> is telling us the command is unfinished. We can get back to the command prompt by finishing the function, clicking <strong>Misc<span class="math inline">\(&gt;\)</span>Stop current computation</strong> or <strong>Misc<span class="math inline">\(&gt;\)</span>Stop all computations</strong> from the <strong>R</strong>-toolbar (non-Linux only), typing <kbd>Ctrl</kbd> + <kbd>C</kbd> (Linux), or by pressing the <kbd>Esc</kbd> key (all OS).</p>
+</div>
+</div>
+<div id="expressions-assignments-and-objects" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> Expressions, Assignments and Objects<a class="anchor" aria-label="anchor" href="#expressions-assignments-and-objects"><i class="fas fa-link"></i></a>
+</h2>
+<p>All entries in <strong>R</strong> are either <em>expressions</em> or <em>assignments</em>. If a command is an expression it will be evaluated, printed, and discarded. Examples include: <code>2 + 2</code>. Conversely, an assignment evaluates an expression, and assigns a label to the output, but does not automatically print the result.</p>
+<p>To convert an expression to an assignment we use the <em>assignment operator</em>, <code>&lt;-</code>, which represents an arrow that points to the label of the expression. The assignment operator can go on either side of an expression.</p>
+<div class="example">
+<p><span id="exm:exm-2obj1" class="example"><strong>Example 2.1  </strong></span><span class="math inline">\(\text{}\)</span><br>
+If I type:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">-&gt;</span> <span class="va">x</span></span></code></pre></div>
+<p>then an <strong>R</strong>-<em>object</em> is created named <code>x</code> that contains the result of the expression <code>2 + 2</code>. In fact, the code: <code>x &lt;- 2 + 2</code> literally means: “<code>x</code> is <span class="math inline">\(2 + 2\)</span>.” The <code>&lt;-</code> operator is generally used (instead of <code>-&gt;</code>) because it is easier to conceptualize the relationship <code>object name -&gt; object definiton</code>, than its reversal.</p>
+<p>To print the result of the assignment above (to <em>see</em> <code>x</code>), I simply type:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>or</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>In Example <a href="ch2.html#exm:exm-2obj1">2.1</a> above we could have typed <code>x = 2 + 2</code> with the same assignment results.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>However, for this document, I will continue to use the arrow operator, <code>&lt;-</code>, for object assignments, and save the equals sign, <code>=</code>, for specifying arguments in functions (Ch <a href="ch8.html#ch8">8</a>).</p>
+<p>Note that the <strong>R</strong>-console can quickly become cluttered and confusing. To remove clutter on the console (without actually getting rid of any of the objects created in a session) press <kbd>Ctrl</kbd> + <kbd>L</kbd> or, from the <strong>Edit</strong> pulldown menu, click on <strong>Clear console</strong> (non-Linux only).</p>
+<div id="naming-objects" class="section level3" number="2.3.1">
+<h3>
+<span class="header-section-number">2.3.1</span> Naming Objects<a class="anchor" aria-label="anchor" href="#naming-objects"><i class="fas fa-link"></i></a>
+</h3>
+<p>When assigning names to <strong>R</strong>-objects we should try to keep the names simple, and avoid names that already represent important definitions and functions. These include: <code>TRUE, FALSE, NULL, NA, NaN,</code> and <code>Inf</code>. In addition, we cannot have names:</p>
+<ul>
+<li>beginning with a numeric value,</li>
+<li>containing spaces, colons, and semicolons,</li>
+<li>containing mathematical operators (e.g., <code>*</code>, <code>+</code>, <code>-</code>, <code>^</code>, <code>/</code>, <code>=</code>),</li>
+<li>containing important <strong>R</strong> <em>metacharacters</em> (e.g., <code>@</code>, <code>#</code>, <code>?</code>, <code>!</code>, <code>%</code>, <code>&amp;</code>, <code>|</code>).</li>
+</ul>
+<p></p>
+<p>However, even these “forbidden” names and characters can be used if one encloses them in backticks, also called <em>accent grave</em> characters. For example, the code, <code>`?` &lt;- 2 + 2</code> will create an object named <code>`?`</code>, containing the number 4.</p>
+<p></p>
+<p>Names should, if possible, be descriptive. Thus, for a object containing 20 random observations from a normal distribution, the name <code>rN20</code> may be superior to the easily-typed, but anonymous name, <code>x</code>. Finally, we should remember that <strong>R</strong> is case sensitive. That is, each of the following <span class="math inline">\(2^4\)</span> combinations will be recognized as distinct: <code>name, Name, nAme, naMe, namE, NAme, nAMe, naME, NaMe, nAmE, NamE, naME, NAMe, nAME, NaME, NAmE, NAME</code>.</p>
+</div>
+<div id="combining-data" class="section level3" number="2.3.2">
+<h3>
+<span class="header-section-number">2.3.2</span> Combining Data<a class="anchor" aria-label="anchor" href="#combining-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>To define a collection of numbers (or other data or objects) as a single entity one can use the important <strong>R</strong> function <code>c</code>, which means “combine”.</p>
+<div class="example">
+<p><span id="exm:exm-2c1" class="example"><strong>Example 2.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+To define the numbers 23, 34, and 10 collectively as an object named <code>x</code>, I would type:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">23</span>, <span class="fl">34</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<p>We could then do something like:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">+</span> <span class="fl">7</span></span></code></pre></div>
+<pre><code>[1] 30 41 17</code></pre>
+<p>Note that seven was added to each element in <code>x</code>.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="oc" class="section level3" number="2.3.3">
+<h3>
+<span class="header-section-number">2.3.3</span> Object Classes<a class="anchor" aria-label="anchor" href="#oc"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can view everything created or loaded in <strong>R</strong> as an <em>object</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Although we can view everything created or loaded in &lt;strong&gt;R&lt;/strong&gt; as an object, not all &lt;strong&gt;R&lt;/strong&gt; objects fit neatly into the OOP perspective of “object-oriented.” This is true because &lt;strong&gt;R&lt;/strong&gt; base objects (which are &lt;em&gt;not&lt;/em&gt; object oriented) come from S, which was developed before anyone considered the need for an &lt;strong&gt;S&lt;/strong&gt; OOP system (see &lt;span class="citation"&gt;Wickham (&lt;a href="references.html#ref-wickham2019advanced"&gt;2019&lt;/a&gt;)&lt;/span&gt; and &lt;span class="citation"&gt;Chambers (&lt;a href="references.html#ref-chambers2008"&gt;2008&lt;/a&gt;)&lt;/span&gt;).&lt;/p&gt;'><sup>15</sup></a>. Under the idiom of <em>object oriented programming</em> (<em>OOP</em>), an object may have attributes that allow it to be evaluated correctly, and associated methods appropriate for those attributes (e.g., specific functions for plotting, printing, etc.)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;There are many OOP languages including &lt;strong&gt;R&lt;/strong&gt;, C#, C++, Objective-C, Smalltalk, Java, Perl, Python and PHP. C is not considered an OOP language.&lt;/p&gt;"><sup>16</sup></a>.
+</p>
+<p>I can list objects available in my <strong>R</strong> session using the function <code><a href="https://rdrr.io/r/base/ls.html">objects()</a></code> or <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code>. Currently, I only have <code>x</code> (which has been applied and modified several times) in my session (global environment), by typing:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">objects</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "x"</code></pre>
+<p>or<br></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "x"</code></pre>
+<p><strong>R</strong> objects will generally have a <em>class</em>, identifiable with the function <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "numeric"</code></pre>
+<p>Objects in class <code>numeric</code> and several other common classes can be evaluated mathematically. Common <strong>R</strong> classes are shown in Table <a href="ch2.html#tab:Rclasses">2.1</a>. We will create objects from all of these classes, and learn about their characteristics, over the next few chapters.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Rclasses">Table 2.1: </span>Common <strong>R</strong> classes for some object <code>x</code>. The listed class would be printed if one created the assignment for <code>x</code> shown in the Example, and typed <code>class(x)</code>
+</caption>
+<thead><tr class="header">
+<th align="left">Class</th>
+<th align="left">Example</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>logical</code></td>
+<td align="left"><code>x &lt;- TRUE</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>numeric</code></td>
+<td align="left"><code>x &lt;- 2 + 2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>integer</code></td>
+<td align="left"><code>x &lt;- 1:3</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>character</code></td>
+<td align="left"><code>x &lt;- c("a","b","c")</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>factor</code></td>
+<td align="left"><code>x &lt;- factor("a","a","b")</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>complex</code></td>
+<td align="left"><code>x &lt;- 5i</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>expression</code></td>
+<td align="left"><code>x &lt;- expression(x * 4)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>function</code></td>
+<td align="left"><code>x &lt;- function(y)y + 1</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>matrix</code></td>
+<td align="left"><code>x &lt;- matrix(nrow = 2, rnorm(4))</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>array</code></td>
+<td align="left"><code>x &lt;- array(rnorm(8), c(2, 2, 2))</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>data.frame</code></td>
+<td align="left"><code>x &lt;- data.frame(v1 = c(1,2), v2 = c("a","b"))</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>list</code></td>
+<td align="left"><code>x &lt;- list()</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="bt" class="section level3" number="2.3.4">
+<h3>
+<span class="header-section-number">2.3.4</span> Object Base Types<a class="anchor" aria-label="anchor" href="#bt"><i class="fas fa-link"></i></a>
+</h3>
+<p>All <strong>R</strong> objects will have so-called <em>base types</em> that define their underlying C language data structures<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Specifically, &lt;strong&gt;R&lt;/strong&gt; base types correspond to an underlying C-codified &lt;em&gt;typedef&lt;/em&gt;, i.e., an alias framework for C data types. This internal algorithm is referred to by the &lt;strong&gt;R&lt;/strong&gt;-core development team as &lt;code&gt;SEXPTYPE&lt;/code&gt;, meaning &lt;strong&gt;S&lt;/strong&gt;-expression (&lt;code&gt;SEXP&lt;/code&gt;) type &lt;span class="citation"&gt;(&lt;a href="references.html#ref-team2024rint"&gt;R Core Team 2024a&lt;/a&gt;)&lt;/span&gt;. There are currently 24 &lt;code&gt;SEXPTYPE&lt;/code&gt; variants, each corresponding to one of the 24 &lt;strong&gt;R&lt;/strong&gt; base types.&lt;/p&gt;'><sup>17</sup></a>. There are currently 24 base types used by <strong>R</strong> <span class="citation">(<a href="references.html#ref-team2024rint">R Core Team 2024a</a>)</span>, and it is unlikely that more will be developed in the near future <span class="citation">(<a href="references.html#ref-wickham2019advanced">Wickham 2019</a>)</span>. These entities are listed in Table <a href="ch2.html#tab:Rbtypes">2.2</a>. The meaning and usage of some of the base types may seem clear, for instance, <code>integer</code> and <code>character</code>, which are also class designations (Table <a href="ch2.html#tab:Rclasses">2.1</a>). Several base types are specifically addressed in later chapters, including <code>list</code>, <code>logical</code>, <code>integer</code>, and <code>NULL</code> (Chs <a href="ch3.html#ch3">3</a> and <a href="ch7.html#ch7">7</a>), <code>character</code> (Chs <a href="ch4.html#ch4">4</a> and <a href="ch5.html#ch5">5</a>), <code>closure</code>, <code>special</code>, <code>builtin</code>, <code>environment</code>, <code>pairlist</code>, <code>S4</code>, <code>promise</code>, and <code>symbol</code> (Ch <a href="ch8.html#ch8">8</a>) and <code>raw</code> (Ch <a href="ch12.html#ch12">12</a>). Base types meant for C-internal processes, i.e., <code>any</code>, <code>bytecode</code>, <code>promise</code>, <code>...</code>, <code>weakref</code>, <code>externalptr</code>, and <code>char</code>, are not easily accessible with interpreted <strong>R</strong> code <span class="citation">(<a href="references.html#ref-team2024r">R Core Team 2024b</a>)</span>.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Rbtypes">Table 2.2: </span><strong>R</strong> base types. The listed base type would be printed if one created the assignment for <code>x</code> shown in the Example and typed <code>typeof(x)</code>. The function <code>mle</code>, used to create the Example for base type <code>S4</code>, requires the package <em>stats4</em>.</caption>
+<colgroup>
+<col width="19%">
+<col width="52%">
+<col width="28%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Base type</th>
+<th align="left">Example</th>
+<th align="left">Application</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>NULL</code></td>
+<td align="left"><code>x &lt;- NULL</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="even">
+<td align="left"><code>logical</code></td>
+<td align="left"><code>x &lt;- TRUE</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>integer</code></td>
+<td align="left"><code>x &lt;- 1L</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="even">
+<td align="left"><code>complex</code></td>
+<td align="left"><code>x &lt;- 1i</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>double</code></td>
+<td align="left"><code>x &lt;- 1</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="even">
+<td align="left"><code>list</code></td>
+<td align="left"><code>x &lt;- list()</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>character</code></td>
+<td align="left"><code>x &lt;- "a"</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="even">
+<td align="left"><code>raw</code></td>
+<td align="left"><code>x &lt;- raw(2)</code></td>
+<td align="left">vectors</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>closure</code></td>
+<td align="left"><code>x &lt;- function(y)y + 1</code></td>
+<td align="left">closure functions</td>
+</tr>
+<tr class="even">
+<td align="left"><code>special</code></td>
+<td align="left">
+<code>x &lt;-</code> <code>`[`</code>
+</td>
+<td align="left">special functions</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>builtin</code></td>
+<td align="left"><code>x &lt;- sum</code></td>
+<td align="left">builtin functions</td>
+</tr>
+<tr class="even">
+<td align="left"><code>expression</code></td>
+<td align="left"><code>x &lt;- expression(x * 4)</code></td>
+<td align="left">expressions</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>environment</code></td>
+<td align="left"><code>x &lt;- globalenv()</code></td>
+<td align="left">environments</td>
+</tr>
+<tr class="even">
+<td align="left"><code>symbol</code></td>
+<td align="left"><code>x &lt;- quote(a)</code></td>
+<td align="left">language components</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>language</code></td>
+<td align="left"><code>x &lt;- quote(a + 1)</code></td>
+<td align="left">language components</td>
+</tr>
+<tr class="even">
+<td align="left"><code>pairlist</code></td>
+<td align="left"><code>x &lt;- formals(mean)</code></td>
+<td align="left">language components</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>S4</code></td>
+<td align="left"><code>x &lt;- stats4::mle(function(x=1)x^2)</code></td>
+<td align="left">non-simple objects</td>
+</tr>
+<tr class="even">
+<td align="left"><code>any</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>bytecode</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="even">
+<td align="left"><code>promise</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>...</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="even">
+<td align="left"><code>weakref</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>externalptr</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+<tr class="even">
+<td align="left"><code>char</code></td>
+<td align="left">No example</td>
+<td align="left">C-internal</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<p>Base types of numeric objects define their <em>storage mode</em>, i.e., the way <strong>R</strong> caches them in its primary memory<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The functions &lt;code&gt;mode()&lt;/code&gt; and &lt;code&gt;storage.mode()&lt;/code&gt; are generally not appropriate for identifying &lt;strong&gt;R&lt;/strong&gt; base types and
+storage modes &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wickham2019advanced"&gt;Wickham 2019&lt;/a&gt;)&lt;/span&gt;. In particular, the function &lt;code&gt;mode()&lt;/code&gt; gives the mode of an object with respect to the &lt;strong&gt;S3&lt;/strong&gt; system
+(see &lt;span class="citation"&gt;Richard Becker, Chambers, and Wilks (&lt;a href="references.html#ref-becker1988"&gt;1988&lt;/a&gt;)&lt;/span&gt;), whereas &lt;code&gt;storage.mode()&lt;/code&gt; is generally used when interfacing with algorithms written in other languages, primarily C or Fortran, to check that &lt;strong&gt;R&lt;/strong&gt; objects have the correct type for the interfaced
+language.&lt;/p&gt;'><sup>18</sup></a>. Base types can be identified using the function <code><a href="https://rdrr.io/r/base/typeof.html">typeof()</a></code>.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "double"</code></pre>
+<p>We see that <code>x</code> has storage mode <code>"double"</code>, meaning that its numeric values are stored using up to 53 bits, resulting in recognizable and distinguishable values between approximately <span class="math inline">\(5 \times 10^{-323}\)</span> and <span class="math inline">\(2 \times 10^{307}\)</span> (see Ch <a href="ch12.html#ch12">12</a> for more information).</p>
+</div>
+<div id="object-attributes" class="section level3" number="2.3.5">
+<h3>
+<span class="header-section-number">2.3.5</span> Object Attributes<a class="anchor" aria-label="anchor" href="#object-attributes"><i class="fas fa-link"></i></a>
+</h3>
+<p>Many <strong>R</strong>-objects will also have <em>attributes</em> (i.e., characteristics particular to the object or object class). Typing:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>NULL</code></pre>
+<p>indicates that <code>x</code> does not have additional attributes. However, using <em>coercion</em> (Section <a href="ch3.html#s3coer">3.3.2</a>) we can define <code>x</code> to be an object of class <code>matrix</code> (a collection of data in a row and column format (see Section <a href="ch3.html#Sec3M">3.1.2</a>)).</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$dim
+[1] 3 1</code></pre>
+<p>Now <code>x</code> has the attribute <code>dim</code> (i.e., dimension). Specifically,
+<code>x</code> is a three-celled matrix. It has three rows and one column.</p>
+<p>Amazingly, classes and attributes allow <strong>R</strong> to simultaneously store and distinguish objects with the same name. For instance:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mean</span></span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<p>In general, it is not advisable to name objects after frequently used functions. Nonetheless, the function <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, which calculates the arithmetic mean of a collection of data, is distinguishable from the new user-created object <code>mean</code>, because these objects have different identifiable class characteristics. We can remove the user-created object <code>mean</code>, with the function <code><a href="https://rdrr.io/r/base/rm.html">rm()</a></code>. This leaves behind only the function <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span></span>
+<span><span class="va">mean</span></span></code></pre></div>
+<pre><code>function (x, ...) 
+UseMethod("mean")
+&lt;bytecode: 0x0000020d6bf8a2a8&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+<p>The process of how these objects are distinguished by <strong>R</strong> is further elaborated in Section <a href="ch8.html#howfunctionswork">8.8</a>.</p>
+</div>
+</div>
+<div id="help" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> Getting Help<a class="anchor" aria-label="anchor" href="#help"><i class="fas fa-link"></i></a>
+</h2>
+<p>There is no single perfect source for information/documentation for all aspects of <strong>R</strong>. Detailed manuals from CRAN are available concerning the <strong>R</strong> <a href="https://cran.r-project.org/doc/manuals/r-release/R-lang.html">language definition</a>, <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html">basic operations</a>, and <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html">package development</a>. These resources, however, often assume a familiarity with Unix/Linux operating systems and computer science terminology. Thus, they may not be particularly helpful to biologists who are new to <strong>R</strong>.</p>
+<div id="help-and" class="section level3" number="2.4.1">
+<h3>
+<span class="header-section-number">2.4.1</span> <code>help()</code> and <code>?</code><a class="anchor" aria-label="anchor" href="#help-and"><i class="fas fa-link"></i></a>
+</h3>
+<p>A comprehensive help system is available for many <strong>R</strong> components including operators, and loaded package dataframes and functions. The system can be accessed via the question mark, <code>?</code>, operator and the function <code><a href="https://rdrr.io/r/utils/help.html">help()</a></code>. For instance, if I wanted to know more about the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function, I could type:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">plot</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span></span></code></pre></div>
+<p>Documentation for packaged <strong>R</strong> functions (Section <a href="ch3.html#package">3.5</a>) must include an annotated description of function arguments, along with other pertinent information, and documentation for packaged datasets must include descriptions of dataset variables<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Chapter &lt;a href="ch10.html#ch10"&gt;10&lt;/a&gt; provides instructions on how to develop documentation files for your own packages.&lt;/p&gt;'><sup>19</sup></a>. The quality of documentation will generally be excellent for functions from packages in the default <strong>R</strong> download (i.e., the <strong>R</strong>-distribution packages, see Section <a href="ch3.html#package">3.5</a>), but will vary from package to package otherwise. A list of arguments for a function, and their default values, can (often) be obtained using the function <code><a href="https://rdrr.io/r/base/formals.html">formals()</a></code>.</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$x
+
+
+$y
+
+
+$...</code></pre>
+<p>For help and documentation concerning programming metacharacters used in <strong>R</strong> (for instance <code>@</code>, <code>#</code>, <code>?</code>, <code>!</code>, <code>%</code>, <code>&amp;</code>, <code>|</code>), one would enclose the metacharacters with quotes. For example, to find out more information about the logical operator <code>&amp;</code> I could type <code><a href="https://rdrr.io/r/base/Logic.html">help("&amp;")</a></code> or <code><a href="https://rdrr.io/r/base/Logic.html">? "&amp;"</a></code>. Placing two question marks in front of a topic will cause <strong>R</strong> to search for help files concerning with respect to all packages in a workstation. For instance, type:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="op">?</span><span class="va">lm</span></span></code></pre></div>
+<p>or, alternatively</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.search.html">help.search</a></span><span class="op">(</span><span class="va">lm</span><span class="op">)</span></span></code></pre></div>
+<p>for a huge number of help files on linear model functions identified through fuzzy matching. Help for particular <strong>R</strong>-questions can often be found online using the search engine at <a href="http://search.r-project.org/" class="uri">http://search.r-project.org/</a>. This link is provided in the Help pulldown menu in the <strong>R</strong> console (non-Linux only). Helpful online discussions can also be found at <a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a>, and <a href="https://stats.stackexchange.com/">Stats Exchange</a>.</p>
+</div>
+<div id="demo-and-example" class="section level3" number="2.4.2">
+<h3>
+<span class="header-section-number">2.4.2</span> <code>demo()</code> and <code>example()</code><a class="anchor" aria-label="anchor" href="#demo-and-example"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/utils/demo.html">demo()</a></code> allows one access to coded examples that developers have worked out for a particular function or topic. For instance, type:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">graphics</span><span class="op">)</span></span></code></pre></div>
+<p>for a brief demonstration of <strong>R</strong> graphics. Typing</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">persp</span><span class="op">)</span></span></code></pre></div>
+<p>will provide a demonstration of 3D perspective plots. And, typing:</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">Hershey</span><span class="op">)</span></span></code></pre></div>
+<p>will provide a demonstration of available modifiable symbols from the <em>Hershey family of fonts</em> (see Ch 6 in <span class="citation">Hershey (<a href="references.html#ref-hershey1967">1967</a>)</span>). Finally, typing:</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>lists all of the demos available in the loaded libraries for a particular workstation. The function <code><a href="https://rdrr.io/r/utils/example.html">example()</a></code> usually provides less involved demonstrations from the <code>man</code> package directories (short for user manual, see Ch <a href="ch10.html#ch10">10</a>) in an <strong>R</strong> package. For instance, type:</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/example.html">example</a></span><span class="op">(</span><span class="va">plotmath</span><span class="op">)</span></span></code></pre></div>
+<p>for a coded demonstration of mathematical graphics.</p>
+</div>
+<div id="vignettes" class="section level3" number="2.4.3">
+<h3>
+<span class="header-section-number">2.4.3</span> Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> packages often contain <em>vignettes</em>. These are short documents that generally describe the theory underlying algorithms and guidance on how to correctly use package functions. Vignettes can be accessed with the function
+<code><a href="https://rdrr.io/r/utils/vignette.html">vignette()</a></code>. To view all vignettes for all <em>installed</em> packages (Section <a href="ch3.html#packagei">3.5.1</a>), type:</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span>all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>To view all vignettes available for <em>loaded</em> packages (see Section <a href="ch3.html#packagel">3.5.2</a>), type:</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span>all <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>To view vignettes for the <strong>R</strong> contributed package <em>asbio</em> (following its installation), type:</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"asbio"</span><span class="op">)</span></span></code></pre></div>
+<p>To see the vignette <code>simpson</code> in package <em>asbio</em>, type:</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"simpson"</span>, package <span class="op">=</span> <span class="st">"asbio"</span><span class="op">)</span></span></code></pre></div>
+<p>The function <code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes()</a></code> provides an HTML-browser that allows interactive vignette searches.</p>
+</div>
+</div>
+<div id="options" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Options<a class="anchor" aria-label="anchor" href="#options"><i class="fas fa-link"></i></a>
+</h2>
+<p>To enhance an <strong>R</strong> session, we can adjust the appearance of the <strong>R</strong>-console and customize options that affect expression output. These include the characteristics of the graphics devices, the width of print output in the <strong>R</strong>-console, and the number of print lines and print digits. Changes to some of these parameters can be made by going to <strong>Edit<span class="math inline">\(&gt;\)</span>GUI Preferences</strong> in the <strong>R</strong>-toolbar. Many other parameters can be changed using the <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> function. To see all alterable options one can type:
+</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The resulting list is extensive. To modify options, one would simply define the desired change within parentheses following a call to <code>options</code>. For instance, to see the default number of digits, I would type:</p>
+<!-- ^[To revert to default options settings, one can type: `default_opts <- callr::r(function(){options()}); options(default_opts)`].  -->
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="st">"digits"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$digits
+[1] 7</code></pre>
+<p>To change the default number of digits in output from 7 to 5 in the current session, I would type:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co"># demonstration using pi</span></span>
+<span><span class="va">pi</span></span></code></pre></div>
+<pre><code>[1] 3.1416</code></pre>
+<p>One can revert back to default options by restarting an <strong>R</strong> session.</p>
+<div id="advanced-options" class="section level3" number="2.5.1">
+<h3>
+<span class="header-section-number">2.5.1</span> Advanced Options<a class="anchor" aria-label="anchor" href="#advanced-options"><i class="fas fa-link"></i></a>
+</h3>
+<p>To store user-defined options and start up procedures, an<code>.Rprofile</code> file will exist in your <strong>R</strong> program <strong>etc</strong> directory. This location would be something like: <span class="math inline">\(\ldots\)</span><strong>R/R-version/etc</strong>. <strong>R</strong> will silently run commands in the <code>.Rprofile</code> file upon opening. Thus, by customizing the <code>.Rprofile</code> file one can “permanently” set session options, load installed packages, define your favorite package repository (Section <a href="ch3.html#package">3.5</a>), and even create aliases and defaults for frequently used functions.</p>
+<p>The <code>.Rprofile</code> file located in the <strong>etc</strong> directory is the so-called <code>.Rprofile.site</code> file. Additional <code>.Rprofile</code> files can be placed in the working directory (see below). <strong>R</strong> will check for these and run them after running the <code>.Rprofile.site</code> file.</p>
+<div class="example">
+<p><span id="exm:exm-2options1" class="example"><strong>Example 2.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here is the content of one of my current <code>.Rprofile</code> files.</p>
+<style type="text/css">
+pre.numberSource code > span > a:first-child::before {
+  left: -.05em;
+}
+</style>
+<div class="sourceCode" id="cb64"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb64-1"><a href="ch2.html#cb64-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="st">"http://ftp.osuosl.org/pub/cran/"</span>)))</span>
+<span id="cb64-2"><a href="ch2.html#cb64-2"></a>.First <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb64-3"><a href="ch2.html#cb64-3"></a><span class="fu">library</span>(asbio)</span>
+<span id="cb64-4"><a href="ch2.html#cb64-4"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Welcome to R Ken! "</span>, <span class="fu">date</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb64-5"><a href="ch2.html#cb64-5"></a>}</span>
+<span id="cb64-6"><a href="ch2.html#cb64-6"></a>.Last <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb64-7"><a href="ch2.html#cb64-7"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Goodbye Ken"</span>, <span class="fu">date</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb64-8"><a href="ch2.html#cb64-8"></a>}</span></code></pre></div>
+<p>The command <code>options(repos = structure(c("http://ftp.osuosl.org/pub/cran/")))</code> (Line 1) defines my preferred CRAN repository mirror site (Section <a href="ch3.html#package">3.5</a>). The function <code>.First( )</code> (Lines 2-5) will be run at the start of the <strong>R</strong> session and <code>.Last( )</code> (Lines 6-8) will be run at the end of the session. <strong>R</strong> functions will formally introduced in Ch <a href="ch8.html#ch8">8</a>. As we go through this book it will become clear that these lines of code force <strong>R</strong> to say hello, and to load the package <em>asbio</em>, and print the date/time (using the function <code><a href="https://rdrr.io/r/base/date.html">date()</a></code>) when it opens, and to say goodbye, and print the date/time when it closes (although the farewell will only be seen when running <strong>R</strong> from a shell interface, e.g., the Windows Command Prompt).</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>One can create <code>.Rprofile</code> files, and many other types of <strong>R</strong> extension files using the function <code><a href="https://rdrr.io/r/base/files.html">file.create()</a></code>. For instance, the code:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.create</a></span><span class="op">(</span><span class="st">"defaults.Rprofile"</span><span class="op">)</span></span></code></pre></div>
+<p>will place an empty, editable,<code>.Rprofile</code> file called <code>defaults</code> in the working directory.</p>
+<p>
+</p>
+</div>
+</div>
+<div id="the-working-directory" class="section level2" number="2.6">
+<h2>
+<span class="header-section-number">2.6</span> The Working Directory<a class="anchor" aria-label="anchor" href="#the-working-directory"><i class="fas fa-link"></i></a>
+</h2>
+<p>By default, the <strong>R</strong> <em>working directory</em> is set to be the home directory of the workstation. The command <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> shows the current file path for the working directory.</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "C:/Users/ahoken/Documents/GitHub/Amalgam"</code></pre>
+<p>The working directory can be changed with the command <code>setwd(filepath)</code>, where <code>filepath</code> is the location of the desired directory, or by using pulldown menus, i.e., <strong>File<span class="math inline">\(&gt;\)</span>Change dir</strong> (non-Linux only). Because <strong>R</strong> developed under Unix, we must specify directory hierarchies using forward slashes or by doubling backslashes.</p>
+<div class="example">
+<p><span id="exm:exm-2wd1" class="example"><strong>Example 2.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+To establish a working directory file path to the Windows directory:
+<strong>C:\Users\User\Documents</strong>, I would type:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"C:/Users/User/Documents"</span><span class="op">)</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"C:\\Users\\User\\Documents"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="saving-and-loading-your-work" class="section level2" number="2.7">
+<h2>
+<span class="header-section-number">2.7</span> Saving and Loading Your Work<a class="anchor" aria-label="anchor" href="#saving-and-loading-your-work"><i class="fas fa-link"></i></a>
+</h2>
+<p>As noted in Ch <a href="ch1.html#ch1">1</a>, an <strong>R</strong> session is allocated with a fixed amount of memory that is managed in an on-the-fly manner. An unfortunate consequence of this is that if <strong>R</strong> crashes, all unsaved information from the work session will be lost. Thus, session work should be saved often. Note that <strong>R</strong> will not give a warning if you are writing over session files from the <strong>R</strong> console. The old file will simply be replaced. Three general approaches for saving non-graphics data are possible. These are: 1) saving the history, 2) saving objects, and 3) saving <strong>R</strong> script. All three of these operations can be greatly facilitated by using an <strong>R</strong> <em>integrated development environment</em> (<em>IDE</em>) like RStudio (Section <a href="ch2.html#RStudio">2.9</a>).</p>
+<div id="r-history" class="section level3" number="2.7.1">
+<h3>
+<span class="header-section-number">2.7.1</span> R History<a class="anchor" aria-label="anchor" href="#r-history"><i class="fas fa-link"></i></a>
+</h3>
+<p>To view the <em>history</em> (i.e., the commands that have been used in a session) one can use <code>history(n)</code> where <code>n</code> is the number of previous command lines one wishes to see<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Importantly, the functions &lt;code&gt;savehistory()&lt;/code&gt;, &lt;code&gt;loadhistory()&lt;/code&gt;, and &lt;code&gt;history()&lt;/code&gt; are not currently supported for Mac OS. There are ways around this. For instance, in RStudio (Section &lt;a href="ch2.html#RStudio"&gt;2.9&lt;/a&gt;), the Mac OS command history can be obtained by clicking the &lt;strong&gt;History&lt;/strong&gt; icon that appears on the tool bar at the top of the console window. As an additional issue, Windows and Unix-alike platforms have different implementations for &lt;code&gt;savehistory()&lt;/code&gt; and &lt;code&gt;loadhistory()&lt;/code&gt;. See help pages for these functions within your platform for particulars.&lt;/p&gt;'><sup>20</sup></a>. For instance, to see the last three commands, one would type<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;This command will not work in an embedded Windows R GUI, like the one in RStudio.&lt;/p&gt;"><sup>21</sup></a>:</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">history</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>To save the session history in Windows one can use <strong>File<span class="math inline">\(&gt;\)</span>Save History</strong> or the function <code><a href="https://rdrr.io/r/utils/savehistory.html">savehistory()</a></code>. For instance, to save the session history to the working directory under the name <code>history1</code>, I could type:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">savehistory</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"history1.Rhistory"</span><span class="op">)</span></span></code></pre></div>
+<p>We can view the code in this file from any text editor. To load the history from a previous session one can use <strong>File<span class="math inline">\(&gt;\)</span>Load History</strong> (non-Linux only) or the function
+<code><a href="https://rdrr.io/r/utils/savehistory.html">loadhistory()</a></code>. For instance, to load <code>history1</code> I would type:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">loadhistory</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"history1.Rhistory"</span><span class="op">)</span></span></code></pre></div>
+<p>To save the history at the end of (almost) every interactive Windows or Unix-alike <strong>R</strong> session, one can alter the <code>.Rprofile</code> file <code>.Last</code> function to include:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">.Last</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">savehistory</a></span><span class="op">(</span><span class="st">"~/.Rhistory"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="saveRobjects" class="section level3" number="2.7.2">
+<h3>
+<span class="header-section-number">2.7.2</span> R Objects<a class="anchor" aria-label="anchor" href="#saveRobjects"><i class="fas fa-link"></i></a>
+</h3>
+<p>To save all of the objects available in the current <strong>R</strong>-session one can use <strong>File<span class="math inline">\(&gt;\)</span>Save Workspace</strong> (non-Linux only), or simply type:</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html">save.image</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This procedure saves session objects to the working directory as a nameless file using an <code>.RData</code> extension. The file will be opened, silently, with the inception of the next <strong>R</strong>- session, and cause objects used or created in the previous session to be available. Indeed, <strong>R</strong> will automatically execute all <code>.RData</code> files in the working directory for use in a session. Stored <code>.RData</code> files can also be loaded using <strong>File<span class="math inline">\(&gt;\)</span>Load Workspace</strong> (non-Linux only). One can also save <code>.RData</code> objects to a specific directory location and use a specific file name using: <strong>File<span class="math inline">\(&gt;\)</span>Save Workspace</strong>, or with flexible function <code><a href="https://rdrr.io/r/base/save.html">save()</a></code>.
+<strong>R</strong> data file formats, including .rda, and .RData, (extensions for <strong>R</strong> data files), and .R (the format for <strong>R</strong> scripts), can be read into <strong>R</strong> using the function <code><a href="https://rdrr.io/r/base/load.html">load()</a></code>. Users new to a command line environment will be reassured by typing:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.choose.html">file.choose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The function <code><a href="https://rdrr.io/r/base/file.choose.html">file.choose()</a></code> will allow one to browse interactively for files to load using dialog boxes. Detailed procedures for importing (reading) and exporting (saving) data with a row and column format, and an explicit delimiter (e.g. .csv files) are described in Ch <a href="ch3.html#ch3">3</a>.</p>
+</div>
+<div id="r-scripts" class="section level3" number="2.7.3">
+<h3>
+<span class="header-section-number">2.7.3</span> R Scripts<a class="anchor" aria-label="anchor" href="#r-scripts"><i class="fas fa-link"></i></a>
+</h3>
+<p>To save an <strong>R</strong> <em>script</em> as an executable source file, it is best to use an integrated development environment (IDE) compatible with <strong>R</strong>. <strong>R</strong> contains its own IDE, the <strong>R</strong>-editor, which is useful for writing, editing, and saving scripts as .r extension files. To access the <strong>R</strong>-editor go to <strong>File<span class="math inline">\(&gt;\)</span>New script</strong> (non-Linux only) or type the shortcut <kbd>Ctrl</kbd> + <kbd>F</kbd> + <kbd>N</kbd> (Fig <a href="ch2.html#fig:Reditor">2.3</a>). Code written in the <strong>R</strong> IDE can be sent directly to the <strong>R</strong>-console by copying and pasting or by selecting code and using the shortcut <kbd>Ctrl</kbd> + <kbd>R</kbd>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Reditor"></span>
+<img src="figs2/REditor.png" alt="The **R**-editor providing code for a famous computational exercise." width="70%"><p class="caption">
+Figure 2.3: The <strong>R</strong>-editor providing code for a famous computational exercise.
+</p>
+</div>
+<p>Aside from the <strong>R</strong>-editor, a number of other IDEs outside of allow straightforward generation of <strong>R</strong> script files, and a direct link between text editors, that provide syntax highlighting for <strong>R</strong> code, and the <strong>R</strong>-console itself. These include RWinEdt (an <strong>R</strong> package plugin for <a href="https://www.winedt.com/">WinEdt</a> ), <a href="http://www.sciviews.org/Tinn-R">Tinn-R</a>, a recursive acronym for Tinn is not Notepad, <a href="http://ess.r-project.org">ESS</a> (Emacs Speaks Statistics), <a href="https://jupyter.org/">Jupyter Notebook</a>, a web-based IDE originally designed for Python, but useful for many languages, and particularly <a href="http://rstudio.org">RStudio</a>, which will be introduced later in this chapter<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Other text editors with at least some IDE support for &lt;strong&gt;R&lt;/strong&gt; include, but are not limited to, NppToR in &lt;a href="http://sourceforge.net/projects/npptor"&gt;Notepad++&lt;/a&gt;, &lt;a href="http://bluefish.openoffice.nl/index.htm"&gt;Bluefish&lt;/a&gt;, &lt;a href="http://www.crimsoneditor.com/"&gt;Crimson Editor&lt;/a&gt;, &lt;a href="http://www.contexteditor.org/"&gt;ConTEXT&lt;/a&gt;, &lt;a href="http://www.eclipse.org/eclipse/"&gt;Eclipse&lt;/a&gt;, &lt;a href="http://www.vim.org/"&gt;Vim&lt;/a&gt;, &lt;a href="http://www.geany.org/"&gt;Geany&lt;/a&gt;, &lt;a href="http://www.jedit.org/"&gt;jEdit&lt;/a&gt;, &lt;a href="http://kate-editor.org/"&gt;Kate&lt;/a&gt;, &lt;a href="http://macromates.com/"&gt;TextMat&lt;/a&gt;, &lt;a href="http://projects.gnome.org/gedit/"&gt;gedit&lt;/a&gt;, and &lt;a href="http://www.scintilla.org/SciTE.html"&gt;SciTE&lt;/a&gt;.&lt;/p&gt;'><sup>22</sup></a>.</p>
+<p>Saved <strong>R</strong> scripts can be called and executed using the function <code><a href="https://rdrr.io/r/base/source.html">source()</a></code>. To browse interactively for source code files, one can type:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.choose.html">file.choose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>or go to <strong>File<span class="math inline">\(&gt;\)</span>Source R code</strong>.</p>
+</div>
+</div>
+<div id="basic-mathematics" class="section level2" number="2.8">
+<h2>
+<span class="header-section-number">2.8</span> Basic Mathematics<a class="anchor" aria-label="anchor" href="#basic-mathematics"><i class="fas fa-link"></i></a>
+</h2>
+<p>A large number of mathematical operators and functions are available with a conventional download of <strong>R</strong>.</p>
+<p>Elementary mathematical operators, common mathematical constants, trigonometric functions, derivative functions, integration approaches, and basic statistical functions are shown in shown in Tables <a href="ch2.html#tab:commath">2.3</a> - <a href="ch2.html#tab:confint">2.9</a>.</p>
+<div id="elementary-operations" class="section level3" number="2.8.1">
+<h3>
+<span class="header-section-number">2.8.1</span> Elementary Operations<a class="anchor" aria-label="anchor" href="#elementary-operations"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:commath">Table 2.3: </span>Elementary mathematical operators and functions in <strong>R</strong>. For all functions <code>x</code> represents a scalar or a numeric vector.</caption>
+<colgroup>
+<col width="20%">
+<col width="33%">
+<col width="28%">
+<col width="17%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>+</code></td>
+<td align="left">addition</td>
+<td align="left"><span class="math inline">\(2 + 2\)</span></td>
+<td align="left"><code>2 + 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>-</code></td>
+<td align="left">subtraction</td>
+<td align="left"><span class="math inline">\(2 - 2\)</span></td>
+<td align="left"><code>2 - 2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>*</code></td>
+<td align="left">multiplication</td>
+<td align="left"><span class="math inline">\(2 \times 2\)</span></td>
+<td align="left"><code>2 * 2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="left">division</td>
+<td align="left"><span class="math inline">\(\frac{2}{3}\)</span></td>
+<td align="left"><code>2/3</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>%%</code></td>
+<td align="left">modulo</td>
+<td align="left">remainder of <span class="math inline">\(\frac{5}{2}\)</span>
+</td>
+<td align="left"><code>5%%2</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>%/%</code></td>
+<td align="left">integer division</td>
+<td align="left">
+<span class="math inline">\(\frac{5}{2}\)</span> without remainder</td>
+<td align="left"><code>5%/%2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>^</code></td>
+<td align="left">exponentiation</td>
+<td align="left"><span class="math inline">\(2^3\)</span></td>
+<td align="left"><code>2^3</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>abs(x)</code></td>
+<td align="left"><span class="math inline">\(\mid x \mid\)</span></td>
+<td align="left"><span class="math inline">\(\mid -23.7 \mid\)</span></td>
+<td align="left"><code>abs(-23.7)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>round(x, digits = d)</code></td>
+<td align="left">round <span class="math inline">\(x\)</span> to <span class="math inline">\(d\)</span> digits</td>
+<td align="left">round <span class="math inline">\(-23.71\)</span> to 1 digit</td>
+<td align="left"><code>round(-23.71, 1)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>ceiling(x)</code></td>
+<td align="left">round <span class="math inline">\(x\)</span> up to closest whole num.</td>
+<td align="left">ceiling(2.3)</td>
+<td align="left"><code>ceiling(2.3)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>floor(x)</code></td>
+<td align="left">round <span class="math inline">\(x\)</span> down to closest whole num.</td>
+<td align="left">floor(2.3)</td>
+<td align="left"><code>floor(2.3)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sqrt(x)</code></td>
+<td align="left"><span class="math inline">\(\sqrt{x}\)</span></td>
+<td align="left"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td align="left"><code>sqrt(2)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>log(x)</code></td>
+<td align="left"><span class="math inline">\(\log_e{x}\)</span></td>
+<td align="left"><span class="math inline">\(\log_e{5}\)</span></td>
+<td align="left"><code>log(5)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>log(x, base = b)</code></td>
+<td align="left"><span class="math inline">\(\log_b{x}\)</span></td>
+<td align="left"><span class="math inline">\(\log_{10}{5}\)</span></td>
+<td align="left"><code>log(5, base = 10)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>factorial(x)</code></td>
+<td align="left"><span class="math inline">\(x!\)</span></td>
+<td align="left"><span class="math inline">\(5!\)</span></td>
+<td align="left"><code>factorial(5)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>gamma(x)</code></td>
+<td align="left"><span class="math inline">\(\Gamma(x)\)</span></td>
+<td align="left"><span class="math inline">\(\Gamma(3.2)\)</span></td>
+<td align="left"><code>gamma(3.2)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>choose(n,x)</code></td>
+<td align="left"><span class="math inline">\(\binom{n}{x}\)</span></td>
+<td align="left"><span class="math inline">\(\binom{5}{2}\)</span></td>
+<td align="left"><code>choose(5,2)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sum(x)</code></td>
+<td align="left"><span class="math inline">\(\sum_{i=1}^{n}x_i\)</span></td>
+<td align="left">sum of <code>x</code>
+</td>
+<td align="left"><code>sum(x)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cumsum(x)</code></td>
+<td align="left">cumulative sum</td>
+<td align="left">cum. sum of <code>x</code>
+</td>
+<td align="left"><code>cumsum(x)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>prod(x)</code></td>
+<td align="left"><span class="math inline">\(\prod_{i=1}^{n}x_i\)</span></td>
+<td align="left">product of <code>x</code>
+</td>
+<td align="left"><code>prod(x)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cumprod(x)</code></td>
+<td align="left">cumulative product</td>
+<td align="left">cum. prod. of <code>x</code>
+</td>
+<td align="left"><code>cumprod(x)</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="associativity-and-precedence" class="section level3" number="2.8.2">
+<h3>
+<span class="header-section-number">2.8.2</span> Associativity and Precedence<a class="anchor" aria-label="anchor" href="#associativity-and-precedence"><i class="fas fa-link"></i></a>
+</h3>
+<p>Note that the operation:</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="fl">6</span> <span class="op">*</span> <span class="fl">5</span></span></code></pre></div>
+<pre><code>[1] 32</code></pre>
+<p>is equivalent to <span class="math inline">\(2 + (6 \cdot 5) = 32\)</span>. This is because the <code>*</code> operator gets higher priority (precedence) than <code>+</code>. Evaluation precedence can be modified with parentheses:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">6</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span></span></code></pre></div>
+<pre><code>[1] 40</code></pre>
+<p>In the absence of operator <em>precedence</em>, mathematical operations in <strong>R</strong> are (generally) read from left to right (that is, their <em>associativity</em> is from left to right) (Table <a href="ch2.html#tab:prec">2.4</a>). This corresponds to the conventional order of operations in mathematics. For instance:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span><span class="op">^</span><span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 10</code></pre>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:prec">Table 2.4: </span>Precedence and associativity of mathematical operators. Operators are listed from highest to lowest precendece in operations.</caption>
+<thead><tr class="header">
+<th align="left">Precedent</th>
+<th align="left">Operator</th>
+<th align="left">Description</th>
+<th align="left">Associativity</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left"><code>^</code></td>
+<td align="left">exponent</td>
+<td align="left">right to left</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left"><code>%%</code></td>
+<td align="left">modulo</td>
+<td align="left">left to right</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">
+<code>*</code> <code>/</code>
+</td>
+<td align="left">multiplication, division</td>
+<td align="left">left to right</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">
+<code>+</code> <code>-</code>
+</td>
+<td align="left">addition, subtraction</td>
+<td align="left">left to right</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+</div>
+<div id="function-arguments" class="section level3" number="2.8.3">
+<h3>
+<span class="header-section-number">2.8.3</span> Function Arguments<a class="anchor" aria-label="anchor" href="#function-arguments"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> functions generally require a user to specify <em>arguments</em> (in parentheses) following the function name. For instance, <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt()</a></code> and <code><a href="https://rdrr.io/r/base/Special.html">factorial()</a></code> each require one argument, a call to data itself. Thus, to solve <span class="math inline">\(1/\sqrt{22!}\)</span>, I could type:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span><span class="op">(</span><span class="fl">22</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 2.9827e-11</code></pre>
+<p>To solve <span class="math inline">\(\Gamma \left( \sqrt[3]{23\pi} \right)\)</span>, I could type:</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Special.html">gamma</a></span><span class="op">(</span><span class="op">(</span><span class="fl">23</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 7.411</code></pre>
+<p>By default the function <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> computes natural logarithms, i.e.,</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<p>The <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> function can also compute logarithms to a particular base by specifying the base in an optional second argument called <code>base</code>. For instance, to solve the operation: <span class="math inline">\(\log_{10}3 + \log_{3}5\)</span>, one could type:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1.9421</code></pre>
+<p>Arguments can be specified by the order that they occur in the list of arguments in the function code, or by calling the argument by name. In the code above I know that the first argument in <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> is a call to data, and the second argument defines the base. I may not, however, remember the argument order in a function, or may wish to only change certain arguments from a large allotment. In this case it is better to specify an argument by calling its name and defining its value with an equals sign.</p>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span>, base <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1.9421</code></pre>
+<p></p>
+<!-- ### Custom Operators {#CustomOperators} -->
+<!-- \index{terms}{Functional programming} -->
+<!-- Importantly, one can use *functional programming* (see Section \@ref(FunctionalProgramming)) to create personalized operators using a `` `% operator name %` `` call to a customized **R** function (note the use of the accent grave character, `` ` ``). For instance, the custom operator,`` `% my.op %` `` below, squares the first number in the operation and adds this result to the square root of the second number in the operation. -->
+<!--  -->
+<!-- ```{r } -->
+<!-- `%my.op%` <- function(a,b){a^2 + sqrt(b)} -->
+<!-- 0 %my.op% 4 # 0^2 + sqrt(4) -->
+<!-- 2 %my.op% 3 # 2^2 + sqrt(3) -->
+<!-- ``` -->
+<!-- Functions are addressed in much greater detail in Ch \@ref(ch8). -->
+</div>
+<div id="constants" class="section level3" number="2.8.4">
+<h3>
+<span class="header-section-number">2.8.4</span> Constants<a class="anchor" aria-label="anchor" href="#constants"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> allows easy access to most conventional constants (Table <a href="ch2.html#tab:c">2.5</a>).
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:c">Table 2.5: </span>Conventional constants in <strong>R</strong>.</caption>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>-Inf</code></td>
+<td align="left"><span class="math inline">\(-\infty\)</span></td>
+<td align="left"><span class="math inline">\(-\infty\)</span></td>
+<td align="left"><code>-Inf</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>Inf</code></td>
+<td align="left"><span class="math inline">\(\infty\)</span></td>
+<td align="left"><span class="math inline">\(\infty\)</span></td>
+<td align="left"><code>Inf</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>pi</code></td>
+<td align="left"><span class="math inline">\(\pi = 3.141593 \dots\)</span></td>
+<td align="left"><span class="math inline">\(\pi\)</span></td>
+<td align="left"><code>pi</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>exp(1)</code></td>
+<td align="left"><span class="math inline">\(e = 2.718282 \dots\)</span></td>
+<td align="left"><span class="math inline">\(e\)</span></td>
+<td align="left"><code>exp(1)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>exp(x)</code></td>
+<td align="left"><span class="math inline">\(e^x\)</span></td>
+<td align="left"><span class="math inline">\(e^3\)</span></td>
+<td align="left"><code>exp(3)</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="trigonometry" class="section level3" number="2.8.5">
+<h3>
+<span class="header-section-number">2.8.5</span> Trigonometry<a class="anchor" aria-label="anchor" href="#trigonometry"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+<strong>R</strong> assumes that the inputs for trigonometric functions are in radians. Of course degrees can be obtained from
+radians using <span class="math inline">\(Degrees = Radians \times 180/\pi\)</span>, or conversely <span class="math inline">\(Radians = Degrees \times \pi /180\)</span> (Table <a href="ch2.html#tab:trigmath">2.6</a>).
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:trigmath">Table 2.6: </span>Trigonometric functions in <strong>R</strong>. For all functions <code>x</code> represents a scalar or a numeric vector.</caption>
+<colgroup>
+<col width="12%">
+<col width="22%">
+<col width="38%">
+<col width="25%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Operator</th>
+<th align="left">Operation</th>
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>cos(x)</code></td>
+<td align="left"><span class="math inline">\(\text{cos}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{cos}(3 \text{ rad.})\)</span></td>
+<td align="left"><code>cos(3)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>sin(x)</code></td>
+<td align="left"><span class="math inline">\(\text{sin}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{sin}(45^{\circ})\)</span></td>
+<td align="left"><code>sin(45 * pi/180)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>tan(x)</code></td>
+<td align="left"><span class="math inline">\(\text{tan}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{tan}(3 \text{ rad.})\)</span></td>
+<td align="left"><code>tan(3)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>acos(x)</code></td>
+<td align="left"><span class="math inline">\(\text{acos}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{acos}(45^{\circ})\)</span></td>
+<td align="left"><code>acos(45 * pi/180)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>asin(x)</code></td>
+<td align="left"><span class="math inline">\(\text{asin}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{asin}(3 \text{ rad.})\)</span></td>
+<td align="left"><code>asin(3)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>atan(x)</code></td>
+<td align="left"><span class="math inline">\(\text{atan}(x)\)</span></td>
+<td align="left"><span class="math inline">\(\text{atan}(45^{\circ})\)</span></td>
+<td align="left"><code>atan(45 * pi/180)</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="derivatives" class="section level3" number="2.8.6">
+<h3>
+<span class="header-section-number">2.8.6</span> Derivatives<a class="anchor" aria-label="anchor" href="#derivatives"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> finds symbolic and numerical derivatives of simple expressions. It requires two arguments, a mathematical function specified as an expression (i.e., an object of class and base type <code>expression</code>, created using the function <code><a href="https://rdrr.io/r/base/expression.html">expression()</a></code>, that can be evaluated with the function <code><a href="https://rdrr.io/r/base/eval.html">eval()</a></code>), and the denominator in the difference quotient. Here is an example of how functions <code>expression</code> and <code><a href="https://rdrr.io/r/base/eval.html">eval()</a></code> are used:</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/eval.html">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>Of course we wouldn’t bother to use <code><a href="https://rdrr.io/r/base/expression.html">expression()</a></code> and <code><a href="https://rdrr.io/r/base/eval.html">eval()</a></code> in such simple applications. Table <a href="ch2.html#tab:Dmath">2.7</a> contains specific examples using <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>.
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Dmath">Table 2.7: </span>Evaluation of derivatives in <strong>R</strong>.</caption>
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">To find:</th>
+<th align="left">We type:</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\frac{d}{dx}5x\)</span></td>
+<td align="left"><code>D(expression(5 * x), "x")</code></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\frac{d^2}{dx^2} 5x^2\)</span></td>
+<td align="left"><code>D(D(expression(5 * x^2), "x"), "x")</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\frac{\partial}{\partial x} 5xy + y\)</span></td>
+<td align="left"><code>D(expression(5 * x * y + y), "x")</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="integration" class="section level3" number="2.8.7">
+<h3>
+<span class="header-section-number">2.8.7</span> Integration<a class="anchor" aria-label="anchor" href="#integration"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code>integrate</code> solves definite integrals. It requires three arguments. The first is an <strong>R</strong> function defining the integrand. The second and third are the lower and upper bounds of integration.</p>
+<div class="example">
+<p><span id="exm:exm-2I1" class="example"><strong>Example 2.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+To solve:
+<span class="math display">\[\int^4_2 3x^2dx\]</span>
+we could type:</p>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fl">3</span> <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/integrate.html">integrate</a></span><span class="op">(</span><span class="va">f</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>56 with absolute error &lt; 6.2e-13</code></pre>
+</div>
+<p><strong>R</strong> functions are explicitly addressed in Ch <a href="ch8.html#ch8">8</a>.
+### Statistics
+<strong>R</strong>, of course, contains a huge number of statistical functions. These will generally require sample data for summarization. Data can be brought into <strong>R</strong> from spreadsheet files or other data storage files (we will learn how to do this shortly). As we have learned, data can also be assembled in <strong>R</strong>. For instance,</p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Statistical estimators can be separated into <em>point estimators</em>, which estimate an underlying parameter that has a single true value (from a Frequentist viewpoint), and <em>intervallic estimators</em>, which estimate the bounds of an interval that is expected, preceding sampling, to contain a parameter at some probability <span class="citation">(<a href="references.html#ref-aho2014">Aho 2014</a>)</span>. Point estimators can be further classified as estimators of location, scale, shape, and order statistics (Table <a href="ch2.html#tab:statmath">2.8</a>). Measures of <em>location</em> estimate the typical or central value from a sample. Examples include the arithmetic mean and the sample median. Measures of <em>scale</em> quantify data variability or dispersion. Examples include the sample standard deviation and the sample interquartile range (IQR). <em>Shape estimators</em> describe the shape (i.e., symmetry and peakedness) of a data distribution. Examples include the sample skewness and sample kurtosis. Finally, the <span class="math inline">\(k\)</span>th order statistic of a sample is equal to its <span class="math inline">\(k\)</span>th-smallest value. Examples include the data minimum, the data maximum, and other quantiles (including the median). Intervallic estimators include confidence intervals (Table <a href="ch2.html#tab:confint">2.9</a>). A huge number of other statistical estimating, modelling, and hypothesis testing algorithms are also available for the <strong>R</strong> environment. For guidance, see <span class="citation">Venables and Ripley (<a href="references.html#ref-venables2002">2002</a>)</span>, <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span>, and <span class="citation">Fox and Weisberg (<a href="references.html#ref-fox2019">2019</a>)</span>, among others.</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<caption>
+<span id="tab:statmath">Table 2.8: </span>Simple point estimators in <strong>R</strong>. The term <code>x</code> represents a numeric data vector, and <code>y</code> represents a numeric data vector whose
+elements are paired with those in <code>x</code>. The cipher <code>asbio::</code> indicates that the function is located in the package <em>asbio</em>.</caption>
+<colgroup>
+<col width="20%">
+<col width="15%">
+<col width="41%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Function</th>
+<th align="left">Acronym</th>
+<th align="left">Description</th>
+<th align="left">Estimator type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>mean(x)</code></td>
+<td align="left"><span class="math inline">\(\bar{x}\)</span></td>
+<td align="left">arithmetic mean of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">location</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mean(x, trim = t)</code></td>
+<td align="left"></td>
+<td align="left">trimmed mean of <span class="math inline">\(x\)</span> for <span class="math inline">\(0 \leq t \leq 1\)</span>.</td>
+<td align="left">location</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>asbio::G.mean(x)</code></td>
+<td align="left"><span class="math inline">\(GM\)</span></td>
+<td align="left">geometric mean of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">location</td>
+</tr>
+<tr class="even">
+<td align="left"><code>asbio::H.mean(x)</code></td>
+<td align="left"><span class="math inline">\(HM\)</span></td>
+<td align="left">harmonic mean of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">location</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>median(x)</code></td>
+<td align="left"><span class="math inline">\(\tilde{x}\)</span></td>
+<td align="left">median of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">location order statistic</td>
+</tr>
+<tr class="even">
+<td align="left"><code>asbio::Mode(x)</code></td>
+<td align="left"><span class="math inline">\(mode(x)\)</span></td>
+<td align="left">mode of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">location</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sd(x)</code></td>
+<td align="left"><span class="math inline">\(s\)</span></td>
+<td align="left">standard deviation of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">scale</td>
+</tr>
+<tr class="even">
+<td align="left"><code>var(x)</code></td>
+<td align="left"><span class="math inline">\(s^2\)</span></td>
+<td align="left">variance of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">scale</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cov(x, y)</code></td>
+<td align="left"><span class="math inline">\(cov(x,y)\)</span></td>
+<td align="left">covariance of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>
+</td>
+<td align="left">scale</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cor(x, y)</code></td>
+<td align="left"><span class="math inline">\(r_{x,y}\)</span></td>
+<td align="left">Pearson correlation of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>
+</td>
+<td align="left">scale</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>IQR(x)</code></td>
+<td align="left"><span class="math inline">\(IQR\)</span></td>
+<td align="left">interquartile range of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">scale order statistic</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mad(x)</code></td>
+<td align="left"><span class="math inline">\(MAD\)</span></td>
+<td align="left">median absolute deviation of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">scale</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>asbio::skew(x)</code></td>
+<td align="left"><span class="math inline">\(g_1\)</span></td>
+<td align="left">skew of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">shape</td>
+</tr>
+<tr class="even">
+<td align="left"><code>asbio::kurt(x)</code></td>
+<td align="left"><span class="math inline">\(g_2\)</span></td>
+<td align="left">kurtosis of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">shape</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>min(x)</code></td>
+<td align="left"><span class="math inline">\(min(x)\)</span></td>
+<td align="left">min of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">order statistic</td>
+</tr>
+<tr class="even">
+<td align="left"><code>max(x)</code></td>
+<td align="left"><span class="math inline">\(max(x)\)</span></td>
+<td align="left">max of <span class="math inline">\(x\)</span>
+</td>
+<td align="left">order statistic</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>quantile(x, prob = p)</code></td>
+<td align="left"><span class="math inline">\(\hat{F}^{-1}(p)\)</span></td>
+<td align="left">quantile of <span class="math inline">\(x\)</span> at lower-tailed probability <span class="math inline">\(p\)</span>
+</td>
+<td align="left">order statistic</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:confint">Table 2.9: </span>Some intervallic estimators in <strong>R</strong>. The term <code>x</code> represents a numeric vector. The cipher <code>asbio::</code> indicates that the function is located in the package <em>asbio</em>
+</caption>
+<colgroup>
+<col width="36%">
+<col width="63%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>asbio::ci.mu.z(x, conf, sigma)</code></td>
+<td align="left">Conf. int. for <span class="math inline">\(\mu\)</span> at level <code>conf</code>. True SD = <code>sigma</code>.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>asbio::ci.mu.t(x, conf)</code></td>
+<td align="left">Conf. int. for <span class="math inline">\(\mu\)</span> at level <code>conf</code>. <span class="math inline">\(\sigma\)</span> unknown.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>asbio::ci.median(x, conf)</code></td>
+<td align="left">Conf. int. for true median at level <code>conf</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div id="RStudio" class="section level2" number="2.9">
+<h2>
+<span class="header-section-number">2.9</span> RStudio<a class="anchor" aria-label="anchor" href="#RStudio"><i class="fas fa-link"></i></a>
+</h2>
+<p><em>RStudio</em> is an open source IDE for <strong>R</strong> (Fig <a href="ch2.html#fig:Rstudio1">2.4</a>). RStudio greatly facilitates writing <strong>R</strong> code, saving and examining <strong>R</strong> objects and history, and many other processes. These include, but are not limited to, documenting session workflows, writing <strong>R</strong> package documentation, calling and receiving code from other languages, and even developing web-based graphical user interfaces. RStudio can currently be downloaded at (<a href="https://posit.co/products/open-source/rstudio/" class="uri">https://posit.co/products/open-source/rstudio/</a>). Like <strong>R</strong> itself, RStudio can be used with Windows, Mac, and Unix/Linux operating systems, RStudio has both freeware and commercial versions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;On 7/27/2022 RStudio announced it was shifting to a new name, &lt;a href="https://posit.co/products/open-source/rstudio/%5Cindex"&gt;Posit&lt;/a&gt;, to acknowledge its growth beyond a simple IDE for &lt;strong&gt;R&lt;/strong&gt;. The RStudio name will be retained for RStudio Desktop, and the RStudio Server, but it will be changed for other applications including the RStudio Workbench (now Posit Workbench) and the RStudio Package Manager (now Posit Package Manager).&lt;/p&gt;'><sup>23</sup></a>. We will use the former here.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Rstudio1"></span>
+<img src="figs2/Rstudio.png" alt="The RStudio logo." width="50%"><p class="caption">
+Figure 2.4: The RStudio logo.
+</p>
+</div>
+<p>RStudio is generally implemented using a four pane workspace (Fig <a href="ch2.html#fig:Rstudio2">2.5</a>). These are: 1) the code editor, 2) the <strong>R</strong>-console, 3) the environment and histories panel, and 4) the plots and other miscellany panel.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Rstudio2"></span>
+<img src="figs2/rstudio_summary.png" alt="Interfaces for RStudio 2023.06.2 Build 561." width="90%"><p class="caption">
+Figure 2.5: Interfaces for RStudio 2023.06.2 Build 561.
+</p>
+</div>
+<ul>
+<li><p>The RStudio code editor panel (Fig <a href="ch2.html#fig:Rstudio2">2.5</a>, Panel 1) allows you to create <strong>R</strong> scripts and scripts for other languages that can be called to and from <strong>R</strong>. The code panel can also be used to create and edit session documentation files (see Section <a href="ch2.html#workflow">2.9.2</a> below) and other important <strong>R</strong> file types. A new <strong>R</strong> script can be created for editing within the code editor by going to <strong>File<span class="math inline">\(&gt;\)</span>New<span class="math inline">\(&gt;\)</span>R Script</strong>. Commands from an <strong>R</strong> script can be sent to the <strong>R</strong> console using the shortcut <kbd>Ctrl</kbd> + <kbd>Enter</kbd> (Windows and Linux) or <kbd>Cmd</kbd> + <kbd>Enter</kbd> (Mac).</p></li>
+<li><p>The <strong>R</strong> console panel (Fig <a href="ch2.html#fig:Rstudio2">2.5</a>, Panel 2) by default, is identical in functionality to the <strong>R</strong> console of the most recent version of <strong>R</strong> on your workstation (assuming that all of the paths and environments are set up correctly on your computer). Thus, the console panel can be used directly for typing and executing <strong>R</strong> code, or for receiving commands from the code editor (Panel 1).</p></li>
+<li><p>The environments and history panel (Fig <a href="ch2.html#fig:Rstudio2">2.5</a>, Panel 3) can be used to: 1) show a list of <strong>R</strong> objects available in your <strong>R</strong> session (the <strong>Environment</strong> tab), or 2) show, search, and select from the <em>history</em> of all previous commands (<strong>History</strong> tab). This panel also provides an interface for point and click import of data files including .csv, .xls, and many other file formats (<strong>Import Dataset</strong> pulldown within the <strong>Environment</strong> tab).</p></li>
+<li><p>The plots and files panel (Fig <a href="ch2.html#fig:Rstudio2">2.5</a>, Panel 4) can be used to show: 1) files in the working directory, 2) a scrollable history of plots and image files, and 3) a list of available packages (via the <strong>Packages</strong> tab), with facilities for <em>updating</em> and <em>installing</em> packages. If a package is in the GUI list, then the package is currently <em>loaded</em>. Packages and their installation, updating, and loading are formally introduced in Section <a href="ch3.html#package">3.5</a>. The panel’s <strong>Files</strong> pulldown tab allows straightforward establishment of working directories (although this can still be done at the command line using <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>) (Fig <a href="ch2.html#fig:RstudioMenu1">2.7</a>). The panel’s <strong>Help</strong> tap opens automatically when uses <code>?</code> or <code>help</code> for particular <strong>R</strong> topics (Section <a href="ch2.html#help">2.4</a>).</p></li>
+</ul>
+<div class="blackbox">
+<div class="center">
+<p><strong>CAUTION!</strong></p>
+</div>
+<p>Be very careful when managing files in the plots and files panel, as you can permanently delete files without (currently) the possibility of recovery from a Recycling Bin.</p>
+</div>
+<div id="rstudio-project" class="section level3" number="2.9.1">
+<h3>
+<span class="header-section-number">2.9.1</span> RStudio Project<a class="anchor" aria-label="anchor" href="#rstudio-project"><i class="fas fa-link"></i></a>
+</h3>
+<p>An RStudio <em>project</em> can be be created via the <strong>File</strong> pulldown menu (Fig <a href="ch2.html#fig:RstudioMenu1">2.7</a>). A project allows all related files (data, figures, summaries, etc.) to be easily organized together by setting the working directory to be the location of the project .Rproj file.
+</p>
+</div>
+<div id="workflow" class="section level3" number="2.9.2">
+<h3>
+<span class="header-section-number">2.9.2</span> Workflow Documentation<a class="anchor" aria-label="anchor" href="#workflow"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can document workflow and simultaneously run/test <strong>R</strong> session code by either:</p>
+<ol style="list-style-type: decimal">
+<li>Creating an <strong>R</strong> Markdown<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Markup languages codify the structure and formatting of a document and generally, the relationships among its components including headings, paragraphs, and hyperlinks &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikimarkup"&gt;Wikipedia 2025&lt;/a&gt;)&lt;/span&gt;. Markup typically refers to &lt;em&gt;procedural&lt;/em&gt; or &lt;em&gt;descriptive&lt;/em&gt; languages in which users create code files, with text and semantic tags that will not resemble the final output, as this will requires code compilation. Examples include troff, TeX (which underlies LaTeX documents), Markdown, HTML, and XML. HyperText Markup Language (HTML) is the standard markup language for documents designed for web browser display. &lt;a href="https://en.wikipedia.org/wiki/Markdown"&gt;Markdown&lt;/a&gt; is a highly flexible markup language for creating formatted text using a plain-text editor. &lt;strong&gt;R&lt;/strong&gt; Markdown extends Markdown by allowing users to embed code chunks (from &lt;strong&gt;R&lt;/strong&gt; and other languages) that can be be evaluated and printed during compilation of final output.&lt;/p&gt;'><sup>24</sup></a> .rmd file that can be compiled to make an .html, .pdf, or MS Word<span class="math inline">\(^{\circledR}\)</span> .doc document, or</li>
+<li>Using <em>sweave</em>, an approach that implements the LaTeX<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.latex-project.org/"&gt;LaTeX&lt;/a&gt; – pronounced &lt;em&gt;lay-tek&lt;/em&gt; or &lt;em&gt;luh-tek&lt;/em&gt;, depending on who you ask– is an open source, high-quality scientific typesetting system. The &lt;strong&gt;R&lt;/strong&gt; packages &lt;em&gt;sweave&lt;/em&gt; and &lt;em&gt;knitr&lt;/em&gt; extend LaTeX markup text and formatting, by allowing users to embed &lt;strong&gt;R&lt;/strong&gt; code chunks that can be evaluated and printed during compilation of PDF output.&lt;/p&gt;'><sup>25</sup></a> document preparation system.<br>
+</li>
+</ol>
+<div id="RMarkdown" class="section level4" number="2.9.2.1">
+<h4>
+<span class="header-section-number">2.9.2.1</span> R Markdown<a class="anchor" aria-label="anchor" href="#RMarkdown"><i class="fas fa-link"></i></a>
+</h4>
+<p>The <strong>R</strong> Markdown document processing workflow in RStudio is shown Fig <a href="ch2.html#fig:RMarkdown">2.6</a>. These steps are highly modifiable, but can also be run in a more or less automated manner, requiring little understanding of underlying processes.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:RMarkdown"></span>
+<img src="figs2/Markdown_process.png" alt="The process of document creation in **R** Markdown. Functions in the package *rmarkdown* control conversion of .rmd files to Markdown .md files, using utilities in the package *knitr*. Pandoc first creates a .tex file when rendering LaTeX PDF documents." width="95%"><p class="caption">
+Figure 2.6: The process of document creation in <strong>R</strong> Markdown. Functions in the package <em>rmarkdown</em> control conversion of .rmd files to Markdown .md files, using utilities in the package <em>knitr</em>. Pandoc first creates a .tex file when rendering LaTeX PDF documents.
+</p>
+</div>
+<p>Use of <strong>R</strong> Markdown and .rmd files requires the package <em>rmarkdown</em> <span class="citation">(<a href="references.html#ref-allaire">Allaire et al. 2024</a>)</span>, which comes pre-installed in RStudio.</p>
+<p>As an initial step, all underlying .rmd files must include a brief YAML<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;YAML is a data serialization language. The YAML acronym was originally intended to mean “Yet Another Markdown Language,” but more recently has been given the recursive acronym: “YAML Ain’t Markup Language.” &lt;strong&gt;R&lt;/strong&gt; Markdown uses the YAML format header to communicate with Pandoc, a document converter, written in the Haskell language, embedded in RStudio, to create the desired document output.&lt;/p&gt;"><sup>26</sup></a> header (see below) containing document metadata. The remainder of the .rmd document will contain text written in Markdown syntax, and code chunks. The <code>knit()</code> function from package <em>knitr</em> <span class="citation">Xie (<a href="references.html#ref-xie2015md">2015</a>)</span>, also installed with RStudio, executes all evaluable code within chunks, and formats the code and output for processing within <a href="https://en.wikipedia.org/wiki/Pandoc">Pandoc</a>, a program for converting markup files from one language to another<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Pandoc can convert Markdown .md files, into many formats including, .rtf, .doc, and .pdf&lt;/p&gt;"><sup>27</sup></a>. Pandoc uses the YAML header to guide this conversion. As an example, if one has requested HTML output, the simple Markdown text: <code>This is a script</code> will be converted to the HTML formatted: <code>&lt;p&gt;This is a script&lt;/p&gt;</code>. One can also write HTML script or CSS code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;&lt;em&gt;Cascading Style Sheets&lt;/em&gt; (CSS) is a language for styling output for files written in markup languages including HTML and Extensible Markup Language (XML).&lt;/p&gt;"><sup>28</sup></a> directly into an .rmd document (see Section <a href="ch11.html#shiny">11.5</a>).
+If the desired output is PDF, Pandoc will convert the .md file into a temporary an intermediate .tex file, which is then processed by the LaTex typesetting system. Support for LaTeX can be found at its official <a href="https://www.latex-project.org/">website</a>, and at a large number of informal user-driven venues, including <a href="https://tex.stackexchange.com">Stack Exchange</a> and <a href="https://www.overleaf.com/">Overleaf</a>, an online LaTeX application. LaTeX will compile the .tex file into a .pdf file. In this process, the <em>tinytex</em> package <span class="citation">(<a href="references.html#ref-xie2024tiny">Xie 2024</a>)</span>, which installs the stripped-down LaTeX distribution <a href="https://yihui.org/tinytex/">TinyTex</a>, can be used.
+</p>
+<p>Creating an <strong>R</strong> Markdown document is simple in RStudio. We first open an empty .rmd document by navigating to <strong>File <span class="math inline">\(&gt;\)</span></strong> <strong>New File <span class="math inline">\(&gt;\)</span>R Markdown</strong> (Fig <a href="ch2.html#fig:RstudioMenu1">2.7</a>).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:RstudioMenu1"></span>
+<img src="figs2/menu1_1.png" alt="Part of the RStudio **File** pulldown menu." width="70%"><p class="caption">
+Figure 2.7: Part of the RStudio <strong>File</strong> pulldown menu.
+</p>
+</div>
+<p>You will delivered to the GUI shown in Fig <a href="ch2.html#fig:RstudioMenu2">2.8</a>. Note that by default Markdown compilation generates an HTML document.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:RstudioMenu2"></span>
+<img src="figs2/menu2_11.png" alt="RStudio GUI for creating an **R** Markdown document." width="70%"><p class="caption">
+Figure 2.8: RStudio GUI for creating an <strong>R</strong> Markdown document.
+</p>
+</div>
+<p>The GUI opens a <strong>R</strong> Markdown (.rmd) skeleton document with a tentative YAML header.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:YAML"></span>
+<img src="figs2/YAML1.png" alt="YAML header to an **R** Markdown (.rmd) skeleton document." width="30%"><p class="caption">
+Figure 2.9: YAML header to an <strong>R</strong> Markdown (.rmd) skeleton document.
+</p>
+</div>
+<p>The HTML output can be changed to one of:</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span> <span class="va">pdf_document</span></span></code></pre></div>
+<p>to create a LaTex <span class="math inline">\(\rightarrow\)</span> PDF, or</p>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span> <span class="va">word_document</span></span></code></pre></div>
+<p>to create a Word<span class="math inline">\(^{\circledR}\)</span> document<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Many other &lt;em&gt;rmarkdown&lt;/em&gt; output types are possible including: &lt;code&gt;html_vignette&lt;/code&gt;, which provides vignette formatting appropriate for inclusion in &lt;strong&gt;R&lt;/strong&gt; packages, &lt;code&gt;ioslides_presentation&lt;/code&gt;, &lt;code&gt;slidy_presentation&lt;/code&gt;, for an HTML-styled slideshow layout, &lt;code&gt;beamer_presentation&lt;/code&gt;, for a PDF slideshow using LaTex &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; &lt;a href="https://ctan.org/pkg/beamer?lang=en"&gt;Beamer&lt;/a&gt; formatting, and &lt;code&gt;powerpoint_presentation&lt;/code&gt; for a MS Powerpoint&lt;span class="math inline"&gt;\(^{\circledR}\)&lt;/span&gt; slideshow.&lt;/p&gt;'><sup>29</sup></a>.
+</p>
+<p>The <em>knitr</em> package facilitates report building in both HTML and LaTeX <span class="math inline">\(\rightarrow\)</span> PDF formats, within the framework of <em>rmarkdown</em> (Fig <a href="ch2.html#fig:RMarkdown">2.6</a>). Under <em>knitr</em>, <strong>R</strong> Markdown lines beginning <code>```{r }</code> and ending <code>```</code> delimit an <strong>R</strong> code “chunk” to be potentially run in the <strong>R</strong> environment. The chunk header, <code>```{r }</code>, can contain additional options. For a complete list of chunk options, run</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>
+Code chunks can be generated by going to <strong>Code<span class="math inline">\(&gt;\)</span>Insert Chunk</strong> or by using the RStudio shortcut <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>I</kbd> (Windows and Linux) or <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>I</kbd> (Mac). <strong>R</strong> code can also be invoked inline in a <strong>R</strong> Markdown document using the format:</p>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">`r some code`</span></span></code></pre></div>
+<p>For instance, I could seamlessly place three random numbers generated from a the continuous uniform distribution, <span class="math inline">\(f(x) = UNIF(0,1)\)</span>, inline into text using:</p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">`r runif(3)`</span></span></code></pre></div>
+<p>Here I run an iteration using “hidden” inline <strong>R</strong> code: 0.05143, 0.27118, 0.48557.</p>
+<p>In Markdown, pound signs (e.g., <code>#</code>, <code>##</code>, <code>###</code>) can be used as (increasingly nested) hierarchical section delimiters. Italic, bold, and monospace code fonts can be specified by enclosing text in asterisks, double asterisks, and back ticks, respectively. That is: *italic*, and **bold** result in: <em>italic</em> and <strong>bold</strong>. A brief introduction to <strong>R</strong> Markdown can be found at: <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>. A thorough description of <strong>R</strong> Markdown is given in <span class="citation">Xie, Allaire, and Grolemund (<a href="references.html#ref-xie2018r">2018</a>)</span> and <span class="citation">Xie, Dervieux, and Riederer (<a href="references.html#ref-xie2020">2020</a>)</span>. The latter text is currently available as an <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">online resource</a>.</p>
+<p>Inline equations for both Markdown and Sweave (discussed below) can be specified under the LaTeX system, which uses dollar signs, <code>$</code>, to delimit equations. For instance, to obtain the inline equation: <span class="math inline">\(P(\theta|y) = \frac{P(y|\theta)P(\theta)}{P(y)}\)</span>, i.e., Bayes theorem, I could type the LaTeX script:</p>
+<p><code>$(\theta|y) = \frac{P(y|\theta)P(\theta)}{P(y)}$</code></p>
+<p>A cheatsheet for LaTeX equation writing can be found <a href="https://quickref.me/latex">here</a>.</p>
+<p>The <strong>R</strong> Markdown (.rmd) skeleton file has example documentation text, interspersed with example <strong>R</strong> code in chunks. These been have been modified below to create a simple summary document for the dataset <code>Loblolly</code> from the package <em>datasets</em> (Fig <a href="ch2.html#fig:RStudiolob1">2.10</a>), which describes growth characteristics of loblolly pine trees (<em>Pinus taeda</em>).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:RStudiolob1"></span>
+<img src="figs2/loblollyCode1.png" alt="An **R** Markdown (.rmd) file with documentation text and interspersed **R** code in chunks." width="80%"><p class="caption">
+Figure 2.10: An <strong>R</strong> Markdown (.rmd) file with documentation text and interspersed <strong>R</strong> code in chunks.
+</p>
+</div>
+<p>Note the use of <code>echo = FALSE</code> in the final chunk to suppress printing of <strong>R</strong> code. A snapshot of the knitted HTML is shown in Fig <a href="ch2.html#fig:RStudiolob2">2.11</a>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:RStudiolob2"></span>
+<img src="figs2/loblolly1.png" alt="An HTML document knit from Markdown code in the previous figure. Note that  code is displayed (by default) as well as executed." width="80%"><p class="caption">
+Figure 2.11: An HTML document knit from Markdown code in the previous figure. Note that code is displayed (by default) as well as executed.
+</p>
+</div>
+<p>I generally use the function <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> to create <strong>R</strong> Markdown <span class="math inline">\(\rightarrow\)</span> Pandoc <span class="math inline">\(\rightarrow\)</span> HTML tables because it is relatively simple to use. The code below was used to create Table <a href="ch2.html#tab:lobtab">2.10</a>.</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:lobtab">Table 2.10: </span>Loblolly pine data</caption>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">height</th>
+<th align="right">age</th>
+<th align="left">Seed</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">4.51</td>
+<td align="right">3</td>
+<td align="left">301</td>
+</tr>
+<tr class="even">
+<td align="left">15</td>
+<td align="right">10.89</td>
+<td align="right">5</td>
+<td align="left">301</td>
+</tr>
+<tr class="odd">
+<td align="left">29</td>
+<td align="right">28.72</td>
+<td align="right">10</td>
+<td align="left">301</td>
+</tr>
+<tr class="even">
+<td align="left">43</td>
+<td align="right">41.74</td>
+<td align="right">15</td>
+<td align="left">301</td>
+</tr>
+<tr class="odd">
+<td align="left">57</td>
+<td align="right">52.70</td>
+<td align="right">20</td>
+<td align="left">301</td>
+</tr>
+<tr class="even">
+<td align="left">71</td>
+<td align="right">60.92</td>
+<td align="right">25</td>
+<td align="left">301</td>
+</tr>
+</tbody>
+</table></div>
+<p>I often use functions in the package <em>xtable</em> to build <strong>R</strong> Markdown <span class="math inline">\(\rightarrow\)</span> Pandoc <span class="math inline">\(\rightarrow\)</span> LaTeX <span class="math inline">\(\rightarrow\)</span> PDF tables. Under this approach, one could create Table <a href="ch2.html#tab:lobtab">2.10</a> using:</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">xtable</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xtable/man/xtable.html">xtable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>
+This method would also require that one use the command <code>results = 'asis'</code> in the chunk options. One can even call for different table approaches on the fly. For instance, I could use the command <code>eval = knitr::is_html_output())</code>, in the options of a Markdown chunk when using table code that optimizes HTML formatting, and use <code>eval = knitr::is_latex_output())</code> to create a table that optimizes LaTeX formatting.
+Aside from <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> and <em>xtable</em>, there are many other <strong>R</strong> functions and packages that can be used to create <strong>R</strong> Markdown tables, particularly for HTML output. These include:</p>
+<ul>
+<li>The <em>kableExtra</em> <span class="citation">(<a href="references.html#ref-zhu2022">Zhu et al. 2022</a>)</span> package extends <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> by including styles for fonts, features for specific rows, columns, and cells, and straightforward merging and grouping of rows and/or columns. Most <em>kableExtra</em> features extend to both HTML and PDF formats.</li>
+<li>
+<em>DT</em> <span class="citation">(<a href="references.html#ref-xieDT">Xie, Cheng, and Tan 2024</a>)</span>, a wrapper for HTML tables that uses the JavaScript (see Section <a href="ch11.html#JS">11.3</a>) library <em>DataTables</em>. Among other features, <em>DT</em> allows straightforward implementation in interactive Shiny apps (Section <a href="ch11.html#shiny">11.5</a>).</li>
+<li>Like <em>DT</em>, the <em>reactable</em> package <span class="citation">(<a href="references.html#ref-lin2023">Lin 2023</a>)</span> creates flexible, interactive HTML embedded tables. As with <em>DT</em>, <em>reactable</em> tables add complications when those interactives are considered as conventional tables in <strong>R</strong> markdown, with captions and referable labels.</li>
+</ul>
+<p><span class="citation">Xie, Dervieux, and Riederer (<a href="references.html#ref-xie2020">2020</a>)</span> discuss several other alternatives.
+</p>
+<p>
+</p>
+<p>Below I use the function <code><a href="https://glin.github.io/reactable/reference/reactable.html">reactable()</a></code> from the <em>reactable</em> package to create a table with sortable columns and scrollable rows (Table <a href="ch2.html#tab:reactable">2.11</a>).</p>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("reactable")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glin.github.io/reactable/">reactable</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://glin.github.io/reactable/reference/reactable.html">reactable</a></span><span class="op">(</span><span class="va">Loblolly</span>, pagination <span class="op">=</span> <span class="cn">FALSE</span>, highlight <span class="op">=</span> <span class="cn">TRUE</span>, height <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:reactable">Table 2.11: </span>Interactive table for the <code>Loblolly</code> dataframe generated using <code><a href="https://glin.github.io/reactable/reference/reactable.html">reactable::reactable()</a></code>.</caption>
+<tbody></tbody>
+</table></div>
+<div id="htmlwidget-b8360e48a2e2c35bfdab" class="reactable html-widget" style="width:auto;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-b8360e48a2e2c35bfdab">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["1","15","29","43","57","71","2","16","30","44","58","72","3","17","31","45","59","73","4","18","32","46","60","74","5","19","33","47","61","75","6","20","34","48","62","76","7","21","35","49","63","77","8","22","36","50","64","78","9","23","37","51","65","79","10","24","38","52","66","80","11","25","39","53","67","81","12","26","40","54","68","82","13","27","41","55","69","83","14","28","42","56","70","84"],"height":[4.51,10.89,28.72,41.74,52.7,60.92,4.55,10.92,29.07,42.83,53.88,63.39,4.79,11.37,30.21,44.4,55.82,64.1,3.91,9.48,25.66,39.07,50.78,59.07,4.81,11.2,28.66,41.66,53.31,63.05,3.88,9.4,25.99,39.55,51.46,59.64,4.32,10.43,27.16,40.85,51.33,60.07,4.57,10.57,27.9,41.13,52.43,60.69,3.77,9.03,25.45,38.98,49.76,60.28,4.33,10.79,28.97,42.44,53.17,61.62,4.38,10.48,27.93,40.2,50.06,58.49,4.12,9.92,26.54,37.82,48.43,56.81,3.93,9.34,26.08,37.79,48.31,56.43,3.46,9.05,25.85,39.15,49.12,59.49],"age":[3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25,3,5,10,15,20,25],"Seed":["301","301","301","301","301","301","303","303","303","303","303","303","305","305","305","305","305","305","307","307","307","307","307","307","309","309","309","309","309","309","311","311","311","311","311","311","315","315","315","315","315","315","319","319","319","319","319","319","321","321","321","321","321","321","323","323","323","323","323","323","325","325","325","325","325","325","327","327","327","327","327","327","329","329","329","329","329","329","331","331","331","331","331","331"]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"height","name":"height","type":"numeric"},{"id":"age","name":"age","type":"numeric"},{"id":"Seed","name":"Seed","type":["ordered","factor"]}],"pagination":false,"highlight":true,"height":"250px","dataKey":"9e27d142f62375b8b2c4be2aa922b939"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script><div id="bookdown" class="section level5" number="2.9.2.1.1">
+<h5>
+<span class="header-section-number">2.9.2.1.1</span> Bookdown<a class="anchor" aria-label="anchor" href="#bookdown"><i class="fas fa-link"></i></a>
+</h5>
+<p>
+A large number of useful auxiliary features are available for <strong>R</strong> Markdown, through the <strong>R</strong> package <em>bookdown</em> (<span class="citation">Xie (<a href="references.html#ref-xie2023">2023</a>)</span>). These include an extended capacity for figure, table, and section numbering and referencing. To use <em>bookdown</em> we must modify the <code>output:</code> designation in the YAML header to have a <em>bookdown</em>-specific output. For instance,</p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span> <span class="fu">bookdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/bookdown/reference/html_document2.html">html_document2</a></span></span></code></pre></div>
+<p>to create an HTML document, or</p>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span> <span class="fu">bookdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/bookdown/reference/html_document2.html">pdf_document2</a></span></span></code></pre></div>
+<p>to create LaTeX <span class="math inline">\(\rightarrow\)</span> PDF document. or</p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span> <span class="fu">bookdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/bookdown/reference/html_document2.html">word_document2</a></span></span></code></pre></div>
+<p>to create an MS Word<span class="math inline">\(^{\circledR}\)</span> document<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Many other &lt;em&gt;bookdown&lt;/em&gt; extensions to &lt;em&gt;rmarkdown&lt;/em&gt; output types are possible including: &lt;code&gt;html_vignette2&lt;/code&gt;, &lt;code&gt;ioslides_presentation2&lt;/code&gt;, &lt;code&gt;slidy_presentation2&lt;/code&gt;, &lt;code&gt;beamer_presentation2&lt;/code&gt;, and &lt;code&gt;powerpoint_presentation2&lt;/code&gt;.&lt;/p&gt;"><sup>30</sup></a>.
+</p>
+<p>Numbering <strong>R</strong>-generated plots and tables in <strong>R</strong> Markdown or Bookdown requires specification of a chunk label after the language reference <code>r</code> in the chunk generating the plot. In the chunk below I use the label <code>lobplot</code>. Note that a space is included after <code>r</code>. Captions are specified in the chunk header using the chunk option <code>fig.cap</code> or <code>tab.cap</code> for figures and tables, respectively. For instance,</p>
+<p><code>```{r lobplot, echo=FALSE, fig.cap= "Loblolly pine height versus age."}</code></p>
+<p>Cross-references within the text can be made using the syntax <code>\@ref(type:label)</code>, where <code>label</code> is the chunk label and <code>type</code> is the environment being referenced (e.g., <code>fig</code>, <code>tab</code>, or <code>eq</code>). For the current example, we might want to type something like: “see Figure <code>\@ ref(fig:lobplot)</code>”. in some non-chunk component of the Markdown document.</p>
+<p>Specification of a bookdown output format, will result in automated numbering of sections. To turn this numbering off, one could modify the YAML output to be:</p>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output</span><span class="op">:</span></span>
+<span>  <span class="fu">bookdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/bookdown/reference/html_document2.html">html_document2</a></span><span class="op">:</span></span>
+<span>    <span class="va">number_sections</span><span class="op">:</span> <span class="va">false</span></span></code></pre></div>
+<p>The code indents shown above are important because YAML, like the language Python, uses <em>significant indentation</em>. To omit numbering for <em>certain</em> sections, one would retain the bookdown output, and add <code>{-}</code> after the unnumbered section heading, e.g.,</p>
+<p><code># This section is unnumbered {-}</code></p>
+<p>Thorough guidance for <em>bookdown</em> is provided in <span class="citation">Xie (<a href="references.html#ref-xie2016">2016</a>)</span>, which can be viewed as an open-source <a href="https://bookdown.org/yihui/bookdown/">online document</a>.</p>
+</div>
+</div>
+<div id="Sweave" class="section level4" number="2.9.2.2">
+<h4>
+<span class="header-section-number">2.9.2.2</span> Sweave<a class="anchor" aria-label="anchor" href="#Sweave"><i class="fas fa-link"></i></a>
+</h4>
+<p>Under the Sweave documentation approach, high quality .pdf documents are generated from LaTeX .tex files, which in turn are created from Sweave .rnw files. This can also be facilitated with RStudio. A skeleton .rnw document can be generated by going to <strong>File<span class="math inline">\(&gt;\)</span>New File<span class="math inline">\(&gt;\)</span>R Sweave</strong><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The document you are reading was either knitted from an &lt;strong&gt;R&lt;/strong&gt; Markdown .rmd file (using &lt;em&gt;bookdown&lt;/em&gt;) or a Sweave .rnw file, created in RStudio.&lt;/p&gt;"><sup>31</sup></a>. In Fig <a href="ch2.html#fig:sweave1">2.12</a> I create an .rnw file with the text and analyses used in the Markdown example above (Figs <a href="ch2.html#fig:RStudiolob1">2.10</a>-<a href="ch2.html#fig:RStudiolob2">2.11</a>). We note that instead of the Markdown YAML header, we now have lines in the preamble defining the type of desired document (e.g., article) and the LaTeX packages needed for document compilation (e.g, <em>amsmath</em>). Note that <strong>R</strong> code chunks are now initiated by <code>&lt;&lt;&gt;&gt;=</code>, which serves as a chunk header and can contain options, and closed with <code>@</code>. Non-code text, including figure and table captions and cross-referencing should follow LaTeX guidelines.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:sweave1"></span>
+<img src="figs2/sweavecode.png" alt="A Sweave (.rnw) file with documentation text and interspersed code in chunks." width="70%"><p class="caption">
+Figure 2.12: A Sweave (.rnw) file with documentation text and interspersed code in chunks.
+</p>
+</div>
+<p>Fig <a href="ch2.html#fig:sweave2">2.13</a> shows a snapshot of the .pdf result, following Sweave/LaTeX compilation.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:sweave2"></span>
+<img src="figs2/sweavedoc3.png" alt="A .pdf document resulting from compilation of Sweave code in the previous figure." width="80%"><p class="caption">
+Figure 2.13: A .pdf document resulting from compilation of Sweave code in the previous figure.
+</p>
+</div>
+</div>
+<div id="purl" class="section level4" number="2.9.2.3">
+<h4>
+<span class="header-section-number">2.9.2.3</span> Purl<a class="anchor" aria-label="anchor" href="#purl"><i class="fas fa-link"></i></a>
+</h4>
+<p><strong>R</strong> code can be extracted from an .rmd or or an .rnw file using the function <code><a href="https://rdrr.io/pkg/knitr/man/knit.html">knitr::purl()</a></code>. For instance, assume that the <strong>R</strong> Markdown loblolly pine summary shown in Fig <a href="ch2.html#fig:RStudiolob1">2.10</a> is saved in the working directory under the name <code>lob.rmd</code>. Code from the file will be extracted to a script file called <code>lob.R</code>, located in the working directory, if one types:</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">purl</span><span class="op">(</span><span class="st">"lob.rmd"</span><span class="op">)</span></span></code></pre></div>
+<p></p>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<p>Create an <strong>R</strong> Markdown document to contain your homework assignment. Modify the YAML header to allow numbering of figures and tables, but not sections. To test the formatting, perform the following steps:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Create section header called <code>Question 1</code> and a subsection header called (a). Under (a) type <code>"completed"</code>.</li>
+<li>Under the subsection header (b), insert a chunk, and create a simple plot of points at the coordinates: <span class="math inline">\(\{1,1\}\)</span>, <span class="math inline">\(\{2,2\}\)</span>, <span class="math inline">\(\{3,3\}\)</span>, by typing the code: <code>plot(1:3)</code> in the chunk. Create a label for the chunk, and a create caption for plot using the <em>knitr</em> chunk option, <code>fig.cap</code>.</li>
+<li>Under the subsection header (c), create a cross reference for the plot from (b).</li>
+<li>Under the subsection header (d), write the equation, <span class="math inline">\(y_i = \hat{\beta}_0 + \hat{\beta}_1x_i + \hat{\varepsilon_i}\)</span>, using LaTeX. As noted earlier, a LaTeX equation cheatsheet can be found <a href="https://quickref.me/latex">here</a>.</li>
+<li>Render (knit) the final document as either an .html file or a .doc file. <em>Include other assigned exercises for this Chapter as directed, using the general formatting approach given in Question 1.</em>
+</li>
+</ol>
+</li>
+<li>
+<p>Perform the following operations.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Leave a note to yourself.</li>
+<li>Create and examine an object called <code>x</code> that contains the numeric entries 1, 2, and 3.</li>
+<li>Make a copy of <code>x</code> called <code>y</code>.</li>
+<li>Show the class of <code>y</code>.</li>
+<li>Show the base type of <code>y</code>.</li>
+<li>Show the attributes of <code>y</code>.</li>
+<li>List the current objects in your work session.</li>
+<li>Identify your working directory.</li>
+</ol>
+</li>
+<li><p>Distinguish <strong>R</strong> expressions and assignments.</p></li>
+<li>
+<p>Sometimes <strong>R</strong> reports unexpected results for its classes and base types.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Create <code>x &lt;- factor("a","a","b")</code> and show the class of <code>x</code>.</li>
+<li>Type <code><a href="https://rdrr.io/r/base/factor.html">?factor</a></code>. What is a <code>factor</code> in <strong>R</strong>?</li>
+<li>Show the base type of <code>x</code>? Is this surprising? Why? Type <code><a href="https://rdrr.io/r/base/integer.html">?integer</a></code>. What is an <code>integer</code> in <strong>R</strong>?</li>
+</ol>
+</li>
+<li>
+<p>Solve the following mathematical operations using <strong>R</strong>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(1 + 3/10 + 2\)</span></li>
+<li><span class="math inline">\((1 + 3)/10 + 2\)</span></li>
+<li><span class="math inline">\(\left(4 \cdot \frac{(3 - 4)}{23}\right)^2\)</span></li>
+<li><span class="math inline">\(\log_2(3^{1/2})\)</span></li>
+<li>
+<span class="math inline">\(3\boldsymbol{x}^3 + 3\boldsymbol{x}^2 + 2\)</span> where <span class="math inline">\(\boldsymbol{x} = \{0, 1.5, 4, 6, 8, 10\}\)</span>
+</li>
+<li>
+<span class="math inline">\(4(\boldsymbol{x} + \boldsymbol{y})\)</span> where <span class="math inline">\(\boldsymbol{x} = \{0, 1.5, 4, 6, 8\}\)</span> and <span class="math inline">\(\boldsymbol{y} = \{-2, 0.5, 3, 5, 8\}\)</span>.</li>
+<li><span class="math inline">\(\frac{d}{dx} \tan(x) 2.3 \cdot e^{3x}\)</span></li>
+<li><span class="math inline">\(\frac{d^2}{dx^2} \frac{3}{4x^4}\)</span></li>
+<li><span class="math inline">\(\int_3^{12} 24x + \ln(x)dx\)</span></li>
+<li>
+<span class="math inline">\(\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\)</span> (i.e., find the area under a standard normal pdf).</li>
+<li>
+<span class="math inline">\(\int_{-\infty}^{\infty}\frac{x}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\)</span> (i.e., find <span class="math inline">\(E(X)\)</span> for a standard normal pdf).</li>
+<li>
+<span class="math inline">\(\int_{-\infty}^{\infty}\frac{x^2}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\)</span> (i.e., find <span class="math inline">\(E(X^2)\)</span> for a standard normal pdf).</li>
+<li>Find the sum, cumulative sum, product, cumulative product, arithmetic mean, median and variance of the data <code>x = c(0, 1.5, 4, 6, 8, 10)</code>.</li>
+</ol>
+</li>
+<li><p>The velocity of the earth’s rotation on its axis at the equator, <span class="math inline">\(E\)</span>, is approximately 1674.364 km/h, or 1040.401 m/h<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The circumference of the earth at the equator is 40,075.02 km (24,901.5 mi). The earth completes one full rotation on its axis with respect to distant stars in 23 hours 56 minutes 4.091 seconds (a sidereal day). This means that in 24 hours, the earth rotates &lt;span class="math inline"&gt;\(\frac{24}{23 + (56/60) + (4.091/60)/60} = 1.002738\)&lt;/span&gt; times. And this means that the velocity of the earth at the equator is &lt;span class="math inline"&gt;\(\frac{1.002738 \times 40075.02}{24} = 1674.364\)&lt;/span&gt; k&lt;span class="math inline"&gt;\(\cdot\)&lt;/span&gt;h&lt;span class="math inline"&gt;\(^{-1}\)&lt;/span&gt;, or &lt;span class="math inline"&gt;\(0.621371 \times 1674.364 = 1040.401\)&lt;/span&gt; m&lt;span class="math inline"&gt;\(\cdot\)&lt;/span&gt;h&lt;span class="math inline"&gt;\(^{-1}\)&lt;/span&gt;.&lt;/p&gt;'><sup>32</sup></a>. We can calculate the velocity of the rotation of the earth at any latitude with the equation, <span class="math inline">\(V = \cos(\)</span>latitude<span class="math inline">\(^\text{o}) \times E\)</span>. Using <strong>R</strong>, simultaneously calculate rotational velocities for latitudes of 0,30,60, and 90 degrees north, or south, latitude (they will be the same). Remember, the function <code><a href="https://rdrr.io/r/base/Trig.html">cos()</a></code> assumes inputs are in radians, not degrees.</p></li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></div>
+<div class="next"><a href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch2"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="nav-link" href="#first-steps"><span class="header-section-number">2.1</span> First Steps</a></li>
+<li>
+<a class="nav-link" href="#first-operations"><span class="header-section-number">2.2</span> First Operations</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#use-your-scroll-keys"><span class="header-section-number">2.2.1</span> Use Your Scroll Keys</a></li>
+<li><a class="nav-link" href="#note-to-self"><span class="header-section-number">2.2.2</span> Note to Self: #</a></li>
+<li><a class="nav-link" href="#unfinished-commands"><span class="header-section-number">2.2.3</span> Unfinished Commands</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#expressions-assignments-and-objects"><span class="header-section-number">2.3</span> Expressions, Assignments and Objects</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#naming-objects"><span class="header-section-number">2.3.1</span> Naming Objects</a></li>
+<li><a class="nav-link" href="#combining-data"><span class="header-section-number">2.3.2</span> Combining Data</a></li>
+<li><a class="nav-link" href="#oc"><span class="header-section-number">2.3.3</span> Object Classes</a></li>
+<li><a class="nav-link" href="#bt"><span class="header-section-number">2.3.4</span> Object Base Types</a></li>
+<li><a class="nav-link" href="#object-attributes"><span class="header-section-number">2.3.5</span> Object Attributes</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#help"><span class="header-section-number">2.4</span> Getting Help</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#help-and"><span class="header-section-number">2.4.1</span> help() and ?</a></li>
+<li><a class="nav-link" href="#demo-and-example"><span class="header-section-number">2.4.2</span> demo() and example()</a></li>
+<li><a class="nav-link" href="#vignettes"><span class="header-section-number">2.4.3</span> Vignettes</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#options"><span class="header-section-number">2.5</span> Options</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#advanced-options"><span class="header-section-number">2.5.1</span> Advanced Options</a></li></ul>
+</li>
+<li><a class="nav-link" href="#the-working-directory"><span class="header-section-number">2.6</span> The Working Directory</a></li>
+<li>
+<a class="nav-link" href="#saving-and-loading-your-work"><span class="header-section-number">2.7</span> Saving and Loading Your Work</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#r-history"><span class="header-section-number">2.7.1</span> R History</a></li>
+<li><a class="nav-link" href="#saveRobjects"><span class="header-section-number">2.7.2</span> R Objects</a></li>
+<li><a class="nav-link" href="#r-scripts"><span class="header-section-number">2.7.3</span> R Scripts</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#basic-mathematics"><span class="header-section-number">2.8</span> Basic Mathematics</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#elementary-operations"><span class="header-section-number">2.8.1</span> Elementary Operations</a></li>
+<li><a class="nav-link" href="#associativity-and-precedence"><span class="header-section-number">2.8.2</span> Associativity and Precedence</a></li>
+<li><a class="nav-link" href="#function-arguments"><span class="header-section-number">2.8.3</span> Function Arguments</a></li>
+<li><a class="nav-link" href="#constants"><span class="header-section-number">2.8.4</span> Constants</a></li>
+<li><a class="nav-link" href="#trigonometry"><span class="header-section-number">2.8.5</span> Trigonometry</a></li>
+<li><a class="nav-link" href="#derivatives"><span class="header-section-number">2.8.6</span> Derivatives</a></li>
+<li><a class="nav-link" href="#integration"><span class="header-section-number">2.8.7</span> Integration</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#RStudio"><span class="header-section-number">2.9</span> RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#rstudio-project"><span class="header-section-number">2.9.1</span> RStudio Project</a></li>
+<li><a class="nav-link" href="#workflow"><span class="header-section-number">2.9.2</span> Workflow Documentation</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises-1">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

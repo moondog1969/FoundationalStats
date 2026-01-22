@@ -1,0 +1,257 @@
+---
+title: "Lab 2: R and Climate"
+author: "Ken Aho"
+date: "`r Sys.Date()`"
+site: "bookdown::bookdown_site"
+output:
+  bookdown::gitbook:
+    css: "style.css"
+fontsize: 12pt
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+
+```
+\
+\
+This week in lab we will have a brief introduction to the programming and computational environment **R**.  We will also examine climate data and tools for its analysis and summary.
+
+# **R**
+**R** is a computer language and an open source setting for statistics, data management, computation, and graphics.  Upon opening **R**, the first two things that will appear in the console of the Graphical User Interface (**R**-GUI) are the license disclaimers and the command line prompt, i.e.  `>`.  The prompt indicates that **R** is ready for a command.
+
+## **R** as a Calculator
+As an introduction we can use **R** as a calculator.  Type  `2 + 2`  and press <kbd>Enter</kbd>. 
+
+```{r}
+2 + 2
+```
+
+
+The `[1]` means, "this is the first requested element."  In this case there is just one element, the solution to `2 + 2`. The reappearance of the command prompt indicates that **R** is ready for another command.  
+
+A new command can be entered at the prompt or by separating commands with a semicolon.  
+
+```{r}
+2 + 2; 3 + 2
+```
+
+The former is generally preferable.
+
+Usual (and unusual) mathematical operators are easily specified in **R** (Table \@ref(tab:commath)).
+
+```{r commath, echo = F, results = 'asis', message = F, warning = F}
+data = data.frame(Operator = c('`+`', '`-`', '`*`', '`/`', '`%%`', '`%/%`', '`^`', '`abs(x)`', '`round(x, digits = d)`', '`ceiling(x)`', '`floor(x)`', '`sqrt(x)`', '`log(x)`', '`log(x, base = b)`', '`factorial(x)`', '`gamma(x)`', '`choose(n,x)`', '`sum(x)`', '`cumsum(x)`', '`prod(x)`', '`cumprod(x)`')
+,
+Operation = c('addition', 'subtraction', 'multiplication', 'division', 'modulo', 'integer division', 'exponentiation', '$\\mid x \\mid$', 'round $x$ to $d$ digits', 'round $x$ up to closest whole num.',
+'round $x$ down to closest whole num.', '$\\sqrt{x}$', '$\\log_e{x}$', '$\\log_b{x}$', '$x!$', '$\\Gamma(x)$',
+'$\\binom{n}{x}$', '$\\sum_{i=1}^{n}x_i$', 'cumulative sum', '$\\prod_{i=1}^{n}x_i$', 'cumulative product')
+,
+To.find = c('$2 + 2$', '$2 - 2$', '$2 \\times 2$', '$\\frac{2}{3}$', 'remainder of $\\frac{5}{2}$', '$\\frac{5}{2}$ without remainder', '$2^3$', '$\\mid -23.7 \\mid$', 'round $-23.71$ to 1 digit', 'ceiling(2.3)', 'floor(2.3)',
+'$\\sqrt{2}$', '$\\log_e{5}$', '$\\log_{10}{5}$', '$5!$', '$\\Gamma(3.2)$', '$\\binom{5}{2}$', 'sum of `x`', 'cum. sum of `x`', 'product of `x`', 'cum. prod. of `x`'),
+We.type = c('`2 + 2`', '`2 - 2`', '`2 * 2`', '`2/3`', '`5%%2`', '`5%/%2`', '`2^3`', '`abs(-23.7)`', '`round(-23.71, 1)`', '`ceiling(2.3)`', '`floor(2.3)`', '`sqrt(2)`', '`log(5)`', '`log(5, base = 10)`',
+'`factorial(5)`', '`gamma(3.2)`', '`choose(5,2)`', '`sum(x)`', '`cumsum(x)`', '`prod(x)`', '`cumprod(x)`')
+)
+
+data <- data[-c(5,6,10,11,16,17,19,20,21),]
+
+knitr::kable(data, align = c("l", "l","l", "l"), caption = "Elementary mathematical operators and functions in **R**.  For all functions `x` represents a scalar or a numeric vector.", label = "commath",  col.names = c("Operator", "Operation", "To find:", "We type:"), row.names = F)
+```
+
+As with command line functions from all programming languages **R** functions generally require that a user to specify arguments (in parentheses) following the function name.  For example:
+
+```{r}
+log(2, base = 2)
+```
+
+## Expressions or Assignments 
+Commands in **R** consist of either *expressions* or *assignments*.  If a command is an *expression*, it will be evaluated, printed and discarded.  Examples include: `2 + 2`, or even `(log(3) + exp(5)) * 15^-5`.  Conversely, an assignment evaluates an expression, and assigns the output to an **R**-object, but does not automatically print the results.  For instance, if I type:
+
+```{r}
+x <- 2 + 2
+```
+
+or 
+
+```{r}
+2 + 2 -> x
+```
+
+then the sum will be contained in the object `x`.  To print the result (to see `x`) I simply type:
+
+```{r}
+x
+```
+
+
+The entity `<-` is the *assignment* operator, and represents an arrow.  
+
+
+## Reading data into R
+A question of obvious importance is: how do I get my data into **R**?  The answer is: two ways. First, one can enter data "by hand" at the command line.  Second, one can read in entire data files, e.g., spreadsheets.  Under the first approach, data can be combined into a single entity with the function `c()`.
+
+```{r}
+a <- c(1, 2, 3); b <- c(2, 3, 4)
+```
+
+We can use the function `cbind()` to combine data as columns, under a matrix format,
+
+```{r}
+cbind(a, b)
+```
+
+while `rbind` lets us combine data as rows.  
+```{r}
+rbind(a, b)
+```
+
+Under the second approach, we can use the function `read.csv()` in conjunction with `file.choose()` to load comma separated value (.csv) spreadsheets. Specifically, the code:
+
+```{r, eval = F}
+data <- read.csv(file.choose())
+```
+
+would allow one to mouse-search for a .csv spreadsheet file, download it, and save it as an object named `data`. 
+
+## Querying/Subsetting Data
+**R** allows us to easily specify particular subsets of a matrix using subset brackets, i.e. `[ ]`.  A dataframe or matrix, `mat` followed by brackets with a comma preceding a number, e.g., 2, inside the brackets, indicates: extract column 2 from `mat`: 
+
+```{r}
+mat <- rbind(a, b)
+mat[,2]
+```
+
+The command `mat[1,]` extracts row 1 in `mat`.
+
+```{r}
+mat[1,]
+```
+
+Brackets without commas can be used to subset individual elements in a data matrix. For instance the code:
+
+```{r}
+mat[,1][1]
+```
+
+extracts the entry in the first cell of column 1.
+
+# Climate
+## Walter Diagrams (Average Conditions)
+A valuable tool in the summary of climate data is the Walter diagram (Walter and Leith 1967). In this framework, the month (January to December, if you are summarizing a northern hemisphere site) is plotted on the $x$-axis, average temperature (in degrees C) is plotted on left vertical axis, and average precipitation (in mm) plotted on right vertical axis.
+
+Zero degrees C is located at the same height as zero millimeters precipitation on the vertical axes.  The vertical axes are scale so that a 1$^\text{o}$ C change is equivalent to 2 millimeter change in precipitation. Moisture levels adequate for plant growth occur when precipitation line exceeds the temperature line. Conversely, when temperature exceeds precipitation, evaporation exceeds precipitation, and the site experiences a water deficit (Fig. \@ref(fig:clim)).
+
+```{r clim,  out.width="85%", fig.align = 'center', fig.cap = "Example of a Walter diagram", echo = F}
+knitr::include_graphics("wdiag.png", dpi = 300)
+```
+
+To create a proper Walter diagram, one requires four types of monthly summaries: 
+
+1.   the average precipitation, 
+2.   the average maximum temperature,
+3.   the average minimum temperature, and
+4.   the absolute (record) minimum temperature.  
+
+To access useful climate information and functions, we will use an **R** package I made for this class called *plant.ecol*.  It is currently only available at GitHub. To install the package we can type:
+
+```{r, eval = F}
+install.packages("devtools")
+library(devtools)
+install_github("moondog1969/plant.ecol")
+```
+
+You will never have to install `plant.ecol` on *your* workstation again (although ISU computers may scrub it).  To load *plant.ecol* for this **R** session you must type: 
+
+```{r, message = F}
+library(plant.ecol)
+```
+
+The package's data and functions will now be available.
+
+Climate files for 28 global locations are stored in *plant.ecol* under the names: `avg.high.temp`, `avg.low.temp`, `abs.low.temp`, and `precip`.
+
+Lets load these datasets.
+```{r}
+data(avg.high.temp); data(avg.low.temp); data(abs.low.temp); data(precip)
+```
+
+The function `names()` lets us see the column names in a dataframe.  The columns for the matrices above identify the 28 sites.
+
+```{r}
+names(avg.high.temp)
+```
+
+The function `diagwl()` in the R package *climatol* makes Walter diagrams.  We can install *climatol* by typing:
+
+```{r, eval = F}
+install.packages("climatol")
+```
+
+and load it it using:
+
+```{r}
+library(climatol)
+```
+
+The function `diagwl()` has six important arguments:
+
+1.    `dat`	Monthly climatic data for which the diagram will be plotted.
+2.    `stname`	Name and location of the climatological station.
+3.    `alt`	Altitude of the climatological station.
+4.    `per`	Period on which the averages have been computed.
+5.    `shem`	Set to `TRUE` for southern hemisphere stations.
+6.    `mlab`	Refers to the language used for the `x`-axis `"en"` = English.
+
+The argument `dat` will be a matrix with rows comprising precipitation, average maximum temperature, average minimum temperature, and absolute minimum temperature (in that order). The argument `per` will contain the years of data that exist for temperature and precipitation averages, respectively.
+
+Let’s create a suitable matrix for Pocatello. Note that Pocatello data are stored in column 21 of each of the climate matrices. 
+
+```{r}
+names(precip)[21]; names(avg.high.temp)[21]; names(avg.low.temp[21]); names(abs.low.temp[21])
+```
+
+```{r}
+poky  <-  rbind(precip[,21], avg.high.temp[,21], avg.low.temp[,21], abs.low.temp[,21])
+```
+
+We can get the metadata we need to make the graph by typing: 
+```{r, eval = F}
+?climate
+```
+
+From this documentation, we see that Pocatello monthly temperature and precipitation averages are based on data from 1939-2024 (85 years). The name of the weather station along with the latitude, longitude and elevation are also given in the documentation. The resulting Pocatello Walter diagram is shown in Fig \@ref(fig:poc).
+
+```{r poc, fig.cap = "Walter diagram for the Pocatello municipal airport weather station."}
+diagwl(poky, cols = NULL, stname = "POCATELLO MUNICIPAL \n 42.91°N 112.60°W", 
+       alt = 1357, per = "[85,85]", mlab = "en" )
+```
+
+Note that The `\n` in the code adds a line break in the `stname` character string.
+
+
+# Assignment {-}
+
+1.    Complete Q5a-f from  (https://www2.cose.isu.edu/~ahoken/book/amalgam/_book/ch2.html#exercises-1)
+
+2.    Create and include three Walter diagrams from datasets in *plant.ecol* and try to decide which biomes from Ch. 18 in Gurevitch et al. they would represent. Create brief summaries for each figure.
+
+3.    Walter diagrams present an average annual climate summary but do not track change over time.  To track temperature changes in Pocatello we will use a 60 year time series in the dataframe `poky_1964_2024`.
+
+```{r}
+data(poky_1964_2024)
+```
+
+We can turn the data into an **R** monthly time series object called `pts` with the code:
+
+```{r}
+pts <- ts(poky_1964_2024[,1], start = c(1964, 1), frequency = 12)
+```
+
+We can create an exploratory time series analysis with the function `stl`. For more information type `?stl`. The code below will create a plot with four components. From top to bottom these are: raw data, seasonal (monthly) pattern, long term trend, and noise. Paste the plot into your lab and summarize each of these components. 
+
+```{r, eval =  F}
+plot(stl(pts, s.window = "periodic", t.window = 250))
+```
+
+

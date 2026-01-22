@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Basic Data Management | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content='“I think, therefore I R."  - William B. King, Psychologist and R enthusiast \(\text{}\) An important characteristic of R is its capacity to efficiently manage and analyze large, complex, datasets....'>
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Basic Data Management | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content='“I think, therefore I R."  - William B. King, Psychologist and R enthusiast \(\text{}\) An important characteristic of R is its capacity to efficiently manage and analyze large, complex, datasets....'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Basic Data Management | An Amalgam of R">
+<meta name="twitter:description" content='“I think, therefore I R."  - William B. King, Psychologist and R enthusiast \(\text{}\) An important characteristic of R is its capacity to efficiently manage and analyze large, complex, datasets....'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="active" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch4" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Basic Data Management<a class="anchor" aria-label="anchor" href="#ch4"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“I think, therefore I <strong>R</strong>."</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>William B. King</strong>, <em>Psychologist and <strong>R</strong> enthusiast</em></p>
+</div>
+<p><span class="math inline">\(\text{}\)</span><br>
+An important characteristic of <strong>R</strong> is its capacity to efficiently manage and analyze large, complex, datasets. In this chapter I list a few functions and approaches useful for data management in base <strong>R</strong>. Data management considerations for the <em>tidyverse</em> are given in Chapter <a href="ch5.html#ch5">5</a>.</p>
+<div id="operations-on-arrays-lists-and-vectors" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Operations on Arrays, Lists and Vectors<a class="anchor" aria-label="anchor" href="#operations-on-arrays-lists-and-vectors"><i class="fas fa-link"></i></a>
+</h2>
+<p>Operators can be applied individually to every row or column of an array, or every component of a list or atomic vector using a number of time saving methods.</p>
+<div id="apply" class="section level3" number="4.1.1">
+<h3>
+<span class="header-section-number">4.1.1</span> The <code>apply</code> Family of Functions<a class="anchor" aria-label="anchor" href="#apply"><i class="fas fa-link"></i></a>
+</h3>
+<div id="apply-1" class="section level4" number="4.1.1.1">
+<h4>
+<span class="header-section-number">4.1.1.1</span> <code>apply()</code><a class="anchor" aria-label="anchor" href="#apply-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>Operations can be performed quickly on rows and columns of two dimensional arrays with the function <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>. The function requires three
+arguments.</p>
+<ul>
+<li>The first argument, <code>X</code>, specifies an array to be analyzed.</li>
+<li>The second argument, <code>MARGIN</code>, connotes whether rows or columns are to be analyzed. <code>MARGIN = 1</code> indicates rows, <code>MARGIN = 2</code> indicates columns, whereas <code>MARGIN = c(1, 2)</code> indicates rows and columns.</li>
+<li>The third argument, <code>FUN</code>, defines a function to be applied to the margins of the object in the first argument.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-41" class="example"><strong>Example 4.1  </strong></span><br>
+Consider the <code><a href="https://rdrr.io/pkg/asbio/man/bats.html">asbio::bats</a></code> dataset which contains forearm length data, in millimeters, for northern myotis bats (<em>Myotis septentrionalis</em>), along with corresponding bat ages in in days.</p>
+<div class="sourceCode" id="cb418"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">asbio</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">bats</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">bats</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  days forearm.length
+1    1           10.5
+2    1           11.0
+3    1           12.3
+4    1           13.7
+5    1           14.2
+6    1           14.8</code></pre>
+<p>Here we obtain minimum values for the <code>days</code> and <code>forearm.length</code> columns.</p>
+<div class="sourceCode" id="cb420"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">bats</span>, <span class="fl">2</span>, <span class="va">min</span><span class="op">)</span></span></code></pre></div>
+<pre><code>          days forearm.length 
+           1.0           10.5 </code></pre>
+<p>It is straightforward to change the third argument in <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> to obtain different summaries, like the mean.</p>
+<div class="sourceCode" id="cb422"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">bats</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<pre><code>          days forearm.length 
+        13.579         23.603 </code></pre>
+<p>or the standard deviation</p>
+<div class="sourceCode" id="cb424"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">bats</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span></span></code></pre></div>
+<pre><code>          days forearm.length 
+       12.4610         8.4347 </code></pre>
+<p>Several summary statistical functions exist for numerical arrays that can be used in some instances in the place of <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>. These include <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">colMeans()</a></code> which give the sample means of specified rows and columns, respectively, and <code><a href="https://rdrr.io/r/base/colSums.html">rowSums()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">colSums()</a></code> which give the sums of specified rows and columns, respectively. For instance:</p>
+<div class="sourceCode" id="cb426"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">bats</span><span class="op">)</span></span></code></pre></div>
+<pre><code>          days forearm.length 
+        13.579         23.603 </code></pre>
+</div>
+<p>
+<span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="lapply" class="section level4" number="4.1.1.2">
+<h4>
+<span class="header-section-number">4.1.1.2</span> <code>lapply()</code><a class="anchor" aria-label="anchor" href="#lapply"><i class="fas fa-link"></i></a>
+</h4>
+<p>The function <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> allows one to sweep functions through list components. It has two main arguments:</p>
+<ul>
+<li>The first argument, <code>X</code>, specifies a list to be analyzed.</li>
+<li>The second argument, <code>FUN</code>, defines a function to be applied to each element in <code>X</code>.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-42" class="example"><strong>Example 4.2  </strong></span><br></p>
+<p>Consider the following simple list, whose three components have different lengths.</p>
+<div class="sourceCode" id="cb428"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, norm.obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, </span>
+<span>          logic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>$a
+[1] 1 2 3 4 5 6 7 8
+
+$norm.obs
+ [1]  0.21430 -0.20653  1.43494  0.35765  1.36600  2.29011  0.11071
+ [8] -0.32023  0.45659  0.68799
+
+$logic
+[1]  TRUE  TRUE FALSE FALSE</code></pre>
+<p>Here we sweep the function <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> through the list:</p>
+<div class="sourceCode" id="cb430"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$a
+[1] 4.5
+
+$norm.obs
+[1] 0.63915
+
+$logic
+[1] 0.5</code></pre>
+<p>Note the Boolean outcomes in <code>logic</code> have been coerced to numeric outcomes. Specifically, <code>TRUE = 1</code> and <code>FALSE = 0</code>. Here are the 1st, 2nd (median), and 3rd quartiles of <code>x</code>:</p>
+<div class="sourceCode" id="cb432"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$a
+ 25%  50%  75% 
+2.75 4.50 6.25 
+
+$norm.obs
+    25%     50%     75% 
+0.13661 0.40712 1.19650 
+
+$logic
+25% 50% 75% 
+0.0 0.5 1.0 </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+</div>
+<div id="sapply" class="section level4" number="4.1.1.3">
+<h4>
+<span class="header-section-number">4.1.1.3</span> <code>sapply()</code><a class="anchor" aria-label="anchor" href="#sapply"><i class="fas fa-link"></i></a>
+</h4>
+<p>The function <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> is a user friendly wrapper for <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> that can return a vector or array instead of a list.</p>
+<div class="sourceCode" id="cb434"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>       a norm.obs logic
+25% 2.75  0.13661   0.0
+50% 4.50  0.40712   0.5
+75% 6.25  1.19650   1.0</code></pre>
+</div>
+<div id="tapply" class="section level4" number="4.1.1.4">
+<h4>
+<span class="header-section-number">4.1.1.4</span> <code>tapply()</code><a class="anchor" aria-label="anchor" href="#tapply"><i class="fas fa-link"></i></a>
+</h4>
+<p>The <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code> function allows summarization of a one dimensional array (e.g., a column or row from a matrix) with respect to levels in a categorical variable. The function requires three arguments.</p>
+<ul>
+<li>The first argument, <code>X</code>, defines a one dimensional array to be analyzed.</li>
+<li>The second argument, <code>INDEX</code> should provide a list of one or more factors (see example below) with the same length as <code>X</code>.</li>
+<li>The third argument, <code>FUN</code>, is used to specify a function to be applied to <code>X</code> for each level in <code>INDEX</code>.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-43" class="example"><strong>Example 4.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the dataset <code><a href="https://rdrr.io/pkg/asbio/man/heart.html">asbio::heart</a></code>, which documents pulse rates for twenty four subjects at four time periods following administration of a experimental treatment. These were two active heart medications and a control. Here are average heart rates for the treatments.</p>
+<div class="sourceCode" id="cb436"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">heart</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">heart</span>, <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">rate</span>, <span class="va">drug</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>  AX23   BWW9   Ctrl 
+76.281 81.031 71.906 </code></pre>
+<p>Here are the mean heart rates for treatments, for each time frame. Note that the second argument is defined as a list with two components, each of which can be coerced to be a factor.</p>
+<div class="sourceCode" id="cb438"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">heart</span>, <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">rate</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>drug <span class="op">=</span> <span class="va">drug</span>, time <span class="op">=</span> <span class="va">time</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>      time
+drug      t1     t2     t3     t4
+  AX23 70.50 80.500 81.000 73.125
+  BWW9 81.75 84.000 78.625 79.750
+  Ctrl 72.75 72.375 71.500 71.000</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+<p>The function <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> can be considered a more sophisticated extension of <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>. It allows objects under consideration to be expressed as functions of explanatory factors, and contains additional arguments for data specification and time series analyses.
+</p>
+<div class="example">
+<p><span id="exm:exm-43b" class="example"><strong>Example 4.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we use <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> to get identical (but reformatted) results to the prior example.</p>
+<div class="sourceCode" id="cb440"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">rate</span> <span class="op">~</span> <span class="va">drug</span> <span class="op">+</span> <span class="va">time</span>, <span class="va">mean</span>, data <span class="op">=</span> <span class="va">heart</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   drug time   rate
+1  AX23   t1 70.500
+2  BWW9   t1 81.750
+3  Ctrl   t1 72.750
+4  AX23   t2 80.500
+5  BWW9   t2 84.000
+6  Ctrl   t2 72.375
+7  AX23   t3 81.000
+8  BWW9   t3 78.625
+9  Ctrl   t3 71.500
+10 AX23   t4 73.125
+11 BWW9   t4 79.750
+12 Ctrl   t4 71.000</code></pre>
+<p>Importantly, the first argument, <code>rate ~ drug + time</code> is in the form of a formula:</p>
+<div class="sourceCode" id="cb442"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f.rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">heart</span>, <span class="va">rate</span> <span class="op">~</span> <span class="va">drug</span> <span class="op">+</span> <span class="va">time</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">f.rate</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "formula"</code></pre>
+<p>Here the tilde operator, <code>~</code>, allows expression of the formulaic framework: <code>y ~ model</code>, where <code>y</code> is a response variable and <code>model</code> specifies a system of (generally) one or more predictor variables.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+</div>
+<div id="outer" class="section level3" number="4.1.2">
+<h3>
+<span class="header-section-number">4.1.2</span> <code>outer()</code><a class="anchor" aria-label="anchor" href="#outer"><i class="fas fa-link"></i></a>
+</h3>
+<p>Another important function for matrix operations is <code><a href="https://rdrr.io/r/base/outer.html">outer()</a></code>. This algorithm allows creation of an array that contains all possible combinations of two atomic vectors or arrays with respect to a user-specified function. The <code><a href="https://rdrr.io/r/base/outer.html">outer()</a></code> function has three required arguments.</p>
+<ul>
+<li>The first two arguments, <code>X</code> and <code>Y</code>, define arrays or atomic vectors. <code>X</code> and <code>Y</code> can be identical if one wishes to examine pairwise operations of the array elements (see example below).</li>
+<li>The third argument, <code>FUN</code>, specifies a function to be used in operations.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-44" class="example"><strong>Example 4.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Suppose I wish to find the means of all possible pairs of observations from an atomic vector. I could use the following commands:</p>
+<div class="sourceCode" id="cb444"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/outer.html">outer</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="st">"+"</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span></span></code></pre></div>
+<pre><code>     [,1] [,2] [,3] [,4] [,5]
+[1,]  1.0  1.5  2.0  3.0  2.5
+[2,]  1.5  2.0  2.5  3.5  3.0
+[3,]  2.0  2.5  3.0  4.0  3.5
+[4,]  3.0  3.5  4.0  5.0  4.5
+[5,]  2.5  3.0  3.5  4.5  4.0</code></pre>
+<p>The argument <code>FUN = "+"</code> indicates that we wish to add elements to each other. We divide these sums by two to obtain means. Note that the diagonal of the output matrix contains the original elements of <code>x</code>, because the mean of a number and itself is the original number. The upper and lower triangles are identical because the mean of elements <em>a</em> and <em>b</em> will be the same as the mean of the elements <em>b</em> and <em>a</em>. Note that the result <code>outer(x, x, "*")</code> can also be obtained using <code>x %o% x</code> because <code>%o%</code> is the matrix algebra outer product operator in <strong>R</strong>.</p>
+<div class="sourceCode" id="cb446"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/outer.html">outer</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="st">"*"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    5    4
+[2,]    2    4    6   10    8
+[3,]    3    6    9   15   12
+[4,]    5   10   15   25   20
+[5,]    4    8   12   20   16</code></pre>
+<div class="sourceCode" id="cb448"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/outer.html">%o%</a></span> <span class="va">x</span></span></code></pre></div>
+<pre><code>     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    2    3    5    4
+[2,]    2    4    6   10    8
+[3,]    3    6    9   15   12
+[4,]    5   10   15   25   20
+[5,]    4    8   12   20   16</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="stack-unstack-and-reshape" class="section level3" number="4.1.3">
+<h3>
+<span class="header-section-number">4.1.3</span> <code>stack()</code>, <code>unstack()</code> and <code>reshape()</code><a class="anchor" aria-label="anchor" href="#stack-unstack-and-reshape"><i class="fas fa-link"></i></a>
+</h3>
+<p>When manipulating lists and dataframes it is often useful to move between so-called “long” and “wide” data table formats. These operations can be handled with the functions <code><a href="https://rdrr.io/r/utils/stack.html">stack()</a></code> and <code><a href="https://rdrr.io/r/utils/stack.html">unstack()</a></code>. Specifically, <code><a href="https://rdrr.io/r/utils/stack.html">stack()</a></code> concatenates multiple vectors into a single vector along with a factor indicating where each observation originated, whereas <code><a href="https://rdrr.io/r/utils/stack.html">unstack()</a></code> reverses this process.
+</p>
+<div class="example">
+<p><span id="exm:exm-45" class="example"><strong>Example 4.6  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the 4 x 4 dataframe below.</p>
+<div class="sourceCode" id="cb450"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dataf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">4</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dataf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"col1"</span>, <span class="st">"col2"</span>, <span class="st">"col3"</span>, <span class="st">"col4"</span><span class="op">)</span></span>
+<span><span class="va">dataf</span></span></code></pre></div>
+<pre><code>       col1       col2     col3     col4
+1  0.273953 -0.0761772 -2.31054  0.25376
+2  0.229788 -0.9152364 -0.31422 -1.05746
+3  0.632600  0.0624385  0.25734  0.16615
+4 -0.068778  0.0020916  0.21208  0.42259</code></pre>
+<p>Here I stack <code>dataf</code> into a long table format.</p>
+<div class="sourceCode" id="cb452"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sdataf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/stack.html">stack</a></span><span class="op">(</span><span class="va">dataf</span><span class="op">)</span></span>
+<span><span class="va">sdataf</span></span></code></pre></div>
+<pre><code>       values  ind
+1   0.2739525 col1
+2   0.2297882 col1
+3   0.6326003 col1
+4  -0.0687777 col1
+5  -0.0761772 col2
+6  -0.9152364 col2
+7   0.0624385 col2
+8   0.0020916 col2
+9  -2.3105403 col3
+10 -0.3142168 col3
+11  0.2573384 col3
+12  0.2120784 col3
+13  0.2537554 col4
+14 -1.0574637 col4
+15  0.1661473 col4
+16  0.4225881 col4</code></pre>
+<p>Here I unstack <code>sdataf</code>.</p>
+<div class="sourceCode" id="cb454"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/stack.html">unstack</a></span><span class="op">(</span><span class="va">sdataf</span><span class="op">)</span></span></code></pre></div>
+<pre><code>       col1       col2     col3     col4
+1  0.273953 -0.0761772 -2.31054  0.25376
+2  0.229788 -0.9152364 -0.31422 -1.05746
+3  0.632600  0.0624385  0.25734  0.16615
+4 -0.068778  0.0020916  0.21208  0.42259</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()</a></code> can handle both stacking and unstacking operations. Here I stack <code>dataf</code>. The arguments <code>timevar</code>, <code>idvar</code>, and <code>v.names</code> are used to provide recognizable identifiers for the columns in the wide table format, observations within those columns, and responses for those combinations.</p>
+<div class="sourceCode" id="cb456"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dataf</span>, direction <span class="op">=</span> <span class="st">"long"</span>,</span>
+<span>        varying <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dataf</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        timevar <span class="op">=</span> <span class="st">"Column"</span>,</span>
+<span>        idvar <span class="op">=</span> <span class="st">"Column obs."</span>,</span>
+<span>        v.names <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>    Column   Response Column obs.
+1.1      1  0.2739525           1
+2.1      1  0.2297882           2
+3.1      1  0.6326003           3
+4.1      1 -0.0687777           4
+1.2      2 -0.0761772           1
+2.2      2 -0.9152364           2
+3.2      2  0.0624385           3
+4.2      2  0.0020916           4
+1.3      3 -2.3105403           1
+2.3      3 -0.3142168           2
+3.3      3  0.2573384           3
+4.3      3  0.2120784           4
+1.4      4  0.2537554           1
+2.4      4 -1.0574637           2
+3.4      4  0.1661473           3
+4.4      4  0.4225881           4</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div id="other-simple-data-management-functions" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> Other Simple Data Management Functions<a class="anchor" aria-label="anchor" href="#other-simple-data-management-functions"><i class="fas fa-link"></i></a>
+</h2>
+<div id="replace" class="section level3" number="4.2.1">
+<h3>
+<span class="header-section-number">4.2.1</span> <code>replace()</code><a class="anchor" aria-label="anchor" href="#replace"><i class="fas fa-link"></i></a>
+</h3>
+<p>One use the function <code><a href="https://rdrr.io/r/base/replace.html">replace()</a></code> to replace elements in an atomic vector based, potentially, on Boolean logic. The function requires three arguments.</p>
+<ul>
+<li>The first argument, <code>x</code>, specifies the vector to be analyzed.</li>
+<li>The second argument, <code>list</code>, connotes which elements need to be replaced. A logical argument can be used here as a replacement index.</li>
+<li>The third argument, <code>values</code>, defines the replacement value(s).
+</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-46" class="example"><strong>Example 4.7  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For instance:</p>
+<div class="sourceCode" id="cb458"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">19</span>, <span class="fl">25</span>, <span class="fl">26</span>, <span class="fl">18</span>, <span class="fl">19</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/replace.html">replace</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">25</span>, <span class="st">"R is Cool"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "R is Cool" "R is Cool" "25"        "26"        "R is Cool" "R is Cool"</code></pre>
+<p>Of course, one can also use square brackets for this operation.</p>
+<div class="sourceCode" id="cb460"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Age</span><span class="op">[</span><span class="va">Age</span> <span class="op">&lt;</span> <span class="fl">25</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"R is Cool"</span></span>
+<span><span class="va">Age</span></span></code></pre></div>
+<pre><code>[1] "R is Cool" "R is Cool" "25"        "26"        "R is Cool" "R is Cool"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="which" class="section level3" number="4.2.2">
+<h3>
+<span class="header-section-number">4.2.2</span> <code>which()</code><a class="anchor" aria-label="anchor" href="#which"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function which can be used with logical commands to obtain address indices for data storage object.
+</p>
+<div class="example">
+<p><span id="exm:exm-47" class="example"><strong>Example 4.8  </strong></span><br>
+For instance:</p>
+<div class="sourceCode" id="cb462"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">19</span>, <span class="fl">25</span>, <span class="fl">26</span>, <span class="fl">18</span>, <span class="fl">19</span><span class="op">)</span></span>
+<span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">Age</span> <span class="op">&lt;=</span> <span class="fl">21</span><span class="op">)</span></span>
+<span><span class="va">w</span></span></code></pre></div>
+<pre><code>[1] 1 2 5 6</code></pre>
+<p>Elements one, two, and five meet this criterion. We can now subset based on the index <code>w</code>.</p>
+<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Age</span><span class="op">[</span><span class="va">w</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] 21 19 18 19</code></pre>
+<p>To find which element in <code>Age</code> is closest to 24 I could do something like:</p>
+<div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Age</span> <span class="op">-</span> <span class="fl">24</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Age</span> <span class="op">-</span> <span class="fl">24</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="sort" class="section level3" number="4.2.3">
+<h3>
+<span class="header-section-number">4.2.3</span> <code>sort()</code><a class="anchor" aria-label="anchor" href="#sort"><i class="fas fa-link"></i></a>
+</h3>
+<p>By default, The function <code><a href="https://rdrr.io/r/base/sort.html">sort()</a></code> sorts data from an atomic vector into an alphanumeric ascending order.</p>
+<div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 18 19 19 21 25 26</code></pre>
+<p>Data can be sorted in a descending order by specifying <code>decreasing = TRUE</code>.</p>
+<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">Age</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 26 25 21 19 19 18</code></pre>
+</div>
+<div id="rank" class="section level3" number="4.2.4">
+<h3>
+<span class="header-section-number">4.2.4</span> <code>rank()</code><a class="anchor" aria-label="anchor" href="#rank"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function rank gives the ascending alphanumeric rank of elements in a vector. Ties are given the average of their ranks. This operation is important to rank-based permutation analyses .</p>
+<div class="sourceCode" id="cb472"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rank.html">rank</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 4.0 2.5 5.0 6.0 1.0 2.5</code></pre>
+<p>The second and last observations were the second smallest in <code>Age</code>. Thus, their average rank is 2.5.</p>
+</div>
+<div id="order" class="section level3" number="4.2.5">
+<h3>
+<span class="header-section-number">4.2.5</span> <code>order()</code><a class="anchor" aria-label="anchor" href="#order"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/base/order.html">order()</a></code> is similar to <code><a href="https://rdrr.io/r/base/which.html">which()</a></code> in that it provides element indices that accord with an alphanumeric ordering. This allows one to sort a vector, matrix or dataframe into an ascending or descending order, based on one or several ordered vectors.
+</p>
+<div class="example">
+<p><span id="exm:exm-48" class="example"><strong>Example 4.9  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the dataframe below which lists plant percent cover data for four plant species at three sites. In accordance with the <code>field.data</code> example from Ch 3, plant species are identified with four letter codes, corresponding to the first two letters of the taxa genus and species names.</p>
+<div class="sourceCode" id="cb474"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">field.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ACMI"</span>, <span class="st">"ELSC"</span>, <span class="st">"CAEL"</span>, <span class="st">"TACE"</span><span class="op">)</span>,</span>
+<span>                         site1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">13</span>, <span class="fl">14</span>, <span class="fl">11</span><span class="op">)</span>,</span>
+<span>                         site2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>                         site3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">10</span>, <span class="fl">30</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">field.data</span></span></code></pre></div>
+<pre><code>  code site1 site2 site3
+1 ACMI    12     0    20
+2 ELSC    13    20    10
+3 CAEL    14     4    30
+4 TACE    11     5     0</code></pre>
+<p>Assume that we wish to sort the data with respect to an alphanumeric ordering of species codes. Here we obtain the ordering of the codes</p>
+<div class="sourceCode" id="cb476"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">$</span><span class="va">code</span><span class="op">)</span></span>
+<span><span class="va">o</span></span></code></pre></div>
+<pre><code>[1] 1 3 2 4</code></pre>
+<p>Now we can sort the rows of <code>field.data</code> based on this ordering.</p>
+<div class="sourceCode" id="cb478"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">field.data</span><span class="op">[</span><span class="va">o</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code>  code site1 site2 site3
+1 ACMI    12     0    20
+3 CAEL    14     4    30
+2 ELSC    13    20    10
+4 TACE    11     5     0</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="unique" class="section level3" number="4.2.6">
+<h3>
+<span class="header-section-number">4.2.6</span> <code>unique()</code><a class="anchor" aria-label="anchor" href="#unique"><i class="fas fa-link"></i></a>
+</h3>
+<p>To identify unique values in dataset we can use the function <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code>.
+</p>
+<div class="example">
+<p><span id="exm:exm-49" class="example"><strong>Example 4.10  </strong></span><br>
+Below is an atomic vector listing species from a bird survey on islands in southeast Alaska. Species ciphers follow the same coding method used in Example <a href="ch4.html#exm:exm-48">4.9</a>. Note that there are a large number of repeats.</p>
+<div class="sourceCode" id="cb480"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">AK.bird</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GLGU"</span>, <span class="st">"MEGU"</span>, <span class="st">"DOCO"</span>, <span class="st">"PAJA"</span>, <span class="st">"COLO"</span>, <span class="st">"BUFF"</span>, <span class="st">"COGO"</span>, </span>
+<span>             <span class="st">"WHSC"</span>, <span class="st">"TUSW"</span>, <span class="st">"GRSC"</span>, <span class="st">"GRTE"</span>, <span class="st">"REME"</span>, <span class="st">"BLOY"</span>, <span class="st">"REPH"</span>, </span>
+<span>             <span class="st">"SEPL"</span>, <span class="st">"LESA"</span>, <span class="st">"ROSA"</span>, <span class="st">"WESA"</span>, <span class="st">"WISN"</span>, <span class="st">"BAEA"</span>, <span class="st">"SHOW"</span>, </span>
+<span>             <span class="st">"GLGU"</span>, <span class="st">"MEGU"</span>, <span class="st">"PAJA"</span>, <span class="st">"DOCO"</span>, <span class="st">"GRSC"</span>, <span class="st">"GRTE"</span>, <span class="st">"BUFF"</span>, </span>
+<span>             <span class="st">"MADU"</span>, <span class="st">"TUSW"</span>, <span class="st">"REME"</span>, <span class="st">"SEPL"</span>, <span class="st">"REPH"</span>, <span class="st">"ROSA"</span>, <span class="st">"LESA"</span>, </span>
+<span>             <span class="st">"COSN"</span>, <span class="st">"BAEA"</span>, <span class="st">"ROHA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">AK.bird</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 38</code></pre>
+<p>Applying <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> we obtain a listing of the 24 unique bird species.</p>
+<div class="sourceCode" id="cb482"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">AK.bird</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [1] "GLGU" "MEGU" "DOCO" "PAJA" "COLO" "BUFF" "COGO" "WHSC" "TUSW" "GRSC"
+[11] "GRTE" "REME" "BLOY" "REPH" "SEPL" "LESA" "ROSA" "WESA" "WISN" "BAEA"
+[21] "SHOW" "MADU" "COSN" "ROHA"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="match" class="section level3" number="4.2.7">
+<h3>
+<span class="header-section-number">4.2.7</span> <code>match()</code><a class="anchor" aria-label="anchor" href="#match"><i class="fas fa-link"></i></a>
+</h3>
+<p>Given two vectors, the function <code><a href="https://rdrr.io/r/base/match.html">match()</a></code> indexes where objects in the second vector appear in the elements of the first vector. For instance:
+</p>
+<div class="sourceCode" id="cb484"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">5</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">m</span></span></code></pre></div>
+<pre><code>[1]  5 NA  3  4  2  1</code></pre>
+<p>The number 2 (the 1st element in <code>y</code>) is the 5th element of <code>x</code>, thus the number 5 is put 1st in the vector <code>m</code> created by match. The number 1 (the 2nd element of <code>y</code>) does not occur in <code>x</code> (it is <code>NA</code>). The number 4 is the 3rd element
+of <code>y</code> and <code>x</code>. Thus, the number 3 is given as the third element of <code>m</code>, and so on.</p>
+<div class="example">
+<p><span id="exm:exm-410" class="example"><strong>Example 4.11  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The usefulness of <code><a href="https://rdrr.io/r/base/match.html">match()</a></code> may seem unclear at first, but consider a scenario in which I want to convert species code identifiers in field data into actual species names. The following dataframe is a species list that matches four letter species codes to scientific names. Note that the list contains more species than than the <code>field.data</code> dataset used in Example <a href="ch4.html#exm:exm-48">4.9</a>.</p>
+<div class="sourceCode" id="cb486"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">species.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ACMI"</span>, <span class="st">"ASFO"</span>, <span class="st">"ELSC"</span>, <span class="st">"ERRY"</span>, <span class="st">"CAEL"</span>,</span>
+<span><span class="st">"CAPA"</span>, <span class="st">"TACE"</span><span class="op">)</span>, names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Achillea millefolium"</span>, <span class="st">"Aster foliaceus"</span>,</span>
+<span>                           <span class="st">"Elymus scribneri"</span>, <span class="st">"Erigeron rydbergii"</span>,</span>
+<span>                           <span class="st">"Carex elynoides"</span>, <span class="st">"Carex paysonis"</span>,</span>
+<span>                           <span class="st">"Taraxacum ceratophorum"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">species.list</span></span></code></pre></div>
+<pre><code>  code                  names
+1 ACMI   Achillea millefolium
+2 ASFO        Aster foliaceus
+3 ELSC       Elymus scribneri
+4 ERRY     Erigeron rydbergii
+5 CAEL        Carex elynoides
+6 CAPA         Carex paysonis
+7 TACE Taraxacum ceratophorum</code></pre>
+<p>Here I add a column in the <code>field.data</code> containing the actual species names using <code><a href="https://rdrr.io/r/base/match.html">match()</a></code>.</p>
+<div class="sourceCode" id="cb488"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">field.data</span><span class="op">$</span><span class="va">code</span>, <span class="va">species.list</span><span class="op">$</span><span class="va">code</span><span class="op">)</span></span>
+<span><span class="va">field.data.new</span> <span class="op">&lt;-</span> <span class="va">field.data</span> <span class="co"># make a copy of field data</span></span>
+<span><span class="va">field.data.new</span><span class="op">$</span><span class="va">species.name</span> <span class="op">&lt;-</span> <span class="va">species.list</span><span class="op">$</span><span class="va">names</span><span class="op">[</span><span class="va">m</span><span class="op">]</span></span>
+<span><span class="va">field.data.new</span></span></code></pre></div>
+<pre><code>  code site1 site2 site3           species.name
+1 ACMI    12     0    20   Achillea millefolium
+2 ELSC    13    20    10       Elymus scribneri
+3 CAEL    14     4    30        Carex elynoides
+4 TACE    11     5     0 Taraxacum ceratophorum</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="whichin" class="section level3" number="4.2.8">
+<h3>
+<span class="header-section-number">4.2.8</span> <code>which()</code> and <code>%in%</code><a class="anchor" aria-label="anchor" href="#whichin"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can use the operator <code>%in%</code> in conjunction with the function <code><a href="https://rdrr.io/r/base/which.html">which()</a></code> to achieve the same results as <code><a href="https://rdrr.io/r/base/match.html">match()</a></code>. </p>
+<div class="sourceCode" id="cb490"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">species.list</span><span class="op">$</span><span class="va">code</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">field.data</span><span class="op">$</span><span class="va">code</span><span class="op">)</span></span>
+<span><span class="va">field.data.new</span><span class="op">$</span><span class="va">species.name</span> <span class="op">&lt;-</span> <span class="va">species.list</span><span class="op">$</span><span class="va">names</span><span class="op">[</span><span class="va">m</span><span class="op">]</span></span>
+<span><span class="va">field.data.new</span></span></code></pre></div>
+<pre><code>  code site1 site2 site3           species.name
+1 ACMI    12     0    20   Achillea millefolium
+2 ELSC    13    20    10       Elymus scribneri
+3 CAEL    14     4    30        Carex elynoides
+4 TACE    11     5     0 Taraxacum ceratophorum</code></pre>
+<p>Note that the arrangement of arguments are reversed in <code><a href="https://rdrr.io/r/base/match.html">match()</a></code> and <code><a href="https://rdrr.io/r/base/which.html">which()</a></code>. In the former we have: . In the latter we have: <code>which(species.list$code %in% field.data$code)</code>.</p>
+</div>
+</div>
+<div id="regex" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> Matching, Querying and Substituting in Strings<a class="anchor" aria-label="anchor" href="#regex"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>R</strong> contains a number of useful methods for handling <em>character string</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In computer programming, a string is generally a (non-numeric) sequence of characters &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikichar"&gt;Wikipedia 2024h&lt;/a&gt;)&lt;/span&gt;. &lt;strong&gt;R&lt;/strong&gt; frequently uses &lt;em&gt;character vectors&lt;/em&gt;, i.e.,
+&lt;code&gt;vec &amp;lt;- c("a", "b", "c")&lt;/code&gt;. Each entry in &lt;code&gt;vec&lt;/code&gt; would be conventionally considered to be a character string.&lt;/p&gt;'><sup>43</sup></a> data. Strings will have class and base type <code>character</code>.
+</p>
+<div id="strtrim-and-substr" class="section level3" number="4.3.1">
+<h3>
+<span class="header-section-number">4.3.1</span> <code>strtrim()</code> and <code>substr()</code><a class="anchor" aria-label="anchor" href="#strtrim-and-substr"><i class="fas fa-link"></i></a>
+</h3>
+<p>The functions <code><a href="https://rdrr.io/r/base/strtrim.html">strtrim()</a></code> and <code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> are useful for extracting subsets from strings or string vectors.
+</p>
+<div class="example">
+<p><span id="exm:exm-411" class="example"><strong>Example 4.12  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For the taxonomic codes in the character vector below, the first capital letter indicates whether a species is a flowering plant (anthophyte) or moss (bryophyte) while the last four letters give species codes (see Example <a href="ch4.html#exm:exm-48">4.9</a>).</p>
+<div class="sourceCode" id="cb492"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plant</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A_CAAT"</span>, <span class="st">"B_CASP"</span>, <span class="st">"A_SARI"</span><span class="op">)</span></span></code></pre></div>
+<p>Assume that I want to distinguish anthophytes from bryophytes by extracting the first letter. This can be done by specifying <code>1</code> in the second <code>strtrim</code> argument, <code>width</code>.</p>
+<div class="sourceCode" id="cb493"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phylum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strtrim.html">strtrim</a></span><span class="op">(</span><span class="va">plant</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">phylum</span></span></code></pre></div>
+<pre><code>[1] "A" "B" "A"</code></pre>
+<div class="sourceCode" id="cb495"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plant</span><span class="op">[</span><span class="va">phylum</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "A_CAAT" "A_SARI"</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> is useful for imposing the start and end of strings to be subset. Here I extract string components 3-4 (the first two letters of the genus name).</p>
+<div class="sourceCode" id="cb497"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">plant</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "CA" "CA" "SA"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="strsplit" class="section level3" number="4.3.2">
+<h3>
+<span class="header-section-number">4.3.2</span> <code>strsplit()</code><a class="anchor" aria-label="anchor" href="#strsplit"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> splits a character string into substrings based on user defined criteria. It contains two important arguments.
+</p>
+<ul>
+<li>The first argument, <code>x</code>, specifies the character string to be analyzed.</li>
+<li>The second argument, <code>split</code>, is a character criterion that is used for splitting.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-412" class="example"><strong>Example 4.13  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Below I split the character string <code>ACMI</code> in two, based on the space between the words <code>Achillea</code> and <code>millefolium</code>.</p>
+<div class="sourceCode" id="cb499"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ACMI</span> <span class="op">&lt;-</span> <span class="st">"Achillea millefolium"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">ACMI</span>, <span class="st">" "</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "Achillea"    "millefolium"</code></pre>
+<p>Note that the result is a list. To get back to a vector (now with two components), I can use the function <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code>.</p>
+<div class="sourceCode" id="cb501"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">ACMI</span>, <span class="st">" "</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Achillea"    "millefolium"</code></pre>
+<p>Here I split based on the letter <code>"l"</code>.</p>
+<div class="sourceCode" id="cb503"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">ACMI</span>, <span class="st">"l"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "Achi"  ""      "ea mi" ""      "efo"   "ium"  </code></pre>
+<p>Interestingly, letting the <code>split</code> criterion equal <code>NULL</code> results in spaces being placed between every character in a string.</p>
+<div class="sourceCode" id="cb505"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">ACMI</span>, <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+ [1] "A" "c" "h" "i" "l" "l" "e" "a" " " "m" "i" "l" "l" "e" "f" "o" "l"
+[18] "i" "u" "m"</code></pre>
+<p>We can use this outcome to reverse the order of characters in a string.</p>
+<div class="sourceCode" id="cb507"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">ACMI</span>, <span class="cn">NULL</span><span class="op">)</span>, <span class="va">rev</span><span class="op">)</span>, <span class="va">paste</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "muilofellim aellihcA"</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/rev.html">rev()</a></code> provides a reversed version of its first argument, in this case a result from <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code>.
+The function <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> can be use to paste together character strings.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>Criteria for querying strings can include multiple characters in a particular order, and a particular case:</p>
+<div class="sourceCode" id="cb509"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"R is free software and comes with ABSOLUTELY NO WARRANTY"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"so"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "R is free "                                  
+[2] "ftware and comes with ABSOLUTELY NO WARRANTY"</code></pre>
+<p>Note that the <code>"SO"</code> in <code>"ABSOLUTELY"</code> is ignored because it is upper case.</p>
+</div>
+<div id="grep-and-grepl" class="section level3" number="4.3.3">
+<h3>
+<span class="header-section-number">4.3.3</span> <code>grep()</code> and <code>grepl()</code><a class="anchor" aria-label="anchor" href="#grep-and-grepl"><i class="fas fa-link"></i></a>
+</h3>
+<p>The functions <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> and <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> can be used to identify which elements in a <em>character vector</em> have a specified pattern. They have the same first two arguments.</p>
+<ul>
+<li>The first argument, <code>pattern</code> specifies a patterns to be matched. This can be a character string, or object coercible to a character string, or a regular expression (see below).</li>
+<li>The second argument, <code>x</code>, is a character vector where matches are sought.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-413" class="example"><strong>Example 4.14  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> returns indices identifying which entries in a vector contain a queried pattern. In the character vector below, we see that entries five and six have the same genus, <em>Carex</em>.</p>
+<div class="sourceCode" id="cb511"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Achillea millefolium"</span>, <span class="st">"Aster foliaceus"</span>,</span>
+<span>                           <span class="st">"Elymus scribneri"</span>, <span class="st">"Erigeron rydbergii"</span>,</span>
+<span>                           <span class="st">"Carex elynoides"</span>, <span class="st">"Carex paysonis"</span>,</span>
+<span>                           <span class="st">"Taraxacum ceratophorum"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Carex"</span>, <span class="va">names</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 5 6</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> does the same thing with Boolean outcomes.</p>
+<div class="sourceCode" id="cb513"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Carex"</span>, <span class="va">names</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<p>Of course, we could use this information to subset <code>names</code>.</p>
+<div class="sourceCode" id="cb515"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">names</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Carex"</span>, <span class="va">names</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "Carex elynoides" "Carex paysonis" </code></pre>
+<p>We can also get <code>grep</code> to return the values directly by specifying <code>value = TRUE</code>.</p>
+<div class="sourceCode" id="cb517"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Carex"</span>, <span class="va">names</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Carex elynoides" "Carex paysonis" </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="gsub" class="section level3" number="4.3.4">
+<h3>
+<span class="header-section-number">4.3.4</span> <code>gsub()</code><a class="anchor" aria-label="anchor" href="#gsub"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> can be used to substitute text that has a specified pattern. Several of its arguments are identical to <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> and <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code>:
+</p>
+<ul>
+<li>As before, the first argument, <code>pattern</code>, specifies a pattern to be matched.</li>
+<li>The second argument, <code>replacement</code>, specifies a replacement for the matched pattern.</li>
+<li>The third argument, <code>x</code>, is a character vector wherein matches are sought and substitutions are made.</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-414" class="example"><strong>Example 4.15  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we substitute <code>"C."</code> for occurrences of <code>"Carex"</code> in <code>names</code>.</p>
+<div class="sourceCode" id="cb519"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Carex"</span>, <span class="st">"C."</span>, <span class="va">names</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Achillea millefolium"   "Aster foliaceus"       
+[3] "Elymus scribneri"       "Erigeron rydbergii"    
+[5] "C. elynoides"           "C. paysonis"           
+[7] "Taraxacum ceratophorum"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="gregexpr" class="section level3" number="4.3.5">
+<h3>
+<span class="header-section-number">4.3.5</span> <code>gregexpr()</code><a class="anchor" aria-label="anchor" href="#gregexpr"><i class="fas fa-link"></i></a>
+</h3>
+<p>The function <code><a href="https://rdrr.io/r/base/grep.html">gregexpr()</a></code> identifies the start and end of matching sections in a character vector.</p>
+<div class="example">
+<p><span id="exm:exm-415" class="example"><strong>Example 4.16  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here we examine the first two entries in <code>names</code>, looking for the genus <em>Aster</em>.</p>
+<div class="sourceCode" id="cb521"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"Aster"</span>, <span class="va">names</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] -1
+attr(,"match.length")
+[1] -1
+attr(,"index.type")
+[1] "chars"
+attr(,"useBytes")
+[1] TRUE
+
+[[2]]
+[1] 1
+attr(,"match.length")
+[1] 5
+attr(,"index.type")
+[1] "chars"
+attr(,"useBytes")
+[1] TRUE</code></pre>
+<p>The output list is cryptic at best and requires some explanation. The first two elements in each of the two list components indicate the character number of the start and end of the matched string. For the first list component, these elements are given the identifier <code>-1</code> because <code>"Achillea millefolium"</code> does not contain the pattern <code>"Aster"</code>. For the second list component, these elements are <code>1</code> and <code>5</code> because <code>"Aster"</code> makes up the first five letters of <code>"Aster foliaceus"</code>.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="rgx" class="section level3" number="4.3.6">
+<h3>
+<span class="header-section-number">4.3.6</span> Regular Expressions<a class="anchor" aria-label="anchor" href="#rgx"><i class="fas fa-link"></i></a>
+</h3>
+<p>A number of <strong>R</strong> functions for managing character strings, including <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">gregexpr()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code>, and <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code>, can can incorporate <em>regular expressions</em>. In computer programming, a regular expression (often abbreviated as <em>regex</em>) is a sequence of characters that allow pattern matching in text. Regular expressions have developed within a number of programming frameworks including the <em>POSIX standard</em> (the Portable Operating System Interface standard), developed by the IEEE, and particularly the language Perl<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The Perl programming language was introduced by Larry Wall in 1987 as a Unix scripting tool to facilitate report processing &lt;span class="citation"&gt;(&lt;a href="references.html#ref-wikiperl"&gt;Wikipedia 2023c&lt;/a&gt;)&lt;/span&gt;. Despite criticisms as an awkward language, Perl remains widely used for its regular expression framework and string parsing capabilities.&lt;/p&gt;'><sup>44</sup></a>. Regular expressions in <strong>R</strong> include <em>extended</em> regular expressions (this is the default for most pattern matching and replacement <strong>R</strong> functions), and <em>Perl-like</em> regular expressions.</p>
+<div id="ergx" class="section level4" number="4.3.6.1">
+<h4>
+<span class="header-section-number">4.3.6.1</span> Extended Regular Expressions<a class="anchor" aria-label="anchor" href="#ergx"><i class="fas fa-link"></i></a>
+</h4>
+<p>Default <em>extended regular expressions</em> in <strong>R</strong> use a POSIX framework for commands<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Specifically, they use a version of the &lt;a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html."&gt;POSIX 1003.2 standard&lt;/a&gt;.&lt;/p&gt;'><sup>45</sup></a>, which includes the use of particular metacharacters. These are: <code>\</code>, <code>|</code>, <code>( )</code>, <code>[ ]</code>, <code>^</code>, <code>$</code>, <code>.</code>, <code><a href="https://rdrr.io/r/base/Paren.html">{ }</a></code>, <code>*</code>, <code>+</code>, and <code>?</code>. The metacharacters will vary in meaning depending if they occur outside of square brackets, <code>[</code> and <code>]</code>, or inside of square brackets. The former usage means that they are part of a character class (see below). In non-bracketed usage, the metacharacters in the subset below have the following applications (see <a href="https://www.pcre.org/original/pcre.txt" class="uri">https://www.pcre.org/original/pcre.txt</a>):</p>
+<ul>
+<li>
+<code>^</code> start of string or line.</li>
+<li>
+<code>$</code> end of string or line.</li>
+<li>
+<code>.</code> match any character except newline.</li>
+<li>
+<code>|</code> start of alternative branch.</li>
+<li>
+<code>( )</code> start and end subpattern.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/Paren.html">{ }</a></code> start and end min/max repetition specification.</li>
+</ul>
+<p>Several regular expression metacharacters can be placed at the end of the end of a regular expression to specify repetition. For instance, <code>"*"</code> indicates the preceding pattern should be matched zero or more times, <code>"{+}"</code> indicates the preceding pattern should be matched one or more times, <code>"{n}"</code> indicates the preceding pattern should be matched exactly <code>n</code> more times, and <code>"{n,}"</code> indicates the preceding pattern should be matched <code>n</code> or more times. </p>
+<div class="example">
+<p><span id="exm:exm-416" class="example"><strong>Example 4.17  </strong></span><span class="math inline">\(\text{}\)</span><br>
+We will use the function <code><a href="https://rdrr.io/r/base/regmatches.html">regmatches()</a></code>, which extracts or replaces matched substrings from <code><a href="https://rdrr.io/r/base/grep.html">gregexpr()</a></code> summaries, to illustrate.</p>
+<div class="sourceCode" id="cb523"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="st">"%aaabaaab"</span></span>
+<span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"a{1}"</span>, <span class="va">string</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/regmatches.html">regmatches</a></span><span class="op">(</span><span class="va">string</span>, <span class="va">ID</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "a" "a" "a" "a" "a" "a"</code></pre>
+<div class="sourceCode" id="cb525"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"a{2}"</span>, <span class="va">string</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/regmatches.html">regmatches</a></span><span class="op">(</span><span class="va">string</span>, <span class="va">ID</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "aa" "aa"</code></pre>
+<div class="sourceCode" id="cb527"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"a{2,}"</span>, <span class="va">string</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/regmatches.html">regmatches</a></span><span class="op">(</span><span class="va">string</span>, <span class="va">ID</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "aaa" "aaa"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-417" class="example"><strong>Example 4.18  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Metacharacters can be used together. For instance, the code below demonstrates how one might get rid of one or more extra spaces at the end of character strings.</p>
+<div class="sourceCode" id="cb529"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"###Now is the time      "</span>,</span>
+<span>            <span class="st">"# for all  "</span>,</span>
+<span>            <span class="st">"#"</span>,</span>
+<span>            <span class="st">" good men"</span>,</span>
+<span>            <span class="st">"### to come to the aid of their country.       "</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" +$"</span>, <span class="st">""</span>, <span class="va">string</span><span class="op">)</span> <span class="co"># drop extra space(s) at end of strings</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"^#*"</span>,<span class="st">""</span>, <span class="va">out</span><span class="op">)</span> <span class="co"># drop pound sign(s)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">out</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "Now is the time for all good men to come to the aid of their country."</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-417b" class="example"><strong>Example 4.19  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a biological example, microbial “taxa” identifiers can include cryptic Amplicon Sequence Variant (ASV) codes, followed by a general taxonomic assignment. For example, here is an ASV identifier for a bacterium within the family Comamonadaceae.</p>
+<div class="sourceCode" id="cb531"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">asv</span> <span class="op">&lt;-</span> <span class="st">"6abc517aa40e9e7b9c652902fe04bb1a:f__Comamonadaceae"</span></span></code></pre></div>
+<p>We can delete the ASV code, which ends in a colon, with:</p>
+<div class="sourceCode" id="cb532"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">".*:"</span>, <span class="st">""</span>, <span class="va">asv</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "f__Comamonadaceae"</code></pre>
+<p>The regex script in the first argument means: “match any character string occurring zero or more times that ends in <code>:</code>”.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-418" class="example"><strong>Example 4.20  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As another example, <strong>R</strong> Markdown delimits monospace font using accent grave metacharacters, <code>`</code> <code>`</code>, while LaTeX applies this font between the expression <code>\texttt{</code> and <code>}</code>. Below I convert a <strong>R</strong> Markdown-style character vector containing some monospace strings to a LaTeX-style character vector.</p>
+<div class="sourceCode" id="cb534"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">char.vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"`+`"</span>, <span class="st">"addition"</span>, <span class="st">"$2 + 2$"</span>, <span class="st">"`2 + 2`"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"(`)(.*)(`)"</span>,<span class="st">"\\\texttt{\\2}"</span>, <span class="va">char.vec</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "\texttt{+}"     "addition"      "$2 + 2$"       "\texttt{2 + 2}"</code></pre>
+<p>With the code</p>
+<div class="sourceCode" id="cb536"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="st">"(`)(.*)(`)"</span></span></code></pre></div>
+<p>I subset <strong>R</strong> Markdown strings in <code>char.vec</code> into three potential components: 1) the <code>`</code> metacharacter beginning the string, 2) the text content between <code>`</code> metacharacters, and 3) the closing <code>`</code> metacharacter itself. I insert the content in item 2 (indicated as <code>\\2</code>) between <code>\texttt{</code> and <code>}</code> using:</p>
+<div class="sourceCode" id="cb537"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="st">"\\\texttt{\\2}"</span></span></code></pre></div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+<p>Importantly, Example <a href="ch4.html#exm:exm-418">4.20</a> illustrates the procedure to use if a queried character is itself a general expression metacharacter. For instance, the backslash in <code>\texttt</code>. In this case, the metacharacter must be escaped using single or double backslashes. That is, <code>\texttt</code> must be specified as <code>\\\texttt</code> in <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code>.</p>
+<div class="example">
+<p><span id="exm:exm-420" class="example"><strong>Example 4.21  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here I ask for a string split based on the appearance of <code>?</code> (which is a regex metacharacter) and <code>%</code> (which is not).</p>
+<div class="sourceCode" id="cb538"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="st">"m?2%b"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">string</span>, <span class="st">"[\\?%]"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] "m" "2" "b"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div id="character-class" class="section level5 unnumbered">
+<h5>Character class<a class="anchor" aria-label="anchor" href="#character-class"><i class="fas fa-link"></i></a>
+</h5>
+<p>A regular expression <em>character class</em> is comprised of a collection of characters, specifying some query or pattern, situated between quotes (single or double) and square brace metacharacters, e.g., <code>"["</code> and <code>"]"</code>. Thus, the code <code>"[\\?%]"</code> in the previous example defines a character class. Character class pattern matches will be evaluated for any single character in the specified text. The reverse will occur if the first character of the pattern is the regular expression caret metacharacter, <code>^</code>. For example, the expression <code>"[0-9]"</code> matches any single numeric character in a string, (the regular expression metacharacter <code>-</code> can be used to specify a range) and <code>[^abc]</code> matches anything <em>except</em> the characters <code>"a"</code>, <code>"b"</code> or <code>"c"</code>.</p>
+<div class="example">
+<p><span id="exm:exm-419" class="example"><strong>Example 4.22  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the following examples:</p>
+<div class="sourceCode" id="cb540"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="st">"a1c&amp;m2%b"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">string</span>, <span class="st">"[0-9]"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>[[1]]
+[1] "a"   "c&amp;m" "%b" </code></pre>
+<div class="sourceCode" id="cb542"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">string</span>, <span class="st">"[^abc]"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>[[1]]
+[1] "a" "c" ""  ""  ""  "b"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-421" class="example"><strong>Example 4.23  </strong></span><span class="math inline">\(\text{}\)</span><br>
+This regular expression will match most email addresses:</p>
+<div class="sourceCode" id="cb544"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pattern</span> <span class="op">&lt;-</span> <span class="st">"[-a-z0-9_.%]+\\@[-a-z0-9_.%]+\\.[a-z]+"</span></span></code></pre></div>
+<p>The expression literally reads: “1) find one or more occurrences of characters in a-z or A-Z or 0-9 or dashes or periods, followed by 2) the ampersand symbol (literally), followed by 3) one or more occurrences of characters in a-z or A-Z or 0-9 or dashes or periods, followed by 4) a literal period, followed by one or more occurrences of the letters a-z or A-Z.” Here is a string we wish to query:</p>
+<div class="sourceCode" id="cb545"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"abc_noboby@isu.edu"</span>,</span>
+<span>            <span class="st">"text with no email"</span>,</span>
+<span>            <span class="st">"me@mything.com"</span>,</span>
+<span>            <span class="st">"also"</span>,</span>
+<span>            <span class="st">"you@yourspace.com"</span>,</span>
+<span>            <span class="st">"@you"</span></span>
+<span>            <span class="op">)</span></span></code></pre></div>
+<p>We confirm that elements 1, 3, and 5 from <code>string</code> are email addresses.</p>
+<div class="sourceCode" id="cb546"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="va">string</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "abc_noboby@isu.edu" "me@mything.com"     "you@yourspace.com" </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>Certain character classes are predefined. These classes have names that are bounded by two square brackets and colons, and include <code>"[[:lower:]]"</code> and <code>"[[:upper:]]"</code> which identify lower and upper case letters, <code>"[:punct:]"</code> which identifies punctuation, <code>[[:alnum:]]</code>, which identifies all alphanumeric characters, and <code>"[[:space:]]"</code>, which identifies space characters, e.g., tab and newline.</p>
+<div class="sourceCode" id="cb548"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M2Ab"</span>, <span class="st">"def"</span>, <span class="st">"?"</span>, <span class="st">"%"</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"[[:lower:]]"</span>, <span class="va">string</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  TRUE  TRUE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb550"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"[[:upper:]]"</span>, <span class="va">string</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1]  TRUE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb552"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"[[:punct:]]"</span>, <span class="va">string</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb554"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"[[:space:]]"</span>, <span class="va">string</span><span class="op">)</span> <span class="co"># item five is a newline request</span></span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<p>Here I ask <strong>R</strong> to return elements from <code>string</code> that are three or more characters long.</p>
+<div class="sourceCode" id="cb556"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"[[:alnum:]]{3}"</span>, <span class="va">string</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "M2Ab" "def" </code></pre>
+<p>For some pattern matching and replacement jobs it may be best turn off the default extended regular expressions and use exact matching by specifying <code>fixed = TRUE</code>. For example, <strong>R</strong> may place periods in the place of spaces in character strings and column names in dataframes and arrays.</p>
+<div class="example">
+<p><span id="exm:exm-422" class="example"><strong>Example 4.24  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the following example:</p>
+<div class="sourceCode" id="cb558"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"United.States"</span>, <span class="st">"United.Arab.Emirates"</span>, <span class="st">"China"</span>, <span class="st">"Germany"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"."</span>, <span class="st">" "</span>, <span class="va">countries</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "             "        "                    " "     "               
+[4] "       "             </code></pre>
+<p>Note that using <code>gsub(".", " ", countries)</code> results in the replacement of all text with spaces because of the meaning of the period metacharacter. To get the desired result we could use:</p>
+<div class="sourceCode" id="cb560"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"."</span>, <span class="st">" "</span>, <span class="va">countries</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "United States"        "United Arab Emirates" "China"               
+[4] "Germany"             </code></pre>
+<p>Of course we could also double escape the period.</p>
+<div class="sourceCode" id="cb562"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">" "</span>, <span class="va">countries</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "United States"        "United Arab Emirates" "China"               
+[4] "Germany"             </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div id="perl-like-regular-expressions" class="section level4" number="4.3.6.2">
+<h4>
+<span class="header-section-number">4.3.6.2</span> Perl-like Regular Expressions<a class="anchor" aria-label="anchor" href="#perl-like-regular-expressions"><i class="fas fa-link"></i></a>
+</h4>
+<p>The <strong>R</strong> character string functions <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">regexpr()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">gregexpr()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code>, and <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> allow <em>Perl-like regular expression</em> pattern matching. This is done by specifying <code>perl = TRUE</code>, which switches regular expression handling to the <em>PRCE</em> package. Perl allows handling of the POSIX predefined character classes, e.g., <code>"[[:lower:]]"</code>, along with a wide variety of other calls which are generally implemented using metacharacters and double backslash commands. Here are some examples. </p>
+<ul>
+<li>
+<code>\\d</code> any decimal digit.</li>
+<li>
+<code>\\D</code> any character that is not a decimal digit.</li>
+<li>
+<code>\\h</code> any horizontal white space character (e.g., tab, space).</li>
+<li>
+<code>\\H</code> any character that is not a horizontal white space character.</li>
+<li>
+<code>\\s</code> any white space character.</li>
+<li>
+<code>\\S</code> any character that is not a white space character.</li>
+<li>
+<code>\\v</code> any vertical white space character (e.g., newline).</li>
+<li>
+<code>\\V</code> any character that is not a vertical white space character.</li>
+<li>
+<code>\\w</code> any word, i.e., letter or character components separated by white space.</li>
+<li>
+<code>\\W</code> any non word.</li>
+<li>
+<code>\\b</code> a word boundary.</li>
+<li>
+<code>\\U</code> upper case character (dependent on context).</li>
+<li>
+<code>\\L</code> lower case character (dependent on context).</li>
+</ul>
+<p>Note that reversals in meaning occur for capitalized and uncapitalized commands.</p>
+<div class="example">
+<p><span id="exm:exm-42-5" class="example"><strong>Example 4.25  </strong></span><span class="math inline">\(\text{}\)</span><br></p>
+<p>Here we identify string entries containing numbers.</p>
+<div class="sourceCode" id="cb564"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Acidobacteria"</span>, <span class="st">"Actinobacteria"</span>, <span class="st">"TM7.1"</span>, <span class="st">"Gitt-GS-136"</span>, </span>
+<span>            <span class="st">"Chloroflexia"</span>, <span class="st">"Bacili"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"\\d"</span>, <span class="va">string</span>, perl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3 4</code></pre>
+<p>And those containing non-numeric characters (i.e., all of the entries).</p>
+<div class="sourceCode" id="cb566"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"\\D"</span>, <span class="va">string</span>, perl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1 2 3 4 5 6</code></pre>
+<p>To subset non-numeric entries, one could do something like:</p>
+<div class="sourceCode" id="cb568"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"\\d"</span>, <span class="va">string</span>, perl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "Acidobacteria"  "Actinobacteria" "Chloroflexia"   "Bacili"        </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-423" class="example"><strong>Example 4.26  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a slightly extended example we will count the number of words in the description of the GNU public licences in <strong>R</strong> (obtained via <code>RShowDoc("COPYING")</code>). Ideas here largely follow from the function <code>DescTools::StrCountW()</code> <span class="citation">(<a href="references.html#ref-signor">Signorell 2023</a>)</span>.</p>
+<p>Text can be read from a connection using the function <code><a href="https://rdrr.io/r/base/readLines.html">readLines()</a></code>.</p>
+<div class="sourceCode" id="cb570"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GNU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/RShowDoc.html">RShowDoc</a></span><span class="op">(</span><span class="st">"COPYING"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">GNU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "\t\t    GNU GENERAL PUBLIC LICENSE"                                               
+[2] "\t\t       Version 2, June 1991"                                                  
+[3] ""                                                                               
+[4] " Copyright (C) 1989, 1991 Free Software Foundation, Inc."                       
+[5] "                       51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA"
+[6] " Everyone is permitted to copy and distribute verbatim copies"                  </code></pre>
+<p>Note that the escaped command <code>\t</code> represent the ASCII (American character encoding standard) control character for tab return. Other useful escaped control characters include <code>\n</code>, indicating new line or carriage return.</p>
+<p>To search for words, we will actually identify string components that are not words, identified with the Perl regex command <code>\\W</code> and word boundaries, i.e., <code>\\b</code>. We can combine these summarily as: <code>\\b\\W+\\b</code>. The call <code>\\W+</code> indicates a non-word match occurring one or more times. Here we apply this regular expression to the first element of <code>GNU</code>.</p>
+<div class="sourceCode" id="cb572"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GNU</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "\t\t    GNU GENERAL PUBLIC LICENSE"</code></pre>
+<div class="sourceCode" id="cb574"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"\\b\\W+\\b"</span>, <span class="va">GNU</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, perl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[[1]]
+[1] 10 18 25
+attr(,"match.length")
+[1] 1 1 1
+attr(,"index.type")
+[1] "chars"
+attr(,"useBytes")
+[1] TRUE</code></pre>
+<p>Matches occur at three locations, <code>10</code>, <code>18</code>, and <code>25</code>, which separate the four words <code>GNU GENERAL PUBLIC LICENSE</code>. Thus, to analyze the entire document we could use:</p>
+<div class="sourceCode" id="cb576"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span><span class="op">(</span><span class="st">"\\b\\W+\\b"</span>, <span class="va">GNU</span>, perl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>           <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3048</code></pre>
+<p>There are 3048 total words in the license description.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>One can identify substrings by number using Perl.</p>
+<div class="example">
+<p><span id="exm:exm-424" class="example"><strong>Example 4.27  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In this example, I subdivide a string into two components, the first character, i.e., <code>"(\\w)"</code>, and the remaining zero or more characters: <code>"(\\w*)"</code>. These are referred to in the <code>substitute</code> argument of <code>gsub</code> as items <code>\\1</code> and <code>\\2</code>, respectively. Capitalization for these substrings are handled in different ways below.</p>
+<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="st">"achillea"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"(\\w)(\\w*)"</span>, <span class="st">"\\U\\1\\U\\2"</span>, <span class="va">string</span>, perl<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># all caps</span></span></code></pre></div>
+<pre><code>[1] "ACHILLEA"</code></pre>
+<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"(\\w)(\\w*)"</span>, <span class="st">"\\L\\1\\U\\2"</span>, <span class="va">string</span>, perl<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># low, then upper case</span></span></code></pre></div>
+<pre><code>[1] "aCHILLEA"</code></pre>
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"(\\w)(\\w*)"</span>, <span class="st">"\\U\\1\\L\\2"</span>, <span class="va">string</span>, perl<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># up, then lower case</span></span></code></pre></div>
+<pre><code>[1] "Achillea"</code></pre>
+<p>The functions <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> and <code><a href="https://rdrr.io/r/base/chartr.html">toupper()</a></code> provide simpler approaches to convert letters to lower and upper case, respectively.</p>
+<div class="sourceCode" id="cb584"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="va">string</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "ACHILLEA"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+</div>
+</div>
+<div id="datetime" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Date-Time Classes<a class="anchor" aria-label="anchor" href="#datetime"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are two basic <strong>R</strong> date-time classes, <em>POSIXlt</em> and <em>POSIXct</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Again, the POSIX prefix refers to the IEEE standard Portable Operating System Interface&lt;/p&gt;"><sup>46</sup></a>. Class POSIXct represents the (signed) number of seconds since the beginning of 1970 (in the UTC time zone) as a numeric vector. An object of class POSIXlt will be comprised of a list of vectors with the names <code>sec</code>, <code>min</code>, <code>hour</code>, <code>mday</code> (day of month), <code>mon</code> (month), <code>year</code>, <code>wday</code> (day of week), and <code>yday</code> (day of year).
+</p>
+<p>POSIX naming conventions include:
+</p>
+<ul>
+<li>
+<code>%m</code> = Month as a decimal number (01–12).</li>
+<li>
+<code>%d</code> = Day of the month as a decimal number (01–31).</li>
+<li>
+<code>%Y</code> = Year. Designations in <code>0:9999</code> are accepted.</li>
+<li>
+<code>%H</code> = Hour as a decimal number (00–23).</li>
+<li>
+<code>%M</code> = Minute as a decimal number (00–59</li>
+</ul>
+<div class="example">
+<p><span id="exm:exm-425" class="example"><strong>Example 4.28  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an example, below are twenty dates and corresponding binary water presence measures (0 = water absent, 1 = water present) recorded at 2.5 hour intervals for an intermittent stream site in southwest Idaho <span class="citation">(<a href="references.html#ref-aho2023communication">Aho, Derryberry, et al. 2023</a>)</span>.</p>
+<div class="sourceCode" id="cb586"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"08/13/2019 04:00"</span>, <span class="st">"08/13/2019 06:30"</span>, <span class="st">"08/13/2019 09:00"</span>,</span>
+<span>           <span class="st">"08/13/2019 11:30"</span>, <span class="st">"08/13/2019 14:00"</span>, <span class="st">"08/13/2019 16:30"</span>,</span>
+<span>           <span class="st">"08/13/2019 19:00"</span>, <span class="st">"08/13/2019 21:30"</span>, <span class="st">"08/14/2019 00:00"</span>,</span>
+<span>           <span class="st">"08/14/2019 02:30"</span>, <span class="st">"08/14/2019 05:00"</span>, <span class="st">"08/14/2019 07:30"</span>,</span>
+<span>           <span class="st">"08/14/2019 10:00"</span>, <span class="st">"08/14/2019 12:30"</span>, <span class="st">"08/14/2019 15:00"</span>,</span>
+<span>           <span class="st">"08/14/2019 17:30"</span>, <span class="st">"08/14/2019 20:00"</span>, <span class="st">"08/14/2019 22:30"</span>,</span>
+<span>           <span class="st">"08/15/2019 01:00"</span>, <span class="st">"08/15/2019 03:30"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pres.abs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>To convert the character string <code>dates</code> to a date-time object we can use the function <code><a href="https://rdrr.io/r/base/strptime.html">strptime()</a></code>. We have:</p>
+<div class="sourceCode" id="cb587"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates.ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html">strptime</a></span><span class="op">(</span><span class="va">dates</span>, format <span class="op">=</span> <span class="st">"%m/%d/%Y %H:%M"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dates.ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "POSIXlt" "POSIXt" </code></pre>
+<p>Note that the dates can now be evaluated numerically.</p>
+<div class="sourceCode" id="cb589"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>dates <span class="op">=</span> <span class="va">dates.ts</span>, pres.abs <span class="op">=</span> <span class="va">pres.abs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dates.df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     dates                        pres.abs   
+ Min.   :2019-08-13 04:00:00   Min.   :0.00  
+ 1st Qu.:2019-08-13 15:52:30   1st Qu.:0.75  
+ Median :2019-08-14 03:45:00   Median :1.00  
+ Mean   :2019-08-14 03:45:00   Mean   :0.75  
+ 3rd Qu.:2019-08-14 15:37:30   3rd Qu.:1.00  
+ Max.   :2019-08-15 03:30:00   Max.   :1.00  </code></pre>
+<p>I can also easily extract time series components.</p>
+<div class="sourceCode" id="cb591"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates.ts</span><span class="op">$</span><span class="va">mday</span> <span class="co"># day of month</span></span></code></pre></div>
+<pre><code> [1] 13 13 13 13 13 13 13 13 14 14 14 14 14 14 14 14 14 14 15 15</code></pre>
+<div class="sourceCode" id="cb593"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates.ts</span><span class="op">$</span><span class="va">wday</span> <span class="co"># day of week</span></span></code></pre></div>
+<pre><code> [1] 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4</code></pre>
+<div class="sourceCode" id="cb595"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates.ts</span><span class="op">$</span><span class="va">hour</span> <span class="co"># hour</span></span></code></pre></div>
+<pre><code> [1]  4  6  9 11 14 16 19 21  0  2  5  7 10 12 15 17 20 22  1  3</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="exercises-3" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<p>Using the <code>plant</code> dataset from Question 5 in the Exercises at the end of Chapter <a href="ch3.html#ch3">3</a>, perform the following operations.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Attempt to simultaneously calculate the column means for plant height and soil % N using <code>FUN = mean</code> in <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>. Was there an issue? Why?</li>
+<li>Eliminate missing rows in <code>plant</code> using <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code> and repeat (a). Did this change the mean for plant height? Why?</li>
+<li>Modify the <code>FUN</code> argument in <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> to be: <code>FUN = function(x) mean(x, na.rm = TRUE)</code>. This will eliminate <code>NA</code>s on a column by column basis.</li>
+<li>Compare the results in (a), (b), (c). Which is the best approach? Why?</li>
+<li>Find the mean and variance of plant heights for each Management Type in <code>plant</code> using <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>. Use the best practice approach for <code>FUN</code>, as deduced in (d).</li>
+</ol>
+</li>
+<li>
+<p>For the questions below, use the list object <code>list.data</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Use <code>sapply(list.data, FUN = length)</code> to get the number of components in each element of <code>list.data</code>.</p></li>
+<li>
+<p>Repeat (a) using <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>. How is the output in (b) different from (a)?</p>
+<div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">list.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,</span>
+<span>                  greet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"hello"</span>, <span class="st">"goodbye"</span>, <span class="st">"hello"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>
+<p>A frequently used statistical application is the calculation of all possible mean differences. Assume that we have arithmetic means for the treatments <code>trt1</code>, <code>trt2</code>, <code>trt3</code>, <code>trt4</code> and <code>trt5</code>, given in the object <code>means</code> below.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculate all possible mean differences using <code>means</code> as the first two arguments in <code><a href="https://rdrr.io/r/base/outer.html">outer()</a></code>, and letting <code>FUN = "-"</code>.</p></li>
+<li>
+<p>Extract meaningful and non-redundant differences by using <code><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri()</a></code> or <code><a href="https://rdrr.io/r/base/lower.tri.html">lower.tri()</a></code> (Section <a href="ch3.html#utlt">3.4.4</a>). There should be <span class="math inline">\({5 \choose 2} = 10\)</span> meaningful (not simply a mean subtracted from itself) and non-redundant differences.</p>
+<div class="sourceCode" id="cb598"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>trt1 <span class="op">=</span> <span class="fl">20.5</span>, trt2 <span class="op">=</span> <span class="fl">15.3</span>, trt3 <span class="op">=</span> <span class="fl">22.1</span>, trt4 <span class="op">=</span> <span class="fl">30.4</span>, </span>
+<span>           trt5 <span class="op">=</span> <span class="fl">28</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>
+<p>Using the <code>plant</code> dataset from Question 5 in the Exercises for Chapter <a href="ch3.html#ch3">3</a>, perform the following operations.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Use the function <code><a href="https://rdrr.io/r/base/replace.html">replace()</a></code> to identify samples with soil N less than 13.5% by identifying them as <code>"Npoor"</code>.</li>
+<li>Use the function <code><a href="https://rdrr.io/r/base/which.html">which()</a></code> to identify which plant heights are greater than or equal to 33.2 dm.</li>
+<li>Sort plant heights using the function <code><a href="https://rdrr.io/r/base/sort.html">sort()</a></code>.</li>
+<li>Sort the <code>plant</code> dataset with respect to ascending values of plant height using the function <code><a href="https://rdrr.io/r/base/order.html">order()</a></code>.</li>
+</ol>
+</li>
+<li>
+<p>Using <code><a href="https://rdrr.io/r/base/match.html">match()</a></code> or <code>which</code> and <code>%in%</code>, replace the code column names in the dataset <code>cliff.sp</code> from the package <em>asbio</em>, with the correct scientific names (genus and specific epithet) from the dataframe <code>sp.list</code> below.</p>
+<div class="sourceCode" id="cb599"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sp.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"L_ASCA"</span>,<span class="st">"L_CLCI"</span>,<span class="st">"L_COSPP"</span>,<span class="st">"L_COUN"</span>,</span>
+<span><span class="st">"L_DEIN"</span>,<span class="st">"L_LCAT"</span>, <span class="st">"L_LCST"</span>,<span class="st">"L_LEDI"</span>,<span class="st">"M_POSP"</span>,<span class="st">"L_STDR"</span>,<span class="st">"L_THSP"</span>,</span>
+<span><span class="st">"L_TOCA"</span>,<span class="st">"L_XAEL"</span>,<span class="st">"M_AMSE"</span>, <span class="st">"M_CRFI"</span>,<span class="st">"M_DISP"</span>,<span class="st">"M_WECO"</span>,<span class="st">"P_MIGU"</span>,</span>
+<span><span class="st">"P_POAR"</span>,<span class="st">"P_SAOD"</span><span class="op">)</span>, </span>
+<span>sci.name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Aspicilia caesiocineria"</span>,<span class="st">"Caloplaca citrina"</span>,</span>
+<span><span class="st">"Collema spp."</span>, <span class="st">"Collema undulatum"</span>, <span class="st">"Dermatocarpon intestiniforme"</span>,</span>
+<span><span class="st">"Lecidea atrobrunnea"</span>, <span class="st">"Lecidella stigmatea"</span>, <span class="st">"Lecanora dispersa"</span>,</span>
+<span><span class="st">"Pohlia sp."</span>, <span class="st">"Staurothele drummondii"</span>, <span class="st">"Thelidium species"</span>,</span>
+<span><span class="st">"Toninia candida"</span>, <span class="st">"Xanthoria elegans"</span>, <span class="st">"Amblystegium serpens"</span>,</span>
+<span><span class="st">"Cratoneuron filicinum"</span>, <span class="st">"Dicranella species"</span>, <span class="st">"Weissia controversa"</span>,</span>
+<span><span class="st">"Mimulus guttatus"</span>, <span class="st">"Poa pattersonii"</span>, <span class="st">"Saxifraga odontoloma"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li>
+<p>Using the <code>sp.list</code> dataframe from the previous question, perform the following operations:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Apply <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> to the the column <code>sp.list$sci.name</code> to create a two column dataframe with genus and corresponding species names.</li>
+<li>A two character prefix in the column <code>sp.list$code</code> indicates whether a taxon is a lichen (prefix = <code>"L_"</code>), a marchantiophyte (prefix = <code>"M_"</code>), or a vascular plant (prefix = <code>"P_"</code>). Use <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> to identify marchantiophytes.</li>
+</ol>
+</li>
+<li>
+<p>Use the string vector <code>string</code> below to answer the following questions:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Use regular expressions in the <code>pattern</code> argument of <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> to get rid of extra spaces at the start of string elements while preserving spaces between words.</p></li>
+<li>
+<p>Use the predefined character class <code>[[:alnum:]]</code> and an accompanying quantifier in the <code>pattern</code> argument from <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> to count the number of words whose length is greater than or equal to four characters.</p>
+<div class="sourceCode" id="cb600"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"   Statistics is "</span>, <span class="st">"      a "</span>, <span class="st">" great topic."</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+<li>
+<p>Remove the numbers from the character vector below using <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> and an appropriate Perl-like regular expression.</p>
+<div class="sourceCode" id="cb601"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"enzyme1"</span>,<span class="st">"enzyme12"</span>,<span class="st">"enzyme3"</span>,<span class="st">"tRNA1"</span>,<span class="st">"tRNA205"</span>,</span>
+<span>       <span class="st">"mRNA6"</span>,<span class="st">"mRNA17"</span>,<span class="st">"mRNA8"</span>,<span class="st">"mRNA100"</span><span class="op">)</span> </span></code></pre></div>
+</li>
+<li>
+<p>Consider the character vector <code>times</code> below, which has the format: <code>day-month-year hour:minute:second</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Convert <code>times</code> into an object of class <code>POSIXlt</code> called <code>time.pos</code> using the function <code><a href="https://rdrr.io/r/base/strptime.html">strptime()</a></code>.</p></li>
+<li><p>Extract the day of the week from <code>time.pos</code>.</p></li>
+<li>
+<p>Sort <code>time.pos</code> using <code><a href="https://rdrr.io/r/base/sort.html">sort()</a></code> to verify that <code>time.pos</code> is quantitative.</p>
+<div class="sourceCode" id="cb602"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"12-12-2023 12:12:20"</span>,</span>
+<span>           <span class="st">"12-01-2021 01:12:40"</span>,</span>
+<span>           <span class="st">"15-10-2021 23:10:15"</span>,</span>
+<span>           <span class="st">"25-07-2022 13:09:45"</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></div>
+<div class="next"><a href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch4"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li>
+<a class="nav-link" href="#operations-on-arrays-lists-and-vectors"><span class="header-section-number">4.1</span> Operations on Arrays, Lists and Vectors</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#apply"><span class="header-section-number">4.1.1</span> The apply Family of Functions</a></li>
+<li><a class="nav-link" href="#outer"><span class="header-section-number">4.1.2</span> outer()</a></li>
+<li><a class="nav-link" href="#stack-unstack-and-reshape"><span class="header-section-number">4.1.3</span> stack(), unstack() and reshape()</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#other-simple-data-management-functions"><span class="header-section-number">4.2</span> Other Simple Data Management Functions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#replace"><span class="header-section-number">4.2.1</span> replace()</a></li>
+<li><a class="nav-link" href="#which"><span class="header-section-number">4.2.2</span> which()</a></li>
+<li><a class="nav-link" href="#sort"><span class="header-section-number">4.2.3</span> sort()</a></li>
+<li><a class="nav-link" href="#rank"><span class="header-section-number">4.2.4</span> rank()</a></li>
+<li><a class="nav-link" href="#order"><span class="header-section-number">4.2.5</span> order()</a></li>
+<li><a class="nav-link" href="#unique"><span class="header-section-number">4.2.6</span> unique()</a></li>
+<li><a class="nav-link" href="#match"><span class="header-section-number">4.2.7</span> match()</a></li>
+<li><a class="nav-link" href="#whichin"><span class="header-section-number">4.2.8</span> which() and %in%</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#regex"><span class="header-section-number">4.3</span> Matching, Querying and Substituting in Strings</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#strtrim-and-substr"><span class="header-section-number">4.3.1</span> strtrim() and substr()</a></li>
+<li><a class="nav-link" href="#strsplit"><span class="header-section-number">4.3.2</span> strsplit()</a></li>
+<li><a class="nav-link" href="#grep-and-grepl"><span class="header-section-number">4.3.3</span> grep() and grepl()</a></li>
+<li><a class="nav-link" href="#gsub"><span class="header-section-number">4.3.4</span> gsub()</a></li>
+<li><a class="nav-link" href="#gregexpr"><span class="header-section-number">4.3.5</span> gregexpr()</a></li>
+<li><a class="nav-link" href="#rgx"><span class="header-section-number">4.3.6</span> Regular Expressions</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#datetime"><span class="header-section-number">4.4</span> Date-Time Classes</a></li>
+<li><a class="nav-link" href="#exercises-3">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Functions | An Amalgam of R</title>
+<meta name="author" content="Ken Aho">
+<meta name="description" content="“A computer will do what you tell it to do, but that may be much different from what you had in mind.”  - Joseph Weizenbaum, Important early software developer and AI ethisist  8.1 Introduction to...">
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Functions | An Amalgam of R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="“A computer will do what you tell it to do, but that may be much different from what you had in mind.”  - Joseph Weizenbaum, Important early software developer and AI ethisist  8.1 Introduction to...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Functions | An Amalgam of R">
+<meta name="twitter:description" content="“A computer will do what you tell it to do, but that may be much different from what you had in mind.”  - Joseph Weizenbaum, Important early software developer and AI ethisist  8.1 Introduction to...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/core-js-2.5.3/shim.min.js"></script><script src="libs/react-18.2.0/react.min.js"></script><script src="libs/react-18.2.0/react-dom.min.js"></script><script src="libs/reactwidget-2.0.0/react-tools.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script><script src="libs/rglWebGL-binding-1.3.1/rglWebGL.js"></script><link href="libs/rglwidgetClass-1.3.1/rgl.css" rel="stylesheet">
+<script src="libs/rglwidgetClass-1.3.1/rglClass.src.js"></script><script src="libs/rglwidgetClass-1.3.1/utils.src.js"></script><script src="libs/rglwidgetClass-1.3.1/buffer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/subscenes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shaders.src.js"></script><script src="libs/rglwidgetClass-1.3.1/shadersrc.src.js"></script><script src="libs/rglwidgetClass-1.3.1/textures.src.js"></script><script src="libs/rglwidgetClass-1.3.1/projection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/mouse.src.js"></script><script src="libs/rglwidgetClass-1.3.1/init.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pieces.src.js"></script><script src="libs/rglwidgetClass-1.3.1/draw.src.js"></script><script src="libs/rglwidgetClass-1.3.1/controls.src.js"></script><script src="libs/rglwidgetClass-1.3.1/selection.src.js"></script><script src="libs/rglwidgetClass-1.3.1/rglTimer.src.js"></script><script src="libs/rglwidgetClass-1.3.1/pretty.src.js"></script><script src="libs/rglwidgetClass-1.3.1/axes.src.js"></script><script src="libs/rglwidgetClass-1.3.1/animation.src.js"></script><script src="libs/CanvasMatrix4-1.3.1/CanvasMatrix.src.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="A Primer and Reference for Biologists">An Amalgam of R</a>:
+        <small class="text-muted">A Primer and Reference for Biologists</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="ch1.html"><span class="header-section-number">1</span> Welcome to R</a></li>
+<li><a class="" href="ch2.html"><span class="header-section-number">2</span> Some Basics</a></li>
+<li><a class="" href="ch3.html"><span class="header-section-number">3</span> Data Objects, Packages, and Datasets</a></li>
+<li><a class="" href="ch4.html"><span class="header-section-number">4</span> Basic Data Management</a></li>
+<li><a class="" href="ch5.html"><span class="header-section-number">5</span> Welcome to the Tidyverse</a></li>
+<li><a class="" href="ch6.html"><span class="header-section-number">6</span> Base Graphics</a></li>
+<li><a class="" href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></li>
+<li><a class="active" href="ch8.html"><span class="header-section-number">8</span> Functions</a></li>
+<li><a class="" href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></li>
+<li><a class="" href="ch10.html"><span class="header-section-number">10</span> Building R Packages</a></li>
+<li><a class="" href="ch11.html"><span class="header-section-number">11</span> Interactive and Web Applications</a></li>
+<li><a class="" href="ch12.html"><span class="header-section-number">12</span> R and Your Computer</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ch8" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Functions<a class="anchor" aria-label="anchor" href="#ch8"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p><em>“A computer will do what you tell it to do, but that may be much different from what you had in mind.”</em></p>
+</blockquote>
+<div class="flushright">
+<p>- <strong>Joseph Weizenbaum</strong>, <em>Important early software developer and AI ethisist</em></p>
+</div>
+<div id="intro2functions" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Introduction to Functions<a class="anchor" aria-label="anchor" href="#intro2functions"><i class="fas fa-link"></i></a>
+</h2>
+<p>In computer programming, a <em>function</em> is a set of instructions for performing a specific task, or providing specific output. Essentially all processes in <strong>R</strong> are run via functions. For example, the command: <code>x &lt;- 2</code>, assigns the label <code>x</code> to the numeric value 2. This is actually accomplished, however, via the function <code>`&lt;-`</code>. That is, one could rewrite the expression <code>x &lt;- 2</code> as:</p>
+<div class="sourceCode" id="cb842"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">`&lt;-`</span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<p>Similarly, summations are evaluated with the underlying function <code>`+`</code>.</p>
+<div class="sourceCode" id="cb844"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">`+`</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>Function call translations, for example, from <code>2 + 2</code> to <code>`+`(2, 2)</code>, are made silently through the <strong>R</strong>-interpreter<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citation"&gt;Chambers (&lt;a href="references.html#ref-chambers2008"&gt;2008&lt;/a&gt;)&lt;/span&gt; describes function evaluation as a three step process: &lt;em&gt;read&lt;/em&gt; &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; &lt;em&gt;parse&lt;/em&gt; &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; &lt;em&gt;evaluate&lt;/em&gt;, and refers to the programmatic mechanisms underlying this process as the &lt;strong&gt;R&lt;/strong&gt;-evaluator.&lt;/p&gt;'><sup>67</sup></a>, which makes it unnecessary to compile <strong>R</strong> code into <em>executable files</em> (see Ch <a href="ch9.html#ch9">9</a>).
+<!-- ^[Note, however, that **R** can interact with executables and environments underlying other languages (see Ch \@ref(ch9)). This capacity can greatly expanded an **R** function's speed and flexibility.].  -->
+</p>
+<div id="function-and-function-base-types" class="section level3" number="8.1.1">
+<h3>
+<span class="header-section-number">8.1.1</span> <code>function()</code> and Function Base Types<a class="anchor" aria-label="anchor" href="#function-and-function-base-types"><i class="fas fa-link"></i></a>
+</h3>
+<p>Generally speaking, an <strong>R</strong> function –at the risk of sounding repetitive– is a function defined by the function <code>function()</code> 🙂. Arguments in <strong>R</strong> functions will be contained in a set of parentheses in the call to <code>function()</code> itself. The function contents follow, generally delineated by curly brackets. Thus, we have the form:</p>
+<p><code>function.name &lt;- function(arg.1, arg.2,...., arg.n){function contents}</code></p>
+<p>
+Recall from Chapter <a href="ch2.html#ch2">2</a> that there are three <strong>R</strong> base types specific to functions: <code>closure</code>, <code>special</code>, and <code>builtin</code>. Functions of base types <code>special</code> and <code>builtin</code> are constrained to the <em>base</em> package, and include <em>primitive functions</em> built into the <strong>R</strong> system, and implemented in C. Types <code>builtin</code> and <code>special</code> can be distinguished as functions that <em>do</em> and <em>do not</em> evaluate their arguments, respectively <span class="citation">(<a href="references.html#ref-team2024r">R Core Team 2024b</a>)</span>.</p>
+<div class="example">
+<p><span id="exm:exm-fprim" class="example"><strong>Example 8.1  </strong></span></p>
+The code below allows listing of <strong>R</strong> primitive functions <span class="citation">(<a href="references.html#ref-chambers2008">Chambers 2008</a>)</span>. On Line 1, a character vector containing <em>base</em> functions named <code>base.objs</code> is generated using the function <code><a href="https://rdrr.io/r/base/ls.html">objects()</a></code>. Strings from <code>base.objs</code> are used to test if the functions are primitive by using <code><a href="https://rdrr.io/r/base/is.function.html">is.primitive()</a></code> as the <code>FUN</code> argument in <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>. Boolean outcomes from the test are used to subset <code>base.objs</code> into the object <code>prim.objs</code>.<br><span class="math inline">\(\text{}\)</span><br><style type="text/css">
+pre.numberSource code > span > a:first-child::before {
+  left: -.05em;
+}
+</style>
+<div class="sourceCode" id="cb846"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb846-1"><a href="ch8.html#cb846-1"></a>base.objs <span class="ot">&lt;-</span> <span class="fu">objects</span>(<span class="st">"package:base"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb846-2"><a href="ch8.html#cb846-2"></a>prim.objs <span class="ot">&lt;-</span> base.objs[<span class="fu">sapply</span>(base.objs, <span class="cf">function</span>(x) <span class="fu">is.primitive</span>(<span class="fu">get</span>(x)))]</span></code></pre></div>
+<p>The summarization is continued in the chunk below. On Line 1, the function <code><a href="https://rdrr.io/r/base/split.html">split()</a></code> used to split data in <code>prim.objs</code> into distinguishing base type categories using <code>typeof(get())</code> within <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> (Lines 2 and 3). Numbers of items in these groups are tabulated using <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> again (Line 5). There are currently 168 <code>builtin</code> and 42 <code>special</code> primitive functions in <strong>R</strong>.</p>
+<div class="sourceCode" id="cb847"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb847-1"><a href="ch8.html#cb847-1"></a>base.types <span class="ot">&lt;-</span> <span class="fu">split</span>(prim.objs, </span>
+<span id="cb847-2"><a href="ch8.html#cb847-2"></a>                    <span class="fu">sapply</span>(prim.objs, </span>
+<span id="cb847-3"><a href="ch8.html#cb847-3"></a>                           <span class="cf">function</span>(x) <span class="fu">typeof</span>(<span class="fu">get</span>(x))))</span>
+<span id="cb847-4"><a href="ch8.html#cb847-4"></a></span>
+<span id="cb847-5"><a href="ch8.html#cb847-5"></a><span class="fu">sapply</span>(base.types, length)</span></code></pre></div>
+<pre><code>builtin special 
+    166      42 </code></pre>
+<p>Here are the first 20 <code>special</code> primitive functions:</p>
+<div class="sourceCode" id="cb849"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">base.types</span><span class="op">$</span><span class="va">special</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span></span></code></pre></div>
+<pre><code> [1] "$"         "$&lt;-"       "&amp;&amp;"        ".Internal" "::"       
+ [6] ":::"       "@"         "@&lt;-"       "["         "[["       
+[11] "[[&lt;-"      "[&lt;-"       "{"         "||"        "~"        
+[16] "&lt;-"        "&lt;&lt;-"       "="         "break"     "call"     </code></pre>
+<p>Here are the first 20 <code>builtin</code> primitive functions:</p>
+<div class="sourceCode" id="cb851"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">base.types</span><span class="op">$</span><span class="va">builtin</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span></span></code></pre></div>
+<pre><code> [1] "-"                  "!"                  "!="                
+ [4] "%%"                 "%*%"                "%/%"               
+ [7] "&amp;"                  "("                  "*"                 
+[10] "...elt"             "...length"          "...names"          
+[13] ".C"                 ".cache_class"       ".Call"             
+[16] ".Call.graphics"     ".class2"            ".External"         
+[19] ".External.graphics" ".External2"        </code></pre>
+<p>Clearly, primitive functions of base type <code>special</code> and <code>builtin</code> include conventional operators (with bounding accent grave characters). For example, <code>`$`</code> has base type <code>special</code>,</p>
+<div class="sourceCode" id="cb853"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">`$`</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "special"</code></pre>
+<p>and <code>`+`</code> has base type <code>builtin</code>.</p>
+<div class="sourceCode" id="cb855"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "builtin"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>Primitive functions generally make calls to the function <code><a href="https://rdrr.io/r/base/Primitive.html">.Primitive()</a></code>, which identifies an underlying C routine used for evaluating the outer function. For example, we see that <code>`+`</code>, as codified in <strong>R</strong>, calls a C routine identified with <code>"+"</code>.</p>
+<div class="sourceCode" id="cb857"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">`+`</span></span></code></pre></div>
+<pre><code>function (e1, e2)  .Primitive("+")</code></pre>
+<p>
+</p>
+</div>
+<div id="base-type-closure" class="section level3" number="8.1.2">
+<h3>
+<span class="header-section-number">8.1.2</span> Base Type <code>closure</code><a class="anchor" aria-label="anchor" href="#base-type-closure"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Primitive functions (those of types <code>special</code> and <code>builtin</code>) cannot be created by users outside of the <strong>R</strong> development core team. Thus, base type <code>closure</code> represents the only kind of function <strong>R</strong>-users can actually create and easily modify. The name “closure” refers to the programming style underlying these functions, with each assigned to a particular environment with local internal objects (see Section 5.4 in <span class="citation">Chambers (<a href="references.html#ref-chambers2008">2008</a>)</span>). Consider the simple homemade function <code>square.me()</code>.</p>
+<div class="sourceCode" id="cb859"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">square.me</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">square.me</span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 16</code></pre>
+<div class="sourceCode" id="cb861"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">square.me</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "closure"</code></pre>
+<p>Functions of base type <code>closure</code> will have three components.</p>
+<ul>
+<li>The <strong>formal arguments</strong> constitute the arguments that control the function. The formals can be accessed via the function <code><a href="https://rdrr.io/r/base/formals.html">formals()</a></code>. For instance,</li>
+</ul>
+<p></p>
+<div class="sourceCode" id="cb863"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">square.me</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$x</code></pre>
+<p>The formals of a function will have a <code>pairlist</code> base type.
+</p>
+<div class="sourceCode" id="cb865"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">square.me</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "pairlist"</code></pre>
+<ul>
+<li>The <strong>body</strong> constitutes the actual function code. The function <code><a href="https://rdrr.io/r/base/body.html">body()</a></code> returns the body of a function as an unevaluated expression.</li>
+</ul>
+<div class="sourceCode" id="cb867"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/body.html">body</a></span><span class="op">(</span><span class="va">square.me</span><span class="op">)</span></span></code></pre></div>
+<pre><code>{
+    x^2
+}</code></pre>
+<p></p>
+<ul>
+<li>The <strong>environment</strong> is a base type that defines the data structure the function requires for its computations. An environment is required for all <strong>R</strong> functions, whether they are <code>builtin</code>, <code>special</code>, or <code>closure</code>. When an object assignment (including the naming of a function) occurs at the “top level” in an <strong>R</strong> session (e.g., outside of the body of a function), its environment will be the global environment. The global environment is maintained throughout a session and can be saved across sessions using, for instance, the function <code><a href="https://rdrr.io/r/base/save.html">save.image()</a></code> (Section <a href="ch2.html#saveRobjects">2.7.2</a>). Environments of functions can be checked, created, or changed using the function <code><a href="https://rdrr.io/r/base/environment.html">environment()</a></code>.
+The environment of <code>square.me()</code> is the global environment.</li>
+</ul>
+<div class="sourceCode" id="cb869"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="va">square.me</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>As is the the environment of the session itself.</p>
+<div class="sourceCode" id="cb871"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>In contrast, the environment for the function <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> is the <em>base</em> package.</p>
+<div class="sourceCode" id="cb873"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&lt;environment: namespace:base&gt;</code></pre>
+<p>Functions in <em>base</em>, including <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, are accessible, because the <em>base</em> package namespace is loaded automatically (along with most of the <strong>R</strong> distribution packages) upon opening <strong>R</strong>.</p>
+<div class="sourceCode" id="cb875"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">isNamespaceLoaded</a></span><span class="op">(</span><span class="st">"base"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p></p>
+<div class="example">
+<p><span id="exm:exm-f1" class="example"><strong>Example 8.2  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a biological example, we will create a function for calculating predicted sizes of biological populations under geometric growth. The geometric growth equation (Eq. <a href="ch8.html#eq:905">(8.1)</a>) is often used to represent population growth for a species with unlimited resources and non-overlapping generations:</p>
+<p><span class="math display" id="eq:905">\[\begin{equation}
+f(t) = N_0\lambda^t,
+\tag{8.1}
+\end{equation}\]</span></p>
+<p>where: <span class="math inline">\(N_0 =\)</span> initial number of individuals, <span class="math inline">\(\lambda =\)</span> the geometric rate of increase, and <span class="math inline">\(t\)</span> = the number of time intervals or generations. We have:</p>
+<div class="sourceCode" id="cb877"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Geo.growth</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">N.0</span>, <span class="va">lambda</span>, <span class="va">t</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">Nt</span> <span class="op">&lt;-</span> <span class="va">N.0</span> <span class="op">*</span> <span class="va">lambda</span><span class="op">^</span><span class="va">t</span></span>
+<span>  <span class="va">Nt</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Note that the function has three arguments: <code>N.0</code>, <code>lambda</code>, and <code>t</code>.</p>
+<p>A function-user must specify each of these. The first line of code in the function body solves <span class="math inline">\(N_0\lambda^t\)</span>. Importantly, the second (last) line of body code specifies the object we actually want returned, <code>Nt</code>. Without a “return value” nothing will be returned by the function. If one requires multiple return objects, then one can place them in single suitable container like a list.</p>
+<p>To increase clarity, one should place the first curly bracket on same line as the arguments, and place last curly bracket on its own line. Readability can also be improved with the use of tabs and spaces. Note that I have indented lines containing related operations. This distinguishes those lines from the first (argument) line and the end (return) line. Note also that spaces are placed after commas, and before and after operators, including the assignment operator. This is also good general practice for code writing<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A good &lt;strong&gt;R&lt;/strong&gt; style guide can be found at: (&lt;a href="https://google.github.io/styleguide/Rguide.html" class="uri"&gt;https://google.github.io/styleguide/Rguide.html&lt;/a&gt;).&lt;/p&gt;'><sup>68</sup></a>.</p>
+<p>Below we run the function for different values of <code>N.0</code>, <code>lambda</code>, and <code>t</code>.</p>
+<div class="sourceCode" id="cb878"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Geo.growth</span><span class="op">(</span>N.0 <span class="op">=</span> <span class="fl">100</span>, lambda <span class="op">=</span> <span class="fl">1.2</span>, t <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3833.8</code></pre>
+<div class="sourceCode" id="cb880"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Geo.growth</span><span class="op">(</span>N.0 <span class="op">=</span> <span class="fl">30</span>, lambda <span class="op">=</span> <span class="fl">0.2</span>, t <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 0.24</code></pre>
+<div class="sourceCode" id="cb882"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Geo.growth</span><span class="op">(</span>N.0 <span class="op">=</span> <span class="fl">30</span>, lambda <span class="op">=</span> <span class="fl">1</span>, t <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 30</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div id="global-vs.-local-variables" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Global vs. Local Variables<a class="anchor" aria-label="anchor" href="#global-vs.-local-variables"><i class="fas fa-link"></i></a>
+</h2>
+<p>As noted in Ch <a href="ch1.html#ch1">1</a>, objects in <strong>R</strong> are lexically scoped, allowing distinctions of global and local variables. <em>Global variables</em> are objects that exist within the global environment and consequently are broadly accessible, whereas <em>local variables</em> are only accessible in particular settings. Objects defined within a function, including arguments, are (generally) local to that function, and thus are accessible only within the body of the function.</p>
+<p>We see that the object <code>N.t</code>, which was defined in the last line of <code>Geo.growth()</code>, is local to that function, since it cannot be detected in the global environment<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Commonly reported errors for functions using &lt;em&gt;tidyverse&lt;/em&gt; code are given at the &lt;a href="https://cran.r-project.org/web/packages/future/vignettes/future-4-issues.html"&gt;A future for R&lt;/a&gt; website.&lt;/p&gt;'><sup>69</sup></a>.</p>
+<div class="sourceCode" id="cb884"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Nt</span></span></code></pre></div>
+<pre><code>Error: object 'Nt' not found</code></pre>
+<p>Global variables can be assigned in functions using the super-assignment operator, <code>&lt;&lt;-</code>, although I have found the need for this operator to be rare (but see Section <a href="ch11.html#asswidget">11.2.1</a>).
+</p>
+<div class="sourceCode" id="cb886"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Geo.growth</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">N.0</span>, <span class="va">lambda</span>,<span class="va">t</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">Nt</span> <span class="op">&lt;&lt;-</span> <span class="va">N.0</span> <span class="op">*</span> <span class="va">lambda</span><span class="op">^</span><span class="va">t</span></span>
+<span>  <span class="va">Nt</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">Geo.growth</span><span class="op">(</span>N.0 <span class="op">=</span> <span class="fl">30</span>, lambda <span class="op">=</span> <span class="fl">1</span>, t <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">Nt</span></span></code></pre></div>
+<pre><code>[1] 30</code></pre>
+<div class="example">
+<p><span id="exm:exm-f2" class="example"><strong>Example 8.3  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The <code>apply</code> family of functions for data management, including <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> and <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> (Section <a href="ch4.html#apply">4.1.1</a>) allow inclusion of user-defined functions (see Example <a href="ch8.html#exm:exm-fprim">8.1</a> from earlier in this chapter). The function <code>stan()</code> below centers and scales (standardizes) outcomes. That is, each element in the dataset is subtracted from its mean, and divided by its standard deviation). We can call <code>stan()</code> within <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, using the latter function’s third (<code>FUN</code>) argument.</p>
+<div class="sourceCode" id="cb888"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stan</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">stan</span><span class="op">)</span></span></code></pre></div>
+<p>As a consequence of the transformation, columns in the object <code>out</code> will the same mean (zero), and the same variance (one)</p>
+<div class="sourceCode" id="cb889"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">out</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span> <span class="co"># zero with rounding error</span></span></code></pre></div>
+<pre><code>    height        age 
+1.6687e-16 1.8508e-17 </code></pre>
+<div class="sourceCode" id="cb891"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">out</span>, <span class="fl">2</span>, <span class="va">var</span><span class="op">)</span></span></code></pre></div>
+<pre><code>height    age 
+     1      1 </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<div class="example">
+<p><span id="exm:exm-f3" class="example"><strong>Example 8.4  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Below is a function called <code>stats()</code> that will simultaneously calculate a large number of distinct summary statistics.</p>
+<div class="sourceCode" id="cb893"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb893-1"><a href="ch8.html#cb893-1"></a>stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">5</span>){</span>
+<span id="cb893-2"><a href="ch8.html#cb893-2"></a>  <span class="fu">require</span>(asbio)</span>
+<span id="cb893-3"><a href="ch8.html#cb893-3"></a>  ds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">statistics =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">length</span>(x), <span class="fu">min</span>(x), <span class="fu">max</span>(x),</span>
+<span id="cb893-4"><a href="ch8.html#cb893-4"></a>                                        <span class="fu">mean</span>(x), <span class="fu">median</span>(x), <span class="fu">sd</span>(x), <span class="fu">var</span>(x),</span>
+<span id="cb893-5"><a href="ch8.html#cb893-5"></a>                                        <span class="fu">IQR</span>(x), <span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(x)),</span>
+<span id="cb893-6"><a href="ch8.html#cb893-6"></a>                                        <span class="fu">kurt</span>(x), <span class="fu">skew</span>(x)), digits))</span>
+<span id="cb893-7"><a href="ch8.html#cb893-7"></a>  <span class="fu">rownames</span>(ds) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"n"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"mean"</span>, <span class="st">"median"</span>, <span class="st">"sd"</span>,</span>
+<span id="cb893-8"><a href="ch8.html#cb893-8"></a>                    <span class="st">"var"</span>, <span class="st">"IQR"</span>, <span class="st">"SE"</span>, <span class="st">"kurtosis"</span>, <span class="st">"skew"</span>)</span>
+<span id="cb893-9"><a href="ch8.html#cb893-9"></a>  ds</span>
+<span id="cb893-10"><a href="ch8.html#cb893-10"></a>}</span></code></pre></div>
+<p>Note that the function contains two arguments (Line one): a call to a numeric data vector, <code>x</code>, and the number of significant digits to be used in printing the output. Because <code>digits</code> has been given a default value (<code>digits</code> = <code>5</code>), only the first argument needs to be specified by the user. The first line of code in the body of the function (Line 2) indicates that package <code>asbio</code> is required by the function (the package contains the functions <code><a href="https://rdrr.io/pkg/asbio/man/skew.kurt.html">asbio::skew()</a></code> and <code><a href="https://rdrr.io/pkg/asbio/man/skew.kurt.html">asbio::kurt()</a></code> for calculating the data skew and kurtosis, respectively.
+In Lines 3-8 a dataframe is created called <code>ds</code>. The dataframe has one
+column called <code>statistics</code>, that will contain numeric entries for eleven statistical summaries of <code>x</code>. The summaries are rounded to the number of digits specified in <code>digits</code>.
+Lines 7-8 define the row names of <code>ds</code>. These are the names of the statistics calculated by the function. The last line of code in the body (Line 9) prints <code>ds</code>.</p>
+<p>We can readily apply <code>stats()</code> directly to a single numeric column.</p>
+<div class="sourceCode" id="cb894"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stats</span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>         statistics
+n          84.00000
+min         3.46000
+max        64.10000
+mean       32.36440
+median     34.00000
+sd         20.67360
+var       427.39793
+IQR        40.89500
+SE          2.25568
+kurtosis   -1.47347
+skew       -0.06434</code></pre>
+<p>Or apply the function to multiple columns, for instance, by calling <code>stats()</code> within <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>. For instance:</p>
+<div class="sourceCode" id="cb896"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span>,<span class="fl">2</span>,<span class="va">stats</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$height
+         statistics
+n          84.00000
+min         3.46000
+max        64.10000
+mean       32.36440
+median     34.00000
+sd         20.67360
+var       427.39793
+IQR        40.89500
+SE          2.25568
+kurtosis   -1.47347
+skew       -0.06434
+
+$age
+         statistics
+n          84.00000
+min         3.00000
+max        25.00000
+mean       13.00000
+median     12.50000
+sd          7.89998
+var        62.40964
+IQR        15.00000
+SE          0.86196
+kurtosis   -1.37375
+skew        0.18925</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="useful-functions-for-writing-functions" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Useful Functions for Writing Functions<a class="anchor" aria-label="anchor" href="#useful-functions-for-writing-functions"><i class="fas fa-link"></i></a>
+</h2>
+<div id="swtch" class="section level3" number="8.3.1">
+<h3>
+<span class="header-section-number">8.3.1</span> <code>switch()</code><a class="anchor" aria-label="anchor" href="#swtch"><i class="fas fa-link"></i></a>
+</h3>
+<p>A useful tool for function writing is <code><a href="https://rdrr.io/r/base/switch.html">switch()</a></code>. It evaluates and switches among user-designated alternatives which can be defined in a function argument.</p>
+<div class="example">
+<p><span id="exm:exm-f4" class="example"><strong>Example 8.5  </strong></span><span class="math inline">\(\text{}\)</span><br>
+The function below switches between five different estimators of location (i.e., estimators of a typical or central value from a sample). These are the sample mean, a trimmed mean (using 10% trimming), the geometric mean, the median, and Huber’s <span class="math inline">\(M\)</span>-estimator. See Chapter 4 in <span class="citation">Aho (<a href="references.html#ref-aho2014">2014</a>)</span> for details concerning these estimators.
+</p>
+<div class="sourceCode" id="cb898"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb898-1"><a href="ch8.html#cb898-1"></a>location <span class="ot">&lt;-</span> <span class="cf">function</span>(x, estimator){</span>
+<span id="cb898-2"><a href="ch8.html#cb898-2"></a>  <span class="fu">require</span>(asbio)</span>
+<span id="cb898-3"><a href="ch8.html#cb898-3"></a>  <span class="cf">switch</span>(estimator,</span>
+<span id="cb898-4"><a href="ch8.html#cb898-4"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="co"># arithmetic mean</span></span>
+<span id="cb898-5"><a href="ch8.html#cb898-5"></a>    <span class="at">trim =</span> <span class="fu">mean</span>(x, <span class="at">trim =</span> <span class="fl">0.1</span>), <span class="co"># trimmed mean</span></span>
+<span id="cb898-6"><a href="ch8.html#cb898-6"></a>    <span class="at">geo =</span> <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x))), <span class="co"># geometric mean (use for means of rates)</span></span>
+<span id="cb898-7"><a href="ch8.html#cb898-7"></a>    <span class="at">med =</span> <span class="fu">median</span>(x), <span class="co"># median</span></span>
+<span id="cb898-8"><a href="ch8.html#cb898-8"></a>    <span class="at">huber =</span> <span class="fu">huber.mu</span>(x), <span class="co"># Huber M-estimator</span></span>
+<span id="cb898-9"><a href="ch8.html#cb898-9"></a>    <span class="fu">stop</span>(<span class="st">"Estimator not included"</span>))</span>
+<span id="cb898-10"><a href="ch8.html#cb898-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb899"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/defunct.html">location</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="st">"geo"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 10.198</code></pre>
+<div class="sourceCode" id="cb901"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/defunct.html">location</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="st">"trim"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 12.765</code></pre>
+<p>Important to the function above is the pairing of the <code>estimator</code> argument in the overall function (Line 1) and a call to <code>estimator</code> in the first argument of <code>switch</code> (Line 3). As a final component of <code>switch</code> we address the contingency that a location estimator is specified that is not codified in the function. This is done using the <code><a href="https://rdrr.io/r/base/stop.html">stop()</a></code> function with an appropriate message (Line 9).</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="match.arg" class="section level3" number="8.3.2">
+<h3>
+<span class="header-section-number">8.3.2</span> <code>match.arg()</code><a class="anchor" aria-label="anchor" href="#match.arg"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is possible to specify partial matching for argument designations using the function <code><a href="https://rdrr.io/r/base/match.arg.html">match.arg()</a></code>.</p>
+<div class="example">
+<p><span id="exm:exm-f5" class="example"><strong>Example 8.6  </strong></span><span class="math inline">\(\text{}\)</span><br>
+For instance, what if we knew (or only wanted to specify) the first couple letters in the location estimator options for the previous function, <code><a href="https://dplyr.tidyverse.org/reference/defunct.html">location()</a></code>?
+We could specify a step like the following.</p>
+<div class="sourceCode" id="cb903"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">indices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"trim"</span>, <span class="st">"geo"</span>, <span class="st">"median"</span>, <span class="st">"huber"</span><span class="op">)</span></span>
+<span><span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span><span class="op">(</span><span class="va">estimator</span>, <span class="va">indices</span><span class="op">)</span></span></code></pre></div>
+<p>
+This is incorporated into <code><a href="https://dplyr.tidyverse.org/reference/defunct.html">location()</a></code> on Lines 3-4 below. Note also the change in the first argument of <code>switch</code> from <code>estimator</code> (Line 5), which may have incomplete spelling of a location estimator name, to <code>method</code>, which will contain the complete index names from <code>index</code>.</p>
+<div class="sourceCode" id="cb904"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb904-1"><a href="ch8.html#cb904-1"></a>location <span class="ot">&lt;-</span> <span class="cf">function</span>(x, estimator){</span>
+<span id="cb904-2"><a href="ch8.html#cb904-2"></a>  <span class="fu">require</span>(asbio)</span>
+<span id="cb904-3"><a href="ch8.html#cb904-3"></a>  indices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"trim"</span>, <span class="st">"geo"</span>, <span class="st">"median"</span>, <span class="st">"huber"</span>)</span>
+<span id="cb904-4"><a href="ch8.html#cb904-4"></a>  method <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(estimator, indices)</span>
+<span id="cb904-5"><a href="ch8.html#cb904-5"></a>  <span class="cf">switch</span>(method,</span>
+<span id="cb904-6"><a href="ch8.html#cb904-6"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="co"># arithmetic mean</span></span>
+<span id="cb904-7"><a href="ch8.html#cb904-7"></a>    <span class="at">trim =</span> <span class="fu">mean</span>(x, <span class="at">trim =</span> <span class="fl">0.1</span>), <span class="co"># trimmed mean</span></span>
+<span id="cb904-8"><a href="ch8.html#cb904-8"></a>    <span class="at">geo =</span> <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x))), <span class="co"># geometric mean (use for means of rates)</span></span>
+<span id="cb904-9"><a href="ch8.html#cb904-9"></a>    <span class="at">med =</span> <span class="fu">median</span>(x), <span class="co"># median</span></span>
+<span id="cb904-10"><a href="ch8.html#cb904-10"></a>    <span class="at">huber =</span> <span class="fu">huber.mu</span>(x), <span class="co"># Huber M-estimator</span></span>
+<span id="cb904-11"><a href="ch8.html#cb904-11"></a>    <span class="fu">stop</span>(<span class="st">"Estimator not included"</span>))</span>
+<span id="cb904-12"><a href="ch8.html#cb904-12"></a>}</span></code></pre></div>
+<p>Now we could do something like:</p>
+<div class="sourceCode" id="cb905"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/defunct.html">location</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>,<span class="st">"t"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 12.765</code></pre>
+<div class="sourceCode" id="cb907"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/defunct.html">location</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>,<span class="st">"h"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 13</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span>
+</p>
+</div>
+<div id="section" class="section level3" number="8.3.3">
+<h3>
+<span class="header-section-number">8.3.3</span> <code>...</code><a class="anchor" aria-label="anchor" href="#section"><i class="fas fa-link"></i></a>
+</h3>
+<p>The triple dot (<code>...</code>) operator<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This operator is not the same as the C-internal &lt;code&gt;...&lt;/code&gt; base type (Section &lt;a href="ch2.html#bt"&gt;2.3.4&lt;/a&gt;).&lt;/p&gt;'><sup>70</sup></a> allows customization of existing functions within another function. Thus, it is useful for writing <em>wrapper functions</em> (functions whose chief purpose is customization of an embedded function).</p>
+<p></p>
+<div class="example">
+<p><span id="exm:exm-f6" class="example"><strong>Example 8.7  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Imagine you wished to create a wrapper for the function <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> that allowed simultaneous computation and customized plotting of a simple linear regression model. We could do something like:</p>
+<div class="sourceCode" id="cb909"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb909-1"><a href="ch8.html#cb909-1"></a>plot.reg <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...){</span>
+<span id="cb909-2"><a href="ch8.html#cb909-2"></a>  reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb909-3"><a href="ch8.html#cb909-3"></a>  <span class="fu">plot</span>(x, y, ...)</span>
+<span id="cb909-4"><a href="ch8.html#cb909-4"></a>  <span class="fu">abline</span>(reg)</span>
+<span id="cb909-5"><a href="ch8.html#cb909-5"></a>}</span></code></pre></div>
+<p>The first two formal arguments <code>x</code> and <code>y</code> on line Line 1, establish plotting coordinates of points, and define the outcomes for the explanatory and response variables, respectively. The third argument is the triple dot operator (Line 1). In the first line in the body of the function (Line 2) we create a general linear regression model using the function <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>. Line 3 creates a plot and, importantly, calls the triple dot operator from the arguments in <code>plot.reg()</code>. This allows specification of any possible <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> arguments, as arguments within <code>plot.reg()</code>. For instance, in the usage of <code>plot.reg()</code> below, I specify the <em>x</em> and <em>y</em> axis labels, a plotting character type, and symbols colors (Fig <a href="ch8.html#fig:trpdots">8.1</a>). The last line of code (Line 4) plots the regression line.</p>
+<div class="sourceCode" id="cb910"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Loblolly</span>, <span class="fu">plot.reg</span><span class="op">(</span><span class="va">age</span>, <span class="va">height</span>, pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">Seed</span><span class="op">)</span>,</span>
+<span>         ylab <span class="op">=</span> <span class="st">"Height (ft)"</span>, xlab <span class="op">=</span> <span class="st">"Age (yrs)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:trpdots"></span>
+<img src="figure/minimal-trpdots-1.png" alt="Representation of loblolly pine tree height as a function of age.  Regression fit overlaid. Seed types are distinguished with colors." width="624"><p class="caption">
+Figure 8.1: Representation of loblolly pine tree height as a function of age. Regression fit overlaid. Seed types are distinguished with colors.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="invisible" class="section level3" number="8.3.4">
+<h3>
+<span class="header-section-number">8.3.4</span> <code>invisible()</code><a class="anchor" aria-label="anchor" href="#invisible"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <code><a href="https://rdrr.io/r/base/invisible.html">invisible()</a></code> function can be useful when one wishes to have results computed and saved but not necessarily printed.</p>
+<div class="example">
+<p><span id="exm:exm-f7" class="example"><strong>Example 8.8  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Assume that we want to retain <code>plot.reg()</code> as a plotting function, but wish to have potential access to actual statistical summaries from the regression model. We could rewrite <code>plot.reg()</code> as:</p>
+<div class="sourceCode" id="cb911"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb911-1"><a href="ch8.html#cb911-1"></a>plot.reg <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">plot =</span> <span class="cn">TRUE</span>, ...){</span>
+<span id="cb911-2"><a href="ch8.html#cb911-2"></a>  reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb911-3"><a href="ch8.html#cb911-3"></a>  <span class="cf">if</span>(plot){ <span class="fu">plot</span>(x, y, ...)</span>
+<span id="cb911-4"><a href="ch8.html#cb911-4"></a>  <span class="fu">abline</span>(<span class="fu">coef</span>(reg))}</span>
+<span id="cb911-5"><a href="ch8.html#cb911-5"></a>  <span class="fu">invisible</span>(<span class="fu">summary</span>(reg))</span>
+<span id="cb911-6"><a href="ch8.html#cb911-6"></a>}</span></code></pre></div>
+<p>Note that I have added an argument, <code>plot</code> (Line 1), to control whether a plot is created via <code>if(plot)</code> (Line 3). By suppressing plotting I get no graphics (or text) output:</p>
+<div class="sourceCode" id="cb912"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Loblolly</span>, <span class="fu">plot.reg</span><span class="op">(</span><span class="va">age</span>, <span class="va">height</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>However, if I assign a name to the function’s output, and print the assigned object, I get summary output for the regression model:</p>
+<div class="sourceCode" id="cb913"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lob.model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Loblolly</span>, <span class="fu">plot.reg</span><span class="op">(</span><span class="va">age</span>, <span class="va">height</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">lob.model</span></span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-7.021 -2.167 -0.439  2.054  6.855 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -1.3124     0.6218   -2.11    0.038 *  
+x             2.5905     0.0409   63.27   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.95 on 82 degrees of freedom
+Multiple R-squared:  0.98,  Adjusted R-squared:  0.98 
+F-statistic: 4e+03 on 1 and 82 DF,  p-value: &lt;2e-16</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div id="loops" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> Loops<a class="anchor" aria-label="anchor" href="#loops"><i class="fas fa-link"></i></a>
+</h2>
+<p>Loop functions exist in some form in virtually all programming languages. A “for loop” in <strong>R</strong> is initiated using the function <code>for()</code>. The <code>for</code> construct requires a specification of three entities
+</p>
+<ul>
+<li>An index variable, e.g., <code>i</code>,
+</li>
+<li>The statement <code>in</code>
+</li>
+<li>A sequence that the index variable refers to as the loop commences.</li>
+</ul>
+<p>Code defining the loop follows, generally delineated by curly brackets. In parallel to function writing it is good style to place the first curly bracket on the same line as the call to for, and to place the last curly bracket on its own line. Thus, we have the basic <code>for</code> loop format:</p>
+<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb915-1"><a href="ch8.html#cb915-1" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> seq){</span>
+<span id="cb915-2"><a href="ch8.html#cb915-2" tabindex="-1"></a>  loop contents</span>
+<span id="cb915-3"><a href="ch8.html#cb915-3" tabindex="-1"></a>}</span></code></pre></div>
+<p>
+In the loop, values of index are used directly or indirectly to specify the <span class="math inline">\(i\)</span>th element of something (e.g., matrix column, vector entry, etc.) as the for loop sequence commences. The replacement/definition process takes place in the “loop contents.” For instance,</p>
+<div class="sourceCode" id="cb916"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code>[1] 1
+[1] 2
+[1] 3</code></pre>
+<div id="extending-scalar-arguments" class="section level3" number="8.4.1">
+<h3>
+<span class="header-section-number">8.4.1</span> Extending Scalar Arguments<a class="anchor" aria-label="anchor" href="#extending-scalar-arguments"><i class="fas fa-link"></i></a>
+</h3>
+<p>One application for a loop is to make functions with scalar input arguments amenable to multi-element vector, matrix or dataframe inputs.</p>
+<div class="example">
+<p><span id="exm:exm-f8" class="example"><strong>Example 8.9  </strong></span><span class="math inline">\(\text{}\)</span><br>
+A library I created, <em>plant.ecol</em>, lives only on Github. We can access it with the code:</p>
+<div class="sourceCode" id="cb918"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"moondog1969/plant.ecol"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plant.ecol</span><span class="op">)</span></span></code></pre></div>
+<p>The package <em>devtools</em> facilities building <strong>R</strong> packages from source code, and contains functions, e.g., <code><a href="https://remotes.r-lib.org/reference/install_github.html">install_github()</a></code>, for downloading packages from unconventional repositories<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Functions from the &lt;em&gt;tidyverse&lt;/em&gt; package &lt;em&gt;usethis&lt;/em&gt; will be useful for setting up passwords and tokens necessary for downloading from some repositories, including Github.&lt;/p&gt;"><sup>71</sup></a>. The function <code><a href="https://rdrr.io/pkg/plant.ecol/man/radiation.heatl.html">plant.ecol::radiation.heatl()</a></code> calculates annual incident solar radiation (MJ cm<span class="math inline">\(^{-2}\)</span> yr<span class="math inline">\(^{-1}\)</span>) and heatload, a northern hemisphere thermal index that acknowledges that highest levels of heat loading occur on southwest facing slopes north of the equator. The function requires three arguments for some location of interest: slope, aspect, and north latitude, all measured in degrees.
+</p>
+<div class="sourceCode" id="cb919"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">radiation.heatl</span><span class="op">)</span></span></code></pre></div>
+<pre><code>$slope
+
+
+$aspect
+
+
+$lat</code></pre>
+<p>The function is designed to accommodate scalar inputs (single values for slope, aspect and lat). We will create a for loop to allow calculation of multiple values from a matrix. For instance, here are potential values for five sites.</p>
+<div class="sourceCode" id="cb921"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">envdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">12</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                aspect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">148</span>, <span class="fl">110</span>, <span class="fl">0</span>, <span class="fl">30</span>, <span class="fl">130</span><span class="op">)</span>,</span>
+<span>                latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">50</span>, <span class="fl">20</span>, <span class="fl">25</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We first create storage containers for the radiation and heatload results.</p>
+<div class="sourceCode" id="cb922"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rad.out</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">envdata</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">hl.out</span></span></code></pre></div>
+<p>Here is a potential loop for our problem.</p>
+<div class="sourceCode" id="cb923"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb923-1"><a href="ch8.html#cb923-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(rad.out)){</span>
+<span id="cb923-2"><a href="ch8.html#cb923-2"></a>  temp <span class="ot">&lt;-</span> <span class="fu">with</span>(envdata, <span class="fu">radiation.heatl</span>(slope[i],</span>
+<span id="cb923-3"><a href="ch8.html#cb923-3"></a>                                         aspect[i],</span>
+<span id="cb923-4"><a href="ch8.html#cb923-4"></a>                                         latitude[i]))</span>
+<span id="cb923-5"><a href="ch8.html#cb923-5"></a>  rad.out[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>radiation</span>
+<span id="cb923-6"><a href="ch8.html#cb923-6"></a>  hl.out[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>heat.load</span>
+<span id="cb923-7"><a href="ch8.html#cb923-7"></a>}</span></code></pre></div>
+<p>The function was forced to loop around on itself letting <code>i = 1</code> during the first loop, <code>i = 2</code>, during the second loop, up to <code>i = 5</code> on the final loop. Here are the results.</p>
+<div class="sourceCode" id="cb924"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">rad.out</span>, <span class="va">hl.out</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     rad.out  hl.out
+[1,] 0.99766 0.94551
+[2,] 0.85008 0.77345
+[3,] 0.93030 0.96684
+[4,] 0.85604 0.83957
+[5,] 0.91852 0.90011</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="building-on-a-previous-result" class="section level3" number="8.4.2">
+<h3>
+<span class="header-section-number">8.4.2</span> Building on a Previous Result<a class="anchor" aria-label="anchor" href="#building-on-a-previous-result"><i class="fas fa-link"></i></a>
+</h3>
+<p>Another application of a loop is to iteratively build on the results of the previous step(s) in the loop.</p>
+<div class="example">
+<p><span id="exm:exm-even" class="example"><strong>Example 8.10  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider the following function that counts the number of even entries in a vector of integers.</p>
+<div class="sourceCode" id="cb926"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb926-1"><a href="ch8.html#cb926-1"></a>evencount <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb926-2"><a href="ch8.html#cb926-2"></a>  res <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb926-3"><a href="ch8.html#cb926-3"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span> <span class="sc">:</span> <span class="fu">length</span>(x)){</span>
+<span id="cb926-4"><a href="ch8.html#cb926-4"></a>    <span class="cf">if</span>(x[i] <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) res <span class="ot">&lt;-</span> res <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb926-5"><a href="ch8.html#cb926-5"></a>    }</span>
+<span id="cb926-6"><a href="ch8.html#cb926-6"></a>  res</span>
+<span id="cb926-7"><a href="ch8.html#cb926-7"></a>}</span></code></pre></div>
+<p>Recall from Ch 2 that <code>%%</code> is the modulus operator in <strong>R</strong>. That is, it finds the remainder in division. By definition the remainder of any even integer divided by two will be zero. At each loop iteration the function adds one to the numeric object <code>res</code> if the current integer in the loop is even (if it has remainder zero if divided by two).</p>
+<div class="sourceCode" id="cb927"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">evencount</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb929"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">evencount</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+</div>
+<div id="summarizing-categorical-variables" class="section level3" number="8.4.3">
+<h3>
+<span class="header-section-number">8.4.3</span> Summarizing Categorical Variables<a class="anchor" aria-label="anchor" href="#summarizing-categorical-variables"><i class="fas fa-link"></i></a>
+</h3>
+<p>A third loop application is the summarization of data with respect to levels in a categorical variable.</p>
+<div class="example">
+<p><span id="exm:exm-f10" class="example"><strong>Example 8.11  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As an example we will create statistical summaries for <code>height</code> and <code>age</code> for each <code>Seed</code> type in the <code>Loblolly</code> dataset, using the <code>stats</code> function I created earlier. I first create an empty list to hold my result:</p>
+<div class="sourceCode" id="cb931"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb932"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb932-1"><a href="ch8.html#cb932-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">levels</span>(Loblolly<span class="sc">$</span>Seed)){</span>
+<span id="cb932-2"><a href="ch8.html#cb932-2"></a>    temp <span class="ot">&lt;-</span> Loblolly[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>][Loblolly<span class="sc">$</span>Seed <span class="sc">==</span>i,]</span>
+<span id="cb932-3"><a href="ch8.html#cb932-3"></a>    result[[i]] <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">apply</span>(temp, <span class="dv">2</span>, stats))</span>
+<span id="cb932-4"><a href="ch8.html#cb932-4"></a>    <span class="fu">names</span>(result[[i]]) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Age"</span>,<span class="st">"Height"</span>)</span>
+<span id="cb932-5"><a href="ch8.html#cb932-5"></a>}</span></code></pre></div>
+<p><code>Loblolly$Seed</code>. This is specified with: <code>for(i in levels(Loblolly$Seed))</code>. Note that on Line 2, the first two columns of the <code>Loblolly</code> dataset are subset by levels in <code>Seed</code>. Here are the results for seed type 305.</p>
+<div class="sourceCode" id="cb933"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span><span class="op">$</span><span class="st">'305'</span> <span class="co"># "name" of one of the 14 Loblolly seed types</span></span></code></pre></div>
+<pre><code>              Age   Height
+n          6.0000  6.00000
+min        4.7900  3.00000
+max       64.1000 25.00000
+mean      35.1150 13.00000
+median    37.3050 12.50000
+sd        23.9271  8.60233
+var      572.5056 74.00000
+IQR       36.8850 12.50000
+SE         9.7682  3.51188
+kurtosis  -1.8479 -1.47809
+skew      -0.1613  0.25449</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="looping-without-for" class="section level3" number="8.4.4">
+<h3>
+<span class="header-section-number">8.4.4</span> Looping Without <code>for()</code><a class="anchor" aria-label="anchor" href="#looping-without-for"><i class="fas fa-link"></i></a>
+</h3>
+<p>Looping in <strong>R</strong> is also possible using other general styles of Algol-like<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Algol (Algorithmic language) computer languages arose in the late 1950s from the language ALGOL 68. Important examples include Pascal, C, and Fortran.&lt;/p&gt;"><sup>72</sup></a> languages (e.g., C, C++, Pascal, and Fortran). This is accomplished with the constructs <code>while()</code>, <code>repeat</code>, and <code><a href="https://rdrr.io/r/base/Control.html">break</a></code>.
+</p>
+<div class="example">
+<p><span id="exm:exm-f11" class="example"><strong>Example 8.12  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Consider an example in which 2 is added to a base number until the updated number becomes greater than or equal to 10: We have:</p>
+<div class="sourceCode" id="cb935"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="va">i</span> <span class="op">&lt;</span> <span class="fl">10</span><span class="op">)</span> <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span><span class="va">i</span></span></code></pre></div>
+<pre><code>[1] 11</code></pre>
+<p>Or, to explicitly track the loop, we could use:</p>
+<div class="sourceCode" id="cb937"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">i</span></span>
+<span></span>
+<span><span class="kw">while</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">j</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span>    <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">out</span>, <span class="va">j</span>, sep <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span>    <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">j</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">i</span> <span class="op">&gt;</span> <span class="fl">9</span><span class="op">)</span> <span class="kw">break</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">out</span></span></code></pre></div>
+<pre><code>[1] "1,3,5,7,9,11"</code></pre>
+<p>Or, more simply</p>
+<div class="sourceCode" id="cb939"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">i</span></span>
+<span></span>
+<span><span class="kw">repeat</span><span class="op">{</span></span>
+<span>    <span class="va">j</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span>    <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">out</span>, <span class="va">j</span>, sep <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span>    <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">j</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">i</span> <span class="op">&gt;</span> <span class="fl">9</span><span class="op">)</span> <span class="kw">break</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">out</span></span></code></pre></div>
+<pre><code>[1] "1,3,5,7,9,11"</code></pre>
+<p>Here <code>i</code> took on values 1, 3, 5, 7, 9, and 11 as the loop commenced (this information is accumulated in the object <code>out</code>). When <code>i</code> equaled 11, the condition for continuation of the loop failed and the loop was halted.</p>
+<div class="blackbox">
+<div class="center">
+<p><strong>CAUTION!</strong></p>
+</div>
+<p>Some care should be exercised with <code>while()</code> and <code>repeat</code> since infinite loops will result if impossible breaks are specified.</p>
+</div>
+<!-- \begin{tcolorbox} -->
+<!-- [enhanced, -->
+<!-- title=Caution!, colframe = red!50!black, colback = umber!10!white, arc = 1mm, -->
+<!-- colbacktitle = umber!10!white, fonttitle = \bfseries, coltitle = umber!50!black, -->
+<!-- attach boxed title to top left = {xshift = 3.2mm, yshift = -0.5mm}, -->
+<!-- boxed title style = {skin = enhancedfirst jigsaw, size = small, arc = 1mm, -->
+<!-- bottom = -1mm, interior style = {fill = none, top color = umber!30!white, -->
+<!-- bottom color = umber!20!white}}] -->
+<!-- Some care should be exercised with `while()` and `repeat` since infinite loops will result if impossible breaks are specified. -->
+<!-- \end{tcolorbox} -->
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="final-looping-considerations" class="section level3" number="8.4.5">
+<h3>
+<span class="header-section-number">8.4.5</span> Final Looping Considerations<a class="anchor" aria-label="anchor" href="#final-looping-considerations"><i class="fas fa-link"></i></a>
+</h3>
+<p>Despite their potential usefulness, loops can run slowly in <strong>R</strong> because it is an interpreted language (see Ch <a href="ch9.html#ch9">9</a>). Loops can often be avoided altogether. For example, one could rewrite the earlier <code>evencount()</code> function as:
+<!-- in Example \@refExample 8.13   --></p>
+<div class="sourceCode" id="cb941"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">evencounti</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span> <span class="fl">2</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co"># even outcomes from a random Poisson process</span></span>
+<span><span class="fu">evencounti</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 503</code></pre>
+<p>This increases efficiency, as documented by the function <code><a href="https://rdrr.io/r/base/system.time.html">system.time()</a></code>:</p>
+<div class="sourceCode" id="cb943"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">evencount</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   0.19    0.00    0.21 </code></pre>
+<div class="sourceCode" id="cb945"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">evencounti</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>   user  system elapsed 
+   0.07    0.00    0.06 </code></pre>
+<p>Loops can often be run more efficiently using the <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> family of functions (see animation examples using <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> in Chs <a href="ch6.html#ch6">6</a> and <a href="ch7.html#ch7">7</a>).
+</p>
+<p>If loops are necessary, speed is an issue, and use of alternative approaches (e.g., <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>) is awkward or suboptimal, one can call a compiled C, C++, or Fortran script from within <strong>R</strong> to run the loop. This topic is addressed further in Ch. <a href="ch9.html#ch9">9</a>.</p>
+</div>
+</div>
+<div id="FunctionalProgramming" class="section level2" number="8.5">
+<h2>
+<span class="header-section-number">8.5</span> Functional Programming<a class="anchor" aria-label="anchor" href="#FunctionalProgramming"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+In functional programming one uses a declarative programming style that applies “pure” (often argument-less) functions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Famous functional programming languages include &lt;em&gt;Lisp&lt;/em&gt;, &lt;em&gt;Scheme&lt;/em&gt;, &lt;em&gt;F#&lt;/em&gt;, and &lt;em&gt;Haskell&lt;/em&gt;.&lt;/p&gt;"><sup>73</sup></a>. Binary or <em>infix</em> operations require exactly two operands, and provide excellent examples of functional programming. The primitive functions <code>`+`</code>, <code>`-`</code>, <code>`*`</code> (Section <a href="ch8.html#intro2functions">8.1</a>) are binary operator functions. When more than two operands are supplied, the functions still work in pairs. Thus,</p>
+<div class="sourceCode" id="cb947"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">`+`</span><span class="op">(</span><span class="fl">1</span>,<span class="fu">`+`</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 6</code></pre>
+<p>is equivalent to</p>
+<div class="sourceCode" id="cb949"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">3</span></span></code></pre></div>
+<pre><code>[1] 6</code></pre>
+<p>One can create personalized operator functions using the syntax: <code>`% operator name %`</code> or <code>"% operator name %"</code>.</p>
+<div class="example">
+<p><span id="exm:exm-fp1L" class="example"><strong>Example 8.14  </strong></span><span class="math inline">\(\text{}\)</span><br>
+It might be useful to have an operator-style function for computing cumulative sums of individual numbers (although <code><a href="https://rdrr.io/r/base/cumsum.html">cumsum()</a></code> does this already for numerical or complex objects). We will call our new operator <code>%+%</code>.</p>
+<div class="sourceCode" id="cb951"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">`%+%`</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>,<span class="va">b</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">a</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
+<span></span>
+<span><span class="fl">2.1</span> <span class="op"><a href="https://ggplot2.tidyverse.org/reference/gg-add.html">%+%</a></span> <span class="fl">7.4</span></span></code></pre></div>
+<pre><code>[1] 2.1 9.5</code></pre>
+<p>To make the operator work for more than two numbers, the second operand must be a multi-element numeric object.</p>
+<div class="sourceCode" id="cb953"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">2.1</span> <span class="op"><a href="https://ggplot2.tidyverse.org/reference/gg-add.html">%+%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2.6</span>, <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 2.1 4.7 6.2</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p></p>
+<p>Useful <strong>R</strong> functions for functional programming include <code><a href="https://rdrr.io/r/base/funprog.html">Reduce()</a></code>, <code><a href="https://rdrr.io/r/base/funprog.html">Filter()</a></code>, <code><a href="https://rdrr.io/r/base/funprog.html">Find()</a></code>, <code><a href="https://rdrr.io/r/base/funprog.html">Map()</a></code>, <code><a href="https://rdrr.io/r/base/funprog.html">Negate()</a></code>, and <code><a href="https://ggplot2.tidyverse.org/reference/ggplot2-ggproto.html">Position()</a></code>.
+</p>
+<div class="example">
+<p><span id="exm:exm-f11a" class="example"><strong>Example 8.15  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a more applied example, recall from Section <a href="ch4.html#whichin">4.2.8</a> that the <code>%in%</code> operator can be used to indicate if there is a match (or not) for its left operand. This does not clarify, however, how one might specify <em>not</em> <code>%in%</code>. The operations <code>!%in%</code> and <code>%!in%</code>, for example, do not work. The code below creates a <code>%!in%</code> operator using the function <code><a href="https://rdrr.io/r/base/funprog.html">Negate()</a></code>.</p>
+<div class="sourceCode" id="cb955"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">`%!in%`</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Negate</a></span><span class="op">(</span><span class="va">`%in%`</span><span class="op">)</span></span></code></pre></div>
+<p>We apply <code>`%!in%`</code> below to subset bacterial phylum names.</p>
+<div class="sourceCode" id="cb956"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">big</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Abawacabacteria"</span>, <span class="st">"Absconditabacteria"</span>, <span class="st">"Acidobacteriota"</span>, </span>
+<span>         <span class="st">"Actinomycetota"</span>, <span class="st">"Aminicenantes"</span>, <span class="st">"Atribacterota"</span>, </span>
+<span>         <span class="st">"Aquificota"</span>, <span class="st">"Azambacteria"</span><span class="op">)</span></span>
+<span><span class="va">small</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Acidobacteriota"</span>, <span class="st">"Actinomycetota"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">big</span> <span class="op">%!in%</span> <span class="va">small</span><span class="op">)</span> </span>
+<span><span class="va">big</span><span class="op">[</span><span class="va">w</span><span class="op">]</span></span></code></pre></div>
+<pre><code>[1] "Abawacabacteria"    "Absconditabacteria" "Aminicenantes"     
+[4] "Atribacterota"      "Aquificota"         "Azambacteria"      </code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="functions-with-classes-and-methods" class="section level2" number="8.6">
+<h2>
+<span class="header-section-number">8.6</span> Functions with Classes and Methods<a class="anchor" aria-label="anchor" href="#functions-with-classes-and-methods"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>R</strong> object classes can have particular <strong>methods</strong> for plotting, printing, and summarization. Following a relatively simple series of steps, these methods can be implemented using generic function names, i.e., <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>. For example, the function <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> creates objects of class <code>lm</code>.</p>
+<div class="sourceCode" id="cb958"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">height</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">Loblolly</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "lm"</code></pre>
+<p>There are specific summary, print, and plot methods for an object of class <code>lm</code>. Code for these methods can be viewed by typing <code>stats:::summary.lm</code>, <code>stats:::print.lm</code>, and <code>stats:::plot.lm</code>, respectively. The <code>stats:::print.lm</code> will be called automatically to print an object of class <code>lm</code>. For instance,</p>
+<div class="sourceCode" id="cb960"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = height ~ age, data = Loblolly)
+
+Coefficients:
+(Intercept)          age  
+      -1.31         2.59  </code></pre>
+<p>or, more simply,</p>
+<div class="sourceCode" id="cb962"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span></span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = height ~ age, data = Loblolly)
+
+Coefficients:
+(Intercept)          age  
+      -1.31         2.59  </code></pre>
+<p>Here are 20 out of the more than 500 functions on my workstation that can be called with <code>print</code>, depending on the class of the object that is being printed.</p>
+<div class="sourceCode" id="cb964"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">print</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span></span></code></pre></div>
+<pre><code> [1] "print,ANY-method"            "print,diagonalMatrix-method"
+ [3] "print,modelMatrix-method"    "print,sparseMatrix-method"  
+ [5] "print.aareg"                 "print.abbrev"               
+ [7] "print.abuocc"                "print.acf"                  
+ [9] "print.activeConcordance"     "print.addtest"              
+[11] "print.AES"                   "print.agnes"                
+[13] "print.all_vars"              "print.allPerms"             
+[15] "print.anosim"                "print.anova"                
+[17] "print.Anova"                 "print.anova.gam"            
+[19] "print.anova.lme"             "print.anova.loglm"          </code></pre>
+<p>Importantly, we are not limited to the pre-existing object classes in <strong>R</strong> (e.g., <code>lm</code>, <code>numeric</code>, <code>factor</code>, etc.). Instead, we can create user-defined classes for function output. These classes can also have methods for plotting, printing, and summarization.</p>
+<div id="s3-and-s4" class="section level3" number="8.6.1">
+<h3>
+<span class="header-section-number">8.6.1</span> S3 and S4<a class="anchor" aria-label="anchor" href="#s3-and-s4"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>R</strong> has two-main approaches for developing OOP classes: <strong>S3</strong>, and <strong>S4</strong><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;S1 and S2 OOP classes do not exist. S3 and S4 were named according to the versions of S that they accompanied. S versions 1 and 2 didn’t have an OOP framework.&lt;/p&gt;"><sup>74</sup></a> <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citation"&gt;Wickham (&lt;a href="references.html#ref-wickham2019advanced"&gt;2019&lt;/a&gt;)&lt;/span&gt; discusses two other less widely-used approaches: RC and R6. RC, or Reference Classes, are generated using the base function &lt;code&gt;setRefClass()&lt;/code&gt;. Approaches for generating R6 objects and classes are provided by the R6 package, and are more similar to RC than to S3 and S4.&lt;/p&gt;'><sup>75</sup></a> <span class="citation">Wickham (<a href="references.html#ref-wickham2019advanced">2019</a>)</span> notes:</p>
+<blockquote>
+<p><em>“S3 allows your functions to return rich results with user-friendly display and programmer-friendly internals”</em></p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p><em>“S4 is a rigorous system that forces you to think carefully about program design. It’s particularly well-suited for building large systems that evolve over time and will receive contributions from many programmers.”</em></p>
+</blockquote>
+<p>S3 methods tend to be easier to develop than S4 methods, and this approach is recommended for most applications in <strong>R</strong>. The amenability of S4 for interfacing with multiple programmers explains why this approach is required for contribution to the highly collaborative Bioconductor project. S4 OOP classes and their associated methods are implemented via the <strong>R</strong>-distribution package <em>methods</em>. I focus on S3 methods here, but briefly consider S4 methods.</p>
+<p>
+</p>
+<div id="s3" class="section level4" number="8.6.1.1">
+<h4>
+<span class="header-section-number">8.6.1.1</span> S3<a class="anchor" aria-label="anchor" href="#s3"><i class="fas fa-link"></i></a>
+</h4>
+<p>S3 classes are created using the function <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>.</p>
+<div class="sourceCode" id="cb966"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ISU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Idaho State University"</span>, n.students <span class="op">=</span> <span class="fl">12000</span>,  </span>
+<span>            founded <span class="op">=</span> <span class="fl">1905</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"univ"</span></span>
+<span><span class="va">ISU</span></span></code></pre></div>
+<pre><code>$name
+[1] "Idaho State University"
+
+$n.students
+[1] 12000
+
+$founded
+[1] 1905
+
+attr(,"class")
+[1] "univ"</code></pre>
+<p>Note that the object <code>ISU</code> has the class attribute <code>"univ"</code>. The <em>sloop</em> package contains functions to help distinguish OOP class frameworks. The function <code><a href="https://sloop.r-lib.org/reference/otype.html">sloop::otype()</a></code> can be used to determine if an object is S3, S4, RC, or R6.</p>
+<div class="sourceCode" id="cb968"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/sloop">sloop</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S3"</code></pre>
+<p>
+</p>
+<p>The object <code>ISU</code> is <code>S3</code>.</p>
+<p>An S3 (or S4 object) is fairly useless without associated methods. Here is a simple print method for an object of class <code>univ</code>, i.e., a list with components: <code>name</code>, <code>founded</code>, and <code>n.students</code>.</p>
+<div class="sourceCode" id="cb970"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">print.univ</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">name</span>, <span class="st">" was founded in "</span>, <span class="va">x</span><span class="op">$</span><span class="va">founded</span>, <span class="st">",\nand has an enrollment of "</span>,</span>
+<span>      <span class="va">x</span><span class="op">$</span><span class="va">n.students</span>, <span class="st">" students."</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>This dramatically changes the way the object <code>ISU</code> is printed.</p>
+<div class="sourceCode" id="cb971"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ISU</span></span></code></pre></div>
+<pre><code>Idaho State University was founded in 1905,
+and has an enrollment of 12000 students.</code></pre>
+<p>Functions useful in creating print methods include <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> (used above) and <code><a href="https://rdrr.io/r/base/structure.html">structure()</a></code>. The function <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> concatenates text into a single character vector, and prints the results. As a simple example, in the code below we bind the string ``<code>iteration = ''</code>, to a random integer generated from a Poisson distribution <code>rpois(1, 10)</code>, and apply a double line break .</p>
+<div class="sourceCode" id="cb973"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"iteration = "</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, <span class="st">"\n\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<pre><code>iteration = 6</code></pre>
+<p>The function <code><a href="https://rdrr.io/r/base/structure.html">structure()</a></code> allows one to assign an <code>attribute</code> set to data.</p>
+<div class="sourceCode" id="cb975"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, dim <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6</code></pre>
+<div class="sourceCode" id="cb977"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, names <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>A B C D E F 
+1 2 3 4 5 6 </code></pre>
+<p>
+</p>
+<p>We can identify methods specific to some class using the function <code><a href="https://sloop.r-lib.org/reference/ftype.html">sloop::ftype</a></code>.</p>
+<div class="sourceCode" id="cb979"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">print.univ</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S3"     "method"</code></pre>
+<div class="example">
+<p><span id="exm:exm-f12" class="example"><strong>Example 8.16  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Here is a more complex example in which an output object from a <em>function</em> has an S3 class. The function <code><a href="https://rdrr.io/pkg/asbio/man/pairw.anova.html">asbio::pairw.anova</a></code> is used for adjusting <span class="math inline">\(p\)</span>-values resulting from multiple pairwise comparisons following an omnibus ANOVA (ANalysis Of VAriance). Objects generated by the function have class <code>pairw</code> and are S3.</p>
+<div class="sourceCode" id="cb981"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eggs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">17</span>,<span class="fl">16</span>,<span class="fl">14</span>,<span class="fl">15</span>,<span class="fl">12</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">19</span>,<span class="fl">11</span>,<span class="fl">23</span>,<span class="fl">20</span>,<span class="fl">18</span>,<span class="fl">17</span>,<span class="fl">27</span>,<span class="fl">33</span>,<span class="fl">22</span>,<span class="fl">26</span>,<span class="fl">28</span><span class="op">)</span></span>
+<span><span class="va">trt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tukey</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/asbio/man/pairw.anova.html">pairw.anova</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">eggs</span>, x <span class="op">=</span> <span class="va">trt</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">tukey</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "pairw"</code></pre>
+<div class="sourceCode" id="cb983"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">tukey</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S3"</code></pre>
+<p>Objects of class <code>pairw</code> have both print and plot methods.</p>
+<div class="sourceCode" id="cb985"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">print.pairw</span><span class="op">)</span> <span class="co"># print method for class pairw</span></span></code></pre></div>
+<pre><code>[1] "S3"     "method"</code></pre>
+<div class="sourceCode" id="cb987"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">plot.pairw</span><span class="op">)</span> <span class="co"># plot method for class pairw</span></span></code></pre></div>
+<pre><code>[1] "S3"     "method"</code></pre>
+<p>The correct S3 method for a generic function call, e.g., <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>, is identified using a process called method dispatch. Method dispatch steps in <strong>R</strong> are identifiable using the function <code><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">sloop::s3_dispatch</a></code>. Here is the process of identifying the correct printing method for an object of class <code>pairw</code>.</p>
+<div class="sourceCode" id="cb989"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">s3_dispatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">tukey</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>=&gt; print.pairw
+ * print.default</code></pre>
+<p></p>
+<p>Here is the actual print method’s output:</p>
+<div class="sourceCode" id="cb991"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tukey</span></span></code></pre></div>
+<pre><code>
+95% Tukey-Kramer confidence intervals 
+
+         Diff     Lower    Upper  Decision Adj. p-value
+mu1-mu2   1.2  -4.71976  7.11976    FTR H0     0.935298
+mu1-mu3  -4.9 -11.17885  1.37885    FTR H0      0.15489
+mu2-mu3  -6.1 -12.37885  0.17885    FTR H0     0.058287
+mu1-mu4 -12.6 -18.51976 -6.68024 Reject H0     0.000101
+mu2-mu4 -13.8 -19.71976 -7.88024 Reject H0      3.7e-05
+mu3-mu4  -7.7 -13.97885 -1.42115 Reject H0     0.014218</code></pre>
+<p>This same method is used for other objects from <em>asbio</em> whose output has class <code>pairw</code>. These include objects from functions providing pairwise comparisons of factor levels following: an omnibus Friedman’s test<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Friedman’s test is a non-parametric alternative to an ANOVA with a blocking variable.&lt;/p&gt;"><sup>76</sup></a>, <code><a href="https://rdrr.io/pkg/asbio/man/pairw.fried.html">pairw.fried()</a></code>, and an omnibus Welch’s test<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Welch’s test, implemented using &lt;code&gt;oneway.test&lt;/code&gt;, allows heteroscedasticity among factor levels when comparing factor level means.&lt;/p&gt;"><sup>77</sup></a>, <code><a href="https://rdrr.io/pkg/asbio/man/pairw.oneway.html">pairw.oneway()</a></code>.</p>
+<div class="sourceCode" id="cb993"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">welch</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/asbio/man/pairw.oneway.html">pairw.oneway</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">eggs</span>, x <span class="op">=</span> <span class="va">trt</span><span class="op">)</span></span>
+<span><span class="va">welch</span></span></code></pre></div>
+<pre><code>
+95% Welch adjusted confidence intervals 
+
+         Diff     Lower    Upper  Decision Adj. p-value
+mu1-mu2   1.2  -3.39503  5.79503    FTR H0      0.55425
+mu1-mu3  -4.9    -8.991   -0.809    FTR H0     0.068803
+mu2-mu3  -6.1 -11.06986 -1.13014    FTR H0     0.068803
+mu1-mu4 -12.6 -17.53547 -7.66453 Reject H0    0.0032699
+mu2-mu4 -13.8 -19.36022 -8.23978 Reject H0    0.0027003
+mu3-mu4  -7.7 -12.95069 -2.44931 Reject H0      0.04229</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<p>Viewing of code for S3 methods functions may require use of the double colon operator, e.g., <code>asbio::plotpairw</code>, or the triple colon operator, <code>:::</code>.</p>
+<div class="example">
+<p><span id="exm:exm-f13" class="example"><strong>Example 8.17  </strong></span><span class="math inline">\(\text{}\)</span><br>
+In this extended exercise we will fashion an advanced function, with an S3 class and create associated methods, using a number of approaches discussed so far in this chapter.</p>
+<p>In ecological studies, <span class="math inline">\(\alpha\)</span>-diversity measures the level of species evenness and richness within individual plots in a dataset. The most widely used alpha diversity indices are Simpson’s index, <span class="math inline">\(D_1\)</span>, and the Shannon-Weiner index, <span class="math inline">\(H'\)</span>.</p>
+<p><span class="math display" id="eq:91">\[\begin{equation}
+D_1 = 1 - \sum_{i=1}^S p_i^2
+\tag{8.2}
+\end{equation}\]</span></p>
+<p><span class="math display" id="eq:92">\[\begin{equation}
+H' = -\sum_{i=1}^S p_i  \ln p_i
+\tag{8.3}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(S\)</span> denotes the number of species, and <span class="math inline">\(p_i\)</span> is the proportional abundance of the <span class="math inline">\(i\)</span>th species, <span class="math inline">\(i = 1,2,\ldots,S\)</span>.</p>
+<p>Here are features I want my advanced <span class="math inline">\(\alpha\)</span>-diversity function to have:</p>
+<ul>
+<li>Arguments specifying (1) a dataset for analysis, and (2) the type of <span class="math inline">\(\alpha\)</span>-diversity we want calculated. So, two arguments.</li>
+<li>A function capable of handing summaries of communities for a single site, whose data will be a single numeric vector, and dataframes describing abundances of taxa at multiple sites.</li>
+<li>Assignment of correct names of sites (if any) to results.</li>
+<li>Partial matching of diversity method names using <code>arg.match</code>.</li>
+<li>An S3 class.</li>
+<li>Invisible components, appropriate for class print and plot methods.</li>
+</ul>
+<div class="sourceCode" id="cb995"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb995-1"><a href="ch8.html#cb995-1"></a>alpha.div <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">method =</span> <span class="st">"simpson"</span>){</span>
+<span id="cb995-2"><a href="ch8.html#cb995-2"></a>  <span class="cf">if</span>(<span class="fu">is.data.frame</span>(x)) rn <span class="ot">&lt;-</span> <span class="fu">rownames</span>(x) <span class="cf">else</span> {</span>
+<span id="cb995-3"><a href="ch8.html#cb995-3"></a>    <span class="cf">if</span>(<span class="fu">ncol</span>(<span class="fu">as.matrix</span>(x) <span class="sc">==</span> <span class="dv">1</span>)) rn <span class="ot">=</span> <span class="fu">noquote</span>(<span class="st">""</span>) <span class="cf">else</span> </span>
+<span id="cb995-4"><a href="ch8.html#cb995-4"></a>      rn <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">as.matrix</span>(x))</span>
+<span id="cb995-5"><a href="ch8.html#cb995-5"></a>  }</span>
+<span id="cb995-6"><a href="ch8.html#cb995-6"></a></span>
+<span id="cb995-7"><a href="ch8.html#cb995-7"></a>  indices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"simpson"</span>, <span class="st">"shannon"</span>); method <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(method, indices)</span>
+<span id="cb995-8"><a href="ch8.html#cb995-8"></a></span>
+<span id="cb995-9"><a href="ch8.html#cb995-9"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x)</span>
+<span id="cb995-10"><a href="ch8.html#cb995-10"></a></span>
+<span id="cb995-11"><a href="ch8.html#cb995-11"></a>  prop <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb995-12"><a href="ch8.html#cb995-12"></a>      <span class="cf">if</span>(<span class="fu">ncol</span>(x) <span class="sc">==</span> <span class="dv">1</span>) out <span class="ot">&lt;-</span> x<span class="sc">/</span><span class="fu">sum</span>(x)</span>
+<span id="cb995-13"><a href="ch8.html#cb995-13"></a>      <span class="cf">else</span></span>
+<span id="cb995-14"><a href="ch8.html#cb995-14"></a>      out <span class="ot">&lt;-</span> <span class="fu">apply</span>(x, <span class="dv">1</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x))</span>
+<span id="cb995-15"><a href="ch8.html#cb995-15"></a>      out</span>
+<span id="cb995-16"><a href="ch8.html#cb995-16"></a>    }</span>
+<span id="cb995-17"><a href="ch8.html#cb995-17"></a></span>
+<span id="cb995-18"><a href="ch8.html#cb995-18"></a>    p.i <span class="ot">&lt;-</span> <span class="fu">prop</span>(x)</span>
+<span id="cb995-19"><a href="ch8.html#cb995-19"></a></span>
+<span id="cb995-20"><a href="ch8.html#cb995-20"></a>  simp <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p.i){</span>
+<span id="cb995-21"><a href="ch8.html#cb995-21"></a>      <span class="cf">if</span>(<span class="fu">ncol</span>(x) <span class="sc">==</span> <span class="dv">1</span>) D <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(p.i<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb995-22"><a href="ch8.html#cb995-22"></a>      <span class="cf">else</span></span>
+<span id="cb995-23"><a href="ch8.html#cb995-23"></a>      D <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">apply</span>(p.i<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum)</span>
+<span id="cb995-24"><a href="ch8.html#cb995-24"></a>      D</span>
+<span id="cb995-25"><a href="ch8.html#cb995-25"></a>    }</span>
+<span id="cb995-26"><a href="ch8.html#cb995-26"></a></span>
+<span id="cb995-27"><a href="ch8.html#cb995-27"></a>  shan <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p.i){</span>
+<span id="cb995-28"><a href="ch8.html#cb995-28"></a>      <span class="cf">if</span>(<span class="fu">ncol</span>(x) <span class="sc">==</span> <span class="dv">1</span>) H <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sum</span>(p.i[p.i <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="sc">*</span> <span class="fu">log</span>(p.i[p.i <span class="sc">&gt;</span> <span class="dv">0</span>]))</span>
+<span id="cb995-29"><a href="ch8.html#cb995-29"></a>      <span class="cf">else</span></span>
+<span id="cb995-30"><a href="ch8.html#cb995-30"></a>      H <span class="ot">&lt;-</span> <span class="fu">apply</span>(p.i, <span class="dv">2</span>, <span class="cf">function</span>(x)<span class="sc">-</span><span class="fu">sum</span>(x[x <span class="sc">!=</span> <span class="dv">0</span>] <span class="sc">*</span> <span class="fu">log</span>(x[x <span class="sc">!=</span> <span class="dv">0</span>])))</span>
+<span id="cb995-31"><a href="ch8.html#cb995-31"></a>      H</span>
+<span id="cb995-32"><a href="ch8.html#cb995-32"></a>    }</span>
+<span id="cb995-33"><a href="ch8.html#cb995-33"></a></span>
+<span id="cb995-34"><a href="ch8.html#cb995-34"></a>  div <span class="ot">&lt;-</span> <span class="cf">switch</span>(method,</span>
+<span id="cb995-35"><a href="ch8.html#cb995-35"></a>                <span class="at">simpson =</span> <span class="fu">simp</span>(x, p.i),</span>
+<span id="cb995-36"><a href="ch8.html#cb995-36"></a>                <span class="at">shannon =</span> <span class="fu">shan</span>(x, p.i))</span>
+<span id="cb995-37"><a href="ch8.html#cb995-37"></a></span>
+<span id="cb995-38"><a href="ch8.html#cb995-38"></a>    out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">p.i =</span> p.i, <span class="at">rn =</span> rn, <span class="at">method =</span> method, <span class="at">div =</span> div)</span>
+<span id="cb995-39"><a href="ch8.html#cb995-39"></a>  <span class="fu">class</span>(out) <span class="ot">&lt;-</span> <span class="st">"a_div"</span>; <span class="fu">invisible</span>(out)</span>
+<span id="cb995-40"><a href="ch8.html#cb995-40"></a>}</span></code></pre></div>
+<p>Below is a breakdown of important components of the function <code><a href="https://rdrr.io/pkg/plant.ecol/man/alpha.div.html">alpha.div()</a></code> above.</p>
+<ul>
+<li>In the arguments (Line 1), <code>x</code> is assumed to be either 1) a dataframe of taxa abundances at sites, with sites in rows (identified by row names) and taxa in columns, or 2) a numeric vector containing abundances of distinct taxa at a single site.</li>
+<li>In the first lines of code in the function <em>body</em> (Lines 2-4), the function attempts to obtain site names from <code>x</code>. If <code>x</code> is a dataframe, this is done using <code>rn &lt;- rownames(x)</code>. If <code>x</code> is a vector describing a single site, distinguishing site names is probably not important, hence the code <code>rn = noquote("")</code>.</li>
+<li>The <code><a href="https://rdrr.io/pkg/plant.ecol/man/alpha.div.html">alpha.div()</a></code> function contains three sub-functions: <code>prop()</code> (Lines 11-16), which allows computation of <span class="math inline">\(p_i\)</span>, and is used to create the object <code>p.i</code>, <code>simp()</code> (Lines 20-25), which calculates Simpson’s diversities, and <code>shan()</code> (Lines 27-32), which calculates Shannon-Weiner diversities. The latter function contains exception handling steps for taxa abundances of zero which will be undefined in Eq <a href="ch8.html#eq:92">(8.3)</a>. For instance, <code>p.i[p.i &gt; 0]</code> on Line 28, and <code>x[x != 0]</code> on Line 30.</li>
+<li>Partial matching of diversity method names (i.e., <code>"simpson"</code> and <code>"shannon"</code>) is facilitated through the function <code><a href="https://rdrr.io/r/base/match.arg.html">match.arg()</a></code>.</li>
+<li>Switching of diversity methods is done via <code><a href="https://rdrr.io/r/base/switch.html">switch()</a></code> (Lines 34-36).</li>
+<li>The function output is a list named <code>out</code>, which contain four objects: the proportional abundances of taxa, the rownames of <code>x</code> (i.e, the site names), the diversity method used, and the actual calculated diversities (Line 38).</li>
+<li>In the last line of body code, <code>out</code> is assigned to the user-defined class <code>a_div</code> and made invisible.</li>
+</ul>
+<p>Here we apply the function to the dataset <code>varespec</code> from the library <em>vegan</em>.</p>
+<div class="sourceCode" id="cb996"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/vegandevs/vegan">vegan</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">varespec</span><span class="op">)</span></span>
+<span><span class="va">v.div</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plant.ecol/man/alpha.div.html">alpha.div</a></span><span class="op">(</span><span class="va">varespec</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">v.div</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "a_div"</code></pre>
+<div class="sourceCode" id="cb998"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">v.div</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S3"</code></pre>
+<p>Printing the output object <code>v.div</code> results in a rather messy rendering of a list, prompting the creation of an <code>a_div</code> print method. Our <code>print.a_div()</code> function will succinctly and effectively summarize results from <code>alpha.div</code> while allowing access to additional (invisible) information.</p>
+<p>Our function for printing can be relatively simple.</p>
+<div class="sourceCode" id="cb1000"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1000-1"><a href="ch8.html#cb1000-1"></a>print.a_div <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">5</span>){</span>
+<span id="cb1000-2"><a href="ch8.html#cb1000-2"></a>  method <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x<span class="sc">$</span>method <span class="sc">==</span> <span class="st">"simpson"</span>, <span class="st">"Simpson"</span>,</span>
+<span id="cb1000-3"><a href="ch8.html#cb1000-3"></a>                   <span class="st">"Shannon-Weiner"</span>)</span>
+<span id="cb1000-4"><a href="ch8.html#cb1000-4"></a>  <span class="fu">cat</span>(method, <span class="st">" diversity:"</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb1000-5"><a href="ch8.html#cb1000-5"></a>  rq <span class="ot">&lt;-</span> <span class="fu">structure</span>(x<span class="sc">$</span>div,  <span class="at">names =</span> x<span class="sc">$</span>rn)</span>
+<span id="cb1000-6"><a href="ch8.html#cb1000-6"></a>  <span class="fu">print</span>(rq, <span class="at">digits =</span> digits)</span>
+<span id="cb1000-7"><a href="ch8.html#cb1000-7"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb1000-8"><a href="ch8.html#cb1000-8"></a>}</span></code></pre></div>
+<ul>
+<li>The required argument, <code>x</code> in <code>print.a_div</code> (Line 1), will be an object of class <code>a_div</code>, created by the function <code><a href="https://rdrr.io/pkg/plant.ecol/man/alpha.div.html">alpha.div()</a></code>, e.g., the object <code>v.div</code>. Recall that this is a list containing multiple objects.</li>
+<li>The object <code>x$method</code> is used create a tidy text summary of the diversity method used (Lines 2-3). This string is combined with a another string and printed with a line break in:
+<code>cat(method, " diversity:", "\n", sep = "")</code>}` (Line 4).</li>
+<li>The actual diversities are printed with the help of the function <code><a href="https://rdrr.io/r/base/structure.html">structure()</a></code> on Lines 5-6.</li>
+</ul>
+<div class="sourceCode" id="cb1001"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">v.div</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Simpson diversity:
+     18      15      24      27      23      19      22      16      28 
+0.82171 0.76276 0.78101 0.74414 0.84108 0.81819 0.80310 0.82477 0.55996 
+     13      14      20      25       7       5       6       3       4 
+0.81828 0.82994 0.84615 0.83991 0.70115 0.56149 0.73888 0.64181 0.78261 
+      2       9      12      10      11      21 
+0.55011 0.49614 0.67568 0.50261 0.80463 0.85896 </code></pre>
+<p>Output from <code><a href="https://rdrr.io/pkg/plant.ecol/man/alpha.div.html">alpha.div()</a></code> can also be used for plotting. Here is a plot function for objects of class <code>a_div</code>.</p>
+<div class="sourceCode" id="cb1003"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1003-1"><a href="ch8.html#cb1003-1"></a>plot.a_div <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">plot.RAC =</span> <span class="cn">FALSE</span>){</span>
+<span id="cb1003-2"><a href="ch8.html#cb1003-2"></a>  <span class="fu">require</span>(ggplot2)</span>
+<span id="cb1003-3"><a href="ch8.html#cb1003-3"></a>  margin_theme <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb1003-4"><a href="ch8.html#cb1003-4"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">vjust=</span><span class="sc">-</span><span class="dv">5</span>),</span>
+<span id="cb1003-5"><a href="ch8.html#cb1003-5"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">vjust=</span><span class="dv">5</span>),</span>
+<span id="cb1003-6"><a href="ch8.html#cb1003-6"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="fl">7.5</span>, <span class="at">r =</span> <span class="fl">7.5</span>,</span>
+<span id="cb1003-7"><a href="ch8.html#cb1003-7"></a>                             <span class="at">b =</span> <span class="dv">20</span>, <span class="at">l =</span> <span class="dv">15</span>))</span>
+<span id="cb1003-8"><a href="ch8.html#cb1003-8"></a>  }</span>
+<span id="cb1003-9"><a href="ch8.html#cb1003-9"></a></span>
+<span id="cb1003-10"><a href="ch8.html#cb1003-10"></a>  ptype1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb1003-11"><a href="ch8.html#cb1003-11"></a>  spi <span class="ot">&lt;-</span> <span class="fu">apply</span>(x<span class="sc">$</span>p.i, <span class="dv">2</span>, <span class="cf">function</span>(x)<span class="fu">sort</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1003-12"><a href="ch8.html#cb1003-12"></a>  sspi <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">p.i =</span> <span class="fu">stack</span>(<span class="fu">as.data.frame</span>(spi))[,<span class="dv">1</span>])</span>
+<span id="cb1003-13"><a href="ch8.html#cb1003-13"></a>  sspi<span class="sc">$</span>Rank <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x<span class="sc">$</span>p.i), <span class="fu">ncol</span>(x<span class="sc">$</span>p.i))</span>
+<span id="cb1003-14"><a href="ch8.html#cb1003-14"></a>  sspi<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">rep</span>(x<span class="sc">$</span>rn,  <span class="at">each =</span> <span class="fu">nrow</span>(x<span class="sc">$</span>p.i))</span>
+<span id="cb1003-15"><a href="ch8.html#cb1003-15"></a>    <span class="fu">ggplot</span>(sspi, <span class="fu">aes</span>(<span class="at">y =</span> p.i, <span class="at">x =</span> Rank, <span class="at">group =</span> Site)) <span class="sc">+</span></span>
+<span id="cb1003-16"><a href="ch8.html#cb1003-16"></a>      <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> p.i, <span class="at">x =</span> Rank, <span class="at">colour =</span> Site), <span class="at">alpha =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb1003-17"><a href="ch8.html#cb1003-17"></a>      <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">italic</span>(p[i]))) <span class="sc">+</span></span>
+<span id="cb1003-18"><a href="ch8.html#cb1003-18"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">margin_theme</span>()</span>
+<span id="cb1003-19"><a href="ch8.html#cb1003-19"></a>  }</span>
+<span id="cb1003-20"><a href="ch8.html#cb1003-20"></a></span>
+<span id="cb1003-21"><a href="ch8.html#cb1003-21"></a>  ptype2 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb1003-22"><a href="ch8.html#cb1003-22"></a>      diversity <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">div =</span>  x<span class="sc">$</span>div, <span class="at">Site =</span> <span class="fu">factor</span>(x<span class="sc">$</span>rn))</span>
+<span id="cb1003-23"><a href="ch8.html#cb1003-23"></a>      method <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x<span class="sc">$</span>method <span class="sc">==</span> <span class="st">"simpson"</span>, <span class="st">"Simpson diveristy"</span>,</span>
+<span id="cb1003-24"><a href="ch8.html#cb1003-24"></a>                   <span class="st">"Shannon-Weiner diveristy"</span>)</span>
+<span id="cb1003-25"><a href="ch8.html#cb1003-25"></a>      <span class="fu">ggplot</span>(diversity) <span class="sc">+</span></span>
+<span id="cb1003-26"><a href="ch8.html#cb1003-26"></a>      <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> div, <span class="at">x =</span> Site, <span class="at">fill =</span> div), <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1003-27"><a href="ch8.html#cb1003-27"></a>               <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb1003-28"><a href="ch8.html#cb1003-28"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1003-29"><a href="ch8.html#cb1003-29"></a>      <span class="fu">margin_theme</span>() <span class="sc">+</span></span>
+<span id="cb1003-30"><a href="ch8.html#cb1003-30"></a>      <span class="fu">ylab</span>(method) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Site"</span>)</span>
+<span id="cb1003-31"><a href="ch8.html#cb1003-31"></a>  }</span>
+<span id="cb1003-32"><a href="ch8.html#cb1003-32"></a>  <span class="cf">if</span>(plot.RAC)  <span class="fu">ptype1</span>() <span class="cf">else</span> <span class="fu">ptype2</span>()</span>
+<span id="cb1003-33"><a href="ch8.html#cb1003-33"></a>}</span></code></pre></div>
+<ul>
+<li>The plot method allows the creation of two distinct types of ggplots by calling distinct sub-functions, <code>ptype1()</code> and <code>ptype2()</code> via the argument <code>plot.RAC</code> (Line one).</li>
+<li>Barplots of site diversities are produced by using the default <code>plot.RAC = FALSE</code> which will run the function <code>ptype2()</code> on Lines 21-31 (Fig <a href="ch8.html#fig:diva">8.2</a>)</li>
+<li>Rank abundance curves (RACs) are created by specifying <code>plot.RAC = TRUE</code> which runs the function <code>ptype1()</code> on Lines 10-19 (Fig <a href="ch8.html#fig:divb">8.3</a>). RAC plots allow graphical expressions of both taxa richness and evenness, and may even provide insights regarding resource exploitation in community <span class="citation">(<a href="references.html#ref-magurran1988">Magurran 1988</a>)</span>.</li>
+</ul>
+<div class="sourceCode" id="cb1004"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">v.div</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:diva"></span>
+<img src="figure/minimal-diva-1.png" alt="Barplot of site diversities from the `vegan::varespec` data. Note that bar colors are varied using the diversities themselves, i.e., `fill = div`." width="624"><p class="caption">
+Figure 8.2: Barplot of site diversities from the <code><a href="https://rdrr.io/pkg/vegan/man/varechem.html">vegan::varespec</a></code> data. Note that bar colors are varied using the diversities themselves, i.e., <code>fill = div</code>.
+</p>
+</div>
+<div class="sourceCode" id="cb1005"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">v.div</span>, plot.RAC <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:divb"></span>
+<img src="figure/minimal-divb-1.png" alt="Rank abundance curves of the `vegan::varespec` dataset.  Line lengths indicate species richness.  Larger negative slopes indicate less species evenness." width="624"><p class="caption">
+Figure 8.3: Rank abundance curves of the <code><a href="https://rdrr.io/pkg/vegan/man/varechem.html">vegan::varespec</a></code> dataset. Line lengths indicate species richness. Larger negative slopes indicate less species evenness.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+</div>
+<div id="s4" class="section level4" number="8.6.1.2">
+<h4>
+<span class="header-section-number">8.6.1.2</span> S4<a class="anchor" aria-label="anchor" href="#s4"><i class="fas fa-link"></i></a>
+</h4>
+<p>An S4 class is defined using the function <code><a href="https://rdrr.io/r/methods/setClass.html">setClass()</a></code>. Unlike S3 objects and classes, S4 class components, i.e., <em>slots</em>, must be defined in <code><a href="https://rdrr.io/r/methods/setClass.html">setClass()</a></code>, along with the sub-classes of those components. Here I create an S4 class called <code>univ</code> for comparison to the S3 class <code>univ</code> created in the previous section.</p>
+<div class="sourceCode" id="cb1006"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/methods/setClass.html">setClass</a></span><span class="op">(</span><span class="st">"univ"</span>, slots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"character"</span>, n.students <span class="op">=</span> <span class="st">"numeric"</span>,</span>
+<span>                              founded <span class="op">=</span> <span class="st">"numeric"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The S4 class <code>univ</code> will have three slots: <code>name</code>, <code>n.students</code>, and <code>founded</code>. S4 objects are created using the <code><a href="https://rdrr.io/r/methods/new.html">new()</a></code> function.
+</p>
+<div class="sourceCode" id="cb1007"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ISU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html">new</a></span><span class="op">(</span>Class <span class="op">=</span> <span class="st">"univ"</span>, name <span class="op">=</span> <span class="st">"Idaho State University"</span>, </span>
+<span>           n.students <span class="op">=</span> <span class="fl">12000</span>, founded <span class="op">=</span> <span class="fl">1905</span><span class="op">)</span></span></code></pre></div>
+<p>The object <code>ISU</code> has the S4 class <code>univ</code>.</p>
+<div class="sourceCode" id="cb1008"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "univ"
+attr(,"package")
+[1] ".GlobalEnv"</code></pre>
+<div class="sourceCode" id="cb1010"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S4"</code></pre>
+<p></p>
+<div class="sourceCode" id="cb1012"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S4"</code></pre>
+<p>Here is the structure of the object:</p>
+<div class="sourceCode" id="cb1014"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ISU</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Formal class 'univ' [package ".GlobalEnv"] with 3 slots
+  ..@ name      : chr "Idaho State University"
+  ..@ n.students: num 12000
+  ..@ founded   : num 1905</code></pre>
+<p>Just as components of a list are accessed using <code>$</code>, the slots of an S4 object are accessed using <code>@</code>.</p>
+<div class="sourceCode" id="cb1016"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ISU</span><span class="op">@</span><span class="va">founded</span></span></code></pre></div>
+<pre><code>[1] 1905</code></pre>
+<p>Or with the function <code><a href="https://rdrr.io/r/methods/slot.html">slot()</a></code>.</p>
+<div class="sourceCode" id="cb1018"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/slot.html">slot</a></span><span class="op">(</span><span class="va">ISU</span>, <span class="st">"founded"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 1905</code></pre>
+<p>We set S4 methods using the function <code><a href="https://rdrr.io/r/methods/setMethod.html">setMethod()</a></code>. Here is an S4 <code><a href="https://rdrr.io/r/methods/show.html">show()</a></code> method (analogous to S3 <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>) for objects of class <code>univ</code>.
+</p>
+<div class="sourceCode" id="cb1020"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/methods/setMethod.html">setMethod</a></span><span class="op">(</span><span class="st">"show"</span>,</span>
+<span><span class="st">"univ"</span>,</span>
+<span><span class="kw">function</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">{</span></span>
+<span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">object</span><span class="op">@</span><span class="va">name</span>, <span class="st">"was founded in"</span>, <span class="va">object</span><span class="op">@</span><span class="va">founded</span>, </span>
+<span>     <span class="st">"and has an enrollment of"</span>,</span>
+<span>     <span class="va">object</span><span class="op">@</span><span class="va">n.students</span>, <span class="st">"students."</span>, sep <span class="op">=</span> <span class="st">" "</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ISU</span></span></code></pre></div>
+<pre><code>Idaho State University was founded in 1905 and has an enrollment of 12000 students.</code></pre>
+<div class="example">
+<p><span id="exm:exm-f14" class="example"><strong>Example 8.18  </strong></span><span class="math inline">\(\text{}\)</span><br>
+As a real-world S4 example, the function <code><a href="https://rdrr.io/r/stats4/mle.html">stats4::mle()</a></code> estimates parameters for probability density functions using the method of maximum likelihood. Below we estimate the rate parameter for a Poisson distribution, <span class="math inline">\(\lambda\)</span>, based on a sample of count data.</p>
+<div class="sourceCode" id="cb1022"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># count data</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">26</span>, <span class="fl">17</span>, <span class="fl">13</span>, <span class="fl">12</span>, <span class="fl">20</span>, <span class="fl">5</span>, <span class="fl">9</span>, <span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">4</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># MLE for lambda in a Poisson distribution given data in y</span></span>
+<span><span class="va">nLL</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">dpois</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">lambda</span>, log <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># mle finds negative log-likelihoods</span></span>
+<span><span class="va">fit0</span> <span class="op">&lt;-</span> <span class="fu">stats4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats4/mle.html">mle</a></span><span class="op">(</span><span class="va">nLL</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>lambda <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>                    nobs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The MLE for the Poisson rate parameter, from data outcomes in <code>y</code>, is approximately 11.545. Notably, this is equal to the sample mean of <code>y</code>.</p>
+<div class="sourceCode" id="cb1023"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit0</span></span></code></pre></div>
+<pre><code>
+Call:
+stats4::mle(minuslogl = nLL, start = list(lambda = 5), nobs = length(y))
+
+Coefficients:
+lambda 
+11.545 </code></pre>
+<div class="sourceCode" id="cb1025"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 11.545</code></pre>
+<p>The class of <code>fit0</code> is <code>mle</code>. The class has an S4 designation.</p>
+<div class="sourceCode" id="cb1027"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">fit0</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "mle"
+attr(,"package")
+[1] "stats4"</code></pre>
+<div class="sourceCode" id="cb1029"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">fit0</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] "S4"</code></pre>
+<p>
+</p>
+<p>The slot structure of an object from class <code>mle</code> is complex:</p>
+<div class="sourceCode" id="cb1031"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">fit0</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Formal class 'mle' [package "stats4"] with 10 slots
+  ..@ call     : language stats4::mle(minuslogl = nLL, start = list(lambda = 5), nobs = length(y))
+  ..@ coef     : Named num 11.5
+  .. ..- attr(*, "names")= chr "lambda"
+  ..@ fullcoef : Named num 11.5
+  .. ..- attr(*, "names")= chr "lambda"
+  ..@ fixed    : Named num NA
+  .. ..- attr(*, "names")= chr "lambda"
+  ..@ vcov     : num [1, 1] 1.05
+  .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..$ : chr "lambda"
+  .. .. ..$ : chr "lambda"
+  ..@ min      : num 42.7
+  ..@ details  :List of 6
+  .. ..$ par        : Named num 11.5
+  .. .. ..- attr(*, "names")= chr "lambda"
+  .. ..$ value      : num 42.7
+  .. ..$ counts     : Named int [1:2] 14 8
+  .. .. ..- attr(*, "names")= chr [1:2] "function" "gradient"
+  .. ..$ convergence: int 0
+  .. ..$ message    : NULL
+  .. ..$ hessian    : num [1, 1] 0.953
+  .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. .. ..$ : chr "lambda"
+  .. .. .. ..$ : chr "lambda"
+  ..@ minuslogl:function (lambda)  
+  ..@ nobs     : int 11
+  ..@ method   : chr "BFGS"</code></pre>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</div>
+<div id="advanced-biometric-examples" class="section level2" number="8.7">
+<h2>
+<span class="header-section-number">8.7</span> Advanced Biometric Examples<a class="anchor" aria-label="anchor" href="#advanced-biometric-examples"><i class="fas fa-link"></i></a>
+</h2>
+<p>Customized <strong>R</strong> functions can be used to provide straightforward solutions of complex mathematical procedures associated with biological research.</p>
+<div class="example">
+<p><span id="exm:exm-f15" class="example"><strong>Example 8.19  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Biologists often need to solve systems of dependent differential equations in models describing the propagation of electrochemical signals via action action potentials in neurons <span class="citation">(<a href="references.html#ref-hodgkin1952">Hodgkin and Huxley 1952</a>)</span>, or models involving species interactions (e.g., competition or predation). For instance, the Lotka-Volterra competition model has the form:</p>
+<p><span class="math display" id="eq:lv">\[\begin{equation}
+\begin{split}
+\frac{dN_1}{dt} &amp;= r_{max1}N_1\frac{K_1-N_1-\alpha_{12}N_2}{K_1}\\
+\frac{dN_2}{dt} &amp;= r_{max2}N_2\frac{K_2-N_2-\alpha_{21}N_1}{K_2}
+\end{split}
+\tag{8.4}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(t\)</span> denotes time, <span class="math inline">\(r_{max1}\)</span> is the maximum per capita rate of increase (empirical rate) for species 1, and <span class="math inline">\(r_{max2}\)</span> is the empirical rate for species 2, <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_2\)</span> are the number of individuals from species 1 and 2, respectively, <span class="math inline">\(K_1\)</span> = the carrying capacity for species 1, i.e., the maximum population size for that species, <span class="math inline">\(K_2\)</span> = the carrying capacity for species 2, <span class="math inline">\(\alpha_{12}\)</span> is the competitive effect of species 2 on the growth of species 1, and <span class="math inline">\(\alpha_{21}\)</span> is the competitive effect of species 1 on the growth rate of species 2.</p>
+<p>We first bring in the package <em>deSolve</em>, which contains functions for solving ordinary differential equations (ODEs).</p>
+<p></p>
+<div class="sourceCode" id="cb1033"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://desolve.r-forge.r-project.org/">deSolve</a></span><span class="op">)</span></span></code></pre></div>
+<p>We then define starting values for <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_2\)</span> and model parameters.</p>
+<div class="sourceCode" id="cb1034"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xstart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>N1 <span class="op">=</span> <span class="fl">10</span>, N2 <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>r1 <span class="op">=</span> <span class="fl">0.5</span>, r2 <span class="op">=</span> <span class="fl">0.4</span>, K1 <span class="op">=</span> <span class="fl">400</span>, K2 <span class="op">=</span> <span class="fl">300</span>, a2.1 <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>             a1.2 <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span></code></pre></div>
+<p>Next, we specify the Lotka-Volterra equations as a function. We will include the argument <code>time = time</code> even though it is not explicitly used in the function. This is required by ODE evaluators from <em>deSolve</em>.</p>
+<div class="sourceCode" id="cb1035"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1035-1"><a href="ch8.html#cb1035-1"></a>LV <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">time =</span> time, <span class="at">xstart =</span> xstart, <span class="at">pars =</span> pars){</span>
+<span id="cb1035-2"><a href="ch8.html#cb1035-2"></a>  N1 <span class="ot">&lt;-</span> xstart[<span class="dv">1</span>]</span>
+<span id="cb1035-3"><a href="ch8.html#cb1035-3"></a>  N2 <span class="ot">&lt;-</span> xstart[<span class="dv">2</span>]</span>
+<span id="cb1035-4"><a href="ch8.html#cb1035-4"></a>    <span class="fu">with</span>(<span class="fu">as.list</span>(pars),{</span>
+<span id="cb1035-5"><a href="ch8.html#cb1035-5"></a>    dn1 <span class="ot">&lt;-</span> r1 <span class="sc">*</span> N1 <span class="sc">*</span> ((K1 <span class="sc">-</span> N1 <span class="sc">-</span> (a1<span class="fl">.2</span> <span class="sc">*</span> N2))<span class="sc">/</span>K1)</span>
+<span id="cb1035-6"><a href="ch8.html#cb1035-6"></a>    dn2 <span class="ot">&lt;-</span> r2 <span class="sc">*</span> N2 <span class="sc">*</span> ((K2 <span class="sc">-</span> N2 <span class="sc">-</span> (a2<span class="fl">.1</span> <span class="sc">*</span> N1))<span class="sc">/</span>K2)</span>
+<span id="cb1035-7"><a href="ch8.html#cb1035-7"></a>    res <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(dn1, dn2))</span>
+<span id="cb1035-8"><a href="ch8.html#cb1035-8"></a>    })</span>
+<span id="cb1035-9"><a href="ch8.html#cb1035-9"></a>}</span></code></pre></div>
+<p>The most complex part of the function occurs on Lines 4-8 where the system of ODEs in Eq <a href="ch8.html#eq:lv">(8.4)</a> is solved. Note the use of <code><a href="https://rdrr.io/r/base/with.html">with()</a></code> to make the components of the object <code>pars</code> accessible between braces on Lines 4 and 8.<br></p>
+<p>The <code><a href="https://rdrr.io/pkg/deSolve/man/rk4.html">deSolve::rk4()</a></code> function solves simultaneous differential equations using classical Runge-Kutta 4th order integration <span class="citation">(<a href="references.html#ref-butcher1987">Butcher 1987</a>)</span><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The method of Euler (the simplest method to find approximate solutions to first order equations) can be specified with the function &lt;code&gt;deSolve::euler()&lt;/code&gt;.&lt;/p&gt;"><sup>78</sup></a>. The arguments for <code><a href="https://rdrr.io/pkg/deSolve/man/rk4.html">rk4()</a></code> are, in order, the initial population numbers from species 1 and 2, the time frames to be considered, the function to be evaluated, and the parameter values.</p>
+<div class="sourceCode" id="cb1036"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/deSolve/man/rk4.html">rk4</a></span><span class="op">(</span><span class="va">xstart</span>, time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="va">LV</span>, <span class="va">pars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The object out contains the number of individuals in species 1 and 2 (<span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_2\)</span>) for time frames 1-200 (Fig <a href="ch8.html#fig:lv">8.4</a>).</p>
+<div class="sourceCode" id="cb1037"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">time</span>, <span class="va">out</span><span class="op">$</span><span class="va">N2</span>, xlab <span class="op">=</span> <span class="st">"Time"</span>, ylab <span class="op">=</span> <span class="st">"Number of individuals"</span>,</span>
+<span>     type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">time</span>, <span class="va">out</span><span class="op">$</span><span class="va">N1</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Species 2"</span>, <span class="st">"Species 1"</span><span class="op">)</span>,</span>
+<span>col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:lv"></span>
+<img src="figure/minimal-lv-1.png" alt="Solutions from Lotka Volterra ODEs for $t = \{1, 2, ..., 200\}$. Species 1 and 2 coexist, but at levels appreciably below their carrying capacities as a result of interspecific competition." width="624"><p class="caption">
+Figure 8.4: Solutions from Lotka Volterra ODEs for <span class="math inline">\(t = \{1, 2, ..., 200\}\)</span>. Species 1 and 2 coexist, but at levels appreciably below their carrying capacities as a result of interspecific competition.
+</p>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p>
+</p>
+<div class="example">
+<p><span id="exm:exm-f16" class="example"><strong>Example 8.20  </strong></span><span class="math inline">\(\text{}\)</span><br>
+Parameter estimation in biostatistics often requires optimization of mathematical functions (finding function minima and maxima). A useful function for this application is <code><a href="https://rdrr.io/r/stats/uniroot.html">uniroot()</a></code>, which searches an interval for the zero root of a function. For instance, many location estimators (those which estimate “central”
+or “typical” values, e.g., estimators of the true underlying mean) will be the zero root the function:
+<span class="math display" id="eq:ss">\[\begin{equation}
+\sum_{i = 1}^n(x_i - \hat{\mu})
+\tag{8.5}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i\)</span>th observation from a dataset, and <span class="math inline">\(\hat{\mu}\)</span> is an estimator of a true location value. We will use <code><a href="https://rdrr.io/r/stats/uniroot.html">uniroot()</a></code> to find a location estimate that provides a zero root for this function.</p>
+<p>As data we will use tree heights from the dataframe <code>loblolly</code>.</p>
+<div class="sourceCode" id="cb1038"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">Loblolly</span><span class="op">$</span><span class="va">height</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">data</span> <span class="op">-</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span><span class="va">f</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">root</span></span></code></pre></div>
+<pre><code>[1] 32.364</code></pre>
+<p>
+This value is identical to the sample mean of the tree heights.</p>
+<div class="sourceCode" id="cb1040"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 32.364</code></pre>
+<p>Indeed, the sample mean will be always be the zero root of Eq. <a href="ch8.html#eq:ss">(8.5)</a>.
+Normally the differences of the data points and the location estimate are squared, preceding summation. Minimizing this function is the process of ordinary least squares.</p>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<div id="howfunctionswork" class="section level2" number="8.8">
+<h2>
+<span class="header-section-number">8.8</span> The Process of Function Evaluation in R<a class="anchor" aria-label="anchor" href="#howfunctionswork"><i class="fas fa-link"></i></a>
+</h2>
+<p>Under construction</p>
+<div id="promises" class="section level3" number="8.8.1">
+<h3>
+<span class="header-section-number">8.8.1</span> Promises<a class="anchor" aria-label="anchor" href="#promises"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+</p>
+</div>
+</div>
+<div id="exercises-7" class="section level2 unnumbered">
+<h2>Exercises<a class="anchor" aria-label="anchor" href="#exercises-7"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><p>Divide the plant height and soil N values from the dataset from Q. 3 in the Exercises for Chapter <a href="ch3.html#ch3">3</a> (the first two columns of the dataset) by their respective column sums by specifying an appropriate function as the 3rd argument for <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>.</p></li>
+<li>
+<p>Below is McIntosh’s index of site biodiversity <span class="citation">(<a href="references.html#ref-mcintosh1967">McIntosh 1967</a>)</span>:
+<span class="math display">\[U = \sqrt{\sum_{i = 1}^s n_i^2}\]</span>
+where <span class="math inline">\(s\)</span> is the total number of species from a particular site, and <span class="math inline">\(n_i\)</span> is the number of individuals from the <span class="math inline">\(i\)</span>th species, <span class="math inline">\(i = 1,2,3,\ldots s\)</span>, from that site.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Write a function to calculate the index.</li>
+<li>Check it by running it on the following collection of <span class="math inline">\(n_is\)</span> obtained from a single site: <code>ni &lt;- c(5,4,5,3,2)</code>.</li>
+</ol>
+</li>
+<li>
+<p>Below is the Satterthwaite formula for approximating degrees of freedom for the <span class="math inline">\(t\)</span> distribution, under heteroscedasticity.
+<span class="math display">\[\frac{\left(\frac{S_x^2}{n_x} + \frac{S_y^2}{n_y}\right)^2}{\frac{\left(S^2_x/n_x\right)^2}{n_x-1}+\frac{\left(S^2_y/n_y\right)^2}{n_y-1}}\]</span>
+where <span class="math inline">\(S^2_x\)</span> is the sample variance for variable <span class="math inline">\(x\)</span>, <span class="math inline">\(S^2_y\)</span> is the sample variance for variable <span class="math inline">\(y\)</span>, <span class="math inline">\(n_x\)</span> is the sample size for <span class="math inline">\(x\)</span>, and <span class="math inline">\(n_y\)</span> is the sample size for <span class="math inline">\(y\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Write a function for this equation that has the variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> as arguments.<br>
+</li>
+<li>Test the function for <code>x &lt;- c(1,2,3,2,4,5)</code> and <code>y &lt;- c(2,3,7,8,9,10,11)</code>.</li>
+</ol>
+</li>
+<li><p>Create a function, implementing <code><a href="https://rdrr.io/r/base/switch.html">switch()</a></code>, that can calculate the first or second derivative of a mathematical expression with respect to <code>"x"</code>. Test it on <code>x^3</code>.</p></li>
+<li><p>Create a function that calculates trimmed means for columns in a quantitative matrix or dataframe. Within the function, use the triple dot operator as an argument in <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, to allow: 1) user-defined trimming (<code>trim</code> is an argument in the function <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>), and 2) user-defined handling of <code>NA</code> outcomes (<code>na.rm</code> is also an argument in <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>). Your function should have two arguments: one for input data, and one for the triple dot operator, <code>...</code> . Test the function on the first two columns of <code><a href="https://rdrr.io/pkg/asbio/man/cliff.sp.html">asbio::cliff.sp</a></code>. In your test specify both 10% trimming, and the removal of missing values.</p></li>
+<li>
+<p>Here are some classic computer science loop applications.</p>
+<ol style="list-style-type: lower-alpha">
+<li>A sequence of Fibonacci numbers is based on the function:
+<span class="math display">\[\begin{align*}
+f(n) &amp;= f(n-1) + f(n-2) \text{ for } n &gt; 2\\
+f(1) &amp;= f(2) = 1
+\end{align*}\]</span>
+where <span class="math inline">\(n\)</span> represents the <span class="math inline">\(n\)</span>th step in the sequence. Using a loop, create the first 100 numbers in the sequence, i.e., find <span class="math inline">\(f(1)\)</span> to <span class="math inline">\(f(100)\)</span>. As a check, the first five numbers in the sequence should be: 1, 1, 2, 3, 5.</li>
+<li>An interesting chaotic recursive sequence has the function:
+<span class="math display">\[\begin{align*}
+f(n) &amp;= f(n- f(n - 1)) + f(n - f(n-2)) \text{ for } n &gt; 2\\
+f(1) &amp;= f(2) = 1
+\end{align*}\]</span>
+Using a loop, create the first 100 numbers in the sequence, i.e., find <span class="math inline">\(f(1)\)</span> to <span class="math inline">\(f(100)\)</span>. As a check, the first five numbers in the sequence should be: 1, 1, 2, 3, 3.</li>
+</ol>
+</li>
+<li>
+<p>Create an <strong>R</strong> animation by creating a for loop 360 steps long that changes the font-size, color, and string rotation of your name (as a character string) in an otherwise empty plot. Assuming the index <code>i</code> is used, your loop should include something resembling the code:</p>
+<div class="sourceCode" id="cb1042"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, type <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">5.5</span>, <span class="st">"your name"</span>, cex <span class="op">=</span> <span class="va">i</span><span class="op">/</span><span class="fl">36</span>, srt <span class="op">=</span> <span class="va">i</span>, col <span class="op">=</span> <span class="va">i</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li><p>The Stirling number of the second kind (or the Stirling partition number) counts the number of ways a set of <span class="math inline">\(n\)</span> objects can be partitioned into <span class="math inline">\(k\)</span> groups. This is generally denoted <span class="math inline">\(S(n,k)\)</span> or <span class="math inline">\(\left\{n \atop k \right\}\)</span>, and is calculated as:</p></li>
+</ol>
+<p><span class="math display">\[\left\{n \atop k \right\} = \sum_{i=0}^k \frac{(-1)^{k-i} i^n}{(k-i)!i!}.\]</span></p>
+<div class="line-block">         Write a function that calculates <span class="math inline">\(\left\{n \atop k \right\}\)</span> without using a for loop.<br>
+         Use the form: <code>stirling2 &lt;- function(n, k){function contents}</code>.</div>
+<ol start="9" style="list-style-type: decimal">
+<li>The Bell number, <span class="math inline">\(B_n\)</span>, counts the number of ways a set with <span class="math inline">\(n\)</span> elements can be partitioned <span class="citation">(<a href="references.html#ref-bell1938">Bell 1938</a>)</span>. That is, <span class="math inline">\(B_n\)</span> will be the sum of Stirling numbers for a particular set, for <span class="math inline">\(k = \{1,2,\ldots,n\}\)</span>:</li>
+</ol>
+<p><span class="math display">\[B_n = \sum_{k=1}^n \left\{{n\atop k}\right\}.\]</span></p>
+<div class="line-block">         Write a function for calculating <span class="math inline">\(B_n\)</span> that uses <code>stirling2</code>, from Q 8, in a for loop.<br>
+         Use the form: <code>belln &lt;- function(n){function contents}</code>.</div>
+<ol start="10" style="list-style-type: decimal">
+<li>
+<p>The exercise below concerns the speed of loops in <strong>R</strong>. Use <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code> to simultaneously find the mean estimates of <code>Loblolly$height</code> for each level in <code>Loblolly$seed</code>, with and without a loop, and find the run times of the operations using <code><a href="https://rdrr.io/r/base/system.time.html">system.time()</a></code>. That is, run the following chunks:</p>
+<div class="sourceCode" id="cb1043"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">$</span><span class="va">height</span>, <span class="va">Loblolly</span><span class="op">$</span><span class="va">Seed</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1044"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html">nlevels</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">$</span><span class="va">Seed</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">Loblolly</span><span class="op">$</span><span class="va">Seed</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">Loblolly</span><span class="op">[</span><span class="va">Loblolly</span><span class="op">$</span><span class="va">Seed</span> <span class="op">==</span> <span class="va">i</span>,<span class="op">]</span></span>
+<span>  <span class="va">out</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">temp</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<div class="line-block">Describe and discuss your results.</div>
+</li>
+<li><p>Write a function to solve the systems of ODEs below
+<span class="math display">\[\begin{align*}
+\frac{dx}{dt} &amp;= ax + by\\
+\frac{dy}{dt} &amp;= cx + dy
+\end{align*}\]</span>
+To test the function, let <span class="math inline">\(a = 3\)</span>, <span class="math inline">\(b = 4\)</span>, <span class="math inline">\(c = 5\)</span>, <span class="math inline">\(d = 6\)</span>, and solve for for <span class="math inline">\(t = 1,2,\ldots,20\)</span>, using classical Runge-Kutta 4<span class="math inline">\(^\text{th}\)</span> order integration, as implemented by the function <code><a href="https://rdrr.io/pkg/deSolve/man/rk4.html">deSolve::rk4</a></code>. Initial values for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be anything but <span class="math inline">\(\{0,0\}\)</span>.</p></li>
+<li><p>Make output from the function in previous question have an S3 class, and create a plotting method for objects of this class.</p></li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ch7.html"><span class="header-section-number">7</span> Grid Graphics, Including ggplot2</a></div>
+<div class="next"><a href="ch9.html"><span class="header-section-number">9</span> R Interfaces</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ch8"><span class="header-section-number">8</span> Functions</a></li>
+<li>
+<a class="nav-link" href="#intro2functions"><span class="header-section-number">8.1</span> Introduction to Functions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#function-and-function-base-types"><span class="header-section-number">8.1.1</span> function() and Function Base Types</a></li>
+<li><a class="nav-link" href="#base-type-closure"><span class="header-section-number">8.1.2</span> Base Type closure</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#global-vs.-local-variables"><span class="header-section-number">8.2</span> Global vs. Local Variables</a></li>
+<li>
+<a class="nav-link" href="#useful-functions-for-writing-functions"><span class="header-section-number">8.3</span> Useful Functions for Writing Functions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#swtch"><span class="header-section-number">8.3.1</span> switch()</a></li>
+<li><a class="nav-link" href="#match.arg"><span class="header-section-number">8.3.2</span> match.arg()</a></li>
+<li><a class="nav-link" href="#section"><span class="header-section-number">8.3.3</span> ...</a></li>
+<li><a class="nav-link" href="#invisible"><span class="header-section-number">8.3.4</span> invisible()</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#loops"><span class="header-section-number">8.4</span> Loops</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#extending-scalar-arguments"><span class="header-section-number">8.4.1</span> Extending Scalar Arguments</a></li>
+<li><a class="nav-link" href="#building-on-a-previous-result"><span class="header-section-number">8.4.2</span> Building on a Previous Result</a></li>
+<li><a class="nav-link" href="#summarizing-categorical-variables"><span class="header-section-number">8.4.3</span> Summarizing Categorical Variables</a></li>
+<li><a class="nav-link" href="#looping-without-for"><span class="header-section-number">8.4.4</span> Looping Without for()</a></li>
+<li><a class="nav-link" href="#final-looping-considerations"><span class="header-section-number">8.4.5</span> Final Looping Considerations</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#FunctionalProgramming"><span class="header-section-number">8.5</span> Functional Programming</a></li>
+<li>
+<a class="nav-link" href="#functions-with-classes-and-methods"><span class="header-section-number">8.6</span> Functions with Classes and Methods</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#s3-and-s4"><span class="header-section-number">8.6.1</span> S3 and S4</a></li></ul>
+</li>
+<li><a class="nav-link" href="#advanced-biometric-examples"><span class="header-section-number">8.7</span> Advanced Biometric Examples</a></li>
+<li>
+<a class="nav-link" href="#howfunctionswork"><span class="header-section-number">8.8</span> The Process of Function Evaluation in R</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#promises"><span class="header-section-number">8.8.1</span> Promises</a></li></ul>
+</li>
+<li><a class="nav-link" href="#exercises-7">Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>An Amalgam of R</strong>: A Primer and Reference for Biologists" was written by Ken Aho. It was last built on 2025-01-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

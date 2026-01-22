@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Climate | Lab 2: R and Climate</title>
+  <meta name="description" content="2 Climate | Lab 2: R and Climate" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Climate | Lab 2: R and Climate" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Climate | Lab 2: R and Climate" />
+  
+  
+  
+
+<meta name="author" content="Ken Aho" />
+
+
+<meta name="date" content="2025-01-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r.html"/>
+<link rel="next" href="assignment.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><b>1</b> <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r.html"><a href="r.html#r-as-a-calculator"><i class="fa fa-check"></i><b>1.1</b> <strong>R</strong> as a Calculator</a></li>
+<li class="chapter" data-level="1.2" data-path="r.html"><a href="r.html#expressions-or-assignments"><i class="fa fa-check"></i><b>1.2</b> Expressions or Assignments</a></li>
+<li class="chapter" data-level="1.3" data-path="r.html"><a href="r.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.3</b> Reading data into R</a></li>
+<li class="chapter" data-level="1.4" data-path="r.html"><a href="r.html#queryingsubsetting-data"><i class="fa fa-check"></i><b>1.4</b> Querying/Subsetting Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="climate.html"><a href="climate.html"><i class="fa fa-check"></i><b>2</b> Climate</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="climate.html"><a href="climate.html#walter-diagrams-average-conditions"><i class="fa fa-check"></i><b>2.1</b> Walter Diagrams (Average Conditions)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="assignment.html"><a href="assignment.html"><i class="fa fa-check"></i>Assignment</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Lab 2: R and Climate</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="climate" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Climate<a href="climate.html#climate" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="walter-diagrams-average-conditions" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Walter Diagrams (Average Conditions)<a href="climate.html#walter-diagrams-average-conditions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A valuable tool in the summary of climate data is the Walter diagram (Walter and Leith 1967). In this framework, the month (January to December, if you are summarizing a northern hemisphere site) is plotted on the <span class="math inline">\(x\)</span>-axis, average temperature (in degrees C) is plotted on left vertical axis, and average precipitation (in mm) plotted on right vertical axis.</p>
+<p>Zero degrees C is located at the same height as zero millimeters precipitation on the vertical axes. The vertical axes are scale so that a 1<span class="math inline">\(^\text{o}\)</span> C change is equivalent to 2 millimeter change in precipitation. Moisture levels adequate for plant growth occur when precipitation line exceeds the temperature line. Conversely, when temperature exceeds precipitation, evaporation exceeds precipitation, and the site experiences a water deficit (Fig. <a href="climate.html#fig:clim">2.1</a>).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:clim"></span>
+<img src="wdiag.png" alt="Example of a Walter diagram" width="85%" />
+<p class="caption">
+Figure 2.1: Example of a Walter diagram
+</p>
+</div>
+<p>To create a proper Walter diagram, one requires four types of monthly summaries:</p>
+<ol style="list-style-type: decimal">
+<li>the average precipitation,</li>
+<li>the average maximum temperature,</li>
+<li>the average minimum temperature, and</li>
+<li>the absolute (record) minimum temperature.</li>
+</ol>
+<p>To access useful climate information and functions, we will use an <strong>R</strong> package I made for this class called <em>plant.ecol</em>. It is currently only available at GitHub. To install the package we can type:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="climate.html#cb24-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb24-2"><a href="climate.html#cb24-2" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb24-3"><a href="climate.html#cb24-3" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">&quot;moondog1969/plant.ecol&quot;</span>)</span></code></pre></div>
+<p>You will never have to install <code>plant.ecol</code> on <em>your</em> workstation again (although ISU computers may scrub it). To load <em>plant.ecol</em> for this <strong>R</strong> session you must type:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="climate.html#cb25-1" tabindex="-1"></a><span class="fu">library</span>(plant.ecol)</span></code></pre></div>
+<p>The package’s data and functions will now be available.</p>
+<p>Climate files for 28 global locations are stored in <em>plant.ecol</em> under the names: <code>avg.high.temp</code>, <code>avg.low.temp</code>, <code>abs.low.temp</code>, and <code>precip</code>.</p>
+<p>Lets load these datasets.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="climate.html#cb26-1" tabindex="-1"></a><span class="fu">data</span>(avg.high.temp); <span class="fu">data</span>(avg.low.temp); <span class="fu">data</span>(abs.low.temp); <span class="fu">data</span>(precip)</span></code></pre></div>
+<p>The function <code>names()</code> lets us see the column names in a dataframe. The columns for the matrices above identify the 28 sites.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="climate.html#cb27-1" tabindex="-1"></a><span class="fu">names</span>(avg.high.temp)</span></code></pre></div>
+<pre><code> [1] &quot;Aberdeen.WA.USA&quot;          &quot;Alice.Springs.Australia&quot; 
+ [3] &quot;Bangkok.Thailand&quot;         &quot;Berkeley.CA.USA&quot;         
+ [5] &quot;Caravelas.Brazil&quot;         &quot;Corvallis.OR.USA&quot;        
+ [7] &quot;Dakhla.Egypt&quot;             &quot;Death.valley.CA.USA&quot;     
+ [9] &quot;Fairbanks.AK.USA&quot;         &quot;Greenwich.UK&quot;            
+[11] &quot;Hamburg.Germany&quot;          &quot;Jackson.WY.USA&quot;          
+[13] &quot;Kuala.Trengganu.Malaysia&quot; &quot;Lawrence.KA.USA&quot;         
+[15] &quot;Lima.Peru&quot;                &quot;Manaus.Brazil&quot;           
+[17] &quot;Mombasa.Kenya&quot;            &quot;Moscow.Russia&quot;           
+[19] &quot;Murree.Pakistan&quot;          &quot;Osaka.JPN&quot;               
+[21] &quot;Pocatello.ID.USA&quot;         &quot;Ponza.Italy&quot;             
+[23] &quot;San.Francisco.CA.USA&quot;     &quot;San.Jose.Costa.Rica&quot;     
+[25] &quot;Sydney.Australia&quot;         &quot;Tulear.Madagascar&quot;       
+[27] &quot;Turiacu.Brazil&quot;           &quot;Yellowknife.Canada&quot;      </code></pre>
+<p>The function <code>diagwl()</code> in the R package <em>climatol</em> makes Walter diagrams. We can install <em>climatol</em> by typing:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="climate.html#cb29-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;climatol&quot;</span>)</span></code></pre></div>
+<p>and load it it using:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="climate.html#cb30-1" tabindex="-1"></a><span class="fu">library</span>(climatol)</span></code></pre></div>
+<p>The function <code>diagwl()</code> has six important arguments:</p>
+<ol style="list-style-type: decimal">
+<li><code>dat</code> Monthly climatic data for which the diagram will be plotted.</li>
+<li><code>stname</code> Name and location of the climatological station.</li>
+<li><code>alt</code> Altitude of the climatological station.</li>
+<li><code>per</code> Period on which the averages have been computed.</li>
+<li><code>shem</code> Set to <code>TRUE</code> for southern hemisphere stations.</li>
+<li><code>mlab</code> Refers to the language used for the <code>x</code>-axis <code>"en"</code> = English.</li>
+</ol>
+<p>The argument <code>dat</code> will be a matrix with rows comprising precipitation, average maximum temperature, average minimum temperature, and absolute minimum temperature (in that order). The argument <code>per</code> will contain the years of data that exist for temperature and precipitation averages, respectively.</p>
+<p>Let’s create a suitable matrix for Pocatello. Note that Pocatello data are stored in column 21 of each of the climate matrices.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="climate.html#cb31-1" tabindex="-1"></a><span class="fu">names</span>(precip)[<span class="dv">21</span>]; <span class="fu">names</span>(avg.high.temp)[<span class="dv">21</span>]; <span class="fu">names</span>(avg.low.temp[<span class="dv">21</span>]); <span class="fu">names</span>(abs.low.temp[<span class="dv">21</span>])</span></code></pre></div>
+<pre><code>[1] &quot;Pocatello.ID.USA&quot;</code></pre>
+<pre><code>[1] &quot;Pocatello.ID.USA&quot;</code></pre>
+<pre><code>[1] &quot;Pocatello.ID.USA&quot;</code></pre>
+<pre><code>[1] &quot;Pocatello.ID.USA&quot;</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="climate.html#cb36-1" tabindex="-1"></a>poky  <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(precip[,<span class="dv">21</span>], avg.high.temp[,<span class="dv">21</span>], avg.low.temp[,<span class="dv">21</span>], abs.low.temp[,<span class="dv">21</span>])</span></code></pre></div>
+<p>We can get the metadata we need to make the graph by typing:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="climate.html#cb37-1" tabindex="-1"></a>?climate</span></code></pre></div>
+<p>From this documentation, we see that Pocatello monthly temperature and precipitation averages are based on data from 1939-2024 (85 years). The name of the weather station along with the latitude, longitude and elevation are also given in the documentation. The resulting Pocatello Walter diagram is shown in Fig <a href="climate.html#fig:poc">2.2</a>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="climate.html#cb38-1" tabindex="-1"></a><span class="fu">diagwl</span>(poky, <span class="at">cols =</span> <span class="cn">NULL</span>, <span class="at">stname =</span> <span class="st">&quot;POCATELLO MUNICIPAL </span><span class="sc">\n</span><span class="st"> 42.91°N 112.60°W&quot;</span>, </span>
+<span id="cb38-2"><a href="climate.html#cb38-2" tabindex="-1"></a>       <span class="at">alt =</span> <span class="dv">1357</span>, <span class="at">per =</span> <span class="st">&quot;[85,85]&quot;</span>, <span class="at">mlab =</span> <span class="st">&quot;en&quot;</span> )</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:poc"></span>
+<img src="ClimateAndR_files/figure-html/poc-1.png" alt="Walter diagram for the Pocatello municipal airport weather station." width="672" />
+<p class="caption">
+Figure 2.2: Walter diagram for the Pocatello municipal airport weather station.
+</p>
+</div>
+<p>Note that The <code>\n</code> in the code adds a line break in the <code>stname</code> character string.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="assignment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
