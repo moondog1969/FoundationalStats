@@ -1,13 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.23)  29 APR 2026 14:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.23)  29 APR 2026 16:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**"C:/Users/ahoken/Recovered Data/Users/Ken Aho/Documents/Relevant/Brand new/NE
-W BOOK_6/R analyses of particular experimental designs/Analysis_of_designs.tex"
+**"C:/Users/ahoken/Documents/GitHub/FoundationalStats/R analyses of particular 
+experimental designs/Analysis_of_designs.tex"
 
-
-(c:/Users/ahoken/Recovered Data/Users/Ken Aho/Documents/Relevant/Brand new/NEW 
-BOOK_6/R analyses of particular experimental designs/Analysis_of_designs.tex
+(c:/Users/ahoken/Documents/GitHub/FoundationalStats/R analyses of particular ex
+perimental designs/Analysis_of_designs.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (c:/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -732,24 +731,24 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (./Analysis_of_designs.aux)
 \openout1 = `Analysis_of_designs.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
 (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count369
@@ -771,7 +770,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 125.
+Package hyperref Info: Link coloring ON on input line 126.
 (./Analysis_of_designs.out) (./Analysis_of_designs.out)
 \@outlinefile=\write4
 \openout4 = `Analysis_of_designs.out'.
@@ -812,13 +811,13 @@ Package hyperref Info: Link coloring ON on input line 125.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 125.
-Package microtype Info: Applying patch `item' on input line 125.
-Package microtype Info: Applying patch `toc' on input line 125.
-Package microtype Info: Applying patch `eqnum' on input line 125.
-Package microtype Info: Applying patch `footnote' on input line 125.
-Package microtype Info: Applying patch `verbatim' on input line 125.
-LaTeX Info: Redefining \microtypesetup on input line 125.
+LaTeX Info: Redefining \microtypecontext on input line 126.
+Package microtype Info: Applying patch `item' on input line 126.
+Package microtype Info: Applying patch `toc' on input line 126.
+Package microtype Info: Applying patch `eqnum' on input line 126.
+Package microtype Info: Applying patch `footnote' on input line 126.
+Package microtype Info: Applying patch `verbatim' on input line 126.
+LaTeX Info: Redefining \microtypesetup on input line 126.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -832,10 +831,16 @@ Package microtype Info: No adjustment of character kerning.
 (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
-) [1
+)
+<cover.pdf, id=179, 498.86375pt x 498.86375pt>
+File: cover.pdf Graphic file (type pdf)
+<use cover.pdf>
+Package pdftex.def Info: cover.pdf  used on input line 133.
+(pdftex.def)             Requested size: 446.26582pt x 446.27856pt.
+[1
 
-{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./Analysis_of_
-designs.toc
+{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./cover.pdf>] (
+./Analysis_of_designs.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
 (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -860,33 +865,33 @@ l.38 ...Repeated Measured Designs}{41}{section.10}
 [2]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
+(hyperref)                removing `math shift' on input line 154.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
+(hyperref)                removing `math shift' on input line 154.
 
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 175.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 179.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 202.
+(hyperref)                removing `math shift' on input line 206.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 202.
+(hyperref)                removing `math shift' on input line 206.
 
 [3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 261.
+(hyperref)                removing `math shift' on input line 265.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 261.
+(hyperref)                removing `math shift' on input line 265.
 
 
-Overfull \hbox (13.93456pt too wide) in paragraph at lines 284--285
+Overfull \hbox (13.93456pt too wide) in paragraph at lines 288--289
 []\OT1/cmr/m/n/10.95 (-20) Welch test ([][]Welch[][], [][]1951[][]), ro-bust to
  het-eroscedas-tic-ity but re-quires nor-mal er-rors, \OT1/cmr/bx/n/10.95 (-20)
  R: \OT1/cmtt/m/n/10.95 oneway.test\OT1/cmr/m/n/10.95 (-20) ,
@@ -895,192 +900,192 @@ Overfull \hbox (13.93456pt too wide) in paragraph at lines 284--285
 [5]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 331.
+(hyperref)                removing `math shift' on input line 335.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 331.
+(hyperref)                removing `math shift' on input line 335.
 
 [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 397.
+(hyperref)                removing `math shift' on input line 401.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 397.
+(hyperref)                removing `math shift' on input line 401.
 
 [7] [8]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 463.
+(hyperref)                removing `math shift' on input line 467.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\geq' on input line 463.
+(hyperref)                removing `\geq' on input line 467.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 463.
+(hyperref)                removing `math shift' on input line 467.
 
 
-Overfull \hbox (12.47577pt too wide) in paragraph at lines 491--492
+Overfull \hbox (12.47577pt too wide) in paragraph at lines 495--496
 []\OT1/cmr/m/n/10.95 (-20) Welch test ([][]Welch[][], [][]1951[][]), ro-bust to
  het-eroscedas-tic-ity but re-quires nor-mal er-rors, \OT1/cmr/bx/n/10.95 (-20)
  R: \OT1/cmtt/m/n/10.95 oneway.test 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 542--543
+Underfull \hbox (badness 10000) in paragraph at lines 546--547
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 547--548
+Underfull \hbox (badness 10000) in paragraph at lines 551--552
 
  []
 
 
-Overfull \hbox (28.79326pt too wide) in paragraph at lines 552--589
+Overfull \hbox (28.79326pt too wide) in paragraph at lines 556--593
 [][] 
  []
 
 [10] [11] [12]
-<figure/minimal-unnamed-chunk-21-1.pdf, id=396, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-21-1.pdf, id=402, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-21-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-21-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-21-1.pdf  used on input l
-ine 675.
+ine 679.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 [13 <./figure/minimal-unnamed-chunk-21-1.pdf>] [14] [15]
-Underfull \hbox (badness 10000) in paragraph at lines 863--864
+Underfull \hbox (badness 10000) in paragraph at lines 867--868
 
  []
 
 [16]
-Overfull \hbox (4.6222pt too wide) in paragraph at lines 951--951
+Overfull \hbox (4.6222pt too wide) in paragraph at lines 955--955
 [][]\OT1/cmtt/m/it/12 # matrix containing the number of successes and the numbe
 r of failures[][] 
  []
 
 [17]
-<figure/minimal-unnamed-chunk-32-1.pdf, id=441, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-32-1.pdf, id=448, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-32-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-32-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-32-1.pdf  used on input l
-ine 972.
+ine 976.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 [18 <./figure/minimal-unnamed-chunk-32-1.pdf>]
-Overfull \hbox (11.225pt too wide) in paragraph at lines 1097--1097
+Overfull \hbox (11.225pt too wide) in paragraph at lines 1101--1101
 [][]\OT1/cmtt/m/n/12 library[][](lme4);[] []library[][](lmerTest);[] []library[
 ][](nlme)[] []\OT1/cmtt/m/it/12 #nlme contains ergostool[][] 
  []
 
 [19] [20]
-<figure/minimal-unnamed-chunk-40-1.pdf, id=477, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-40-1.pdf, id=483, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-40-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-40-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-40-1.pdf  used on input l
-ine 1181.
+ine 1185.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 [21 <./figure/minimal-unnamed-chunk-40-1.pdf>] [22] [23]
-<figure/minimal-unnamed-chunk-44-1.pdf, id=499, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-44-1.pdf, id=505, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-44-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-44-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-44-1.pdf  used on input l
-ine 1264.
+ine 1268.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 [24 <./figure/minimal-unnamed-chunk-44-1.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1329.
+(hyperref)                removing `math shift' on input line 1333.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 1329.
+(hyperref)                removing `superscript' on input line 1333.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1329.
+(hyperref)                removing `math shift' on input line 1333.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1329.
+(hyperref)                removing `math shift' on input line 1333.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 1329.
+(hyperref)                removing `superscript' on input line 1333.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1329.
+(hyperref)                removing `math shift' on input line 1333.
 
 [25]
-<figure/minimal-unnamed-chunk-47-1.pdf, id=517, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-47-1.pdf, id=523, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-47-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-47-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-47-1.pdf  used on input l
-ine 1342.
+ine 1346.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1393--1395
+Underfull \hbox (badness 10000) in paragraph at lines 1397--1399
 
  []
 
 [26 <./figure/minimal-unnamed-chunk-47-1.pdf>] [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1514--1516
+Underfull \hbox (badness 10000) in paragraph at lines 1518--1520
 
  []
 
 [28] [29]
-<split.jpg, id=550, 339.9099pt x 295.8252pt>
+<split.jpg, id=556, 339.9099pt x 295.8252pt>
 File: split.jpg Graphic file (type jpg)
 <use split.jpg>
-Package pdftex.def Info: split.jpg  used on input line 1543.
+Package pdftex.def Info: split.jpg  used on input line 1547.
 (pdftex.def)             Requested size: 211.38832pt x 183.96944pt.
 [30 <./split.jpg>] [31] [32] [33]
-<SPRB.jpg, id=584, 351.2322pt x 295.8252pt>
+<SPRB.jpg, id=590, 351.2322pt x 295.8252pt>
 File: SPRB.jpg Graphic file (type jpg)
 <use SPRB.jpg>
-Package pdftex.def Info: SPRB.jpg  used on input line 1689.
+Package pdftex.def Info: SPRB.jpg  used on input line 1693.
 (pdftex.def)             Requested size: 211.38832pt x 178.04718pt.
 [34] [35 <./SPRB.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 1755--1757
+Underfull \hbox (badness 10000) in paragraph at lines 1759--1761
 
  []
 
 [36]
-<split_split.jpg, id=605, 339.9099pt x 295.8252pt>
+<split_split.jpg, id=611, 339.9099pt x 295.8252pt>
 File: split_split.jpg Graphic file (type jpg)
 <use split_split.jpg>
-Package pdftex.def Info: split_split.jpg  used on input line 1808.
+Package pdftex.def Info: split_split.jpg  used on input line 1812.
 (pdftex.def)             Requested size: 211.38832pt x 183.96944pt.
 [37] [38 <./split_split.jpg>]
-<strip.jpg, id=622, 476.83746pt x 415.69704pt>
+<strip.jpg, id=628, 476.83746pt x 415.69704pt>
 File: strip.jpg Graphic file (type jpg)
 <use strip.jpg>
-Package pdftex.def Info: strip.jpg  used on input line 1881.
+Package pdftex.def Info: strip.jpg  used on input line 1885.
 (pdftex.def)             Requested size: 211.38832pt x 184.28369pt.
 [39] [40 <./strip.jpg>]
-<figure/minimal-unnamed-chunk-65-1.pdf, id=635, 505.89pt x 505.89pt>
+<figure/minimal-unnamed-chunk-65-1.pdf, id=641, 505.89pt x 505.89pt>
 File: figure/minimal-unnamed-chunk-65-1.pdf Graphic file (type pdf)
 <use figure/minimal-unnamed-chunk-65-1.pdf>
 Package pdftex.def Info: figure/minimal-unnamed-chunk-65-1.pdf  used on input l
-ine 1897.
+ine 1901.
 (pdftex.def)             Requested size: 234.8775pt x 234.88132pt.
 [41 <./figure/minimal-unnamed-chunk-65-1.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 1979--1980
+Underfull \hbox (badness 10000) in paragraph at lines 1983--1984
 
  []
 
 [42]
-Overfull \hbox (5.79964pt too wide) in paragraph at lines 2056--2056
+Overfull \hbox (5.79964pt too wide) in paragraph at lines 2060--2060
 [][]\OT1/cmtt/m/n/12 asthma.lm[] []<-[] []lm[][](m[] []~[] []DRUG,[] []data[] [
 ]= asthma)[] []\OT1/cmtt/m/it/12 # multivariate gen. lin. model[][] 
  []
 
 [43]
-Underfull \hbox (badness 10000) in paragraph at lines 2083--2084
+Underfull \hbox (badness 10000) in paragraph at lines 2087--2088
 
  []
 
@@ -1094,13 +1099,13 @@ Package rerunfilecheck Info: File `Analysis_of_designs.out' has not changed.
 (rerunfilecheck)             Checksum: EFE4A1E15A2DF7198C4946BCB3255DB8;10067.
  ) 
 Here is how much of TeX's memory you used:
- 29022 strings out of 467533
- 542525 string characters out of 5423668
+ 29029 strings out of 467533
+ 542537 string characters out of 5423668
  974874 words of memory out of 5000000
- 57058 multiletter control sequences out of 15000+600000
- 654868 words of font info for 245 fonts, out of 8000000 for 9000
+ 57065 multiletter control sequences out of 15000+600000
+ 654699 words of font info for 244 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,17n,117p,1201b,670s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,17n,117p,1167b,670s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/tex
 live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2025/texmf-dis
@@ -1124,10 +1129,10 @@ ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2025/texmf-dist/fonts
 blic/cm-super/sfrm0800.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-su
 per/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm10
 95.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on Analysis_of_designs.pdf (50 pages, 1967944 bytes).
+Output written on Analysis_of_designs.pdf (50 pages, 1978751 bytes).
 PDF statistics:
- 857 PDF objects out of 1000 (max. 8388607)
- 725 compressed objects within 8 object streams
+ 863 PDF objects out of 1000 (max. 8388607)
+ 730 compressed objects within 8 object streams
  136 named destinations out of 1000 (max. 500000)
- 56239 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 55732 words of extra memory for PDF output out of 61914 (max. 10000000)
 
