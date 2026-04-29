@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Analysis_of_designs.aux
+The style file: MMEbst.bst
+Database file #1: MMEbib.bib
+You've used 28 entries,
+            2811 wiz_defined-function locations,
+            746 strings with 8167 characters,
+and the built_in function-call counts, 18254 in all, are:
+= -- 1592
+> -- 568
+< -- 23
++ -- 222
+- -- 192
+* -- 1481
+:= -- 2804
+add.period$ -- 56
+call.type$ -- 28
+change.case$ -- 189
+chr.to.int$ -- 28
+cite$ -- 28
+duplicate$ -- 1446
+empty$ -- 1557
+format.name$ -- 272
+if$ -- 3673
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 224
+newline$ -- 116
+num.names$ -- 112
+pop$ -- 451
+preamble$ -- 1
+purify$ -- 176
+quote$ -- 0
+skip$ -- 390
+stack$ -- 0
+substring$ -- 1448
+swap$ -- 511
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 207
+warning$ -- 0
+while$ -- 124
+width$ -- 0
+write$ -- 328

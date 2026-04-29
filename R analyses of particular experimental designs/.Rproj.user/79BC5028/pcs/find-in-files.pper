@@ -1,0 +1,10 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : false,
+        "filePatterns" : [
+        ],
+        "path" : "~/Documents/Relevant/Brand new/NEW BOOK_6/R analyses of particular experimental designs",
+        "query" : "concordance",
+        "regex" : false
+    }
+}

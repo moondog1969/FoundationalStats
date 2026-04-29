@@ -1,0 +1,151 @@
+\begin{thebibliography}{28}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Agresti \& Pendergast(1986)}]{agresti1986}
+Agresti, A. \& Pendergast, J. (1986) Comparing mean ranks for repeated measures
+  data.
+\newblock \emph{Communications in Statistics-Theory and Methods}, \textbf{15},
+  1417--1433.
+
+\bibitem[{Aho(2013)}]{aho2014}
+Aho, K.A. (2013) \emph{Foundational and Applied Statistics for Biologists using
+  R}.
+\newblock CRC Press.
+
+\bibitem[{Brunner \emph{et~al.}(1997)Brunner, Dette \& Munk}]{brunner1997}
+Brunner, E., Dette, H. \& Munk, A. (1997) Box-type approximations in
+  nonparametric factorial designs.
+\newblock \emph{Journal of the American Statistical Association}, \textbf{92},
+  1494--1502.
+
+\bibitem[{Fisher(1925)}]{fisher1925}
+Fisher, R.A. (1925) \emph{Statistical Methods for Research Workers}.
+\newblock Genesis Publishing Pvt Ltd.
+
+\bibitem[{Fitzmaurice \emph{et~al.}(2012)Fitzmaurice, Laird \& Ware}]{fitz2012}
+Fitzmaurice, G.M., Laird, N.M. \& Ware, J.H. (2012) \emph{Applied Longitudinal
+  Analysis}, volume 998.
+\newblock John Wiley \& Sons.
+
+\bibitem[{Hollander \emph{et~al.}(2013)Hollander, Wolfe \&
+  Chicken}]{hollander2013}
+Hollander, M., Wolfe, D.A. \& Chicken, E. (2013) \emph{Nonparametric
+  Statistical Methods}.
+\newblock John Wiley \& Sons.
+
+\bibitem[{Hoshmand(2006)}]{hoshmand}
+Hoshmand, R. (2006) \emph{Design of Experiments for Agriculture and the Natural
+  Sciences Second Edition}.
+\newblock CRC Press.
+
+\bibitem[{Kenward \& Roger(1997)}]{kenward1997}
+Kenward, M.G. \& Roger, J.H. (1997) Small sample inference for fixed effects
+  from restricted maximum likelihood.
+\newblock \emph{Biometrics}, pp. 983--997.
+
+\bibitem[{Kolmogorov(1933)}]{kolmogorov1933}
+Kolmogorov, A. (1933) Sulla determinazione empirica di una lgge di
+  distribuzione.
+\newblock \emph{Inst Ital Attuari, Giorn}, \textbf{4}, 83--91.
+
+\bibitem[{Kruskal \& Wallis(1952)}]{kruskal1952}
+Kruskal, W.H. \& Wallis, W.A. (1952) Use of ranks in one-criterion variance
+  analysis.
+\newblock \emph{Journal of the American statistical Association}, \textbf{47},
+  583--621.
+
+\bibitem[{Lawson(2014)}]{lawson}
+Lawson, J. (2014) \emph{Design and Analysis of Experiments with R}, volume 115.
+\newblock CRC Press.
+
+\bibitem[{Littell \emph{et~al.}(2007)Littell, Milliken, Stroup, Wolfinger \&
+  Schabenberger}]{litt2007}
+Littell, R.C., Milliken, G.A., Stroup, W.W., Wolfinger, R.D. \& Schabenberger,
+  O. (2007) \emph{SAS for Mixed Models}.
+\newblock SAS institute.
+
+\bibitem[{Littell \emph{et~al.}(2002)Littell, Stroup \& Freund}]{litt2002}
+Littell, R.C., Stroup, W.W. \& Freund, R.J. (2002) \emph{SAS for Linear
+  Models}.
+\newblock SAS institute.
+
+\bibitem[{Mack \& Skillings(1980)}]{mack1980}
+Mack, G.A. \& Skillings, J.H. (1980) A {Friedman}-type rank test for main
+  effects in a two-factor anova.
+\newblock \emph{Journal of the American Statistical Association}, \textbf{75},
+  947--951.
+
+\bibitem[{Manly(2006)}]{manly2006}
+Manly, B.F. (2006) \emph{Randomization, bootstrap and Monte Carlo methods in
+  biology}, volume~70.
+\newblock CRC Press.
+
+\bibitem[{Milliken \& Johnson(2009)}]{milliken}
+Milliken, G.A. \& Johnson, D.E. (2009) \emph{Analysis of Messy Data Volume 1:
+  Designed Experiments}, volume~1.
+\newblock CRC Press.
+
+\bibitem[{Monteith \emph{et~al.}(2009)Monteith, Schmitz, Jenks, Delger \&
+  Bowyer}]{monteith2009}
+Monteith, K.L., Schmitz, L.E., Jenks, J.A., Delger, J.A. \& Bowyer, R.T. (2009)
+  Growth of male white-tailed deer: consequences of maternal effects.
+\newblock \emph{Journal of Mammalogy}, \textbf{90}, 651--660.
+
+\bibitem[{Pinheiro \& Bates(2009)}]{pinheiro2009}
+Pinheiro, J. \& Bates, D. (2009) \emph{Mixed-{Effects} {Models} in {S} and
+  {S}-{PLUS}}.
+\newblock Springer.
+
+\bibitem[{Port \emph{et~al.}(2000)Port, Demer, Jennrich, Walter \&
+  Garfinkel}]{port2000}
+Port, S., Demer, L., Jennrich, R., Walter, D. \& Garfinkel, A. (2000) Systolic
+  blood pressure and mortality.
+\newblock \emph{The Lancet}, \textbf{355}, 175--180.
+
+\bibitem[{Smirnov(1948)}]{smirnov1948}
+Smirnov, N. (1948) Table for estimating the goodness of fit of empirical
+  distributions.
+\newblock \emph{The Annals of Mathematical Statistics}, \textbf{19}, 279--281.
+
+\bibitem[{Snedecor \& Cochran(1967)}]{snedecor}
+Snedecor, G.W. \& Cochran, W.G. (1967) \emph{Statistical Methods}.
+\newblock Iowa State University Press, Iowa.
+
+\bibitem[{Sokal \& Rohlf(2012)}]{sokal2012}
+Sokal, R. \& Rohlf, F. (2012) \emph{Biometry (4th edn)}.
+\newblock New York: WH Freeman and Company.
+
+\bibitem[{Suddath \emph{et~al.}(1990)Suddath, Christison, Torrey, Casanova \&
+  Weinberger}]{suddath1990}
+Suddath, R.L., Christison, G.W., Torrey, E.F., Casanova, M.F. \& Weinberger,
+  D.R. (1990) Anatomical abnormalities in the brains of monozygotic twins
+  discordant for schizophrenia.
+\newblock \emph{New England Journal of Medicine}, \textbf{322}, 789--794.
+
+\bibitem[{Vallbona \emph{et~al.}(1997)Vallbona, Hazlewood \&
+  Jurida}]{vallbona1997}
+Vallbona, C., Hazlewood, C.F. \& Jurida, G. (1997) Response of pain to static
+  magnetic fields in postpolio patients: a double-blind pilot study.
+\newblock \emph{Archives of physical medicine and rehabilitation}, \textbf{78},
+  1200--1203.
+
+\bibitem[{Welch(1951)}]{welch1951}
+Welch, B. (1951) On the comparison of several mean values: an alternative
+  approach.
+\newblock \emph{Biometrika}, \textbf{38}, 330--336.
+
+\bibitem[{West \emph{et~al.}(2014)West, Welch \& Galecki}]{west2014}
+West, B.T., Welch, K.B. \& Galecki, A.T. (2014) \emph{Linear Mixed Models: a
+  Practical Guide Using Statistical Software}.
+\newblock CRC Press.
+
+\bibitem[{Wilcox(2012)}]{wilcox2012}
+Wilcox, R.R. (2012) \emph{Introduction to Robust Estimation and Hypothesis
+  Testing}.
+\newblock Academic Press.
+
+\bibitem[{Wilcoxon(1945)}]{wilcoxon1945}
+Wilcoxon, F. (1945) Individual comparisons by ranking methods.
+\newblock \emph{Biometrics bulletin}, \textbf{1}, 80--83.
+
+\end{thebibliography}
